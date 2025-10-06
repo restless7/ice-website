@@ -2,6 +2,7 @@
 
 import IceLayoutWrapper from "@/app/components/ice/ice-layout-wrapper";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 export default function IceNosotrosPage() {
   return (
@@ -63,7 +64,7 @@ export default function IceNosotrosPage() {
                 </div>
               </motion.div>
 
-              {/* Visual Placeholder for Images */}
+              {/* Real ICE Images */}
               <motion.div
                 initial={{ opacity: 0, x: 50 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -72,15 +73,25 @@ export default function IceNosotrosPage() {
                 className="space-y-6"
               >
                 <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-lime-400/20 text-center">
-                  <div className="w-full h-64 bg-gradient-to-br from-lime-400/20 to-green-500/20 rounded-xl flex items-center justify-center mb-4">
-                    <div className="text-6xl">🎓</div>
+                  <div className="w-full h-64 rounded-xl overflow-hidden mb-4 relative">
+                    <Image 
+                      src="/images/NOSOTROS/equipo-ice-eventos-internacionales.png" 
+                      alt="Equipo ICE en eventos internacionales"
+                      fill
+                      className="object-cover"
+                    />
                   </div>
                   <p className="text-white/70 text-sm">Equipo ICE en eventos internacionales</p>
                 </div>
                 
                 <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-lime-400/20 text-center">
-                  <div className="w-full h-48 bg-gradient-to-br from-pink-400/20 to-purple-500/20 rounded-xl flex items-center justify-center mb-4">
-                    <div className="text-5xl">🌍</div>
+                  <div className="w-full h-48 rounded-xl overflow-hidden mb-4 relative">
+                    <Image 
+                      src="/images/NOSOTROS/celebrando-exitos-estudiantes.png" 
+                      alt="Celebrando éxitos con nuestros estudiantes"
+                      fill
+                      className="object-cover"
+                    />
                   </div>
                   <p className="text-white/70 text-sm">Celebrando éxitos con nuestros estudiantes</p>
                 </div>
@@ -130,10 +141,18 @@ export default function IceNosotrosPage() {
                 className="grid lg:grid-cols-2 gap-8"
               >
                 <div className="bg-white/5 backdrop-blur-lg rounded-2xl p-8 border border-lime-400/20">
-                  <h3 className="text-2xl font-bold text-lime-400 mb-4 flex items-center">
+                  <h3 className="text-2xl font-bold text-lime-400 mb-6 flex items-center">
                     <span className="text-3xl mr-3">🇨🇴</span>
                     Sede Principal
                   </h3>
+                  <div className="mb-6 rounded-xl overflow-hidden relative h-48">
+                    <Image 
+                      src="/images/NOSOTROS/sede-principal-1.png" 
+                      alt="Sede principal ICE en Bucaramanga"
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
                   <p className="text-lg text-white/90 leading-relaxed">
                     Nuestra <span className="text-lime-400 font-semibold">sede principal se encuentra en Bucaramanga, Colombia</span>, 
                     desde donde gestionamos todos los procesos para aspirantes de estos cuatro países.
@@ -141,10 +160,18 @@ export default function IceNosotrosPage() {
                 </div>
 
                 <div className="bg-white/5 backdrop-blur-lg rounded-2xl p-8 border border-lime-400/20">
-                  <h3 className="text-2xl font-bold text-lime-400 mb-4 flex items-center">
+                  <h3 className="text-2xl font-bold text-lime-400 mb-6 flex items-center">
                     <span className="text-3xl mr-3">🌍</span>
                     Operaciones
                   </h3>
+                  <div className="mb-6 rounded-xl overflow-hidden relative h-48">
+                    <Image 
+                      src="/images/NOSOTROS/sede-principal-2.png" 
+                      alt="Oficinas ICE - Operaciones internacionales"
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
                   <p className="text-lg text-white/90 leading-relaxed">
                     Actualmente, contamos con operaciones en <span className="text-lime-400 font-semibold">Colombia, Costa Rica, Ecuador y Perú</span>.
                   </p>
