@@ -17,7 +17,7 @@ import {
   ShieldCheckIcon,
   SunIcon,
   BuildingOfficeIcon,
-  AirplaneIcon
+  ArrowTopRightOnSquareIcon
 } from "@heroicons/react/24/outline";
 
 export default function IceProgramsSection() {
@@ -136,7 +136,7 @@ export default function IceProgramsSection() {
       id: 12,
       title: "Work and Travel",
       description: "Trabaja y viaja por Estados Unidos durante las vacaciones universitarias",
-      icon: AirplaneIcon,
+      icon: ArrowTopRightOnSquareIcon,
       destinations: ["Estados Unidos"],
       duration: "3-4 meses",
       features: ["Visa J-1", "Trabajo legal", "Tiempo libre para viajar"],
