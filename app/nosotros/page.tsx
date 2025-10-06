@@ -73,24 +73,24 @@ export default function IceNosotrosPage() {
                 className="space-y-6"
               >
                 <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-lime-400/20 text-center">
-                  <div className="w-full h-64 rounded-xl overflow-hidden mb-4 relative">
+                  <div className="w-full h-64 rounded-xl overflow-hidden mb-4 relative bg-gray-100">
                     <Image 
                       src="/images/NOSOTROS/equipo-ice-eventos-internacionales.png" 
                       alt="Equipo ICE en eventos internacionales"
                       fill
-                      className="object-cover"
+                      className="object-contain"
                     />
                   </div>
                   <p className="text-white/70 text-sm">Equipo ICE en eventos internacionales</p>
                 </div>
                 
                 <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-lime-400/20 text-center">
-                  <div className="w-full h-48 rounded-xl overflow-hidden mb-4 relative">
+                  <div className="w-full h-48 rounded-xl overflow-hidden mb-4 relative bg-gray-100">
                     <Image 
                       src="/images/NOSOTROS/celebrando-exitos-estudiantes.png" 
                       alt="Celebrando éxitos con nuestros estudiantes"
                       fill
-                      className="object-cover"
+                      className="object-contain"
                     />
                   </div>
                   <p className="text-white/70 text-sm">Celebrando éxitos con nuestros estudiantes</p>
@@ -145,12 +145,12 @@ export default function IceNosotrosPage() {
                     <span className="text-3xl mr-3">🇨🇴</span>
                     Sede Principal
                   </h3>
-                  <div className="mb-6 rounded-xl overflow-hidden relative h-48">
+                  <div className="mb-6 rounded-xl overflow-hidden relative h-48 bg-gray-100">
                     <Image 
                       src="/images/NOSOTROS/sede-principal-1.png" 
                       alt="Sede principal ICE en Bucaramanga"
                       fill
-                      className="object-cover"
+                      className="object-contain"
                     />
                   </div>
                   <p className="text-lg text-white/90 leading-relaxed">
@@ -164,12 +164,12 @@ export default function IceNosotrosPage() {
                     <span className="text-3xl mr-3">🌍</span>
                     Operaciones
                   </h3>
-                  <div className="mb-6 rounded-xl overflow-hidden relative h-48">
+                  <div className="mb-6 rounded-xl overflow-hidden relative h-48 bg-gray-100">
                     <Image 
                       src="/images/NOSOTROS/sede-principal-2.png" 
                       alt="Oficinas ICE - Operaciones internacionales"
                       fill
-                      className="object-cover"
+                      className="object-contain"
                     />
                   </div>
                   <p className="text-lg text-white/90 leading-relaxed">
@@ -263,7 +263,7 @@ export default function IceNosotrosPage() {
           </div>
         </section>
 
-        {/* Team Section */}
+        {/* Team Section - Individual Members */}
         <section className="relative py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
@@ -277,29 +277,117 @@ export default function IceNosotrosPage() {
                 Nuestro <span className="text-lime-400">Equipo</span>
               </h2>
               <p className="text-xl text-white/80 max-w-3xl mx-auto">
-                Profesionales apasionados dedicados a tu éxito
+                Profesionales apasionados que hacen posible tu sueño internacional
               </p>
             </motion.div>
 
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mb-12">
+              {[
+                {
+                  name: "Juliana",
+                  role: "Directora General",
+                  description: "Líder visionaria con más de 10 años de experiencia en educación internacional",
+                  image: "juliana-team.png"
+                },
+                {
+                  name: "Javier",
+                  role: "Director de Operaciones",
+                  description: "Especialista en procesos internacionales y gestión de programas educativos",
+                  image: "javier-team.png"
+                },
+                {
+                  name: "Manuel",
+                  role: "Asesor Senior",
+                  description: "Experto en programas de trabajo y estudio en Estados Unidos y Canadá",
+                  image: "manuel-team.png"
+                },
+                {
+                  name: "Janeth",
+                  role: "Coordinadora Académica",
+                  description: "Especialista en intercambios universitarios y programas de idiomas",
+                  image: "janeth-team.png"
+                },
+                {
+                  name: "Camilo",
+                  role: "Asesor de Visas",
+                  description: "Experto en trámites consulares y documentación para visas estudiantiles",
+                  image: "camilo-team.png"
+                },
+                {
+                  name: "Nicole",
+                  role: "Coordinadora de Programas",
+                  description: "Encargada de programas Au Pair y experiencias culturales",
+                  image: "nicol-team.png"
+                },
+                {
+                  name: "Roberto",
+                  role: "Asesor de Destinos",
+                  description: "Especialista en programas Work & Travel y oportunidades laborales",
+                  image: "rober-team.png"
+                }
+              ].map((member, index) => (
+                <motion.div
+                  key={member.name}
+                  initial={{ opacity: 0, y: 50 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                  className="group"
+                >
+                  <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-lime-400/20 hover:border-lime-400/40 transition-all duration-300 hover:scale-105 text-center h-full">
+                    {/* Member Photo */}
+                    <div className="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden relative bg-gray-100 ring-4 ring-lime-400/20 group-hover:ring-lime-400/40 transition-all duration-300">
+                      <Image 
+                        src={`/images/TEAM/${member.image}`} 
+                        alt={member.name}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                    
+                    {/* Member Info */}
+                    <h3 className="text-xl font-bold text-lime-400 mb-2">{member.name}</h3>
+                    <p className="text-white font-semibold text-sm mb-3">{member.role}</p>
+                    <p className="text-white/70 text-sm leading-relaxed">{member.description}</p>
+                    
+                    {/* Contact Action */}
+                    <div className="mt-4 pt-4 border-t border-white/10">
+                      <button className="text-xs text-lime-400 hover:text-lime-300 transition-colors duration-300">
+                        💬 Contactar
+                      </button>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Team Description */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
               viewport={{ once: true }}
-              className="bg-white/5 backdrop-blur-lg rounded-2xl p-8 border border-lime-400/20 text-center"
+              className="bg-gradient-to-r from-lime-400/10 to-green-500/10 backdrop-blur-lg rounded-2xl p-8 border border-lime-400/30 text-center"
             >
-              <p className="text-lg text-white/80 leading-relaxed max-w-4xl mx-auto">
+              <p className="text-lg text-white/90 leading-relaxed max-w-4xl mx-auto mb-6">
                 Nuestro equipo está compuesto por profesionales con experiencia internacional, 
                 educadores certificados, especialistas en intercambios culturales y asesores 
                 dedicados que trabajan juntos para hacer realidad tus sueños de estudiar en el extranjero.
               </p>
-              <div className="mt-8">
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   className="bg-gradient-to-r from-lime-400 to-green-500 text-black font-semibold py-3 px-8 rounded-full hover:from-lime-500 hover:to-green-600 transition-all duration-300"
                 >
-                  Conoce al Equipo
+                  Agendar Reunión
+                </motion.button>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="border-2 border-lime-400 text-lime-400 font-semibold py-3 px-8 rounded-full hover:bg-lime-400/10 transition-all duration-300"
+                >
+                  Contáctanos
                 </motion.button>
               </div>
             </motion.div>
