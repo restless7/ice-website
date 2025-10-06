@@ -72,25 +72,27 @@ export default function IceNosotrosPage() {
                 viewport={{ once: true }}
                 className="space-y-6"
               >
-                <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-lime-400/20 text-center">
-                  <div className="w-full h-64 rounded-xl overflow-hidden mb-4 relative bg-gray-100">
+                <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-4 border border-lime-400/20 text-center">
+                  <div className="w-full rounded-xl overflow-hidden mb-4">
                     <Image 
                       src="/images/NOSOTROS/equipo-ice-eventos-internacionales.png" 
                       alt="Equipo ICE en eventos internacionales"
-                      fill
-                      className="object-contain"
+                      width={400}
+                      height={300}
+                      className="object-contain w-full h-auto"
                     />
                   </div>
                   <p className="text-white/70 text-sm">Equipo ICE en eventos internacionales</p>
                 </div>
                 
-                <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-lime-400/20 text-center">
-                  <div className="w-full h-48 rounded-xl overflow-hidden mb-4 relative bg-gray-100">
+                <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-4 border border-lime-400/20 text-center">
+                  <div className="w-full rounded-xl overflow-hidden mb-4">
                     <Image 
                       src="/images/NOSOTROS/celebrando-exitos-estudiantes.png" 
                       alt="Celebrando éxitos con nuestros estudiantes"
-                      fill
-                      className="object-contain"
+                      width={400}
+                      height={300}
+                      className="object-contain w-full h-auto"
                     />
                   </div>
                   <p className="text-white/70 text-sm">Celebrando éxitos con nuestros estudiantes</p>
@@ -145,12 +147,13 @@ export default function IceNosotrosPage() {
                     <span className="text-3xl mr-3">🇨🇴</span>
                     Sede Principal
                   </h3>
-                  <div className="mb-6 rounded-xl overflow-hidden relative h-48 bg-gray-100">
+                  <div className="mb-6 rounded-xl overflow-hidden">
                     <Image 
                       src="/images/NOSOTROS/sede-principal-1.png" 
                       alt="Sede principal ICE en Bucaramanga"
-                      fill
-                      className="object-contain"
+                      width={400}
+                      height={240}
+                      className="object-contain w-full h-auto"
                     />
                   </div>
                   <p className="text-lg text-white/90 leading-relaxed">
@@ -164,12 +167,13 @@ export default function IceNosotrosPage() {
                     <span className="text-3xl mr-3">🌍</span>
                     Operaciones
                   </h3>
-                  <div className="mb-6 rounded-xl overflow-hidden relative h-48 bg-gray-100">
+                  <div className="mb-6 rounded-xl overflow-hidden">
                     <Image 
                       src="/images/NOSOTROS/sede-principal-2.png" 
                       alt="Oficinas ICE - Operaciones internacionales"
-                      fill
-                      className="object-contain"
+                      width={400}
+                      height={240}
+                      className="object-contain w-full h-auto"
                     />
                   </div>
                   <p className="text-lg text-white/90 leading-relaxed">
@@ -336,7 +340,7 @@ export default function IceNosotrosPage() {
                 >
                   <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-lime-400/20 hover:border-lime-400/40 transition-all duration-300 hover:scale-105 text-center h-full">
                     {/* Member Photo */}
-                    <div className="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden relative bg-gray-100 ring-4 ring-lime-400/20 group-hover:ring-lime-400/40 transition-all duration-300">
+                    <div className="w-48 h-48 mx-auto mb-6 rounded-full overflow-hidden relative bg-white/10 ring-4 ring-lime-400/20 group-hover:ring-lime-400/40 transition-all duration-300 shadow-lg">
                       <Image 
                         src={`/images/TEAM/${member.image}`} 
                         alt={member.name}
