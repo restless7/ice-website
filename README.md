@@ -1,185 +1,166 @@
-# ICE Website - Instituto Cultural de Educación
+# ICE Colombia Website
 
-A standalone Next.js website for the Instituto Cultural de Educación (ICE), extracted from the apex-website monorepo package for independent deployment and management.
+🚀 **Modern Next.js application for ICE Colombia - Visa and Immigration Services**
 
-## 🚀 Features
+A comprehensive website for visa and immigration services built with Next.js 15, TypeScript, TailwindCSS, and modern authentication.
 
-- **Modern Stack**: Next.js 15, TypeScript, TailwindCSS v3
-- **International Education Focus**: Tailored for study abroad and cultural exchange programs
-- **Responsive Design**: Mobile-first approach with modern UI components
-- **Multi-page Application**: Complete website with navigation, content pages, and dashboard
-- **Dashboard System**: Comprehensive admin panel for leads, students, and agent management
-- **Cybersecurity Integration**: Specialized cybersecurity proposal and consultation pages
+## ✨ Features
+
+- **🎨 Modern UI/UX**: Built with TailwindCSS v3 and Radix UI components
+- **🔐 Authentication**: Role-based access control with NextAuth.js
+- **📱 Responsive Design**: Mobile-first approach with modern design patterns
+- **🌐 Internationalization**: Multi-language support with react-i18next
+- **📊 Dashboard**: Interactive dashboards for different user roles
+- **🎯 Role Management**: Support for Students, Agents, Admins, and Super Admins
+- **⚡ Performance**: Optimized for speed with Next.js App Router
+- **🛠️ TypeScript**: Full type safety throughout the application
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Node.js 18+ 
+- npm or yarn
+
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/restless7/ice-website.git
+cd ice-website
+
+# Install dependencies
+npm install
+
+# Run development server
+npm run dev
+```
+
+Open [http://localhost:3004](http://localhost:3004) to view the application.
+
+### Build for Production
+
+```bash
+# Build the application
+npm run build
+
+# Start production server
+npm start
+```
+
+## 🏗️ Tech Stack
+
+- **Framework**: Next.js 15.5.4 (App Router)
+- **Language**: TypeScript 5.8.3
+- **Styling**: TailwindCSS v3.3.5
+- **UI Components**: Radix UI, Lucide React
+- **Authentication**: NextAuth.js
+- **Animations**: Framer Motion
+- **Charts**: Recharts
+- **Forms**: React Hook Form + Zod validation
+- **Drag & Drop**: @dnd-kit
+- **Internationalization**: react-i18next
 
 ## 📁 Project Structure
 
 ```
-packages/ice-website/
-├── app/                          # Next.js App Router
-│   ├── components/              # Reusable components
-│   │   ├── ice/                # ICE-specific components
-│   │   ├── ui/                 # UI components (buttons, cards, etc.)
-│   │   └── ...                 
-│   ├── lib/                    # Utility functions and configurations
-│   ├── (pages)/               # Route pages
-│   │   ├── nosotros/          # About page
-│   │   ├── portafolio/        # Portfolio page
-│   │   ├── experiences/       # ICExperiences page
-│   │   ├── news/              # ICE News page
-│   │   ├── contacto/          # Contact page
-│   │   ├── portal/            # Portal access
-│   │   └── dashboard/         # Admin dashboard
-│   └── globals.css            # Global styles
-├── public/                     # Static assets
-├── types/                      # TypeScript type definitions
-└── hooks/                      # Custom React hooks
+ice-website/
+├── app/                    # Next.js App Router
+│   ├── components/        # Reusable UI components
+│   │   ├── shared/       # Shared components
+│   │   ├── ui/           # Base UI components
+│   │   └── ice/          # ICE-specific components
+│   ├── lib/              # Utility functions
+│   ├── dashboard/        # Dashboard pages
+│   └── page.tsx          # Home page
+├── hooks/                 # Custom React hooks
+├── types/                # TypeScript type definitions
+├── public/               # Static assets
+└── tailwind.config.js    # TailwindCSS configuration
 ```
 
-## 🛠 Development
+## 🔐 User Roles & Features
 
-### Prerequisites
-- Node.js 18+ 
-- npm 9+
+### 🎓 Students
+- View personal documents and progress
+- Track visa application status
+- Access payment information
+- Message support
 
-### Getting Started
+### 👥 Agents
+- Manage student applications
+- View leads and commissions
+- Access training materials
+- Performance analytics
 
-1. **Install dependencies:**
-   ```bash
-   cd packages/ice-website
-   npm install
-   ```
+### 🛠️ Admins
+- User management
+- System analytics
+- Program management
+- Audit logs
 
-2. **Start development server:**
-   ```bash
-   npm run dev
-   ```
-   
-   The application will be available at http://localhost:3004
+### 🔧 Super Admins
+- Full system access
+- Configuration management
+- Backup and restore
+- Advanced settings
 
-3. **Build for production:**
-   ```bash
-   npm run build
-   ```
+## 🌍 Deployment
 
-### Monorepo Commands
+### Vercel (Recommended)
 
-From the root of planmaestro-ecosystem:
+1. Connect your GitHub repository to Vercel
+2. Configure environment variables
+3. Deploy automatically on push to main
+
+### Manual Deployment
 
 ```bash
-# Start ICE website
-npm run dev:ice-website
+# Build the application
+npm run build
 
-# Or using workspace
-npm run dev --workspace=@ice/website
+# The built files will be in the .next folder
+# Deploy to your hosting provider
 ```
 
-## 🏗 Architecture
+## 🔧 Environment Variables
 
-### Key Design Decisions
+Create a `.env.local` file in the root directory:
 
-1. **App Router**: Using Next.js App Router for improved performance and developer experience
-2. **Component Co-location**: All components are placed inside `app/components/` following the new structure
-3. **Path Aliases**: Using `@/*` alias pointing to the root, with `@/app/*` for app directory access
-4. **TailwindCSS v3**: Stable version with custom ICE color palette and animations
-5. **TypeScript**: Full type safety with custom type definitions
+```env
+# NextAuth Configuration
+NEXTAUTH_URL=http://localhost:3004
+NEXTAUTH_SECRET=your-secret-key
 
-### Import Paths
+# Database (if applicable)
+DATABASE_URL=your-database-url
 
-```typescript
-// Components
-import Component from "@/app/components/ComponentName"
-
-// Utilities  
-import { cn } from "@/app/lib/utils"
-
-// UI Components
-import { Button } from "@/app/components/ui/button"
+# Other service APIs
+# Add your API keys here
 ```
-
-## 🎨 Styling
-
-The project uses TailwindCSS with custom ICE branding:
-
-- **Primary Colors**: Ice blue palette (ice-50 to ice-900)
-- **Secondary Colors**: Education purple palette (education-50 to education-900)
-- **Fonts**: Geist Sans and Geist Mono
-- **Animations**: Custom animations for educational experiences
-
-### Custom CSS Classes
-
-```css
-.ice-gradient          /* ICE brand gradient background */
-.ice-text-gradient     /* ICE brand gradient text */
-.ice-card-hover        /* Interactive card hover effects */
-```
-
-## 📄 Available Pages
-
-| Route | Description |
-|-------|-------------|
-| `/` | Homepage with hero, programs, and experiences |
-| `/nosotros` | About ICE page |
-| `/portafolio` | ICE portfolio showcase |
-| `/experiences` | ICExperiences stories and testimonials |
-| `/news` | ICE News and updates |
-| `/contacto` | Contact form and information |
-| `/portal` | Portal access point |
-| `/dashboard` | Admin dashboard (with subpages) |
-| `/ciberseguridad-colombia` | Cybersecurity services for Colombia |
-| `/cybersecurity-proposal` | Cybersecurity proposal generator |
-
-## 🔧 Configuration
-
-### Environment Variables
-No environment variables are currently required for basic functionality.
-
-### Next.js Configuration
-- Image domains configured for unsplash.com
-- App Router enabled
-- Custom webpack optimizations
-
-### TailwindCSS Configuration
-- Custom ICE color palette
-- Educational-themed animations
-- Responsive design utilities
-
-## 🚢 Deployment
-
-The ICE website can be deployed independently:
-
-1. **Vercel** (Recommended):
-   ```bash
-   npm run build
-   # Deploy using Vercel CLI or dashboard
-   ```
-
-2. **Other platforms**: Standard Next.js deployment process
-
-## 🔮 Future Enhancements
-
-- [ ] Implement proper i18n (internationalization)
-- [ ] Add database integration for dynamic content
-- [ ] Optimize build for production (reduce bundle size)
-- [ ] Add comprehensive testing suite
-- [ ] Implement proper error boundaries
-- [ ] Add SEO meta tags and structured data
-- [ ] Connect to ICE CRM/database systems
 
 ## 🤝 Contributing
 
-1. Follow the established folder structure
-2. Use TypeScript for all new components
-3. Follow the existing import path conventions
-4. Test components in isolation when possible
-5. Update this README when adding new features
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-## 📝 Notes
+## 📝 Scripts
 
-- This package was extracted from apex-website to enable independent deployment
-- Some components may still reference apex-specific utilities - these should be cleaned up over time
-- The build process currently has some linting warnings that are disabled - these should be addressed in future iterations
-- Image assets are shared from the original apex-website public folder
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run start` - Start production server
+- `npm run lint` - Run ESLint
+
+## 📄 License
+
+This project is proprietary and confidential.
+
+## 🆘 Support
+
+For support and questions, please contact the development team or create an issue in the repository.
 
 ---
 
-Built with ❤️ for Instituto Cultural de Educación
+**Built with ❤️ for ICE Colombia**
