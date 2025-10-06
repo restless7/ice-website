@@ -156,8 +156,6 @@ export default function IceHeroSection() {
               priority
               onError={() => setImageError(true)}
             />
-            {/* Gradient overlay for text visibility */}
-            <div className="absolute inset-0 bg-gradient-to-l from-transparent via-black/10 to-black/70" />
           </div>
         </motion.div>
       )}
