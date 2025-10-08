@@ -14,7 +14,10 @@ import {
   Award,
   User,
   Mail,
-  Phone
+  Phone,
+  Globe,
+  Search,
+  LogIn
 } from 'lucide-react';
 import { cn } from '@/app/lib/utils';
 import { ThemeName, getTheme } from '@/app/lib/design-system';
@@ -28,6 +31,9 @@ const iconMap = {
   User,
   Mail,
   Phone,
+  Globe,
+  Search,
+  LogIn,
 } as const;
 
 type IconName = keyof typeof iconMap;
@@ -63,13 +69,10 @@ const defaultBranding = {
 
 const defaultNavigation = {
   main: [
-    { name: 'Inicio', href: '/', icon: 'Home' as IconName },
+    { name: 'Programas', href: '/programas', icon: 'Briefcase' as IconName },
     { name: 'Nosotros', href: '/nosotros', icon: 'Building2' as IconName },
-    { name: 'Portafolio', href: '/portafolio', icon: 'Briefcase' as IconName },
     { name: 'ICExperiences', href: '/experiences', icon: 'Award' as IconName },
-    { name: 'ICE News', href: '/news', icon: 'Mail' as IconName },
-    { name: 'Contácto', href: '/contacto', icon: 'Mail' as IconName },
-    { name: 'Portal', href: '/portal', icon: 'User' as IconName },
+    { name: 'Contáctanos', href: '/contacto', icon: 'Mail' as IconName },
   ],
 };
 
@@ -108,24 +111,25 @@ export default function PublicNavigation({
     
     return cn(baseClasses, 
       isScrolled 
-        ? 'bg-black/90 backdrop-blur-lg border-b border-emerald-400/20' 
-        : 'bg-transparent'
+        ? 'bg-gradient-to-r from-gray-900 via-blue-900 to-gray-800 backdrop-blur-lg border-b border-brand-gold/20' 
+        : 'bg-gradient-to-r from-gray-900/80 via-blue-900/80 to-gray-800/80 backdrop-blur-sm'
     );
   };
 
   const getLinkClasses = (item: NavigationItem, isActive: boolean) => {
     const baseClasses = 'flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300';
     
-    if (item.name === 'Portal') {
+    // Contact button gets special styling
+    if (item.name === 'Contáctanos') {
       return cn(baseClasses,
-        'bg-gradient-to-r from-emerald-400 to-green-500 text-black hover:from-emerald-500 hover:to-green-600 hover:text-black shadow-lg'
+        'bg-gradient-to-r from-brand-gold to-brand-orange text-white hover:from-brand-orange hover:to-brand-gold shadow-lg'
       );
     }
 
     return cn(baseClasses,
       isActive
-        ? 'bg-emerald-500/20 text-emerald-400'
-        : 'text-white/90 hover:text-emerald-400 hover:bg-emerald-500/10'
+        ? 'bg-red-500/20 text-red-400 border border-red-400/30'
+        : 'text-white hover:text-brand-gold hover:bg-brand-gold/10'
     );
   };
 
@@ -144,7 +148,7 @@ export default function PublicNavigation({
             />
           </div>
         ) : (
-          <div className="w-16 h-16 lg:w-20 lg:h-20 bg-gradient-to-br from-emerald-400 to-green-500 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-xl">
+          <div className="w-16 h-16 lg:w-20 lg:h-20 bg-gradient-to-br from-brand-gold to-brand-orange rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-xl">
             <span className="text-2xl lg:text-3xl font-bold text-white">
               {branding.logoFallback}
             </span>
@@ -198,8 +202,38 @@ export default function PublicNavigation({
           <div className="lg:hidden w-20"></div>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-1">
-            {navigation.main.map((item) => renderNavigationItem(item))}
+          <div className="hidden lg:flex items-center space-x-6">
+            {/* Main Navigation */}
+            <div className="flex items-center space-x-1">
+              {navigation.main.map((item) => renderNavigationItem(item))}
+            </div>
+            
+            {/* Header Utilities - as specified in outline section 1.3.4 */}
+            <div className="flex items-center space-x-4">
+              {/* Country Selection */}
+              <div className="relative group">
+                <button className="flex items-center space-x-1 text-white hover:text-brand-gold transition-colors duration-300">
+                  <Globe className="w-4 h-4" />
+                  <span className="text-sm font-medium">🇨🇴</span>
+                  <span className="text-sm">CO</span>
+                </button>
+                {/* Country dropdown could be added here */}
+              </div>
+              
+              {/* Login */}
+              <Link
+                href="/portal"
+                className="flex items-center space-x-2 text-white hover:text-brand-gold transition-colors duration-300"
+              >
+                <LogIn className="w-4 h-4" />
+                <span className="text-sm font-medium">Inicia sesión</span>
+              </Link>
+              
+              {/* Search */}
+              <button className="text-white hover:text-brand-gold transition-colors duration-300">
+                <Search className="w-4 h-4" />
+              </button>
+            </div>
           </div>
 
           {/* Mobile menu button */}
@@ -226,7 +260,7 @@ export default function PublicNavigation({
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="lg:hidden overflow-hidden bg-black/95 backdrop-blur-lg border-t border-emerald-400/20"
+            className="lg:hidden overflow-hidden bg-gradient-to-r from-gray-900/95 via-blue-900/95 to-gray-800/95 backdrop-blur-lg border-t border-brand-gold/20"
           >
             <div className="px-4 py-6 space-y-1">
               {navigation.main.map((item) => (
@@ -235,9 +269,9 @@ export default function PublicNavigation({
                   href={item.href}
                   onClick={() => setIsMobileMenuOpen(false)}
                   className={cn(
-                    'block px-4 py-3 rounded-lg text-base font-medium transition-all duration-300 hover:bg-emerald-400/20 hover:text-emerald-400',
-                    item.name === 'Portal'
-                      ? 'bg-gradient-to-r from-emerald-400 to-green-500 text-black hover:from-emerald-500 hover:to-green-600 hover:text-black'
+                    'block px-4 py-3 rounded-lg text-base font-medium transition-all duration-300 hover:bg-brand-gold/20 hover:text-brand-gold',
+                    item.name === 'Contáctanos'
+                      ? 'bg-gradient-to-r from-brand-gold to-brand-orange text-white hover:from-brand-orange hover:to-brand-gold'
                       : 'text-white/90'
                   )}
                 >

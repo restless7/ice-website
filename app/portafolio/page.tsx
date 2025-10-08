@@ -3,6 +3,7 @@
 import IceLayoutWrapper from "@/app/components/ice/ice-layout-wrapper";
 import { motion } from "framer-motion";
 import { GlobeAltIcon, AcademicCapIcon, BriefcaseIcon, HeartIcon } from "@heroicons/react/24/outline";
+import Link from "next/link";
 
 export default function IcePortafolioPage() {
   const programs = [
@@ -13,7 +14,8 @@ export default function IcePortafolioPage() {
       icon: AcademicCapIcon,
       duration: "1 semestre - 1 año",
       countries: "USA, Canadá, Reino Unido, Australia",
-      features: ["Créditos transferibles", "Soporte académico", "Alojamiento incluido", "Orientación cultural"]
+      features: ["Créditos transferibles", "Soporte académico", "Alojamiento incluido", "Orientación cultural"],
+      href: "/programas/interntrainee-usa"
     },
     {
       id: 2,
@@ -22,7 +24,8 @@ export default function IcePortafolioPage() {
       icon: BriefcaseIcon,
       duration: "3-6 meses",
       countries: "Estados Unidos, Canadá, Europa",
-      features: ["Trabajo remunerado", "Visa de trabajo", "Seguro médico", "Red de contactos globales"]
+      features: ["Trabajo remunerado", "Visa de trabajo", "Seguro médico", "Red de contactos globales"],
+      href: "/programas/summer-work-and-travel"
     },
     {
       id: 3,
@@ -31,7 +34,8 @@ export default function IcePortafolioPage() {
       icon: GlobeAltIcon,
       duration: "2 semanas - 1 año",
       countries: "Reino Unido, Malta, Irlanda, Nueva Zelanda",
-      features: ["Certificación oficial", "Familias anfitrionas", "Actividades culturales", "Flexibilidad de fechas"]
+      features: ["Certificación oficial", "Familias anfitrionas", "Actividades culturales", "Flexibilidad de fechas"],
+      href: "/programas/escuela-de-idiomas-usa"
     },
     {
       id: 4,
@@ -40,7 +44,8 @@ export default function IcePortafolioPage() {
       icon: HeartIcon,
       duration: "2 semanas - 6 meses",
       countries: "Costa Rica, Tanzania, Tailandia, Perú",
-      features: ["Impacto social", "Certificado de participación", "Alojamiento local", "Apoyo continuo"]
+      features: ["Impacto social", "Certificado de participación", "Alojamiento local", "Apoyo continuo"],
+      href: "/programas/au-pair-usa"
     }
   ];
 
@@ -109,7 +114,7 @@ export default function IcePortafolioPage() {
 
   return (
     <IceLayoutWrapper>
-      <div className="relative w-full bg-gradient-to-br from-purple-950 via-indigo-900 to-black">
+      <div className="relative w-full bg-gradient-to-br from-brand-dark via-brand to-black">
         {/* Hero Section */}
         <section className="relative min-h-screen flex items-center justify-center pt-20">
           <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-transparent"></div>
@@ -122,7 +127,7 @@ export default function IcePortafolioPage() {
               className="text-center"
             >
               <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
-                Nuestro <span className="text-lime-400">Portafolio</span>
+                Nuestro <span className="text-brand-gold">Portafolio</span>
               </h1>
               <p className="text-xl md:text-2xl text-white/80 max-w-3xl mx-auto">
                 Descubre la diversidad de programas y experiencias que transforman vidas
@@ -132,7 +137,7 @@ export default function IcePortafolioPage() {
         </section>
 
         {/* Programs Section */}
-        <section className="relative py-20 bg-gradient-to-r from-indigo-900/50 to-purple-900/50">
+        <section className="relative py-20 bg-gradient-to-r from-brand/50 to-brand-dark/50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -142,7 +147,7 @@ export default function IcePortafolioPage() {
               className="text-center mb-16"
             >
               <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-                Nuestros <span className="text-lime-400">Programas</span>
+                Nuestros <span className="text-brand-gold">Programas</span>
               </h2>
               <p className="text-xl text-white/80 max-w-3xl mx-auto">
                 Experiencias diseñadas para cada objetivo y etapa de tu vida
@@ -157,39 +162,50 @@ export default function IcePortafolioPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: index * 0.1 }}
                   viewport={{ once: true }}
-                  className="bg-white/5 backdrop-blur-lg rounded-2xl p-8 border border-lime-400/20 hover:bg-white/10 transition-all duration-300"
+                  className="bg-white/5 backdrop-blur-lg rounded-2xl p-8 border border-brand-gold/20 hover:bg-white/10 transition-all duration-300 group cursor-pointer"
                 >
-                  <div className="flex items-center mb-6">
-                    <div className="bg-lime-400/20 p-3 rounded-lg mr-4">
-                      <program.icon className="w-8 h-8 text-lime-400" />
+                  <Link href={program.href} className="block">
+                    <div className="flex items-center mb-6">
+                      <div className="bg-brand-gold/20 p-3 rounded-lg mr-4 group-hover:bg-brand-gold/30 transition-all duration-300">
+                        <program.icon className="w-8 h-8 text-brand-gold" />
+                      </div>
+                      <h3 className="text-2xl font-bold text-white group-hover:text-brand-gold transition-colors duration-300">{program.title}</h3>
                     </div>
-                    <h3 className="text-2xl font-bold text-white">{program.title}</h3>
-                  </div>
-                  
-                  <p className="text-white/80 mb-6 leading-relaxed">{program.description}</p>
-                  
-                  <div className="space-y-3 mb-6">
-                    <div className="flex justify-between">
-                      <span className="text-lime-400 font-medium">Duración:</span>
-                      <span className="text-white/80">{program.duration}</span>
+                    
+                    <p className="text-white/80 mb-6 leading-relaxed group-hover:text-white/90 transition-colors duration-300">{program.description}</p>
+                    
+                    <div className="space-y-3 mb-6">
+                      <div className="flex justify-between">
+                        <span className="text-brand-gold font-medium">Duración:</span>
+                        <span className="text-white/80">{program.duration}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-brand-gold font-medium">Destinos:</span>
+                        <span className="text-white/80">{program.countries}</span>
+                      </div>
                     </div>
-                    <div className="flex justify-between">
-                      <span className="text-lime-400 font-medium">Destinos:</span>
-                      <span className="text-white/80">{program.countries}</span>
+                    
+                    <div>
+                      <h4 className="text-brand-gold font-medium mb-3">Características incluidas:</h4>
+                      <div className="grid grid-cols-2 gap-2">
+                        {program.features.map((feature, fIndex) => (
+                          <div key={fIndex} className="flex items-center">
+                            <div className="w-2 h-2 bg-brand-gold rounded-full mr-2 group-hover:scale-110 transition-transform duration-300"></div>
+                            <span className="text-sm text-white/80">{feature}</span>
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                  
-                  <div>
-                    <h4 className="text-lime-400 font-medium mb-3">Características incluidas:</h4>
-                    <div className="grid grid-cols-2 gap-2">
-                      {program.features.map((feature, fIndex) => (
-                        <div key={fIndex} className="flex items-center">
-                          <div className="w-2 h-2 bg-lime-400 rounded-full mr-2"></div>
-                          <span className="text-sm text-white/80">{feature}</span>
-                        </div>
-                      ))}
+                    
+                    <div className="mt-6 pt-4 border-t border-brand-gold/20">
+                      <div className="flex items-center text-brand-gold font-medium group-hover:text-brand-orange transition-colors duration-300">
+                        <span>Ver detalles del programa</span>
+                        <svg className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </div>
                     </div>
-                  </div>
+                  </Link>
                 </motion.div>
               ))}
             </div>
@@ -207,7 +223,7 @@ export default function IcePortafolioPage() {
               className="text-center mb-16"
             >
               <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-                Historias de <span className="text-lime-400">Éxito</span>
+                Historias de <span className="text-brand-gold">Éxito</span>
               </h2>
               <p className="text-xl text-white/80 max-w-3xl mx-auto">
                 Conoce a algunos de nuestros alumni y cómo ICE transformó sus vidas
@@ -222,17 +238,17 @@ export default function IcePortafolioPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: index * 0.1 }}
                   viewport={{ once: true }}
-                  className="bg-white/5 backdrop-blur-lg rounded-2xl p-6 border border-lime-400/20 hover:bg-white/10 transition-all duration-300"
+                  className="bg-white/5 backdrop-blur-lg rounded-2xl p-6 border border-brand-gold/20 hover:bg-white/10 transition-all duration-300"
                 >
-                  <div className="w-20 h-20 bg-gradient-to-br from-lime-400 to-green-500 rounded-full flex items-center justify-center mb-4 mx-auto">
-                    <span className="text-2xl font-bold text-black">{story.name.charAt(0)}</span>
+                  <div className="w-20 h-20 bg-gradient-to-br from-brand-gold to-brand-orange rounded-full flex items-center justify-center mb-4 mx-auto">
+                    <span className="text-2xl font-bold text-brand-dark">{story.name.charAt(0)}</span>
                   </div>
                   
                   <h3 className="text-xl font-bold text-white mb-2 text-center">{story.name}</h3>
-                  <p className="text-lime-400 text-sm mb-4 text-center">{story.program}</p>
+                  <p className="text-brand-gold text-sm mb-4 text-center">{story.program}</p>
                   <p className="text-white/80 text-sm leading-relaxed mb-4">"{story.story}"</p>
                   <div className="text-center">
-                    <span className="inline-block bg-lime-400/20 text-lime-400 px-3 py-1 rounded-full text-sm">
+                    <span className="inline-block bg-brand-gold/20 text-brand-gold px-3 py-1 rounded-full text-sm">
                       {story.achievement}
                     </span>
                   </div>
@@ -243,7 +259,7 @@ export default function IcePortafolioPage() {
         </section>
 
         {/* Partnerships Section */}
-        <section className="relative py-20 bg-gradient-to-r from-purple-900/50 to-indigo-900/50">
+        <section className="relative py-20 bg-gradient-to-r from-brand-dark/50 to-brand/50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -253,7 +269,7 @@ export default function IcePortafolioPage() {
               className="text-center mb-16"
             >
               <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-                Nuestras <span className="text-lime-400">Alianzas</span>
+                Nuestras <span className="text-brand-gold">Alianzas</span>
               </h2>
               <p className="text-xl text-white/80 max-w-3xl mx-auto">
                 Colaboramos con las mejores instituciones y organizaciones del mundo
@@ -268,12 +284,12 @@ export default function IcePortafolioPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: index * 0.1 }}
                   viewport={{ once: true }}
-                  className="bg-white/5 backdrop-blur-lg rounded-2xl p-6 border border-lime-400/20 hover:bg-white/10 transition-all duration-300"
+                  className="bg-white/5 backdrop-blur-lg rounded-2xl p-6 border border-brand-gold/20 hover:bg-white/10 transition-all duration-300"
                 >
                   <h3 className="text-lg font-bold text-white mb-2">{partner.name}</h3>
                   <div className="flex justify-between items-center mb-3">
-                    <span className="text-lime-400 text-sm">{partner.country}</span>
-                    <span className="bg-lime-400/20 text-lime-400 px-2 py-1 rounded text-xs">
+                    <span className="text-brand-gold text-sm">{partner.country}</span>
+                    <span className="bg-brand-gold/20 text-brand-gold px-2 py-1 rounded text-xs">
                       {partner.type}
                     </span>
                   </div>
@@ -301,10 +317,10 @@ export default function IcePortafolioPage() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
-              className="bg-white/5 backdrop-blur-lg rounded-2xl p-12 border border-lime-400/20"
+              className="bg-white/5 backdrop-blur-lg rounded-2xl p-12 border border-brand-gold/20"
             >
               <h2 className="text-4xl font-bold text-white mb-6">
-                ¿Listo para tu <span className="text-lime-400">Aventura Internacional?</span>
+                ¿Listo para tu <span className="text-brand-gold">Aventura Internacional?</span>
               </h2>
               <p className="text-xl text-white/80 mb-8 max-w-2xl mx-auto">
                 Explora nuestros programas y encuentra la experiencia perfecta para ti
@@ -313,14 +329,14 @@ export default function IcePortafolioPage() {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="bg-gradient-to-r from-lime-400 to-green-500 text-black font-semibold py-4 px-8 rounded-full hover:from-lime-500 hover:to-green-600 transition-all duration-300"
+                  className="bg-gradient-to-r from-brand-gold to-brand-orange text-brand-dark font-semibold py-4 px-8 rounded-full hover:from-brand-orange hover:to-brand-gold transition-all duration-300"
                 >
                   Consulta Gratuita
                 </motion.button>
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="border border-lime-400 text-lime-400 font-semibold py-4 px-8 rounded-full hover:bg-lime-400/10 transition-all duration-300"
+                  className="border border-brand-gold text-brand-gold font-semibold py-4 px-8 rounded-full hover:bg-brand-gold/10 transition-all duration-300"
                 >
                   Descargar Catálogo
                 </motion.button>

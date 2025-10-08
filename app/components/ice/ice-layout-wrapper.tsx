@@ -3,6 +3,7 @@
 import { ReactNode } from "react";
 import { PublicNavigation, ThemeProvider } from "@/app/components/shared";
 import IceFooter from "./ice-footer";
+import IceSocialButtons from "./ice-social-buttons";
 
 interface IceLayoutWrapperProps {
   children: ReactNode;
@@ -29,6 +30,9 @@ export default function IceLayoutWrapper({ children }: IceLayoutWrapperProps) {
         
         {/* ICE Footer */}
         <IceFooter />
+        
+        {/* Fixed Social Media Buttons - as specified in outline section 1.4 */}
+        <IceSocialButtons />
       </div>
     </ThemeProvider>
   );

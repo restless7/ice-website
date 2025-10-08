@@ -13,45 +13,45 @@ export default function IceHeroSection() {
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Animated Background Elements */}
       <div className="absolute inset-0">
-        {/* Base gradient */}
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-950 via-indigo-900 to-black" />
+        {/* Base gradient - white dashboard style */}
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-50 to-white" />
         
         {/* Animated paint splashes */}
         <div className="absolute inset-0">
-          {/* Green splashes */}
+          {/* Brand Gold splashes */}
           <motion.div
             initial={{ scale: 0, rotate: 0 }}
             animate={{ scale: 1, rotate: 360 }}
             transition={{ duration: 2, delay: 0.5 }}
-            className="absolute top-20 left-10 w-32 h-32 bg-lime-400 rounded-full opacity-60 blur-sm"
+            className="absolute top-20 left-10 w-32 h-32 bg-brand-gold rounded-full opacity-20 blur-xl"
           />
           <motion.div
             initial={{ scale: 0, rotate: 0 }}
             animate={{ scale: 1, rotate: -180 }}
             transition={{ duration: 2, delay: 1 }}
-            className="absolute top-40 right-20 w-24 h-24 bg-green-400 rounded-full opacity-70 blur-sm"
+            className="absolute top-40 right-20 w-24 h-24 bg-brand-orange rounded-full opacity-30 blur-xl"
           />
           
-          {/* Pink/Magenta splashes */}
+          {/* Brand Light splashes */}
           <motion.div
             initial={{ scale: 0, rotate: 0 }}
             animate={{ scale: 1, rotate: 180 }}
             transition={{ duration: 2, delay: 0.8 }}
-            className="absolute bottom-32 left-32 w-28 h-28 bg-pink-500 rounded-full opacity-60 blur-sm"
+            className="absolute bottom-32 left-32 w-28 h-28 bg-brand-light rounded-full opacity-20 blur-xl"
           />
           <motion.div
             initial={{ scale: 0, rotate: 0 }}
             animate={{ scale: 1, rotate: -90 }}
             transition={{ duration: 2, delay: 1.2 }}
-            className="absolute top-60 right-40 w-20 h-20 bg-fuchsia-400 rounded-full opacity-70 blur-sm"
+            className="absolute top-60 right-40 w-20 h-20 bg-brand rounded-full opacity-25 blur-xl"
           />
           
-          {/* Yellow splashes */}
+          {/* Brand Gold accent */}
           <motion.div
             initial={{ scale: 0, rotate: 0 }}
             animate={{ scale: 1, rotate: 270 }}
             transition={{ duration: 2, delay: 0.3 }}
-            className="absolute bottom-20 right-10 w-36 h-36 bg-yellow-400 rounded-full opacity-50 blur-sm"
+            className="absolute bottom-20 right-10 w-36 h-36 bg-brand-gold rounded-full opacity-15 blur-xl"
           />
         </div>
 
@@ -85,7 +85,7 @@ export default function IceHeroSection() {
                   delay: delay
                 }}
                 className={`absolute w-2 h-2 rounded-full ${
-                  i % 3 === 0 ? 'bg-lime-400' : i % 3 === 1 ? 'bg-pink-400' : 'bg-yellow-400'
+                  i % 3 === 0 ? 'bg-brand-gold' : i % 3 === 1 ? 'bg-brand-light' : 'bg-brand-orange'
                 } opacity-70`}
               />
             );
@@ -168,11 +168,11 @@ export default function IceHeroSection() {
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-4xl sm:text-5xl lg:text-7xl xl:text-8xl font-bold text-white mb-8 leading-tight"
+            className="font-heading text-4xl sm:text-5xl lg:text-7xl xl:text-8xl font-bold text-gray-900 mb-8 leading-tight"
           >
             EXPLORA EL
             <br />
-            <span className="bg-gradient-to-r from-lime-400 via-green-400 to-emerald-400 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-brand-gold via-brand-orange to-brand-light bg-clip-text text-transparent">
               MUNDO CON
             </span>
             <br />
@@ -186,10 +186,10 @@ export default function IceHeroSection() {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="max-w-2xl mb-8"
           >
-            <blockquote className="text-lg sm:text-xl text-white/90 font-medium italic mb-4 leading-relaxed">
+            <blockquote className="text-lg sm:text-xl text-gray-700 font-medium italic mb-4 leading-relaxed">
               "La experiencia no es lo que le sucede a un hombre, es lo que un hombre hace con lo que le sucede"
             </blockquote>
-            <cite className="text-lime-400 font-semibold">(Aldous Huxley)</cite>
+            <cite className="text-brand-gold font-semibold">(Aldous Huxley)</cite>
           </motion.div>
 
           {/* CTA Button */}
@@ -199,16 +199,16 @@ export default function IceHeroSection() {
             transition={{ duration: 0.8, delay: 0.6 }}
             className="flex flex-col sm:flex-row items-start gap-4"
           >
-            <button className="group relative px-8 py-4 bg-gradient-to-r from-lime-400 to-green-500 text-black font-bold text-lg rounded-full hover:from-lime-500 hover:to-green-600 transition-all duration-300 flex items-center space-x-2 shadow-lg hover:shadow-xl transform hover:scale-105">
+            <button className="group relative px-8 py-4 bg-gradient-to-r from-brand-gold to-brand-orange text-white font-bold text-lg rounded-xl hover:from-brand-orange hover:to-brand-gold transition-all duration-300 flex items-center space-x-2 shadow-lg hover:shadow-xl transform hover:scale-105">
               <span>Contáctanos</span>
               <ArrowRightIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
             </button>
             
-            <div className="flex items-center space-x-4 text-white/70">
-              <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center hover:bg-blue-700 transition-colors cursor-pointer shadow-lg">
+            <div className="flex items-center space-x-4 text-gray-600">
+              <div className="w-12 h-12 bg-brand-gold/10 border border-brand-gold/20 rounded-full flex items-center justify-center hover:bg-brand-gold/20 transition-all duration-300 cursor-pointer shadow-sm hover:shadow-md">
                 <span className="text-xl">📱</span>
               </div>
-              <div className="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center hover:bg-green-700 transition-colors cursor-pointer shadow-lg">
+              <div className="w-12 h-12 bg-brand-light/10 border border-brand-light/20 rounded-full flex items-center justify-center hover:bg-brand-light/20 transition-all duration-300 cursor-pointer shadow-sm hover:shadow-md">
                 <span className="text-xl">💬</span>
               </div>
             </div>
@@ -220,9 +220,9 @@ export default function IceHeroSection() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.8 }}
-              className="mt-8 p-4 bg-lime-400/10 border border-lime-400/30 rounded-xl"
+              className="mt-8 p-4 bg-gray-50 border border-brand-gold/30 rounded-xl"
             >
-              <p className="text-lime-400 text-sm">
+              <p className="text-brand-gold text-sm">
                 💡 Add <code className="bg-black/20 px-2 py-1 rounded">ice-hero-main.png</code> to <code className="bg-black/20 px-2 py-1 rounded">/public/images/</code> for background image
               </p>
             </motion.div>
@@ -237,14 +237,14 @@ export default function IceHeroSection() {
         transition={{ duration: 0.8, delay: 1.5 }}
         className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
       >
-        <div className="flex flex-col items-center text-white/60">
+        <div className="flex flex-col items-center text-gray-500">
           <span className="text-sm mb-2">Scroll para más</span>
           <motion.div
             animate={{ y: [0, 10, 0] }}
             transition={{ duration: 2, repeat: Infinity }}
-            className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center"
+            className="w-6 h-10 border-2 border-gray-300 rounded-full flex justify-center"
           >
-            <div className="w-1 h-3 bg-white/60 rounded-full mt-2" />
+            <div className="w-1 h-3 bg-gray-400 rounded-full mt-2" />
           </motion.div>
         </div>
       </motion.div>

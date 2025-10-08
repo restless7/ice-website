@@ -2,6 +2,179 @@
 @tailwind components;
 @tailwind utilities;
 
+/* CSS Variables for Brand Colors */
+:root {
+  --brand-light: #8ECAE6;
+  --brand-default: #219EBC;
+  --brand-dark: #023047;
+  --brand-gold: #FFB703;
+  --brand-orange: #FB8500;
+}
+
+/* Enhanced Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInScale {
+  from {
+    opacity: 0;
+    transform: translateX(-50px) scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+/* Luxury Component Utilities */
+@layer components {
+  .luxury-card {
+    @apply bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm border border-white/20 rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-500;
+  }
+  
+  .luxury-button-primary {
+    @apply bg-brand-gold hover:bg-brand-orange text-brand-dark font-semibold px-8 py-4 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl;
+  }
+  
+  .luxury-button-secondary {
+    @apply bg-brand hover:bg-brand-light text-white font-medium px-8 py-4 rounded-xl transition-all duration-300 transform hover:scale-105 border border-brand-light/30;
+  }
+  
+  .luxury-button-outline {
+    @apply border-2 border-brand-gold text-brand-gold hover:bg-brand-gold hover:text-brand-dark font-medium px-8 py-4 rounded-xl transition-all duration-300;
+  }
+  
+  .text-gradient-gold {
+    @apply bg-gradient-to-r from-brand-gold via-brand-orange to-brand-gold bg-clip-text text-transparent;
+  }
+  
+  .text-gradient-brand {
+    @apply bg-gradient-to-r from-brand-light via-brand to-brand-dark bg-clip-text text-transparent;
+  }
+  
+  .glass-effect {
+    @apply bg-white/10 backdrop-blur-md border border-white/20;
+  }
+  
+  .shimmer-effect {
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent
+    );
+    background-size: 200px 100%;
+    animation: shimmer 2s infinite;
+  }
+  
+  .luxury-shadow {
+    box-shadow: 
+      0 4px 6px -1px rgba(0, 0, 0, 0.1),
+      0 2px 4px -1px rgba(0, 0, 0, 0.06),
+      0 0 0 1px rgba(255, 255, 255, 0.05);
+  }
+  
+  .luxury-shadow-hover {
+    box-shadow: 
+      0 20px 25px -5px rgba(0, 0, 0, 0.1),
+      0 10px 10px -5px rgba(0, 0, 0, 0.04),
+      0 0 0 1px rgba(255, 183, 3, 0.1);
+  }
+}
+
+/* Typography Enhancements */
+@layer base {
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading;
+  }
+  
+  body {
+    @apply font-sans antialiased;
+    font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1, 'pnum' 1, 'tnum' 0, 'onum' 1, 'lnum' 0, 'dlig' 0;
+  }
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(2, 48, 71, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, var(--brand-gold), var(--brand-orange));
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, var(--brand-orange), var(--brand-gold));
+}
+
+/* Selection Styling */
+::selection {
+  background: var(--brand-gold);
+  color: var(--brand-dark);
+}
+
+/* Focus Styles */
+button:focus,
+input:focus,
+textarea:focus,
+select:focus {
+  outline: 2px solid var(--brand-gold);
+  outline-offset: 2px;
+}
+
+/* Loading States */
+.loading-skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.1) 25%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0.1) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* Responsive Typography */
+@media (max-width: 640px) {
+  .heading-responsive {
+    @apply text-2xl;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .heading-responsive {
+    @apply text-3xl;
+  }
+}
+
+@media (min-width: 1025px) {
+  .heading-responsive {
+    @apply text-4xl;
+  }
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

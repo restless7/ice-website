@@ -23,6 +23,7 @@ export default function IceNavigation() {
   const navigationItems = [
     { name: "Inicio", href: "/" },
     { name: "Nosotros", href: "/nosotros" },
+    { name: "Programas", href: "/programas" },
     { name: "Portafolio", href: "/portafolio" },
     { name: "ICExperiences", href: "/experiences" },
     { name: "ICE News", href: "/news" },

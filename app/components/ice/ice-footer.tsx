@@ -11,28 +11,32 @@ import {
 
 export default function IceFooter() {
   const quickLinks = [
-    { name: "Inicio", href: "/ice-webpage" },
-    { name: "Nosotros", href: "/ice-webpage#nosotros" },
-    { name: "Portafolio", href: "/ice-webpage#portafolio" },
-    { name: "ICExperiences", href: "/ice-webpage#icexperiences" }
+    { name: "Inicio", href: "/" },
+    { name: "Nosotros", href: "/nosotros" },
+    { name: "Portafolio", href: "/portafolio" },
+    { name: "ICExperiences", href: "/experiences" },
+    { name: "ICE News", href: "/news" },
+    { name: "Contáctanos", href: "/contacto" }
   ];
 
+  // Programs as specified in outline section 2.8
   const programs = [
-    { name: "Intercambio Académico", href: "/ice-webpage#programas" },
-    { name: "Programas de Idiomas", href: "/ice-webpage#programas" },
-    { name: "Experiencias Culturales", href: "/ice-webpage#programas" },
-    { name: "Voluntariado Internacional", href: "/ice-webpage#programas" }
+    { name: "Work and Travel USA", href: "/programas/summer-work-and-travel" },
+    { name: "Au Pair USA", href: "/programas/au-pair-usa" },
+    { name: "Camp Counselor", href: "/programas/camp-counselor" },
+    { name: "Intern and Trainee USA", href: "/programas/interntrainee-usa" },
+    { name: "Escuela de Idiomas", href: "/programas/escuela-de-idiomas-usa" },
+    { name: "Asesoría de Visas", href: "/programas/asesoria-visa-turismo-usa" },
+    { name: "Canadá - Tu Proyecto de Vida", href: "/programas/canada-tu-proyecto-de-vida" },
+    { name: "Ver todos los programas", href: "/programas" }
   ];
 
-  const destinations = [
-    "Estados Unidos",
-    "Reino Unido", 
-    "Francia",
-    "Alemania",
-    "Italia",
-    "Japón",
-    "Costa Rica",
-    "Tailandia"
+  // Countries with operations as specified in outline
+  const countries = [
+    { name: "Colombia 🇨🇴", href: "/" },
+    { name: "Costa Rica 🇨🇷", href: "/" },
+    { name: "Ecuador 🇪🇨", href: "/" },
+    { name: "Perú 🇵🇪", href: "/" }
   ];
 
   const socialLinks = [
@@ -45,11 +49,11 @@ export default function IceFooter() {
   ];
 
   return (
-    <footer className="relative bg-gradient-to-br from-gray-900 via-black to-purple-900 border-t border-lime-400/20">
+    <footer className="relative bg-gradient-to-br from-gray-900 via-blue-900 to-gray-800">
       {/* Background decorative elements */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-20 left-10 w-40 h-40 bg-lime-400/5 rounded-full blur-2xl" />
-        <div className="absolute bottom-20 right-20 w-32 h-32 bg-pink-400/5 rounded-full blur-2xl" />
+        <div className="absolute top-20 left-10 w-40 h-40 bg-brand-gold/5 rounded-full blur-2xl" />
+        <div className="absolute bottom-20 right-20 w-32 h-32 bg-brand-orange/5 rounded-full blur-2xl" />
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -63,38 +67,35 @@ export default function IceFooter() {
             viewport={{ once: true }}
             className="lg:col-span-1"
           >
-            <Link href="/ice-webpage" className="flex items-center space-x-3 mb-6 group">
-              <div className="w-12 h-12 bg-gradient-to-br from-lime-400 to-green-500 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                <div className="w-8 h-8 bg-white/20 rounded border-2 border-dashed border-white/40 flex items-center justify-center">
-                  <span className="text-xs text-white/60">IMG</span>
-                </div>
+            <Link href="/" className="flex items-center space-x-3 mb-6 group">
+              <div className="w-12 h-12 bg-gradient-to-br from-brand-gold to-brand-orange rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                <span className="text-white font-bold text-lg">ICE</span>
               </div>
               <div>
-                <h3 className="text-xl font-bold text-white group-hover:text-lime-400 transition-colors duration-300">
-                  ICE
+                <h3 className="text-xl font-bold text-white group-hover:text-brand-gold transition-colors duration-300">
+                  ICE Colombia
                 </h3>
-                <p className="text-sm text-white/70">Instituto Cultural de Educación</p>
+                <p className="text-sm text-white/70">International Cultural Experience</p>
               </div>
             </Link>
             
             <p className="text-white/80 mb-6 leading-relaxed">
-              Transformamos vidas a través de experiencias educativas internacionales. 
-              Tu puerta al mundo te está esperando.
+              Somos una agencia líder en Colombia en programas de intercambio, estudios en el exterior y asesoría de visas para jóvenes que quieren vivir una experiencia internacional.
             </p>
 
             {/* Contact Info */}
             <div className="space-y-3">
               <div className="flex items-center space-x-3 text-white/70">
-                <PhoneIcon className="w-5 h-5 text-lime-400" />
-                <span className="text-sm">+52 (55) 1234-5678</span>
+                <PhoneIcon className="w-5 h-5 text-brand-gold" />
+                <span className="text-sm">+57 321 3440057</span>
               </div>
               <div className="flex items-center space-x-3 text-white/70">
-                <EnvelopeIcon className="w-5 h-5 text-lime-400" />
-                <span className="text-sm">info@ice-educacion.com</span>
+                <EnvelopeIcon className="w-5 h-5 text-brand-gold" />
+                <span className="text-sm">mercadeo@icebga.com</span>
               </div>
               <div className="flex items-center space-x-3 text-white/70">
-                <MapPinIcon className="w-5 h-5 text-lime-400" />
-                <span className="text-sm">Ciudad de México, CDMX</span>
+                <MapPinIcon className="w-5 h-5 text-brand-gold" />
+                <span className="text-sm">Bucaramanga, Colombia</span>
               </div>
             </div>
           </motion.div>
@@ -112,28 +113,12 @@ export default function IceFooter() {
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="text-white/70 hover:text-lime-400 transition-colors duration-300 text-sm"
+                    className="text-white/70 hover:text-brand-gold transition-colors duration-300 text-sm"
                   >
                     {link.name}
                   </Link>
                 </li>
               ))}
-              <li>
-                <Link
-                  href="/ice-webpage#ice-news"
-                  className="text-white/70 hover:text-lime-400 transition-colors duration-300 text-sm"
-                >
-                  ICE News
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/ice-webpage#contacto"
-                  className="text-white/70 hover:text-lime-400 transition-colors duration-300 text-sm"
-                >
-                  Contácto
-                </Link>
-              </li>
             </ul>
           </motion.div>
 
@@ -144,13 +129,13 @@ export default function IceFooter() {
             transition={{ duration: 0.6, delay: 0.2 }}
             viewport={{ once: true }}
           >
-            <h4 className="text-lg font-semibold text-white mb-6">Programas</h4>
+            <h4 className="text-lg font-semibold text-white mb-6">Nuestros Programas</h4>
             <ul className="space-y-3">
               {programs.map((program) => (
                 <li key={program.name}>
                   <Link
                     href={program.href}
-                    className="text-white/70 hover:text-lime-400 transition-colors duration-300 text-sm"
+                    className="text-white/70 hover:text-brand-gold transition-colors duration-300 text-sm"
                   >
                     {program.name}
                   </Link>
@@ -159,24 +144,27 @@ export default function IceFooter() {
             </ul>
           </motion.div>
 
-          {/* Destinations */}
+          {/* Countries - as specified in outline section 2.8 */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
             viewport={{ once: true }}
           >
-            <h4 className="text-lg font-semibold text-white mb-6">Destinos Populares</h4>
-            <div className="grid grid-cols-2 gap-2">
-              {destinations.map((destination) => (
-                <div
-                  key={destination}
-                  className="text-white/70 text-sm hover:text-lime-400 transition-colors duration-300 cursor-pointer"
-                >
-                  {destination}
-                </div>
+            <h4 className="text-lg font-semibold text-white mb-6">Selecciona tu país</h4>
+            <p className="text-white/60 text-sm mb-4">Operaciones en cuatro países</p>
+            <ul className="space-y-3">
+              {countries.map((country) => (
+                <li key={country.name}>
+                  <Link
+                    href={country.href}
+                    className="text-white/70 hover:text-brand-gold transition-colors duration-300 text-sm flex items-center space-x-2"
+                  >
+                    <span>{country.name}</span>
+                  </Link>
+                </li>
               ))}
-            </div>
+            </ul>
           </motion.div>
         </div>
 
@@ -215,9 +203,9 @@ export default function IceFooter() {
                 <input
                   type="email"
                   placeholder="Tu email"
-                  className="flex-1 px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:border-lime-400 focus:outline-none transition-colors duration-300"
+                  className="flex-1 px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:border-brand-gold focus:outline-none transition-colors duration-300"
                 />
-                <button className="px-6 py-2 bg-gradient-to-r from-lime-400 to-green-500 text-black font-semibold rounded-lg hover:from-lime-500 hover:to-green-600 transition-colors duration-300 whitespace-nowrap">
+                <button className="px-6 py-2 bg-gradient-to-r from-brand-gold to-brand-orange text-white font-semibold rounded-lg hover:from-brand-orange hover:to-brand-gold transition-colors duration-300 whitespace-nowrap">
                   Suscribirse
                 </button>
               </div>
@@ -227,17 +215,17 @@ export default function IceFooter() {
           {/* Copyright */}
           <div className="flex flex-col md:flex-row items-center justify-between text-white/60 text-sm">
             <div className="flex items-center space-x-2 mb-4 md:mb-0">
-              <GlobeAltIcon className="w-5 h-5 text-lime-400" />
-              <span>&copy; 2024 ICE - Instituto Cultural de Educación. Todos los derechos reservados.</span>
+              <GlobeAltIcon className="w-5 h-5 text-brand-gold" />
+              <span>&copy; 2024 ICE Colombia - International Cultural Experience. Todos los derechos reservados.</span>
             </div>
             <div className="flex items-center space-x-6">
-              <Link href="#" className="hover:text-lime-400 transition-colors duration-300">
+              <Link href="#" className="hover:text-brand-gold transition-colors duration-300">
                 Términos de Servicio
               </Link>
-              <Link href="#" className="hover:text-lime-400 transition-colors duration-300">
+              <Link href="#" className="hover:text-brand-gold transition-colors duration-300">
                 Privacidad
               </Link>
-              <Link href="#" className="hover:text-lime-400 transition-colors duration-300">
+              <Link href="#" className="hover:text-brand-gold transition-colors duration-300">
                 Cookies
               </Link>
             </div>
@@ -246,7 +234,7 @@ export default function IceFooter() {
       </div>
 
       {/* Bottom Accent */}
-      <div className="h-1 bg-gradient-to-r from-lime-400 via-green-500 to-emerald-500"></div>
+      <div className="h-1 bg-gradient-to-r from-brand-gold via-brand-orange to-brand-gold"></div>
     </footer>
   );
 }

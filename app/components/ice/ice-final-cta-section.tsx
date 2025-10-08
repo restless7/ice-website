@@ -38,20 +38,20 @@ export default function IceFinalCTASection() {
   ];
 
   const socialLinks = [
-    { name: "Facebook", icon: "📘", color: "from-blue-500 to-blue-600" },
-    { name: "Instagram", icon: "📷", color: "from-pink-500 to-purple-600" },
-    { name: "WhatsApp", icon: "💬", color: "from-green-500 to-green-600" },
-    { name: "LinkedIn", icon: "💼", color: "from-blue-600 to-indigo-600" }
+    { name: "Facebook", icon: "📘", color: "from-brand to-brand-dark" },
+    { name: "Instagram", icon: "📷", color: "from-brand-orange to-brand-gold" },
+    { name: "WhatsApp", icon: "💬", color: "from-brand-gold to-brand-orange" },
+    { name: "LinkedIn", icon: "💼", color: "from-brand-light to-brand" }
   ];
 
   return (
-    <section className="relative py-24 bg-gradient-to-br from-black via-gray-900 to-purple-900">
+    <section className="relative py-24 bg-white">
       {/* Background decorative elements */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-10 left-10 w-40 h-40 bg-lime-400/20 rounded-full blur-2xl" />
-        <div className="absolute top-40 right-20 w-32 h-32 bg-pink-400/20 rounded-full blur-2xl" />
-        <div className="absolute bottom-20 left-20 w-48 h-48 bg-yellow-400/15 rounded-full blur-2xl" />
-        <div className="absolute bottom-40 right-10 w-36 h-36 bg-green-400/20 rounded-full blur-2xl" />
+        <div className="absolute top-10 left-10 w-40 h-40 bg-brand-gold/20 rounded-full blur-2xl" />
+        <div className="absolute top-40 right-20 w-32 h-32 bg-brand-orange/20 rounded-full blur-2xl" />
+        <div className="absolute bottom-20 left-20 w-48 h-48 bg-brand-light/15 rounded-full blur-2xl" />
+        <div className="absolute bottom-40 right-10 w-36 h-36 bg-brand/20 rounded-full blur-2xl" />
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -63,15 +63,15 @@ export default function IceFinalCTASection() {
           viewport={{ once: true }}
           className="text-center mb-20"
         >
-          <h2 className="text-4xl sm:text-6xl font-bold text-white mb-6">
+          <h2 className="text-4xl sm:text-6xl font-bold text-gray-900 mb-6">
             Tu
-            <span className="bg-gradient-to-r from-lime-400 via-green-400 to-emerald-400 bg-clip-text text-transparent ml-4">
+            <span className="bg-gradient-to-r from-brand-gold via-brand-orange to-brand-light bg-clip-text text-transparent ml-4">
               aventura
             </span>
             <br />
             comienza aquí
           </h2>
-          <p className="text-xl text-white/80 max-w-3xl mx-auto mb-8">
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
             No esperes más para cambiar tu vida. Da el primer paso hacia una experiencia que te transformará para siempre.
           </p>
           
@@ -85,7 +85,7 @@ export default function IceFinalCTASection() {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="group px-10 py-5 bg-gradient-to-r from-lime-400 to-green-500 text-black font-bold text-xl rounded-full shadow-2xl hover:shadow-lime-400/25 transition-all duration-300 flex items-center space-x-3"
+              className="group px-10 py-5 bg-gradient-to-r from-brand-gold to-brand-orange text-brand-dark font-bold text-xl rounded-full shadow-2xl hover:shadow-brand-gold/25 transition-all duration-300 flex items-center space-x-3"
             >
               <span>Comienza tu aventura</span>
               <PaperAirplaneIcon className="w-6 h-6 group-hover:translate-x-1 transition-transform duration-300" />
@@ -94,7 +94,7 @@ export default function IceFinalCTASection() {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="px-8 py-4 border-2 border-lime-400 text-lime-400 font-semibold text-lg rounded-full hover:bg-lime-400/10 transition-colors duration-300"
+              className="px-8 py-4 border-2 border-brand-gold text-brand-gold font-semibold text-lg rounded-full hover:bg-brand-gold/10 transition-colors duration-300"
             >
               Agendar consulta gratuita
             </motion.button>
@@ -112,12 +112,12 @@ export default function IceFinalCTASection() {
               viewport={{ once: true }}
               className="text-center group hover:scale-105 transition-transform duration-300"
             >
-              <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-r from-lime-400 to-green-500 p-3 shadow-lg group-hover:shadow-xl transition-shadow duration-300">
-                <contact.icon className="w-full h-full text-white" />
+              <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-brand-gold/10 border border-brand-gold/20 p-3 shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:bg-brand-gold/20">
+                <contact.icon className="w-full h-full text-brand-gold" />
               </div>
-              <h3 className="text-lg font-bold text-white mb-2">{contact.title}</h3>
-              <p className="text-lime-400 font-semibold mb-1">{contact.details}</p>
-              <p className="text-white/60 text-sm">{contact.subtitle}</p>
+              <h3 className="text-lg font-bold text-gray-900 mb-2">{contact.title}</h3>
+              <p className="text-brand-gold font-semibold mb-1">{contact.details}</p>
+              <p className="text-gray-500 text-sm">{contact.subtitle}</p>
             </motion.div>
           ))}
         </div>
@@ -130,9 +130,9 @@ export default function IceFinalCTASection() {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 border border-white/20"
+            className="bg-white rounded-3xl p-8 border border-gray-200 shadow-sm"
           >
-            <h3 className="text-2xl font-bold text-white mb-6">
+            <h3 className="text-2xl font-bold text-gray-900 mb-6">
               Solicita más información
             </h3>
             <form className="space-y-6">
@@ -141,14 +141,14 @@ export default function IceFinalCTASection() {
                   <input
                     type="text"
                     placeholder="Nombre"
-                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:border-lime-400 focus:outline-none transition-colors duration-300"
+                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:border-brand-gold focus:outline-none transition-colors duration-300"
                   />
                 </div>
                 <div>
                   <input
                     type="text"
                     placeholder="Apellido"
-                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:border-lime-400 focus:outline-none transition-colors duration-300"
+                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:border-brand-gold focus:outline-none transition-colors duration-300"
                   />
                 </div>
               </div>
@@ -156,16 +156,16 @@ export default function IceFinalCTASection() {
               <input
                 type="email"
                 placeholder="Email"
-                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:border-lime-400 focus:outline-none transition-colors duration-300"
+                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:border-brand-gold focus:outline-none transition-colors duration-300"
               />
               
               <input
                 type="tel"
                 placeholder="Teléfono"
-                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:border-lime-400 focus:outline-none transition-colors duration-300"
+                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:border-brand-gold focus:outline-none transition-colors duration-300"
               />
               
-              <select className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white focus:border-lime-400 focus:outline-none transition-colors duration-300">
+              <select className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 focus:border-brand-gold focus:outline-none transition-colors duration-300">
                 <option value="">Programa de interés</option>
                 <option value="intercambio">Intercambio Académico</option>
                 <option value="idiomas">Programas de Idiomas</option>
@@ -175,14 +175,14 @@ export default function IceFinalCTASection() {
               <textarea
                 placeholder="Mensaje (opcional)"
                 rows={4}
-                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:border-lime-400 focus:outline-none transition-colors duration-300 resize-none"
+                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:border-brand-gold focus:outline-none transition-colors duration-300 resize-none"
               />
               
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 type="submit"
-                className="w-full py-4 bg-gradient-to-r from-lime-400 to-green-500 text-black font-bold text-lg rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300"
+                className="w-full py-4 bg-gradient-to-r from-brand-gold to-brand-orange text-brand-dark font-bold text-lg rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300"
               >
                 Enviar solicitud
               </motion.button>
@@ -198,8 +198,8 @@ export default function IceFinalCTASection() {
             className="space-y-8"
           >
             {/* Why Choose Us */}
-            <div className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 backdrop-blur-lg rounded-3xl p-8 border border-purple-400/30">
-              <h3 className="text-2xl font-bold text-white mb-6">¿Por qué elegir ICE?</h3>
+            <div className="bg-white rounded-3xl p-8 border border-gray-200 shadow-sm">
+              <h3 className="text-2xl font-bold text-gray-900 mb-6">¿Por qué elegir ICE?</h3>
               <ul className="space-y-4">
                 {[
                   "15+ años de experiencia en educación internacional",
@@ -214,9 +214,9 @@ export default function IceFinalCTASection() {
                     whileInView={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
                     viewport={{ once: true }}
-                    className="flex items-center space-x-3 text-white/80"
+                    className="flex items-center space-x-3 text-gray-700"
                   >
-                    <div className="w-2 h-2 bg-lime-400 rounded-full" />
+                    <div className="w-2 h-2 bg-brand-gold rounded-full" />
                     <span>{item}</span>
                   </motion.li>
                 ))}
@@ -224,8 +224,8 @@ export default function IceFinalCTASection() {
             </div>
 
             {/* Social Media */}
-            <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 border border-white/20">
-              <h3 className="text-2xl font-bold text-white mb-6">Síguenos</h3>
+            <div className="bg-white rounded-3xl p-8 border border-gray-200 shadow-sm">
+              <h3 className="text-2xl font-bold text-gray-900 mb-6">Síguenos</h3>
               <div className="grid grid-cols-2 gap-4">
                 {socialLinks.map((social, index) => (
                   <motion.button
@@ -255,10 +255,10 @@ export default function IceFinalCTASection() {
           viewport={{ once: true }}
           className="text-center"
         >
-          <div className="inline-flex items-center space-x-3 px-8 py-4 bg-gradient-to-r from-lime-400/20 to-green-400/20 backdrop-blur-lg rounded-full border border-lime-400/30">
+          <div className="inline-flex items-center space-x-3 px-8 py-4 bg-white rounded-full border border-brand-gold/30 shadow-sm">
             <span className="text-2xl">✈️</span>
-            <p className="text-white font-medium">
-              <span className="text-lime-400">ICE</span> - Tu puerta al mundo
+            <p className="text-gray-900 font-medium">
+              <span className="text-brand-gold">ICE</span> - Tu puerta al mundo
             </p>
             <span className="text-2xl">🌍</span>
           </div>
