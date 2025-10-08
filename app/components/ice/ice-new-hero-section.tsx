@@ -161,7 +161,12 @@ export default function IceNewHeroSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className="text-xl md:text-2xl lg:text-3xl text-white/90 max-w-4xl mx-auto mb-12 drop-shadow-lg leading-relaxed"
+              className="text-xl md:text-2xl lg:text-3xl text-white max-w-4xl mx-auto mb-12 leading-relaxed"
+              style={{ 
+                textShadow: '2px 2px 4px rgba(0,0,0,0.8)', 
+                WebkitFontSmoothing: 'antialiased',
+                MozOsxFontSmoothing: 'grayscale'
+              }}
             >
               Te ayudamos a vivir tu sueño de estudiar, trabajar y viajar por el mundo.
             </motion.p>
