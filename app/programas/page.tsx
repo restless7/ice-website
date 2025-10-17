@@ -1,6 +1,5 @@
 "use client";
 
-import { Metadata } from "next";
 import IceLayoutWrapper from "@/app/components/ice/ice-layout-wrapper";
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -19,11 +18,6 @@ import {
   ArrowRightIcon,
   MapPinIcon
 } from "@heroicons/react/24/outline";
-
-export const metadata: Metadata = {
-  title: "Programas Internacionales | ICE - Instituto Cultural de Educación",
-  description: "Explora todos nuestros programas de intercambio cultural, trabajo y estudio en el extranjero. Work & Travel, Au Pair, Idiomas y más.",
-};
 
 const programs = [
   {
