@@ -138,17 +138,6 @@ export default function IceNewHeroSection() {
       <div className="relative z-10 min-h-screen flex flex-col justify-center">
         <div className="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-6xl mx-auto">
-            {/* Current Destination Badge */}
-            <motion.div
-              key={`badge-${currentDestination}`}
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              className="inline-flex items-center space-x-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-6 py-3 mb-8"
-            >
-              <span className="text-3xl">{currentDest.flag}</span>
-              <span className="text-white font-semibold text-lg">{currentDest.name}</span>
-            </motion.div>
 
             {/* Dynamic Rotating CTA Button - Positioned above title initially */}
             <motion.div
@@ -215,7 +204,7 @@ export default function IceNewHeroSection() {
               Te ayudamos a vivir tu sueño de estudiar, trabajar y viajar por el mundo.
             </motion.p>
 
-            {/* CTA Buttons - Scroll-triggered animation with single button */}
+            {/* CTA Buttons - Scroll-triggered animation with both buttons */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ 
@@ -227,8 +216,23 @@ export default function IceNewHeroSection() {
                 ease: [0.25, 0.1, 0.25, 1],
                 delay: isScrolled ? 0.6 : 0
               }}
-              className="flex justify-center mb-12"
+              className="flex flex-col sm:flex-row gap-4 justify-center mb-12"
             >
+              <Link href={currentDest.href}>
+                <motion.button 
+                  key={`scroll-cta-${currentDestination}`}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.5 }}
+                  className="px-8 py-4 bg-white/10 backdrop-blur-sm border-2 border-white/30 text-white font-bold text-lg rounded-xl hover:bg-white/20 hover:border-white/50 transition-all duration-300 transform hover:scale-105 flex items-center space-x-3 group"
+                >
+                  <span>Explorar</span>
+                  <span className="text-2xl">{currentDest.flag}</span>
+                  <span>{currentDest.name}</span>
+                  <ArrowRightIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
+                </motion.button>
+              </Link>
+              
               <Link href="/programas">
                 <button className="px-8 py-4 bg-white/10 backdrop-blur-sm border-2 border-white/30 text-white font-bold text-lg rounded-xl hover:bg-white/20 hover:border-white/50 transition-all duration-300 transform hover:scale-105">
                   Ver todos los programas
