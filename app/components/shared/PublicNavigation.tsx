@@ -87,6 +87,7 @@ export default function PublicNavigation({
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [logoError, setLogoError] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   const designTheme = getTheme(theme);
   const branding = customBranding || defaultBranding;
@@ -100,6 +101,16 @@ export default function PublicNavigation({
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Detect mobile screen size
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
   // Close mobile menu when route changes
@@ -149,7 +160,7 @@ export default function PublicNavigation({
         }}
         animate={{
           x: '-50%',
-          y: isScrolled ? '-140px' : 'calc(50vh - 200px)', // Fine-tuned positioning
+          y: isScrolled ? (isMobile ? '-140px' : '-200px') : 'calc(50vh - 200px)', // Responsive positioning
           scale: isScrolled ? 0.22 : 1
         }}
         transition={{

@@ -216,7 +216,7 @@ export default function IceNewHeroSection() {
                 ease: [0.25, 0.1, 0.25, 1],
                 delay: isScrolled ? 0.6 : 0
               }}
-              className="flex flex-col sm:flex-row gap-4 justify-center mb-12"
+              className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12"
             >
               <Link href={currentDest.href}>
                 <motion.button 
@@ -224,7 +224,7 @@ export default function IceNewHeroSection() {
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.5 }}
-                  className="px-4 py-3 md:px-8 md:py-4 bg-white/10 backdrop-blur-sm border-2 border-white/30 text-white font-bold text-sm md:text-lg rounded-xl hover:bg-white/20 hover:border-white/50 transition-all duration-300 transform hover:scale-105 flex items-center space-x-2 md:space-x-3 group"
+                  className="px-4 py-3 md:px-8 md:py-4 bg-white/10 backdrop-blur-sm border-2 border-white/30 text-white font-bold text-sm md:text-lg rounded-xl hover:bg-white/20 hover:border-white/50 transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2 md:space-x-3 group min-w-max"
                 >
                   <span>Explorar</span>
                   <span className="text-2xl">{currentDest.flag}</span>
@@ -234,7 +234,7 @@ export default function IceNewHeroSection() {
               </Link>
               
               <Link href="/programas">
-                <button className="px-4 py-3 md:px-8 md:py-4 bg-white/10 backdrop-blur-sm border-2 border-white/30 text-white font-bold text-sm md:text-lg rounded-xl hover:bg-white/20 hover:border-white/50 transition-all duration-300 transform hover:scale-105">
+                <button className="px-4 py-3 md:px-8 md:py-4 bg-white/10 backdrop-blur-sm border-2 border-white/30 text-white font-bold text-sm md:text-lg rounded-xl hover:bg-white/20 hover:border-white/50 transition-all duration-300 transform hover:scale-105 min-w-max">
                   Ver todos los programas
                 </button>
               </Link>
