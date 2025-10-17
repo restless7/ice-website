@@ -88,20 +88,37 @@ export default function PublicNavigation({
   const [isScrolled, setIsScrolled] = useState(false);
   const [logoError, setLogoError] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [isAutoAnimated, setIsAutoAnimated] = useState(false);
+  
+  // Check if we're on the home page
+  const isHomePage = pathname === '/';
 
   const designTheme = getTheme(theme);
   const branding = customBranding || defaultBranding;
   const navigation = customNavigation || defaultNavigation;
 
-  // Handle scroll effect with more precise control
+  // Handle scroll effect with more precise control (only for home page)
   useEffect(() => {
+    if (!isHomePage) return;
+    
     const handleScroll = () => {
       const scrollY = window.scrollY;
       setIsScrolled(scrollY > 20);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [isHomePage]);
+  
+  // Auto-animate logo on non-home pages after 1 second
+  useEffect(() => {
+    if (isHomePage) return;
+    
+    const timer = setTimeout(() => {
+      setIsAutoAnimated(true);
+    }, 1000);
+    
+    return () => clearTimeout(timer);
+  }, [isHomePage]);
 
   // Detect mobile screen size
   useEffect(() => {
@@ -160,8 +177,8 @@ export default function PublicNavigation({
         }}
         animate={{
           x: '-50%',
-          y: isScrolled ? (isMobile ? '-140px' : '-200px') : 'calc(50vh - 200px)', // Responsive positioning
-          scale: isScrolled ? 0.22 : 1
+          y: (isHomePage ? isScrolled : isAutoAnimated) ? (isMobile ? '-140px' : '-200px') : 'calc(50vh - 200px)', // Page-specific animation
+          scale: (isHomePage ? isScrolled : isAutoAnimated) ? 0.22 : 1
         }}
         transition={{
           duration: 0.8,
