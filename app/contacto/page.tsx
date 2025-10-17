@@ -51,7 +51,7 @@ const contactReasons = [
 export default function IceContactoPage() {
   return (
     <IceLayoutWrapper>
-      <div className="relative w-full bg-gradient-to-br from-purple-950 via-indigo-900 to-black">
+      <div className="relative w-full bg-gradient-to-br from-gray-900 via-brand-dark to-black">
         {/* Hero Section */}
         <section className="relative min-h-screen flex items-center justify-center pt-20">
           <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-transparent"></div>
@@ -64,7 +64,7 @@ export default function IceContactoPage() {
               className="text-center"
             >
               <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
-                Contáct<span className="text-lime-400">anos</span>
+                Contáct<span className="bg-gradient-to-r from-brand-gold to-brand-orange bg-clip-text text-transparent">anos</span>
               </h1>
               <p className="text-xl md:text-2xl text-white/80 max-w-3xl mx-auto">
                 Estamos aquí para ayudarte a hacer realidad tu sueño de estudiar en el extranjero
@@ -84,7 +84,7 @@ export default function IceContactoPage() {
               className="text-center mb-16"
             >
               <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-                Información de <span className="text-lime-400">Contacto</span>
+                Información de <span className="bg-gradient-to-r from-brand-gold to-brand-orange bg-clip-text text-transparent">Contacto</span>
               </h2>
             </motion.div>
 
@@ -98,13 +98,13 @@ export default function IceContactoPage() {
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: index * 0.1 }}
                     viewport={{ once: true }}
-                    className="bg-white/5 backdrop-blur-lg rounded-2xl p-6 border border-lime-400/20 text-center hover:bg-white/10 transition-all duration-300"
+                    className="bg-white/5 backdrop-blur-lg rounded-2xl p-6 border border-brand-gold/20 text-center hover:bg-white/10 transition-all duration-300"
                   >
                     <div className="flex justify-center mb-4">
-                      <IconComponent className="w-12 h-12 text-lime-400" />
+                      <IconComponent className="w-12 h-12 text-brand-gold" />
                     </div>
                     <h3 className="text-xl font-bold text-white mb-3">{info.title}</h3>
-                    <p className="text-lime-400 font-semibold mb-2">{info.details}</p>
+                    <p className="text-brand-gold font-semibold mb-2">{info.details}</p>
                     <p className="text-white/70 text-sm">{info.extra}</p>
                   </motion.div>
                 );
@@ -114,7 +114,7 @@ export default function IceContactoPage() {
         </section>
 
         {/* Contact Form & Office Hours */}
-        <section className="relative py-20 bg-gradient-to-r from-indigo-900/50 to-purple-900/50">
+        <section className="relative py-20 bg-gradient-to-r from-brand-dark/50 to-gray-900/50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid lg:grid-cols-2 gap-12">
               {/* Contact Form */}
@@ -125,7 +125,7 @@ export default function IceContactoPage() {
                 viewport={{ once: true }}
               >
                 <h3 className="text-3xl font-bold text-white mb-8">
-                  Envíanos un <span className="text-lime-400">Mensaje</span>
+                  Envíanos un <span className="bg-gradient-to-r from-brand-gold to-brand-orange bg-clip-text text-transparent">Mensaje</span>
                 </h3>
                 <form className="space-y-6">
                   <div className="grid md:grid-cols-2 gap-6">
@@ -135,7 +135,7 @@ export default function IceContactoPage() {
                       </label>
                       <input
                         type="text"
-                        className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-lime-400 focus:border-transparent backdrop-blur-lg transition-all duration-300"
+                        className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent backdrop-blur-lg transition-all duration-300"
                         placeholder="Tu nombre completo"
                       />
                     </div>
@@ -145,7 +145,7 @@ export default function IceContactoPage() {
                       </label>
                       <input
                         type="email"
-                        className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-lime-400 focus:border-transparent backdrop-blur-lg transition-all duration-300"
+                        className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent backdrop-blur-lg transition-all duration-300"
                         placeholder="tu@email.com"
                       />
                     </div>
@@ -157,7 +157,7 @@ export default function IceContactoPage() {
                       </label>
                       <input
                         type="tel"
-                        className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-lime-400 focus:border-transparent backdrop-blur-lg transition-all duration-300"
+                        className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent backdrop-blur-lg transition-all duration-300"
                         placeholder="+1 (555) 123-4567"
                       />
                     </div>
@@ -165,7 +165,7 @@ export default function IceContactoPage() {
                       <label className="block text-white/80 text-sm font-medium mb-2">
                         Motivo de Consulta
                       </label>
-                      <select className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-lime-400 focus:border-transparent backdrop-blur-lg transition-all duration-300">
+                      <select className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent backdrop-blur-lg transition-all duration-300">
                         {contactReasons.map((reason) => (
                           <option key={reason} value={reason} className="bg-gray-800 text-white">
                             {reason}
@@ -180,14 +180,14 @@ export default function IceContactoPage() {
                     </label>
                     <textarea
                       rows={5}
-                      className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-lime-400 focus:border-transparent backdrop-blur-lg transition-all duration-300 resize-none"
+                      className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent backdrop-blur-lg transition-all duration-300 resize-none"
                       placeholder="Cuéntanos sobre tu interés en estudiar en el extranjero..."
                     ></textarea>
                   </div>
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="w-full bg-gradient-to-r from-lime-400 to-green-500 text-black font-semibold py-4 px-8 rounded-lg hover:from-lime-500 hover:to-green-600 transition-all duration-300 flex items-center justify-center gap-2"
+                    className="w-full bg-gradient-to-r from-brand-gold to-brand-orange text-brand-dark font-semibold py-4 px-8 rounded-lg hover:from-brand-orange hover:to-brand-gold transition-all duration-300 flex items-center justify-center gap-2"
                   >
                     <Send className="w-5 h-5" />
                     Enviar Mensaje
@@ -204,23 +204,23 @@ export default function IceContactoPage() {
                 className="space-y-8"
               >
                 {/* Office Hours */}
-                <div className="bg-white/5 backdrop-blur-lg rounded-2xl p-8 border border-lime-400/20">
+                <div className="bg-white/5 backdrop-blur-lg rounded-2xl p-8 border border-brand-gold/20">
                   <div className="flex items-center gap-3 mb-6">
-                    <Clock className="w-8 h-8 text-lime-400" />
+                    <Clock className="w-8 h-8 text-brand-gold" />
                     <h3 className="text-2xl font-bold text-white">Horarios de Atención</h3>
                   </div>
                   <div className="space-y-4">
                     {officeHours.map((schedule, index) => (
                       <div key={index} className="flex justify-between items-center py-2 border-b border-white/10 last:border-b-0">
                         <span className="text-white/80">{schedule.day}</span>
-                        <span className="text-lime-400 font-semibold">{schedule.hours}</span>
+                        <span className="text-brand-gold font-semibold">{schedule.hours}</span>
                       </div>
                     ))}
                   </div>
                 </div>
 
                 {/* Quick Contact Options */}
-                <div className="bg-white/5 backdrop-blur-lg rounded-2xl p-8 border border-lime-400/20">
+                <div className="bg-white/5 backdrop-blur-lg rounded-2xl p-8 border border-brand-gold/20">
                   <h3 className="text-2xl font-bold text-white mb-6">Contacto Rápido</h3>
                   <div className="space-y-4">
                     <motion.a
@@ -229,7 +229,7 @@ export default function IceContactoPage() {
                       whileTap={{ scale: 0.98 }}
                       className="flex items-center gap-4 p-4 bg-white/5 rounded-lg hover:bg-white/10 transition-all duration-300"
                     >
-                      <Phone className="w-6 h-6 text-lime-400" />
+                      <Phone className="w-6 h-6 text-brand-gold" />
                       <div>
                         <p className="text-white font-semibold">Llamar Ahora</p>
                         <p className="text-white/70 text-sm">+75 3104994800</p>
@@ -241,7 +241,7 @@ export default function IceContactoPage() {
                       whileTap={{ scale: 0.98 }}
                       className="flex items-center gap-4 p-4 bg-white/5 rounded-lg hover:bg-white/10 transition-all duration-300"
                     >
-                      <Mail className="w-6 h-6 text-lime-400" />
+                      <Mail className="w-6 h-6 text-brand-gold" />
                       <div>
                         <p className="text-white font-semibold">Email</p>
                         <p className="text-white/70 text-sm">info.col@icebga.com</p>
@@ -253,7 +253,7 @@ export default function IceContactoPage() {
                       whileTap={{ scale: 0.98 }}
                       className="flex items-center gap-4 p-4 bg-white/5 rounded-lg hover:bg-white/10 transition-all duration-300"
                     >
-                      <MessageSquare className="w-6 h-6 text-lime-400" />
+                      <MessageSquare className="w-6 h-6 text-brand-gold" />
                       <div>
                         <p className="text-white font-semibold">Chat en Vivo</p>
                         <p className="text-white/70 text-sm">Disponible ahora</p>
@@ -289,7 +289,7 @@ export default function IceContactoPage() {
               className="text-center mb-16"
             >
               <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-                Nuestra <span className="text-lime-400">Ubicación</span>
+                Nuestra <span className="bg-gradient-to-r from-brand-gold to-brand-orange bg-clip-text text-transparent">Ubicación</span>
               </h2>
               <p className="text-xl text-white/80 max-w-3xl mx-auto">
                 Visítanos en nuestras oficinas o programa una cita virtual
@@ -301,7 +301,7 @@ export default function IceContactoPage() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
-              className="bg-white/5 backdrop-blur-lg rounded-2xl p-8 border border-lime-400/20"
+              className="bg-white/5 backdrop-blur-lg rounded-2xl p-8 border border-brand-gold/20"
             >
               {/* Google Maps Embed */}
               <div className="w-full rounded-xl overflow-hidden">
@@ -318,7 +318,7 @@ export default function IceContactoPage() {
               </div>
               <div className="text-center mt-6">
                 <div className="flex items-center justify-center gap-2 mb-2">
-                  <MapPin className="w-5 h-5 text-lime-400" />
+                  <MapPin className="w-5 h-5 text-brand-gold" />
                   <p className="text-lg font-semibold text-white">ICE - International Cultural Experience</p>
                 </div>
                 <p className="text-white/70">Carrera 45 # 56-79 Barrio Terrazas, Bucaramanga, Colombia</p>
@@ -328,7 +328,7 @@ export default function IceContactoPage() {
                   rel="noopener noreferrer"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="inline-block mt-4 bg-lime-400 text-black font-semibold py-2 px-6 rounded-lg hover:bg-lime-500 transition-all duration-300"
+                  className="inline-block mt-4 bg-brand-gold text-brand-dark font-semibold py-2 px-6 rounded-lg hover:bg-brand-orange transition-all duration-300"
                 >
                   Cómo llegar
                 </motion.a>
@@ -338,7 +338,7 @@ export default function IceContactoPage() {
         </section>
 
         {/* FAQ Section */}
-        <section className="relative py-20 bg-gradient-to-r from-purple-900/50 to-indigo-900/50">
+        <section className="relative py-20 bg-gradient-to-r from-brand-dark/50 to-gray-900/50">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -348,7 +348,7 @@ export default function IceContactoPage() {
               className="text-center mb-16"
             >
               <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-                Preguntas <span className="text-lime-400">Frecuentes</span>
+                Preguntas <span className="bg-gradient-to-r from-brand-gold to-brand-orange bg-clip-text text-transparent">Frecuentes</span>
               </h2>
             </motion.div>
 
@@ -357,7 +357,7 @@ export default function IceContactoPage() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
-              className="bg-white/5 backdrop-blur-lg rounded-2xl p-8 border border-lime-400/20 text-center"
+              className="bg-white/5 backdrop-blur-lg rounded-2xl p-8 border border-brand-gold/20 text-center"
             >
               <p className="text-lg text-white/80 leading-relaxed mb-6">
                 ¿Tienes preguntas sobre nuestros programas, requisitos o proceso de aplicación? 
@@ -367,7 +367,7 @@ export default function IceContactoPage() {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="bg-gradient-to-r from-lime-400 to-green-500 text-black font-semibold py-3 px-8 rounded-full hover:from-lime-500 hover:to-green-600 transition-all duration-300"
+                  className="bg-gradient-to-r from-brand-gold to-brand-orange text-brand-dark font-semibold py-3 px-8 rounded-full hover:from-brand-orange hover:to-brand-gold transition-all duration-300"
                 >
                   Agendar Consulta Gratuita
                 </motion.button>
