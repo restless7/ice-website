@@ -294,14 +294,14 @@ export default function AuPairUSA() {
               <div className="bg-gray-50 rounded-2xl p-6 border border-gray-200">
                 <PhoneIcon className="w-8 h-8 text-brand-gold mx-auto mb-4" />
                 <h3 className="font-bold text-gray-900 mb-2">Llámanos</h3>
-                <p className="text-brand-gold font-semibold">+57 315 4924917</p>
+                <p className="text-brand-gold font-semibold">+75 3104994800</p>
                 <p className="text-gray-600 text-sm">Camilo Manrique - CEO</p>
               </div>
               
               <div className="bg-gray-50 rounded-2xl p-6 border border-gray-200">
                 <EnvelopeIcon className="w-8 h-8 text-brand-gold mx-auto mb-4" />
                 <h3 className="font-bold text-gray-900 mb-2">Escríbenos</h3>
-                <p className="text-brand-gold font-semibold">mercadeo@icebga.com</p>
+                <p className="text-brand-gold font-semibold">info.col@icebga.com</p>
                 <p className="text-gray-600 text-sm">Respuesta en menos de 24h</p>
               </div>
             </div>

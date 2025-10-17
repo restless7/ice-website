@@ -8,26 +8,26 @@ const contactInfo = [
   {
     icon: MapPin,
     title: "Oficina Principal",
-    details: "Av. Principal 123, Ciudad",
-    extra: "Zona Financiera, Edificio Torre ICE, Piso 5"
+    details: "Carrera 45 # 56-79 Barrio Terrazas",
+    extra: "Bucaramanga, Colombia"
   },
   {
     icon: Phone,
     title: "Teléfono",
-    details: "+1 (555) 123-4567",
+    details: "+75 3104994800",
     extra: "Lunes a Viernes, 8:00 AM - 6:00 PM"
   },
   {
     icon: Mail,
     title: "Email",
-    details: "info@ice-education.com",
+    details: "info.col@icebga.com",
     extra: "Respuesta en menos de 24 horas"
   },
   {
     icon: Globe,
     title: "Oficinas Internacionales",
-    details: "15+ países",
-    extra: "Soporte local en tu destino"
+    details: "4 países",
+    extra: "Colombia, Costa Rica, Ecuador, Perú"
   }
 ];
 
@@ -224,7 +224,7 @@ export default function IceContactoPage() {
                   <h3 className="text-2xl font-bold text-white mb-6">Contacto Rápido</h3>
                   <div className="space-y-4">
                     <motion.a
-                      href="tel:+15551234567"
+                      href="tel:+753104994800"
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       className="flex items-center gap-4 p-4 bg-white/5 rounded-lg hover:bg-white/10 transition-all duration-300"
@@ -232,11 +232,11 @@ export default function IceContactoPage() {
                       <Phone className="w-6 h-6 text-lime-400" />
                       <div>
                         <p className="text-white font-semibold">Llamar Ahora</p>
-                        <p className="text-white/70 text-sm">+1 (555) 123-4567</p>
+                        <p className="text-white/70 text-sm">+75 3104994800</p>
                       </div>
                     </motion.a>
                     <motion.a
-                      href="mailto:info@ice-education.com"
+                      href="mailto:info.col@icebga.com"
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       className="flex items-center gap-4 p-4 bg-white/5 rounded-lg hover:bg-white/10 transition-all duration-300"
@@ -244,7 +244,7 @@ export default function IceContactoPage() {
                       <Mail className="w-6 h-6 text-lime-400" />
                       <div>
                         <p className="text-white font-semibold">Email</p>
-                        <p className="text-white/70 text-sm">info@ice-education.com</p>
+                        <p className="text-white/70 text-sm">info.col@icebga.com</p>
                       </div>
                     </motion.a>
                     <motion.a
@@ -303,20 +303,35 @@ export default function IceContactoPage() {
               viewport={{ once: true }}
               className="bg-white/5 backdrop-blur-lg rounded-2xl p-8 border border-lime-400/20"
             >
-              {/* Placeholder for Google Maps */}
-              <div className="w-full h-96 bg-gradient-to-r from-lime-400/20 to-green-500/20 rounded-xl flex items-center justify-center">
-                <div className="text-center">
-                  <MapPin className="w-16 h-16 text-lime-400 mx-auto mb-4" />
-                  <p className="text-xl font-semibold text-white mb-2">Mapa Interactivo</p>
-                  <p className="text-white/70">Av. Principal 123, Ciudad</p>
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="mt-4 bg-lime-400 text-black font-semibold py-2 px-6 rounded-lg hover:bg-lime-500 transition-all duration-300"
-                  >
-                    Ver en Google Maps
-                  </motion.button>
+              {/* Google Maps Embed */}
+              <div className="w-full rounded-xl overflow-hidden">
+                <iframe 
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3959.146222160519!2d-73.10870562412826!3d7.109047716080183!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e683fe7a087d5a7%3A0x396a441dd38f2b15!2sICE-%20International%20Cultural%20Experience!5e0!3m2!1sen!2sco!4v1760656981333!5m2!1sen!2sco" 
+                  width="100%" 
+                  height="450" 
+                  style={{border: 0}} 
+                  allowFullScreen 
+                  loading="lazy" 
+                  referrerPolicy="no-referrer-when-downgrade"
+                  className="rounded-xl"
+                ></iframe>
+              </div>
+              <div className="text-center mt-6">
+                <div className="flex items-center justify-center gap-2 mb-2">
+                  <MapPin className="w-5 h-5 text-lime-400" />
+                  <p className="text-lg font-semibold text-white">ICE - International Cultural Experience</p>
                 </div>
+                <p className="text-white/70">Carrera 45 # 56-79 Barrio Terrazas, Bucaramanga, Colombia</p>
+                <motion.a
+                  href="https://www.google.com/maps/dir//ICE-+International+Cultural+Experience,+Cra.+45+%2356-79,+Bucaramanga,+Santander/@7.109047716080183,-73.10870562412826,17z/data=!4m5!4m4!1m0!1m2!1m1!1s0x8e683fe7a087d5a7:0x396a441dd38f2b15"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="inline-block mt-4 bg-lime-400 text-black font-semibold py-2 px-6 rounded-lg hover:bg-lime-500 transition-all duration-300"
+                >
+                  Cómo llegar
+                </motion.a>
               </div>
             </motion.div>
           </div>

@@ -259,7 +259,7 @@ export default function IceContactSection() {
                   </div>
                   <div>
                     <h4 className="font-semibold text-gray-900 mb-1">Teléfono</h4>
-                    <p className="text-brand-gold font-semibold">+57 321 3440057</p>
+                    <p className="text-brand-gold font-semibold">+75 3104994800</p>
                     <p className="text-gray-600 text-sm">Manuel - Procesos Colombia</p>
                   </div>
                 </div>
@@ -270,7 +270,7 @@ export default function IceContactSection() {
                   </div>
                   <div>
                     <h4 className="font-semibold text-gray-900 mb-1">Email</h4>
-                    <p className="text-brand-orange font-semibold">mercadeo@icebga.com</p>
+                    <p className="text-brand-orange font-semibold">info.col@icebga.com</p>
                     <p className="text-gray-600 text-sm">Respuesta en menos de 24h</p>
                   </div>
                 </div>

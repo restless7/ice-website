@@ -92,10 +92,11 @@ export default function PublicNavigation({
   const branding = customBranding || defaultBranding;
   const navigation = customNavigation || defaultNavigation;
 
-  // Handle scroll effect
+  // Handle scroll effect with more precise control
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      const scrollY = window.scrollY;
+      setIsScrolled(scrollY > 50);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -107,12 +108,12 @@ export default function PublicNavigation({
   }, [pathname]);
 
   const getThemeClasses = () => {
-    const baseClasses = 'fixed top-0 left-0 right-0 z-50 transition-all duration-300';
+    const baseClasses = 'fixed top-0 left-0 right-0 z-50 transition-all duration-500';
     
     return cn(baseClasses, 
       isScrolled 
-        ? 'bg-gradient-to-r from-gray-900 via-blue-900 to-gray-800 backdrop-blur-lg border-b border-brand-gold/20' 
-        : 'bg-gradient-to-r from-gray-900/80 via-blue-900/80 to-gray-800/80 backdrop-blur-sm'
+        ? 'bg-black/20 backdrop-blur-md border-b border-white/10' 
+        : 'bg-transparent'
     );
   };
 
@@ -133,30 +134,87 @@ export default function PublicNavigation({
     );
   };
 
-  const renderLogo = () => (
-    <Link href="/" className="absolute left-6 top-1/2 transform -translate-y-1/2 group z-10">
-      <div className="relative">
-        {!logoError && branding.logo ? (
-          <div className="w-16 h-16 lg:w-20 lg:h-20 rounded-xl overflow-hidden group-hover:scale-110 transition-transform duration-300 shadow-xl">
-            <Image
-              src={branding.logo}
-              alt={`${branding.title} Logo`}
-              width={180}
-              height={180}
-              className="w-full h-full object-contain"
-              onError={() => setLogoError(true)}
-            />
-          </div>
-        ) : (
-          <div className="w-16 h-16 lg:w-20 lg:h-20 bg-gradient-to-br from-brand-gold to-brand-orange rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-xl">
-            <span className="text-2xl lg:text-3xl font-bold text-white">
-              {branding.logoFallback}
-            </span>
-          </div>
-        )}
-      </div>
-    </Link>
-  );
+  const renderLogo = () => {
+    // Calculate logo size and position based on scroll
+    const scrollProgress = typeof window !== 'undefined' ? Math.min(window.scrollY / 200, 1) : 0;
+    const isInitialLoad = typeof window !== 'undefined' ? window.scrollY === 0 : true;
+    
+    return (
+      <>
+        {/* Large centered logo - visible when not scrolled */}
+        <motion.div
+          initial={{ opacity: 1, scale: 1 }}
+          animate={{ 
+            opacity: isScrolled ? 0 : 1,
+            scale: isScrolled ? 0.8 : 1,
+            y: isScrolled ? -20 : 0
+          }}
+          transition={{ duration: 0.5, ease: "easeInOut" }}
+          className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-40 pointer-events-none"
+          style={{ display: isScrolled ? 'none' : 'block' }}
+        >
+          <Link href="/" className="pointer-events-auto group">
+            <div className="relative">
+              {!logoError && branding.logo ? (
+                <div className="w-32 h-32 lg:w-40 lg:h-40 rounded-2xl overflow-hidden group-hover:scale-105 transition-transform duration-300 shadow-2xl">
+                  <Image
+                    src={branding.logo}
+                    alt={`${branding.title} Logo`}
+                    width={200}
+                    height={200}
+                    className="w-full h-full object-contain"
+                    onError={() => setLogoError(true)}
+                  />
+                </div>
+              ) : (
+                <div className="w-32 h-32 lg:w-40 lg:h-40 bg-gradient-to-br from-brand-gold to-brand-orange rounded-2xl flex items-center justify-center group-hover:scale-105 transition-transform duration-300 shadow-2xl">
+                  <span className="text-4xl lg:text-6xl font-bold text-white">
+                    {branding.logoFallback}
+                  </span>
+                </div>
+              )}
+            </div>
+          </Link>
+        </motion.div>
+        
+        {/* Small navbar logo - visible when scrolled */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ 
+            opacity: isScrolled ? 1 : 0,
+            scale: isScrolled ? 1 : 0.8,
+            y: isScrolled ? 0 : 20
+          }}
+          transition={{ duration: 0.5, ease: "easeInOut" }}
+          className="absolute left-1/2 transform -translate-x-1/2 top-1/2 -translate-y-1/2 z-10"
+          style={{ display: !isScrolled ? 'none' : 'block' }}
+        >
+          <Link href="/" className="group">
+            <div className="relative">
+              {!logoError && branding.logo ? (
+                <div className="w-12 h-12 lg:w-14 lg:h-14 rounded-xl overflow-hidden group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                  <Image
+                    src={branding.logo}
+                    alt={`${branding.title} Logo`}
+                    width={60}
+                    height={60}
+                    className="w-full h-full object-contain"
+                    onError={() => setLogoError(true)}
+                  />
+                </div>
+              ) : (
+                <div className="w-12 h-12 lg:w-14 lg:h-14 bg-gradient-to-br from-brand-gold to-brand-orange rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                  <span className="text-lg lg:text-xl font-bold text-white">
+                    {branding.logoFallback}
+                  </span>
+                </div>
+              )}
+            </div>
+          </Link>
+        </motion.div>
+      </>
+    );
+  };
 
   const renderNavigationItem = (item: NavigationItem, isMobile = false) => {
     const isActive = pathname === item.href;
@@ -197,47 +255,15 @@ export default function PublicNavigation({
       {renderLogo()}
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-center lg:justify-end h-20">
-          {/* Spacer for mobile to account for logo */}
-          <div className="lg:hidden w-20"></div>
-
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-6">
-            {/* Main Navigation */}
-            <div className="flex items-center space-x-1">
-              {navigation.main.map((item) => renderNavigationItem(item))}
-            </div>
-            
-            {/* Header Utilities - as specified in outline section 1.3.4 */}
-            <div className="flex items-center space-x-4">
-              {/* Country Selection */}
-              <div className="relative group">
-                <button className="flex items-center space-x-1 text-white hover:text-brand-gold transition-colors duration-300">
-                  <Globe className="w-4 h-4" />
-                  <span className="text-sm font-medium">🇨🇴</span>
-                  <span className="text-sm">CO</span>
-                </button>
-                {/* Country dropdown could be added here */}
-              </div>
-              
-              {/* Login */}
-              <Link
-                href="/portal"
-                className="flex items-center space-x-2 text-white hover:text-brand-gold transition-colors duration-300"
-              >
-                <LogIn className="w-4 h-4" />
-                <span className="text-sm font-medium">Inicia sesión</span>
-              </Link>
-              
-              {/* Search */}
-              <button className="text-white hover:text-brand-gold transition-colors duration-300">
-                <Search className="w-4 h-4" />
-              </button>
-            </div>
+        <div className="flex items-center justify-between h-20">
+          {/* Left side - Main Navigation */}
+          <div className="hidden lg:flex items-center space-x-1">
+            {navigation.main.map((item) => renderNavigationItem(item))}
           </div>
 
-          {/* Mobile menu button */}
-          <div className="lg:hidden">
+          {/* Mobile menu button and spacer */}
+          <div className="lg:hidden flex items-center justify-between w-full">
+            <div className="w-16"></div> {/* Spacer for mobile logo */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="p-2 rounded-lg text-white hover:bg-white/10 transition-colors duration-300"
@@ -247,6 +273,33 @@ export default function PublicNavigation({
               ) : (
                 <Menu className="w-6 h-6" />
               )}
+            </button>
+          </div>
+
+          {/* Right side - Utilities */}
+          <div className="hidden lg:flex items-center space-x-4">
+            {/* Country Selection */}
+            <div className="relative group">
+              <button className="flex items-center space-x-1 text-white hover:text-brand-gold transition-colors duration-300">
+                <Globe className="w-4 h-4" />
+                <span className="text-sm font-medium">🇨🇴</span>
+                <span className="text-sm">CO</span>
+              </button>
+              {/* Country dropdown could be added here */}
+            </div>
+            
+            {/* Login */}
+            <Link
+              href="/portal"
+              className="flex items-center space-x-2 text-white hover:text-brand-gold transition-colors duration-300"
+            >
+              <LogIn className="w-4 h-4" />
+              <span className="text-sm font-medium">Inicia sesión</span>
+            </Link>
+            
+            {/* Search */}
+            <button className="text-white hover:text-brand-gold transition-colors duration-300">
+              <Search className="w-4 h-4" />
             </button>
           </div>
         </div>

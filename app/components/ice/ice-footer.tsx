@@ -87,11 +87,11 @@ export default function IceFooter() {
             <div className="space-y-3">
               <div className="flex items-center space-x-3 text-white/70">
                 <PhoneIcon className="w-5 h-5 text-brand-gold" />
-                <span className="text-sm">+57 321 3440057</span>
+                <span className="text-sm">+75 3104994800</span>
               </div>
               <div className="flex items-center space-x-3 text-white/70">
                 <EnvelopeIcon className="w-5 h-5 text-brand-gold" />
-                <span className="text-sm">mercadeo@icebga.com</span>
+                <span className="text-sm">info.col@icebga.com</span>
               </div>
               <div className="flex items-center space-x-3 text-white/70">
                 <MapPinIcon className="w-5 h-5 text-brand-gold" />
