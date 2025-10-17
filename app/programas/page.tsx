@@ -1,18 +1,21 @@
 import { Metadata } from "next";
 import IceLayoutWrapper from "@/app/components/ice/ice-layout-wrapper";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
+import { cn } from "@/app/lib/utils";
 import { 
-  GlobeAltIcon, 
-  AcademicCapIcon, 
-  DocumentTextIcon,
-  HeartIcon,
-  CameraIcon,
-  BookOpenIcon,
+  DocumentCheckIcon,
+  AcademicCapIcon,
+  GlobeAltIcon,
+  StarIcon,
   BriefcaseIcon,
-  SunIcon,
-  BuildingOfficeIcon,
-  ArrowTopRightOnSquareIcon
+  HeartIcon,
+  UserGroupIcon,
+  ShieldCheckIcon,
+  ArrowRightIcon,
+  MapPinIcon
 } from "@heroicons/react/24/outline";
 
 export const metadata: Metadata = {
@@ -20,204 +23,186 @@ export const metadata: Metadata = {
   description: "Explora todos nuestros programas de intercambio cultural, trabajo y estudio en el extranjero. Work & Travel, Au Pair, Idiomas y más.",
 };
 
+const programs = [
+  {
+    id: "work-travel",
+    title: "Work and Travel USA",
+    description: "Trabaja, viaja y vive una experiencia de inmersión cultural única durante la temporada de verano en Estados Unidos.",
+    icon: <StarIcon className="w-6 h-6" />,
+    image: "/images/imagenes programas/group-people-with-hard-hats-flag-background.jpg",
+    href: "/programas/summer-work-and-travel",
+    duration: "3-4 meses",
+    age: "18-26 años",
+    country: "🇺🇸 USA"
+  },
+  {
+    id: "au-pair",
+    title: "Au Pair USA",
+    description: "Sumérgete en la cultura estadounidense mientras trabajas y compartes con una familia anfitriona y sus hijos.",
+    icon: <HeartIcon className="w-6 h-6" />,
+    image: "/images/imagenes programas/caucasian-woman-looking-proud-her-daughter-homeschooling-doing-some-painting.jpg",
+    href: "/programas/au-pair-usa",
+    duration: "12-24 meses",
+    age: "18-26 años",
+    country: "🇺🇸 USA"
+  },
+  {
+    id: "camp-counselor",
+    title: "Camp Counselor USA",
+    description: "Sé consejero de un campamento de verano y vive una experiencia épica llena de diversión, aprendizaje y amistad.",
+    icon: <UserGroupIcon className="w-6 h-6" />,
+    image: "/images/imagenes programas/teacher-enlightening-students-outdoor-class.jpg",
+    href: "/programas/camp-counselor",
+    duration: "3-4 meses",
+    age: "18-35 años",
+    country: "🇺🇸 USA"
+  },
+  {
+    id: "intern-trainee",
+    title: "Intern and Trainee USA",
+    description: "Realiza tus prácticas universitarias y trabaja en empresas estadounidenses con experiencia profesional real.",
+    icon: <BriefcaseIcon className="w-6 h-6" />,
+    image: "/images/imagenes programas/pointing-temple-with-finger-thinking-focused-task.jpg",
+    href: "/programas/interntrainee-usa",
+    duration: "3-18 meses",
+    age: "18-35 años",
+    country: "🇺🇸 USA"
+  },
+  {
+    id: "idiomas-extranjero",
+    title: "Escuelas de Idiomas",
+    description: "Estudia inglés o francés en USA, Canadá, Irlanda, Malta, Dubai, Inglaterra o Escocia con certificación internacional.",
+    icon: <AcademicCapIcon className="w-6 h-6" />,
+    image: "/images/imagenes programas/teacher-english-asks-student-white-class-2-girls-student-answers-teacher-working-group.jpg",
+    href: "/programas/escuela-de-idiomas-usa",
+    duration: "4-52 semanas",
+    age: "+16 años",
+    country: "🌍 Mundial"
+  },
+  {
+    id: "canada-vida",
+    title: "Canadá - Tu Proyecto de Vida",
+    description: "Estudia en colleges públicos y privados con permiso de trabajo y opciones de migrar a Canadá permanentemente.",
+    icon: <GlobeAltIcon className="w-6 h-6" />,
+    image: "/images/imagenes programas/woman-plaid-shirt-hat-holds-canadian-flag-front-mountain-lake.jpg",
+    href: "/programas/canada-tu-proyecto-de-vida",
+    duration: "1-4 años",
+    age: "+18 años",
+    country: "🇨🇦 Canadá"
+  },
+  {
+    id: "asesoria-visas",
+    title: "Asesoría de Visas",
+    description: "Te ayudamos con tus trámites de visas americanas y canadienses con asesoría especializada y seguimiento completo.",
+    icon: <DocumentCheckIcon className="w-6 h-6" />,
+    image: "/images/imagenes programas/american-visa-document (1).jpg",
+    href: "/programas/asesoria-visa-turismo-usa",
+    duration: "Proceso completo",
+    age: "Todas las edades",
+    country: "🇺🇸🇨🇦 USA/Canadá"
+  },
+  {
+    id: "ice-english",
+    title: "ICEnglish",
+    description: "Nuestro programa exclusivo de inglés con metodología ICE personalizada, profesores nativos y certificación propia.",
+    icon: <AcademicCapIcon className="w-6 h-6" />,
+    image: "/images/imagenes programas/teacher-english-asks-student-white-class-2-girls-student-answers-teacher-working-group.jpg",
+    href: "/programas/curso-de-ingles",
+    duration: "Flexible",
+    age: "Todas las edades",
+    country: "🇨🇴 Colombia"
+  },
+  {
+    id: "h2b",
+    title: "H2B USA",
+    description: "Programa de trabajo temporal en Estados Unidos para empleos estacionales con visa H2B y salario competitivo.",
+    icon: <BriefcaseIcon className="w-6 h-6" />,
+    image: "/images/imagenes programas/group-people-with-hard-hats-flag-background.jpg",
+    href: "/programas/h2b",
+    duration: "4-10 meses",
+    age: "18-45 años",
+    country: "🇺🇸 USA"
+  },
+  {
+    id: "summer-camp",
+    title: "Summer Camp",
+    description: "Campamentos de verano educativos y recreativos en destinos increíbles con actividades deportivas y culturales.",
+    icon: <UserGroupIcon className="w-6 h-6" />,
+    image: "/images/imagenes programas/teenager-people-national-flags-board.jpg",
+    href: "/programas/summer-camp",
+    duration: "2-8 semanas",
+    age: "8-18 años",
+    country: "🌍 Mundial"
+  },
+  {
+    id: "seguros",
+    title: "Seguros Internacionales",
+    description: "Asistencia médica, odontológica, pérdida de equipaje, robo de documentos y cobertura completa para tu viaje.",
+    icon: <ShieldCheckIcon className="w-6 h-6" />,
+    image: "/images/imagenes programas/health-care-medical-science-with-digital-technology-doctor-white-coat-innovation-treatment-medicine-medical-research-hospital-elements-this-image-furnished-by-nasa.jpg",
+    href: "/contacto",
+    duration: "Por estadía",
+    age: "Todas las edades",
+    country: "🌍 Mundial"
+  }
+];
+
 export default function ProgramasPage() {
-  const programs = [
-    {
-      id: 1,
-      title: "Asesoría en Visas",
-      description: "Expertos en trámites y asesoría para obtener tu visa de estudiante o trabajo",
-      icon: DocumentTextIcon,
-      destinations: ["Estados Unidos", "Canadá", "Australia"],
-      duration: "Proceso completo",
-      price: "Desde 250,000 COP",
-      features: ["Revisión de documentos", "Preparación entrevista", "Seguimiento personalizado"],
-      href: "/programas/asesoria-visa-turismo-usa"
-    },
-    {
-      id: 2,
-      title: "Au Pair USA",
-      description: "Vive con una familia anfitriona mientras cuidas niños y aprendes el idioma",
-      icon: HeartIcon,
-      destinations: ["Estados Unidos"],
-      duration: "12-24 meses",
-      price: "4,150,000 COP",
-      features: ["Familia certificada", "Educación incluida", "Experiencia cultural"],
-      href: "/programas/au-pair-usa"
-    },
-    {
-      id: 3,
-      title: "Camp Counselor",
-      description: "Trabaja como consejero en campamentos de verano para niños y jóvenes",
-      icon: SunIcon,
-      destinations: ["Estados Unidos"],
-      duration: "3-4 meses",
-      price: "1,850 USD + 200,000 COP",
-      features: ["Visa J-1", "Alojamiento incluido", "Experiencia de liderazgo"],
-      href: "/programas/camp-counselor"
-    },
-    {
-      id: 4,
-      title: "Escuelas de Idiomas",
-      description: "Aprende idiomas en las mejores instituciones educativas internacionales",
-      icon: BookOpenIcon,
-      destinations: ["Malta", "Australia", "USA", "Canadá"],
-      duration: "4-52 semanas",
-      price: "Varía por destino",
-      features: ["Certificación internacional", "Clases especializadas", "Actividades culturales"],
-      href: "/programas/escuela-de-idiomas-usa"
-    },
-    {
-      id: 5,
-      title: "Curso de Inglés",
-      description: "Nuestro programa exclusivo de inglés con metodología ICE personalizada",
-      icon: GlobeAltIcon,
-      destinations: ["Colombia", "Virtual"],
-      duration: "40-150 horas",
-      price: "Desde 880,000 COP",
-      features: ["Método ICE", "Profesores nativos", "Certificación propia"],
-      href: "/programas/curso-de-ingles"
-    },
-    {
-      id: 6,
-      title: "H2B",
-      description: "Programa de trabajo temporal en Estados Unidos para empleos estacionales",
-      icon: BriefcaseIcon,
-      destinations: ["Estados Unidos"],
-      duration: "3-6 meses",
-      price: "200,000 COP + 680 USD",
-      features: ["Visa H2B", "Trabajo legal", "Salario competitivo"],
-      href: "/programas/h2b"
-    },
-    {
-      id: 7,
-      title: "Intern and Trainee",
-      description: "Prácticas profesionales y programas de entrenamiento en el extranjero",
-      icon: AcademicCapIcon,
-      destinations: ["Estados Unidos", "España"],
-      duration: "3-18 meses",
-      price: "Desde 1,800 EUR",
-      features: ["Experiencia laboral", "Certificación profesional", "Networking internacional"],
-      href: "/programas/interntrainee-usa"
-    },
-    {
-      id: 8,
-      title: "Summer Camp",
-      description: "Campamentos de verano educativos y recreativos en destinos increíbles",
-      icon: CameraIcon,
-      destinations: ["Estados Unidos", "Canadá"],
-      duration: "2-8 semanas",
-      price: "Consultar",
-      features: ["Actividades deportivas", "Inmersión cultural", "Nuevas amistades"],
-      href: "/programas/summer-camp"
-    },
-    {
-      id: 9,
-      title: "Canadá - Tu Proyecto de Vida",
-      description: "Programa integral para estudiar, trabajar y residir en Canadá",
-      icon: BuildingOfficeIcon,
-      destinations: ["Canadá"],
-      duration: "1-4 años",
-      price: "Consultar",
-      features: ["Permiso de trabajo", "Pathway a residencia", "Educación de calidad"],
-      href: "/programas/canada-tu-proyecto-de-vida"
-    },
-    {
-      id: 10,
-      title: "Work and Travel",
-      description: "Trabaja y viaja por Estados Unidos durante las vacaciones universitarias",
-      icon: ArrowTopRightOnSquareIcon,
-      destinations: ["Estados Unidos"],
-      duration: "3-4 meses",
-      price: "2,100 USD + 200,000 COP",
-      features: ["Visa J-1", "Trabajo legal", "Tiempo libre para viajar"],
-      href: "/programas/summer-work-and-travel"
-    }
-  ];
 
   return (
     <IceLayoutWrapper>
-      <div className="relative w-full bg-white">
+      <div className="relative w-full">
         {/* Hero Section */}
-        <section className="relative py-24 bg-gradient-to-br from-gray-50 to-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center">
-              <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-                Nuestros <span className="text-brand-gold">Programas</span>
-              </h1>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                Explora todos nuestros programas de intercambio cultural, trabajo y estudio en el extranjero
-              </p>
-            </div>
+        <section className="relative py-20 bg-gray-50">
+          {/* Background decorative elements */}
+          <div className="absolute inset-0 overflow-hidden">
+            <div className="absolute top-20 left-10 w-72 h-72 bg-brand-gold/10 rounded-full blur-3xl" />
+            <div className="absolute bottom-20 right-10 w-96 h-96 bg-brand-orange/10 rounded-full blur-3xl" />
           </div>
-        </section>
 
-        {/* Programs Grid */}
-        <section className="py-16 bg-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {programs.map((program, index) => (
-                <div
-                  key={program.id}
-                  className="bg-white rounded-2xl p-6 border border-gray-200 hover:border-brand-gold/50 transition-all duration-300 hover:scale-105 shadow-sm hover:shadow-md group"
-                >
-                  <Link href={program.href} className="block h-full">
-                    {/* Icon */}
-                    <div className="w-12 h-12 rounded-xl bg-brand-gold/10 border border-brand-gold/20 p-2.5 mb-4">
-                      <program.icon className="w-full h-full text-brand-gold" />
-                    </div>
-
-                    {/* Content */}
-                    <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-brand-gold transition-colors">
-                      {program.title}
-                    </h3>
-                    <p className="text-gray-600 mb-4 text-sm leading-relaxed">
-                      {program.description}
-                    </p>
-
-                    {/* Program Info */}
-                    <div className="space-y-2 mb-4">
-                      <div className="flex justify-between text-sm">
-                        <span className="text-gray-500">Destino:</span>
-                        <span className="text-gray-700">{program.destinations.join(", ")}</span>
-                      </div>
-                      <div className="flex justify-between text-sm">
-                        <span className="text-gray-500">Duración:</span>
-                        <span className="text-gray-700">{program.duration}</span>
-                      </div>
-                      <div className="flex justify-between text-sm">
-                        <span className="text-gray-500">Precio:</span>
-                        <span className="text-brand-gold font-semibold">{program.price}</span>
-                      </div>
-                    </div>
-
-                    {/* Features */}
-                    <div className="space-y-1 mb-4">
-                      {program.features.slice(0, 2).map((feature, idx) => (
-                        <div key={idx} className="flex items-center space-x-2">
-                          <div className="w-1.5 h-1.5 bg-brand-gold rounded-full" />
-                          <span className="text-xs text-gray-700">{feature}</span>
-                        </div>
-                      ))}
-                    </div>
-
-                    {/* CTA */}
-                    <div className="mt-6 pt-4 border-t border-gray-200">
-                      <div className="flex items-center text-brand-gold font-medium group-hover:text-brand-orange transition-colors duration-300">
-                        <span>Más información</span>
-                        <svg className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                        </svg>
-                      </div>
-                    </div>
-                  </Link>
-                </div>
-              ))}
+          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            {/* Section Header */}
+            <div className="text-center mb-16">
+              <motion.h1
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6"
+                style={{ fontFamily: 'var(--font-clear-sans), sans-serif' }}
+              >
+                Todos nuestros programas de intercambio
+                <br />
+                <span className="bg-gradient-to-r from-brand-gold to-brand-orange bg-clip-text text-transparent">
+                  para explorar el mundo
+                </span>
+              </motion.h1>
+              
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="text-xl text-gray-600 max-w-3xl mx-auto"
+              >
+                Descubre la experiencia perfecta para ti
+              </motion.p>
             </div>
+
+            {/* Enhanced Programs Grid */}
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 relative z-10"
+            >
+              {programs.map((program, index) => (
+                <ProgramFeature key={program.id} program={program} index={index} />
+              ))}
+            </motion.div>
           </div>
         </section>
 
         {/* CTA Section */}
-        <section className="py-16 bg-gray-50">
+        <section className="py-16 bg-white">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
               ¿No encuentras el programa perfecto?
@@ -229,7 +214,8 @@ export default function ProgramasPage() {
               href="/contacto"
               className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-brand-gold to-brand-orange text-white font-semibold text-lg rounded-xl hover:shadow-lg transform hover:scale-105 transition-all duration-300"
             >
-              Contactar Asesor
+              <span>Contactar Asesor</span>
+              <ArrowRightIcon className="w-5 h-5 ml-2" />
             </Link>
           </div>
         </section>
@@ -237,3 +223,97 @@ export default function ProgramasPage() {
     </IceLayoutWrapper>
   );
 }
+
+const ProgramFeature = ({
+  program,
+  index,
+}: {
+  program: typeof programs[0];
+  index: number;
+}) => {
+  const [imageError, setImageError] = useState(false);
+
+  return (
+    <Link href={program.href}>
+      <div
+        className={cn(
+          "flex flex-col lg:border-r py-10 relative group/feature border-gray-200 hover:bg-white transition-all duration-300 cursor-pointer h-full",
+          (index % 3 === 0) && "lg:border-l border-gray-200", // First column in 3-col layout
+          (index % 4 === 0) && "xl:border-l border-gray-200", // First column in 4-col layout
+          index < 8 && "lg:border-b border-gray-200" // Top 2 rows in 3-col, top row in 4-col
+        )}
+      >
+        {/* Hover Background Effects */}
+        {index < 8 && (
+          <div className="opacity-0 group-hover/feature:opacity-100 transition duration-300 absolute inset-0 h-full w-full bg-gradient-to-t from-brand-gold/5 to-transparent pointer-events-none" />
+        )}
+        {index >= 8 && (
+          <div className="opacity-0 group-hover/feature:opacity-100 transition duration-300 absolute inset-0 h-full w-full bg-gradient-to-b from-brand-gold/5 to-transparent pointer-events-none" />
+        )}
+
+        {/* Program Image */}
+        <div className="mb-4 relative z-10 px-6 h-32 overflow-hidden rounded-lg mx-4">
+          {!imageError ? (
+            <Image
+              src={program.image}
+              alt={program.title}
+              fill
+              className="object-cover transition-transform duration-300 group-hover/feature:scale-110"
+              sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
+              onError={() => setImageError(true)}
+            />
+          ) : (
+            <div className="w-full h-full bg-gradient-to-br from-brand-gold/20 to-brand-orange/20 flex items-center justify-center rounded-lg">
+              <div className="text-brand-gold">
+                {program.icon}
+              </div>
+            </div>
+          )}
+          
+          {/* Country Badge */}
+          <div className="absolute top-2 right-2 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-full text-xs font-semibold text-gray-700">
+            {program.country}
+          </div>
+        </div>
+
+        {/* Program Icon */}
+        <div className="mb-4 relative z-10 px-6 text-brand-gold">
+          {program.icon}
+        </div>
+
+        {/* Program Title */}
+        <div className="text-xl font-bold mb-3 relative z-10 px-6">
+          <div className="absolute left-0 inset-y-0 h-6 group-hover/feature:h-8 w-1 rounded-tr-full rounded-br-full bg-gray-300 group-hover/feature:bg-brand-gold transition-all duration-200 origin-center" />
+          <span className="group-hover/feature:translate-x-2 transition duration-200 inline-block text-gray-900 group-hover/feature:text-brand-gold">
+            {program.title}
+          </span>
+        </div>
+
+        {/* Program Description */}
+        <p className="text-sm text-gray-600 max-w-xs relative z-10 px-6 mb-4 flex-1">
+          {program.description}
+        </p>
+
+        {/* Program Details */}
+        <div className="relative z-10 px-6 space-y-2">
+          <div className="flex items-center text-xs text-gray-500">
+            <MapPinIcon className="w-3 h-3 mr-1 text-brand-gold" />
+            <span>{program.duration}</span>
+          </div>
+          <div className="flex items-center text-xs text-gray-500">
+            <UserGroupIcon className="w-3 h-3 mr-1 text-brand-gold" />
+            <span>{program.age}</span>
+          </div>
+        </div>
+
+        {/* CTA Arrow */}
+        <div className="relative z-10 px-6 mt-4 opacity-0 group-hover/feature:opacity-100 transition-opacity duration-200">
+          <div className="flex items-center text-brand-gold text-sm font-semibold">
+            <span>Más información</span>
+            <ArrowRightIcon className="w-4 h-4 ml-2 group-hover/feature:translate-x-1 transition-transform duration-200" />
+          </div>
+        </div>
+      </div>
+    </Link>
+  );
+};
