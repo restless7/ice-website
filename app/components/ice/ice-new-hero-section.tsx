@@ -166,7 +166,7 @@ export default function IceNewHeroSection() {
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.5 }}
-                  className="px-8 py-4 bg-gradient-to-r from-brand-gold to-brand-orange text-white font-bold text-lg rounded-xl hover:from-brand-orange hover:to-brand-gold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center space-x-3 group"
+                  className="px-8 py-4 bg-white/10 backdrop-blur-sm border-2 border-white/30 text-white font-bold text-lg rounded-xl hover:bg-white/20 hover:border-white/50 transition-all duration-300 transform hover:scale-105 flex items-center space-x-3 group"
                 >
                   <span>Explorar</span>
                   <span className="text-2xl">{currentDest.flag}</span>
@@ -215,7 +215,7 @@ export default function IceNewHeroSection() {
               Te ayudamos a vivir tu sueño de estudiar, trabajar y viajar por el mundo.
             </motion.p>
 
-            {/* CTA Buttons - Scroll-triggered animation with repositioned layout */}
+            {/* CTA Buttons - Scroll-triggered animation with single button */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ 
@@ -227,23 +227,8 @@ export default function IceNewHeroSection() {
                 ease: [0.25, 0.1, 0.25, 1],
                 delay: isScrolled ? 0.6 : 0
               }}
-              className="flex flex-col sm:flex-row gap-4 justify-center mb-12"
+              className="flex justify-center mb-12"
             >
-              <Link href={currentDest.href}>
-                <motion.button 
-                  key={`scroll-cta-${currentDestination}`}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.5 }}
-                  className="px-8 py-4 bg-gradient-to-r from-brand-gold to-brand-orange text-white font-bold text-lg rounded-xl hover:from-brand-orange hover:to-brand-gold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center space-x-3 group"
-                >
-                  <span>Explorar</span>
-                  <span className="text-2xl">{currentDest.flag}</span>
-                  <span>{currentDest.name}</span>
-                  <ArrowRightIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
-                </motion.button>
-              </Link>
-              
               <Link href="/programas">
                 <button className="px-8 py-4 bg-white/10 backdrop-blur-sm border-2 border-white/30 text-white font-bold text-lg rounded-xl hover:bg-white/20 hover:border-white/50 transition-all duration-300 transform hover:scale-105">
                   Ver todos los programas
