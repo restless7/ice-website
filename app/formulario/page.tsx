@@ -122,6 +122,11 @@ export default function FormularioPage() {
     setSubmitStatus("idle");
 
     try {
+      // Check if Supabase is properly configured
+      if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+        throw new Error("Database configuration is missing. Please contact support.");
+      }
+
       // Prepare data for Supabase
       const submissionData = {
         nombres_apellidos: formData.nombres_apellidos.trim(),
