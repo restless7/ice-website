@@ -1,3 +1,5 @@
+"use client";
+
 import { Metadata } from "next";
 import IceLayoutWrapper from "@/app/components/ice/ice-layout-wrapper";
 import { motion } from "framer-motion";
