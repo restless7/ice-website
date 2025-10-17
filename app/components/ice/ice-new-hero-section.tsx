@@ -68,6 +68,7 @@ const destinations = [
 export default function IceNewHeroSection() {
   const [currentDestination, setCurrentDestination] = useState(0);
   const [imageErrors, setImageErrors] = useState<{ [key: string]: boolean }>({});
+  const [isScrolled, setIsScrolled] = useState(false);
 
   // Auto-rotation effect
   useEffect(() => {
@@ -76,6 +77,16 @@ export default function IceNewHeroSection() {
     }, 5000); // Change every 5 seconds
 
     return () => clearInterval(interval);
+  }, []);
+
+  // Scroll detection for subtitle animation
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      setIsScrolled(scrollY > 100); // Trigger after 100px scroll
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const handleImageError = (destinationId: string) => {
@@ -156,11 +167,18 @@ export default function IceNewHeroSection() {
               </span>
             </motion.h1>
             
-            {/* Subtitle */}
+            {/* Subtitle - Scroll-triggered animation */}
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ 
+                opacity: isScrolled ? 1 : 0, 
+                y: isScrolled ? 0 : 30 
+              }}
+              transition={{ 
+                duration: 1.2, 
+                ease: [0.25, 0.1, 0.25, 1],
+                delay: isScrolled ? 0.3 : 0
+              }}
               className="text-xl md:text-2xl lg:text-3xl text-white max-w-4xl mx-auto mb-12 leading-relaxed"
               style={{ 
                 textShadow: '2px 2px 4px rgba(0,0,0,0.8)', 
@@ -171,11 +189,18 @@ export default function IceNewHeroSection() {
               Te ayudamos a vivir tu sueño de estudiar, trabajar y viajar por el mundo.
             </motion.p>
 
-            {/* CTA Buttons */}
+            {/* CTA Buttons - Scroll-triggered animation */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
+              animate={{ 
+                opacity: isScrolled ? 1 : 0, 
+                y: isScrolled ? 0 : 20 
+              }}
+              transition={{ 
+                duration: 1.0, 
+                ease: [0.25, 0.1, 0.25, 1],
+                delay: isScrolled ? 0.6 : 0
+              }}
               className="flex flex-col sm:flex-row gap-4 justify-center mb-12"
             >
               <Link href={currentDest.href}>
