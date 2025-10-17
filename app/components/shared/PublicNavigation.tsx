@@ -156,19 +156,19 @@ export default function PublicNavigation({
           <Link href="/" className="pointer-events-auto group">
             <div className="relative">
               {!logoError && branding.logo ? (
-                <div className="w-32 h-32 lg:w-40 lg:h-40 rounded-2xl overflow-hidden group-hover:scale-105 transition-transform duration-300 shadow-2xl">
+                <div className="w-48 h-48 lg:w-56 lg:h-56">
                   <Image
                     src={branding.logo}
                     alt={`${branding.title} Logo`}
-                    width={200}
-                    height={200}
-                    className="w-full h-full object-contain"
+                    width={224}
+                    height={224}
+                    className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
                     onError={() => setLogoError(true)}
                   />
                 </div>
               ) : (
-                <div className="w-32 h-32 lg:w-40 lg:h-40 bg-gradient-to-br from-brand-gold to-brand-orange rounded-2xl flex items-center justify-center group-hover:scale-105 transition-transform duration-300 shadow-2xl">
-                  <span className="text-4xl lg:text-6xl font-bold text-white">
+                <div className="w-48 h-48 lg:w-56 lg:h-56 bg-gradient-to-br from-brand-gold to-brand-orange rounded-2xl flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
+                  <span className="text-5xl lg:text-7xl font-bold text-white">
                     {branding.logoFallback}
                   </span>
                 </div>
@@ -183,7 +183,7 @@ export default function PublicNavigation({
           animate={{ 
             opacity: isScrolled ? 1 : 0,
             scale: isScrolled ? 1 : 0.8,
-            y: isScrolled ? 0 : 20
+            y: isScrolled ? -2 : 20
           }}
           transition={{ duration: 0.5, ease: "easeInOut" }}
           className="absolute left-1/2 transform -translate-x-1/2 top-1/2 -translate-y-1/2 z-10"
@@ -192,19 +192,19 @@ export default function PublicNavigation({
           <Link href="/" className="group">
             <div className="relative">
               {!logoError && branding.logo ? (
-                <div className="w-12 h-12 lg:w-14 lg:h-14 rounded-xl overflow-hidden group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                <div className="w-16 h-16 lg:w-20 lg:h-20">
                   <Image
                     src={branding.logo}
                     alt={`${branding.title} Logo`}
-                    width={60}
-                    height={60}
-                    className="w-full h-full object-contain"
+                    width={80}
+                    height={80}
+                    className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-300"
                     onError={() => setLogoError(true)}
                   />
                 </div>
               ) : (
-                <div className="w-12 h-12 lg:w-14 lg:h-14 bg-gradient-to-br from-brand-gold to-brand-orange rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg">
-                  <span className="text-lg lg:text-xl font-bold text-white">
+                <div className="w-16 h-16 lg:w-20 lg:h-20 bg-gradient-to-br from-brand-gold to-brand-orange rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                  <span className="text-xl lg:text-2xl font-bold text-white">
                     {branding.logoFallback}
                   </span>
                 </div>
