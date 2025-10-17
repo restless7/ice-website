@@ -147,7 +147,7 @@ export default function IceNewHeroSection() {
                 y: 0
               }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className={`${isScrolled ? 'hidden' : 'flex'} justify-center mb-12 -mt-8`}
+              className={`${isScrolled ? 'hidden' : 'flex'} justify-center mb-12 -mt-8 md:-mt-16`}
             >
               <Link href={currentDest.href}>
                 <motion.button 
@@ -155,7 +155,7 @@ export default function IceNewHeroSection() {
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.5 }}
-                  className="px-8 py-4 bg-white/10 backdrop-blur-sm border-2 border-white/30 text-white font-bold text-lg rounded-xl hover:bg-white/20 hover:border-white/50 transition-all duration-300 transform hover:scale-105 flex items-center space-x-3 group"
+                  className="px-4 py-3 md:px-8 md:py-4 bg-white/10 backdrop-blur-sm border-2 border-white/30 text-white font-bold text-sm md:text-lg rounded-xl hover:bg-white/20 hover:border-white/50 transition-all duration-300 transform hover:scale-105 flex items-center space-x-2 md:space-x-3 group"
                 >
                   <span>Explorar</span>
                   <span className="text-2xl">{currentDest.flag}</span>
@@ -170,7 +170,7 @@ export default function IceNewHeroSection() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-6 leading-tight -mt-16"
+              className="text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-6 leading-tight -mt-8 md:-mt-16"
               style={{ fontFamily: 'var(--font-clear-sans), sans-serif' }}
             >
               <span className="bg-gradient-to-r from-brand-gold to-brand-orange bg-clip-text text-transparent">

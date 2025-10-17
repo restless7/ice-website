@@ -149,7 +149,7 @@ export default function PublicNavigation({
         }}
         animate={{
           x: '-50%',
-          y: isScrolled ? '-200px' : 'calc(50vh - 200px)', // Force to actual top
+          y: isScrolled ? '-120px' : 'calc(50vh - 200px)', // Less aggressive for mobile
           scale: isScrolled ? 0.22 : 1
         }}
         transition={{
