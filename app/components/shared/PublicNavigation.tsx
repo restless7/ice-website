@@ -138,21 +138,18 @@ export default function PublicNavigation({
     return (
       <motion.div
         className="fixed z-[200]"
+        style={{
+          left: '50%',
+          top: 0
+        }}
         initial={{
-          left: '50vw',
-          top: '50vh',
           x: '-50%',
-          y: '-50%',
+          y: 'calc(50vh - 200px)', // Center more precisely accounting for logo height
           scale: 1
         }}
-        style={{
-          backgroundColor: isScrolled ? 'rgba(255,0,0,0.3)' : 'transparent' // Debug background
-        }}
         animate={{
-          left: '50vw',
-          top: isScrolled ? '1vh' : '50vh',
           x: '-50%',
-          y: isScrolled ? '0%' : '-50%',
+          y: isScrolled ? '-200px' : 'calc(50vh - 200px)', // Force to actual top
           scale: isScrolled ? 0.15 : 1
         }}
         transition={{
