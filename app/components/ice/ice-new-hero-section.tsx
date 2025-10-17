@@ -147,7 +147,7 @@ export default function IceNewHeroSection() {
                 y: 0
               }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className={`${isScrolled ? 'hidden' : 'flex'} justify-center mb-8`}
+              className={`${isScrolled ? 'hidden' : 'flex'} justify-center mb-12 -mt-8`}
             >
               <Link href={currentDest.href}>
                 <motion.button 
