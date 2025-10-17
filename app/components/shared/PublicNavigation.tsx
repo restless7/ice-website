@@ -96,7 +96,7 @@ export default function PublicNavigation({
   useEffect(() => {
     const handleScroll = () => {
       const scrollY = window.scrollY;
-      setIsScrolled(scrollY > 50);
+      setIsScrolled(scrollY > 20);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -135,84 +135,55 @@ export default function PublicNavigation({
   };
 
   const renderLogo = () => {
-    // Calculate logo size and position based on scroll
-    const scrollProgress = typeof window !== 'undefined' ? Math.min(window.scrollY / 200, 1) : 0;
-    const isInitialLoad = typeof window !== 'undefined' ? window.scrollY === 0 : true;
-    
     return (
-      <>
-        {/* Large centered logo - visible when not scrolled */}
-        <motion.div
-          initial={{ opacity: 1, scale: 1 }}
-          animate={{ 
-            opacity: isScrolled ? 0 : 1,
-            scale: isScrolled ? 0.8 : 1,
-            y: isScrolled ? -20 : 0
-          }}
-          transition={{ duration: 0.5, ease: "easeInOut" }}
-          className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-40 pointer-events-none"
-          style={{ display: isScrolled ? 'none' : 'block' }}
-        >
-          <Link href="/" className="pointer-events-auto group">
-            <div className="relative">
-              {!logoError && branding.logo ? (
-                <div className="w-48 h-48 lg:w-56 lg:h-56">
-                  <Image
-                    src={branding.logo}
-                    alt={`${branding.title} Logo`}
-                    width={224}
-                    height={224}
-                    className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
-                    onError={() => setLogoError(true)}
-                  />
-                </div>
-              ) : (
-                <div className="w-48 h-48 lg:w-56 lg:h-56 bg-gradient-to-br from-brand-gold to-brand-orange rounded-2xl flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
-                  <span className="text-5xl lg:text-7xl font-bold text-white">
-                    {branding.logoFallback}
-                  </span>
-                </div>
-              )}
-            </div>
-          </Link>
-        </motion.div>
-        
-        {/* Small navbar logo - visible when scrolled */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ 
-            opacity: isScrolled ? 1 : 0,
-            scale: isScrolled ? 1 : 0.8,
-            y: isScrolled ? -2 : 20
-          }}
-          transition={{ duration: 0.5, ease: "easeInOut" }}
-          className="absolute left-1/2 transform -translate-x-1/2 top-1/2 -translate-y-1/2 z-10"
-          style={{ display: !isScrolled ? 'none' : 'block' }}
-        >
-          <Link href="/" className="group">
-            <div className="relative">
-              {!logoError && branding.logo ? (
-                <div className="w-16 h-16 lg:w-20 lg:h-20">
-                  <Image
-                    src={branding.logo}
-                    alt={`${branding.title} Logo`}
-                    width={80}
-                    height={80}
-                    className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-300"
-                    onError={() => setLogoError(true)}
-                  />
-                </div>
-              ) : (
-                <div className="w-16 h-16 lg:w-20 lg:h-20 bg-gradient-to-br from-brand-gold to-brand-orange rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                  <span className="text-xl lg:text-2xl font-bold text-white">
-                    {branding.logoFallback}
-                  </span>
-                </div>
-              )}
-            </div>
-          </Link>
-        </motion.div>
-      </>
+      <motion.div
+        className="fixed z-[200]"
+        initial={{
+          left: '50vw',
+          top: '50vh',
+          x: '-50%',
+          y: '-50%',
+          scale: 1
+        }}
+        style={{
+          backgroundColor: isScrolled ? 'rgba(255,0,0,0.3)' : 'transparent' // Debug background
+        }}
+        animate={{
+          left: '50vw',
+          top: isScrolled ? '1vh' : '50vh',
+          x: '-50%',
+          y: isScrolled ? '0%' : '-50%',
+          scale: isScrolled ? 0.15 : 1
+        }}
+        transition={{
+          duration: 0.8,
+          ease: [0.25, 0.1, 0.25, 1]
+        }}
+      >
+        <Link href="/" className="group block">
+          <div className="relative">
+            {!logoError && branding.logo ? (
+              <div className="w-96 h-96 lg:w-[500px] lg:h-[500px]">
+                <Image
+                  src={branding.logo}
+                  alt={`${branding.title} Logo`}
+                  width={500}
+                  height={500}
+                  className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500 drop-shadow-2xl"
+                  onError={() => setLogoError(true)}
+                  priority
+                />
+              </div>
+            ) : (
+              <div className="w-96 h-96 lg:w-[500px] lg:h-[500px] bg-gradient-to-br from-brand-gold to-brand-orange rounded-3xl flex items-center justify-center group-hover:scale-105 transition-transform duration-500 drop-shadow-2xl">
+                <span className="text-8xl lg:text-9xl font-bold text-white">
+                  {branding.logoFallback}
+                </span>
+              </div>
+            )}
+          </div>
+        </Link>
+      </motion.div>
     );
   };
 
