@@ -7,7 +7,7 @@ import Image from "next/image";
 export default function IceNosotrosPage() {
   return (
     <IceLayoutWrapper>
-      <div className="relative w-full bg-gradient-to-br from-purple-950 via-indigo-900 to-black">
+      <div className="relative w-full bg-gradient-to-br from-brand-dark via-gray-900 to-black">
         {/* Hero Section */}
         <section className="relative min-h-screen flex items-center justify-center pt-20">
           <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-transparent"></div>
@@ -20,11 +20,11 @@ export default function IceNosotrosPage() {
               className="text-center"
             >
               <div className="mb-6">
-                <p className="text-red-400 text-lg font-semibold mb-2">¿Quiénes somos?</p>
+                <p className="text-brand-gold text-lg font-semibold mb-2">¿Quiénes somos?</p>
                 <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
                   Te acompañamos a
                   <span className="block">transformar tu</span>
-                  <span className="text-lime-400">futuro</span> y conectar
+                  <span className="bg-gradient-to-r from-brand-gold to-brand-orange bg-clip-text text-transparent">futuro</span> y conectar
                   <span className="block">con el mundo.</span>
                 </h1>
               </div>
@@ -33,7 +33,7 @@ export default function IceNosotrosPage() {
         </section>
 
         {/* Company Story Section */}
-        <section className="relative py-20 bg-gradient-to-r from-indigo-900/50 to-purple-900/50">
+        <section className="relative py-20 bg-gradient-to-r from-brand-dark/50 to-gray-900/50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               {/* Content */}
@@ -44,21 +44,21 @@ export default function IceNosotrosPage() {
                 viewport={{ once: true }}
                 className="space-y-6"
               >
-                <div className="bg-white/5 backdrop-blur-lg rounded-2xl p-8 border border-lime-400/20">
+                <div className="bg-white/5 backdrop-blur-lg rounded-2xl p-8 border border-brand-gold/20">
                   <p className="text-lg text-white/90 leading-relaxed">
-                    Somos una empresa <span className="text-lime-400 font-semibold">bumanguesa</span>, con operaciones en 
-                    <span className="text-lime-400 font-semibold"> Colombia, Costa Rica, Ecuador y Perú</span>. 
+                    Somos una empresa <span className="text-brand-gold font-semibold">bumanguesa</span>, con operaciones en 
+                    <span className="text-brand-gold font-semibold"> Colombia, Costa Rica, Ecuador y Perú</span>.
                     Nos dedicamos a promover experiencias de vida en el exterior, que permitan explorar diferentes 
                     culturas, idiomas y sistemas educativos, a través de un amplio portafolio de servicios y 
                     programas de intercambio enriquecedores y de alta calidad.
                   </p>
                 </div>
                 
-                <div className="bg-white/5 backdrop-blur-lg rounded-2xl p-8 border border-lime-400/20">
+                <div className="bg-white/5 backdrop-blur-lg rounded-2xl p-8 border border-brand-gold/20">
                   <p className="text-lg text-white/90 leading-relaxed">
-                    Para nosotros, <span className="text-lime-400 font-semibold">la experiencia es lo más importante</span>, 
+                    Para nosotros, <span className="text-brand-gold font-semibold">la experiencia es lo más importante</span>, 
                     por lo tanto, estamos enfocados a ofrecer el mejor servicio al cliente del mercado, 
-                    <span className="text-lime-400 font-semibold"> acompañando a nuestros clientes desde la elección 
+                    <span className="text-brand-gold font-semibold"> acompañando a nuestros clientes desde la elección 
                     del programa hasta la culminación del mismo</span>.
                   </p>
                 </div>
@@ -72,7 +72,7 @@ export default function IceNosotrosPage() {
                 viewport={{ once: true }}
                 className="space-y-6"
               >
-                <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-4 border border-lime-400/20 text-center">
+                <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-4 border border-brand-gold/20 text-center">
                   <div className="w-full rounded-xl overflow-hidden mb-4">
                     <Image 
                       src="/images/NOSOTROS/equipo-ice-eventos-internacionales.png" 
@@ -85,7 +85,7 @@ export default function IceNosotrosPage() {
                   <p className="text-white/70 text-sm">Equipo ICE en eventos internacionales</p>
                 </div>
                 
-                <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-4 border border-lime-400/20 text-center">
+                <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-4 border border-brand-gold/20 text-center">
                   <div className="w-full rounded-xl overflow-hidden mb-4">
                     <Image 
                       src="/images/NOSOTROS/celebrando-exitos-estudiantes.png" 
@@ -112,9 +112,9 @@ export default function IceNosotrosPage() {
               viewport={{ once: true }}
               className="text-center mb-16"
             >
-              <p className="text-red-400 text-lg font-semibold mb-2">¿Dónde estamos?</p>
+              <p className="text-brand-gold text-lg font-semibold mb-2">¿Dónde estamos?</p>
               <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-                Nuestras <span className="text-lime-400">Sedes</span>
+                Nuestras <span className="bg-gradient-to-r from-brand-gold to-brand-orange bg-clip-text text-transparent">Sedes</span>
               </h2>
             </motion.div>
 
@@ -124,14 +124,14 @@ export default function IceNosotrosPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
                 viewport={{ once: true }}
-                className="bg-white/5 backdrop-blur-lg rounded-2xl p-8 border border-lime-400/20"
+                className="bg-white/5 backdrop-blur-lg rounded-2xl p-8 border border-brand-gold/20"
               >
                 <p className="text-lg text-white/90 leading-relaxed mb-6">
-                  A lo largo de <span className="text-lime-400 font-semibold">esta década de operación</span>, 
+                  A lo largo de <span className="text-brand-gold font-semibold">esta década de operación</span>, 
                   hemos perfeccionado nuestros procesos para garantizar una experiencia inolvidable y segura 
                   para todos nuestros usuarios. Este enfoque nos ha permitido expandirnos a nuevos mercados, 
                   brindando a más personas la oportunidad de vivir una aventura internacional, siempre bajo 
-                  la guía de <span className="text-lime-400 font-semibold">profesionales altamente capacitados</span>.
+                  la guía de <span className="text-brand-gold font-semibold">profesionales altamente capacitados</span>.
                 </p>
               </motion.div>
 
@@ -142,8 +142,8 @@ export default function IceNosotrosPage() {
                 viewport={{ once: true }}
                 className="grid lg:grid-cols-2 gap-8"
               >
-                <div className="bg-white/5 backdrop-blur-lg rounded-2xl p-8 border border-lime-400/20">
-                  <h3 className="text-2xl font-bold text-lime-400 mb-6 flex items-center">
+                <div className="bg-white/5 backdrop-blur-lg rounded-2xl p-8 border border-brand-gold/20">
+                  <h3 className="text-2xl font-bold text-brand-gold mb-6 flex items-center">
                     <span className="text-3xl mr-3">🇨🇴</span>
                     Sede Principal
                   </h3>
@@ -157,13 +157,13 @@ export default function IceNosotrosPage() {
                     />
                   </div>
                   <p className="text-lg text-white/90 leading-relaxed">
-                    Nuestra <span className="text-lime-400 font-semibold">sede principal se encuentra en Bucaramanga, Colombia</span>, 
+                    Nuestra <span className="text-brand-gold font-semibold">sede principal se encuentra en Bucaramanga, Colombia</span>, 
                     desde donde gestionamos todos los procesos para aspirantes de estos cuatro países.
                   </p>
                 </div>
 
-                <div className="bg-white/5 backdrop-blur-lg rounded-2xl p-8 border border-lime-400/20">
-                  <h3 className="text-2xl font-bold text-lime-400 mb-6 flex items-center">
+                <div className="bg-white/5 backdrop-blur-lg rounded-2xl p-8 border border-brand-gold/20">
+                  <h3 className="text-2xl font-bold text-brand-gold mb-6 flex items-center">
                     <span className="text-3xl mr-3">🌍</span>
                     Operaciones
                   </h3>
@@ -177,7 +177,7 @@ export default function IceNosotrosPage() {
                     />
                   </div>
                   <p className="text-lg text-white/90 leading-relaxed">
-                    Actualmente, contamos con operaciones en <span className="text-lime-400 font-semibold">Colombia, Costa Rica, Ecuador y Perú</span>.
+                    Actualmente, contamos con operaciones en <span className="text-brand-gold font-semibold">Colombia, Costa Rica, Ecuador y Perú</span>.
                   </p>
                 </div>
               </motion.div>
@@ -187,14 +187,14 @@ export default function IceNosotrosPage() {
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8 }}
                 viewport={{ once: true }}
-                className="bg-gradient-to-r from-lime-400/10 to-green-500/10 backdrop-blur-lg rounded-2xl p-8 border border-lime-400/30"
+                className="bg-gradient-to-r from-brand-gold/10 to-brand-orange/10 backdrop-blur-lg rounded-2xl p-8 border border-brand-gold/30"
               >
-                <h3 className="text-2xl font-bold text-lime-400 mb-4 flex items-center">
+                <h3 className="text-2xl font-bold text-brand-gold mb-4 flex items-center">
                   <span className="text-3xl mr-3">🇨🇷</span>
                   Expansión
                 </h3>
                 <p className="text-lg text-white/90 leading-relaxed">
-                  Además, estamos <span className="text-lime-400 font-semibold">en proceso de abrir nuevas oficinas en Costa Rica</span>, 
+                  Además, estamos <span className="text-brand-gold font-semibold">en proceso de abrir nuevas oficinas en Costa Rica</span>, 
                   con el objetivo de acercarnos aún más a nuestros clientes en la región.
                 </p>
               </motion.div>
@@ -203,7 +203,7 @@ export default function IceNosotrosPage() {
         </section>
 
         {/* Values Section */}
-        <section className="relative py-20 bg-gradient-to-r from-purple-900/50 to-indigo-900/50">
+        <section className="relative py-20 bg-gradient-to-r from-brand-dark/50 to-gray-800/50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -213,7 +213,7 @@ export default function IceNosotrosPage() {
               className="text-center mb-16"
             >
               <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-                Nuestros <span className="text-lime-400">Valores</span>
+                Nuestros <span className="bg-gradient-to-r from-brand-gold to-brand-orange bg-clip-text text-transparent">Valores</span>
               </h2>
             </motion.div>
 
@@ -256,10 +256,10 @@ export default function IceNosotrosPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: index * 0.1 }}
                   viewport={{ once: true }}
-                  className="bg-white/5 backdrop-blur-lg rounded-2xl p-6 border border-lime-400/20 text-center hover:bg-white/10 transition-all duration-300"
+                  className="bg-white/5 backdrop-blur-lg rounded-2xl p-6 border border-brand-gold/20 text-center hover:bg-white/10 transition-all duration-300"
                 >
                   <div className="text-4xl mb-4">{value.icon}</div>
-                  <h3 className="text-xl font-bold text-lime-400 mb-4">{value.title}</h3>
+                  <h3 className="text-xl font-bold text-brand-gold mb-4">{value.title}</h3>
                   <p className="text-white/80">{value.description}</p>
                 </motion.div>
               ))}
@@ -278,7 +278,7 @@ export default function IceNosotrosPage() {
               className="text-center mb-16"
             >
               <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-                Nuestro <span className="text-lime-400">Equipo</span>
+                Nuestro <span className="bg-gradient-to-r from-brand-gold to-brand-orange bg-clip-text text-transparent">Equipo</span>
               </h2>
               <p className="text-xl text-white/80 max-w-3xl mx-auto">
                 Profesionales apasionados que hacen posible tu sueño internacional
@@ -338,9 +338,9 @@ export default function IceNosotrosPage() {
                   viewport={{ once: true }}
                   className="group"
                 >
-                  <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-lime-400/20 hover:border-lime-400/40 transition-all duration-300 hover:scale-105 text-center h-full">
+                  <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-brand-gold/20 hover:border-brand-gold/40 transition-all duration-300 hover:scale-105 text-center h-full">
                     {/* Member Photo */}
-                    <div className="w-48 h-48 mx-auto mb-6 rounded-full overflow-hidden relative bg-white/10 ring-4 ring-lime-400/20 group-hover:ring-lime-400/40 transition-all duration-300 shadow-lg">
+                    <div className="w-48 h-48 mx-auto mb-6 rounded-full overflow-hidden relative bg-white/10 ring-4 ring-brand-gold/20 group-hover:ring-brand-gold/40 transition-all duration-300 shadow-lg">
                       <Image 
                         src={`/images/TEAM/${member.image}`} 
                         alt={member.name}
@@ -350,13 +350,13 @@ export default function IceNosotrosPage() {
                     </div>
                     
                     {/* Member Info */}
-                    <h3 className="text-xl font-bold text-lime-400 mb-2">{member.name}</h3>
+                    <h3 className="text-xl font-bold text-brand-gold mb-2">{member.name}</h3>
                     <p className="text-white font-semibold text-sm mb-3">{member.role}</p>
                     <p className="text-white/70 text-sm leading-relaxed">{member.description}</p>
                     
                     {/* Contact Action */}
                     <div className="mt-4 pt-4 border-t border-white/10">
-                      <button className="text-xs text-lime-400 hover:text-lime-300 transition-colors duration-300">
+                      <button className="text-xs text-brand-gold hover:text-brand-orange transition-colors duration-300">
                         💬 Contactar
                       </button>
                     </div>
@@ -371,7 +371,7 @@ export default function IceNosotrosPage() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
               viewport={{ once: true }}
-              className="bg-gradient-to-r from-lime-400/10 to-green-500/10 backdrop-blur-lg rounded-2xl p-8 border border-lime-400/30 text-center"
+              className="bg-gradient-to-r from-brand-gold/10 to-brand-orange/10 backdrop-blur-lg rounded-2xl p-8 border border-brand-gold/30 text-center"
             >
               <p className="text-lg text-white/90 leading-relaxed max-w-4xl mx-auto mb-6">
                 Nuestro equipo está compuesto por profesionales con experiencia internacional, 
@@ -382,14 +382,14 @@ export default function IceNosotrosPage() {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="bg-gradient-to-r from-lime-400 to-green-500 text-black font-semibold py-3 px-8 rounded-full hover:from-lime-500 hover:to-green-600 transition-all duration-300"
+                  className="bg-gradient-to-r from-brand-gold to-brand-orange text-white font-semibold py-3 px-8 rounded-full hover:from-brand-orange hover:to-brand-gold transition-all duration-300"
                 >
                   Agendar Reunión
                 </motion.button>
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="border-2 border-lime-400 text-lime-400 font-semibold py-3 px-8 rounded-full hover:bg-lime-400/10 transition-all duration-300"
+                  className="border-2 border-brand-gold text-brand-gold font-semibold py-3 px-8 rounded-full hover:bg-brand-gold/10 transition-all duration-300"
                 >
                   Contáctanos
                 </motion.button>
@@ -399,7 +399,7 @@ export default function IceNosotrosPage() {
         </section>
 
         {/* Testimonials Section */}
-        <section className="relative py-20 bg-gradient-to-r from-purple-900/50 to-indigo-900/50">
+        <section className="relative py-20 bg-gradient-to-r from-brand-dark/50 to-gray-800/50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -409,7 +409,7 @@ export default function IceNosotrosPage() {
               className="text-center mb-16"
             >
               <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-                Lo que dicen nuestros <span className="text-lime-400">estudiantes</span>
+                Lo que dicen nuestros <span className="bg-gradient-to-r from-brand-gold to-brand-orange bg-clip-text text-transparent">estudiantes</span>
               </h2>
               <p className="text-xl text-white/80 max-w-3xl mx-auto">
                 Historias reales de transformación y éxito internacional
@@ -443,7 +443,7 @@ export default function IceNosotrosPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: index * 0.2 }}
                   viewport={{ once: true }}
-                  className="bg-white/5 backdrop-blur-lg rounded-2xl p-6 border border-lime-400/20 hover:bg-white/10 transition-all duration-300"
+                  className="bg-white/5 backdrop-blur-lg rounded-2xl p-6 border border-brand-gold/20 hover:bg-white/10 transition-all duration-300"
                 >
                   <div className="text-4xl mb-4">🎓</div>
                   <blockquote className="text-white/90 italic mb-4 leading-relaxed">
@@ -452,7 +452,7 @@ export default function IceNosotrosPage() {
                   <div className="flex items-center space-x-3">
                     <div className="text-2xl">{testimonial.flag}</div>
                     <div>
-                      <p className="font-semibold text-lime-400">{testimonial.name}</p>
+                      <p className="font-semibold text-brand-gold">{testimonial.name}</p>
                       <p className="text-white/70 text-sm">{testimonial.program}</p>
                     </div>
                   </div>
@@ -470,7 +470,7 @@ export default function IceNosotrosPage() {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="bg-gradient-to-r from-lime-400 to-green-500 text-black font-semibold py-3 px-8 rounded-full hover:from-lime-500 hover:to-green-600 transition-all duration-300"
+                className="bg-gradient-to-r from-brand-gold to-brand-orange text-white font-semibold py-3 px-8 rounded-full hover:from-brand-orange hover:to-brand-gold transition-all duration-300"
               >
                 Ver más testimonios
               </motion.button>

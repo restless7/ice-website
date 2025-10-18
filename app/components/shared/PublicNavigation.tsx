@@ -97,14 +97,20 @@ export default function PublicNavigation({
   const branding = customBranding || defaultBranding;
   const navigation = customNavigation || defaultNavigation;
 
-  // Handle scroll effect with more precise control (only for home page)
+  // Handle scroll effect with more precise control
   useEffect(() => {
-    if (!isHomePage) return;
-    
     const handleScroll = () => {
       const scrollY = window.scrollY;
-      setIsScrolled(scrollY > 20);
+      // On homepage: trigger after 20px scroll
+      // On other pages: trigger immediately (always show glassmorphism)
+      setIsScrolled(isHomePage ? scrollY > 20 : true);
     };
+    
+    // Set initial state for non-home pages
+    if (!isHomePage) {
+      setIsScrolled(true);
+    }
+    
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, [isHomePage]);
@@ -140,7 +146,7 @@ export default function PublicNavigation({
     
     return cn(baseClasses, 
       isScrolled 
-        ? 'bg-black/20 backdrop-blur-md border-b border-white/10' 
+        ? 'bg-black/30 backdrop-blur-lg border-b border-white/20 shadow-lg' 
         : 'bg-transparent'
     );
   };
@@ -187,8 +193,15 @@ export default function PublicNavigation({
       >
         <Link href="/" className="group block">
           <div className="relative">
+            {/* Subtle white feathered oval background - only on homepage when not scrolled */}
+            {isHomePage && !isScrolled && (
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-[420px] h-[160px] lg:w-[550px] lg:h-[220px] bg-white/70 rounded-full blur-xl opacity-80 transition-opacity duration-1000"></div>
+              </div>
+            )}
+            
             {!logoError && branding.logo ? (
-              <div className="w-96 h-96 lg:w-[500px] lg:h-[500px]">
+              <div className="w-96 h-96 lg:w-[500px] lg:h-[500px] relative z-10">
                 <Image
                   src={branding.logo}
                   alt={`${branding.title} Logo`}
@@ -200,7 +213,7 @@ export default function PublicNavigation({
                 />
               </div>
             ) : (
-              <div className="w-96 h-96 lg:w-[500px] lg:h-[500px] bg-gradient-to-br from-brand-gold to-brand-orange rounded-3xl flex items-center justify-center group-hover:scale-105 transition-transform duration-500 drop-shadow-2xl">
+              <div className="w-96 h-96 lg:w-[500px] lg:h-[500px] bg-gradient-to-br from-brand-gold to-brand-orange rounded-3xl flex items-center justify-center group-hover:scale-105 transition-transform duration-500 drop-shadow-2xl relative z-10">
                 <span className="text-8xl lg:text-9xl font-bold text-white">
                   {branding.logoFallback}
                 </span>
@@ -309,7 +322,7 @@ export default function PublicNavigation({
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="lg:hidden overflow-hidden bg-gradient-to-r from-gray-900/95 via-blue-900/95 to-gray-800/95 backdrop-blur-lg border-t border-brand-gold/20"
+            className="lg:hidden overflow-hidden bg-black/90 backdrop-blur-xl border-t border-white/20 shadow-xl"
           >
             <div className="px-4 py-6 space-y-1">
               {navigation.main.map((item) => (

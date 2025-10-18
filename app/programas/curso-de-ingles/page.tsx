@@ -529,7 +529,7 @@ export default function CursoDeIngles() {
                 Matricularme Ahora
               </Link>
               <Link
-                href="https://bit.ly/ProcesosICE"
+                href="https://wa.me/573104994800?text=Hola,%20estoy%20interesado%20en%20el%20programa%20de%20Curso%20de%20Inglés"
                 target="_blank"
                 className="inline-flex items-center px-8 py-4 border-2 border-brand-gold text-brand-gold font-semibold text-lg rounded-xl hover:bg-brand-gold/10 transition-all duration-300"
               >

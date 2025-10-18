@@ -296,7 +296,7 @@ export default function IceContactSection() {
               
               <div className="space-y-4">
                 <Link
-                  href="https://bit.ly/ProcesosICE"
+                  href="https://wa.me/573104994800?text=Hola,%20estoy%20interesado%20en%20los%20programas%20de%20ICE"
                   target="_blank"
                   className="flex items-center justify-between p-4 bg-white rounded-xl border border-gray-200 hover:border-brand-gold/30 transition-all duration-300 hover:shadow-md group"
                 >
