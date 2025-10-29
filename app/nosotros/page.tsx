@@ -288,46 +288,58 @@ export default function IceNosotrosPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mb-12">
               {[
                 {
-                  name: "Juliana",
-                  role: "Directora General",
-                  description: "Líder visionaria con más de 10 años de experiencia en educación internacional",
-                  image: "juliana-team.png"
-                },
-                {
                   name: "Javier",
-                  role: "Director de Operaciones",
-                  description: "Especialista en procesos internacionales y gestión de programas educativos",
+                  role: "Gerente Administrativo y Financiero",
+                  description: "Especialista en gestión empresarial y optimización de recursos",
                   image: "javier-team.png"
                 },
                 {
-                  name: "Manuel",
-                  role: "Asesor Senior",
-                  description: "Experto en programas de trabajo y estudio en Estados Unidos y Canadá",
-                  image: "manuel-team.png"
-                },
-                {
-                  name: "Janeth",
-                  role: "Coordinadora Académica",
-                  description: "Especialista en intercambios universitarios y programas de idiomas",
-                  image: "janeth-team.png"
-                },
-                {
                   name: "Camilo",
-                  role: "Asesor de Visas",
-                  description: "Experto en trámites consulares y documentación para visas estudiantiles",
+                  role: "Gerente Operativo",
+                  description: "Líder en estrategia comercial y desarrollo de relaciones internacionales",
                   image: "camilo-team.png"
                 },
                 {
-                  name: "Nicole",
-                  role: "Coordinadora de Programas",
-                  description: "Encargada de programas Au Pair y experiencias culturales",
-                  image: "nicol-team.png"
+                  name: "Manuel",
+                  role: "Comercial / Líder de Procesos",
+                  description: "Experto en gestión de programas y asesoría personalizada",
+                  image: "manuel-team.png"
+                },
+                {
+                  name: "Andrea Juliana",
+                  role: "Comercial / Procesos",
+                  description: "Especialista en atención al cliente y gestión de servicios",
+                  image: "juliana-team.png"
+                },
+                {
+                  name: "Janeth",
+                  role: "Contaduría",
+                  description: "Experta en gestión contable y soporte corporativo",
+                  image: "janeth-team.png"
                 },
                 {
                   name: "Roberto",
-                  role: "Asesor de Destinos",
-                  description: "Especialista en programas Work & Travel y oportunidades laborales",
+                  role: "Marketing y Gestión de Pauta Publicitaria",
+                  description: "Especialista en campañas digitales y optimización publicitaria",
                   image: "rober-team.png"
+                },
+                {
+                  name: "Juliana",
+                  role: "Mercadeo",
+                  description: "Estratega de marketing integral y posicionamiento de marca",
+                  image: "juliana-mercadeo-team.png"
+                },
+                {
+                  name: "Nicole",
+                  role: "Servicio al Cliente y Recepción",
+                  description: "Experta en atención personalizada y gestión de comunicaciones",
+                  image: "nicol-team.png"
+                },
+                {
+                  name: "Jenny Marcela",
+                  role: "Auxiliar de Servicios Generales",
+                  description: "Responsable del cuidado y mantenimiento de nuestras instalaciones",
+                  image: "jenny-team.png"
                 }
               ].map((member, index) => (
                 <motion.div
