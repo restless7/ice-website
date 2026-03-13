@@ -11,7 +11,9 @@ import {
   Baby, 
   TrendingUp, 
   Info,
-  Mic2
+  Mic2,
+  TreeDeciduous,
+  MessageSquareQuote
 } from "lucide-react";
 import { CurriculumHeader } from "@/components/english-class/CurriculumHeader";
 import { CurriculumBlock } from "@/components/english-class/CurriculumBlock";
@@ -35,7 +37,7 @@ export default function EnglishClassHours5and6() {
         hourNumber="5 & 6"
         title="Questions &"
         subtitle="Connection: Hours 5 & 6"
-        description="Master the art of information gathering and personal storytelling. Learn to ask deep questions and describe the people who matter most in your life."
+        description="Shift from answering questions to asking them. Master Wh- question formulation and navigate complex family and relationship structures using the possessive 's."
         accentColor="indigo"
         moduleInfo="Intensive English Program • Part 3"
       />
@@ -59,25 +61,25 @@ export default function EnglishClassHours5and6() {
               <div className="lg:w-1/3 relative">
                 <div className="sticky top-24 space-y-6">
                   <div className="flex items-center gap-4 mb-6">
-                    <div className="flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500/20 to-purple-500/10 text-indigo-400 border border-indigo-500/20 shadow-[0_0_40px_rgba(99,102,241,0.15)] flex-shrink-0 font-mono">
+                    <div className="flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500/20 to-blue-500/10 text-indigo-400 border border-indigo-500/20 shadow-[0_0_40px_rgba(99,102,241,0.15)] flex-shrink-0 font-mono">
                       <span className="text-2xl font-bold">05</span>
                     </div>
                     <div>
                       <h2 className="text-3xl font-bold text-white tracking-tight">Wh- Questions</h2>
-                      <p className="text-indigo-400 font-medium tracking-wide text-xs uppercase">The Information Seekers</p>
+                      <p className="text-indigo-400 font-medium tracking-wide text-xs uppercase">Asking the Right Questions</p>
                     </div>
                   </div>
                   
                   <p className="text-slate-400 text-lg leading-relaxed">
-                    By the end of this hour, students will be able to identify the correct Wh- question word and construct open-ended questions using the verb "To Be".
+                    Open-ended questions are the engine of genuine conversation. This module teaches the structural formula to extract specific information.
                   </p>
 
-                  <CurriculumContext title="Pedagogical Focus" accentColor="indigo">
-                    <p className="text-sm text-slate-300 leading-relaxed">
-                      <strong>The Golden Formula:</strong> Wh- Word + "To Be" + Subject. Students often forget the inversion.
+                  <CurriculumContext title="The Interrogative Shift" accentColor="indigo">
+                    <p className="text-sm text-slate-300 leading-relaxed font-bold">
+                       The Formula: [Wh- Word] + [Verb To Be] + [Subject] + ?
                     </p>
-                    <p className="text-sm text-slate-300 leading-relaxed">
-                      <strong>Interview Prep:</strong> Embassy interviews are 90% Wh- questions. Shift from "Passive Answering" to "Active Providing".
+                    <p className="text-sm text-slate-300 leading-relaxed mt-2 border-l-2 border-indigo-500 pl-2">
+                      In Spanish, tone dictates a question. In English, structure dictates a question. You MUST invert the verb and subject.
                     </p>
                   </CurriculumContext>
                 </div>
@@ -88,55 +90,111 @@ export default function EnglishClassHours5and6() {
                 <div className="space-y-8">
                   
                   <CurriculumBlock 
-                    icon={<BookOpen />}
-                    title="Phase 1: Wh- Words Theory"
+                    icon={<Search />}
+                    title="Phase 1: Information Mapping Theory"
                     subtitle="20 Minutes • Direct Instruction"
-                    methodology="Meaning & Structure Analysis"
+                    methodology="Structural Analysis"
                     accentColor="indigo"
                   >
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 text-sm">
-                      <div className="bg-slate-950/50 rounded-xl p-5 border border-indigo-500/20">
-                        <h4 className="text-white font-semibold mb-3 italic">Target Vocabulary</h4>
-                        <ul className="space-y-2 text-slate-300 list-disc list-inside marker:text-indigo-500">
-                          <li><span className="text-indigo-400 font-bold">WHAT</span>: Information</li>
-                          <li><span className="text-indigo-400 font-bold">WHERE</span>: Places</li>
-                          <li><span className="text-indigo-400 font-bold">WHEN</span>: Time / Dates</li>
-                          <li><span className="text-indigo-400 font-bold">WHY</span>: Reasons</li>
-                          <li><span className="text-indigo-400 font-bold">WHO</span>: People</li>
-                        </ul>
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mt-4 text-sm font-mono">
+                      <div className="bg-slate-950 p-4 rounded-xl border border-indigo-500/20 text-center flex flex-col items-center justify-center">
+                        <span className="text-indigo-400 font-bold text-lg mb-1">WHAT</span>
+                        <span className="text-slate-400 text-xs">Things / Info</span>
                       </div>
-                      <div className="bg-slate-950/50 rounded-xl p-5 border border-purple-500/20">
-                         <h4 className="text-white font-semibold mb-3 italic">Formula Examples</h4>
-                         <p className="text-slate-400 italic">"Where <span className="text-white underline">are</span> you from?"</p>
-                         <p className="text-slate-400 italic mt-2">"How old <span className="text-white underline">is</span> he?"</p>
+                      <div className="bg-slate-950 p-4 rounded-xl border border-blue-500/20 text-center flex flex-col items-center justify-center">
+                        <span className="text-blue-400 font-bold text-lg mb-1">WHO</span>
+                        <span className="text-slate-400 text-xs">People</span>
+                      </div>
+                      <div className="bg-slate-950 p-4 rounded-xl border border-cyan-500/20 text-center flex flex-col items-center justify-center">
+                        <span className="text-cyan-400 font-bold text-lg mb-1">WHERE</span>
+                        <span className="text-slate-400 text-xs">Places</span>
+                      </div>
+                      <div className="bg-slate-950 p-4 rounded-xl border border-teal-500/20 text-center flex flex-col items-center justify-center">
+                        <span className="text-teal-400 font-bold text-lg mb-1">WHEN</span>
+                        <span className="text-slate-400 text-xs">Time</span>
+                      </div>
+                      <div className="bg-slate-950 p-4 rounded-xl border border-sky-500/20 text-center flex flex-col items-center justify-center">
+                        <span className="text-sky-400 font-bold text-lg mb-1">WHY</span>
+                        <span className="text-slate-400 text-xs">Reasons</span>
+                      </div>
+                      <div className="bg-slate-950 p-4 rounded-xl border border-purple-500/20 text-center flex flex-col items-center justify-center">
+                        <span className="text-purple-400 font-bold text-lg mb-1">HOW</span>
+                        <span className="text-slate-400 text-xs">Method / Status</span>
+                      </div>
+                    </div>
+
+                    <div className="mt-4 bg-indigo-950/20 p-4 rounded-lg border border-indigo-500/30">
+                       <h4 className="text-indigo-400 font-bold text-xs uppercase mb-2">The Structural Transformation</h4>
+                       <div className="space-y-2 text-sm text-slate-300">
+                          <p>1. Statement: <span className="text-white">Your name <strong className="text-indigo-400 bg-slate-900 px-1">is</strong> Sebastian.</span></p>
+                          <p>2. Yes/No: <span className="text-white"><strong className="text-indigo-400 bg-slate-900 px-1">Is</strong> your name Sebastian?</span></p>
+                          <p>3. Wh- Question: <span className="text-white"><strong className="text-sky-400 bg-slate-900 px-1">What</strong> <strong className="text-indigo-400 bg-slate-900 px-1">is</strong> your name?</span></p>
+                       </div>
+                    </div>
+                  </CurriculumBlock>
+
+                  <CurriculumBlock 
+                    icon={<MessageSquareQuote />}
+                    title="Phase 2: The Interview Extraction"
+                    subtitle="25 Minutes • Heavy Dialogue Expansion"
+                    methodology="Contextual Q&A Simulation"
+                    accentColor="indigo"
+                  >
+                    <div className="bg-slate-900 rounded-xl overflow-hidden border border-slate-700 w-full mt-4">
+                      <div className="p-5 space-y-6">
+                        
+                        <div className="group border-b border-slate-800 pb-4">
+                          <p className="text-indigo-400 text-xs font-bold mb-2 uppercase tracking-widest pl-2 border-l-2 border-indigo-500">Dialogue 1: Getting to Know You</p>
+                          <div className="space-y-2 font-serif text-sm">
+                              <p className="text-slate-300"><strong className="text-white">Student A:</strong> "<strong className="text-cyan-300">Where</strong> are you from?"</p>
+                              <p className="text-slate-400 italic">"I am from Bogota, Colombia. But right now I am in Miami."</p>
+                              <p className="text-slate-300"><strong className="text-white">Student A:</strong> "Oh, <strong className="text-sky-300">why</strong> are you in Miami?"</p>
+                              <p className="text-slate-400 italic">"I am here for a cultural exchange program."</p>
+                          </div>
+                        </div>
+
+                        <div className="group border-b border-slate-800 pb-4">
+                          <p className="text-blue-400 text-xs font-bold mb-2 uppercase tracking-widest pl-2 border-l-2 border-blue-500">Dialogue 2: Logistics & Travel</p>
+                          <div className="space-y-2 font-serif text-sm">
+                              <p className="text-slate-300"><strong className="text-white">Agent:</strong> "<strong className="text-teal-300">When</strong> is your flight?"</p>
+                              <p className="text-slate-400 italic">"My flight is tomorrow morning at 8 AM."</p>
+                              <p className="text-slate-300"><strong className="text-white">Agent:</strong> "<strong className="text-blue-300">Who</strong> is traveling with you?"</p>
+                              <p className="text-slate-400 italic">"Nobody. I am traveling alone."</p>
+                          </div>
+                        </div>
+
+                        <div className="group pb-2">
+                          <p className="text-cyan-400 text-xs font-bold mb-2 uppercase tracking-widest pl-2 border-l-2 border-cyan-500">Dialogue 3: Problem Solving</p>
+                          <div className="space-y-2 font-serif text-sm">
+                              <p className="text-slate-300"><strong className="text-white">Manager:</strong> "<strong className="text-indigo-300">What</strong> is the problem with the coffee machine?"</p>
+                              <p className="text-slate-400 italic">"It is broken. The water is cold."</p>
+                              <p className="text-slate-300"><strong className="text-white">Manager:</strong> "<strong className="text-purple-300">How</strong> old is this machine?"</p>
+                              <p className="text-slate-400 italic">"It is five years old."</p>
+                          </div>
+                        </div>
+
                       </div>
                     </div>
                   </CurriculumBlock>
 
                   <CurriculumBlock 
-                    icon={<Mic2 />}
-                    title="Phase 2: The Interview Role-Play"
-                    subtitle="20 Minutes • Active Practice"
-                    methodology="Peer Interview Training"
+                    icon={<Users />}
+                    title="Phase 3: The Detective Game"
+                    subtitle="15 Minutes • Active Practice"
+                    methodology="Information Gap Task"
                     accentColor="indigo"
                   >
-                    <div className="space-y-4 mt-4 text-sm leading-relaxed">
-                       <div className="p-4 bg-slate-950 rounded border-l-2 border-indigo-500">
-                          <p className="text-indigo-400 font-bold mb-1">Q: "Who is your sponsor?"</p>
-                          <p className="text-white italic">A: "My sponsor is AWA American Work Adventures."</p>
-                       </div>
-                       <div className="p-4 bg-slate-950 rounded border-l-2 border-purple-500">
-                          <p className="text-indigo-400 font-bold mb-1">Q: "Where is your university?"</p>
-                          <p className="text-white italic">A: "It is in Bogota."</p>
-                       </div>
-                    </div>
+                     <p className="text-sm text-slate-300 leading-relaxed mt-4">
+                        Student A is given a profile of a "Mystery Person" (Name, Age, Location, Job, Reason for travel). Student B is the Detective and must use the 6 Wh- Questions to fill out a blank report form. They trade places after 5 minutes.
+                     </p>
                   </CurriculumBlock>
+
                 </div>
               </div>
             </div>
           </motion.div>
 
-          {/* HOUR 6: Family Ties */}
+          {/* HOUR 6: Possessives & Family */}
           <motion.div 
             initial="hidden"
             whileInView="visible"
@@ -151,25 +209,22 @@ export default function EnglishClassHours5and6() {
               <div className="lg:w-1/3 relative">
                 <div className="sticky top-24 space-y-6">
                   <div className="flex items-center gap-4 mb-6">
-                    <div className="flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-rose-500/20 to-orange-500/10 text-rose-400 border border-rose-500/20 shadow-[0_0_40px_rgba(244,63,94,0.15)] flex-shrink-0 font-mono">
+                    <div className="flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-rose-500/20 to-pink-500/10 text-rose-400 border border-rose-500/20 shadow-[0_0_40px_rgba(225,29,72,0.15)] flex-shrink-0 font-mono">
                       <span className="text-2xl font-bold">06</span>
                     </div>
                     <div>
                       <h2 className="text-3xl font-bold text-white tracking-tight">Family Ties</h2>
-                      <p className="text-rose-400 font-medium tracking-wide text-xs uppercase">Roots & Descriptions</p>
+                      <p className="text-rose-400 font-medium tracking-wide text-xs uppercase">Plurals & Possessives</p>
                     </div>
                   </div>
                   
                   <p className="text-slate-400 text-lg leading-relaxed">
-                    Describe your roots. Learn to identify family members and use adjectives to paint a picture of the people you love.
+                    Describing familial structures requires mastering irregular plurals and the apostrophe-S ('s). It is the most efficient way to demonstrate ownership.
                   </p>
 
-                  <CurriculumContext title="Danger Zone" accentColor="rose" icon={<Info className="w-5 h-5 flex-shrink-0" />}>
+                  <CurriculumContext title="Pedagogical Focus: The 'S" accentColor="rose">
                     <p className="text-sm text-slate-300 leading-relaxed">
-                      <strong>Parents vs. Relatives:</strong> Spanish interference often confuses these. Clarify "parientes" = "relatives".
-                    </p>
-                    <p className="text-sm text-slate-300 leading-relaxed">
-                      <strong>Plurals:</strong> child (singular) vs children (plural). No "childs"!
+                      <strong>The Spanish Crutch:</strong> Spanish speakers say "The car of my brother". In English, this sounds archaic and robotic. We must drill "My brother's car" until the "of" crutch is broken.
                     </p>
                   </CurriculumContext>
                 </div>
@@ -179,44 +234,88 @@ export default function EnglishClassHours5and6() {
               <div className="lg:w-2/3">
                 <div className="space-y-8">
                   <CurriculumBlock 
-                    icon={<Users />}
-                    title="Phase 1: Vocabulary"
-                    subtitle="15 Minutes • Direct Instruction"
-                    methodology="Visual Mapping"
+                    icon={<BookOpen />}
+                    title="Phase 1: Plurals & Possessive Theory"
+                    subtitle="20 Minutes • Direct Instruction"
+                    methodology="Grammar Translation & Charts"
                     accentColor="rose"
                   >
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 text-sm font-mono">
                       <div className="bg-slate-950/50 rounded-xl p-5 border border-rose-500/20">
-                        <h4 className="text-white font-semibold mb-3 flex items-center gap-2"><Heart className="w-4 h-4 text-rose-400" /> Immediate</h4>
-                        <div className="flex flex-wrap gap-2">
-                           {["Mother", "Father", "Brother", "Sister", "Husband", "Wife"].map(word => (
-                             <span key={word} className="px-2 py-1 bg-rose-500/10 text-rose-300 rounded text-xs border border-rose-500/20">{word}</span>
-                           ))}
-                        </div>
+                         <h4 className="text-rose-400 font-bold mb-3 flex items-center gap-2"><Users className="w-4 h-4"/> Irregular Plurals</h4>
+                         <ul className="space-y-2 text-slate-300">
+                           <li className="flex justify-between border-b border-rose-500/20 pb-1"><span>1 Person</span> <span className="text-white font-bold">2 People</span></li>
+                           <li className="flex justify-between border-b border-rose-500/20 pb-1"><span>1 Child</span> <span className="text-white font-bold">2 Children</span></li>
+                           <li className="flex justify-between border-b border-rose-500/20 pb-1"><span>1 Man</span> <span className="text-white font-bold">2 Men</span></li>
+                           <li className="flex justify-between border-b border-rose-500/20 pb-1"><span>1 Woman</span> <span className="text-white font-bold">2 Women</span></li>
+                           <li className="flex justify-between"><span>1 Wife</span> <span className="text-white font-bold">2 Wives</span></li>
+                         </ul>
                       </div>
-                      <div className="bg-slate-950/50 rounded-xl p-5 border border-orange-500/20">
-                         <h4 className="text-white font-semibold mb-3 flex items-center gap-2"><Search className="w-4 h-4 text-orange-400" /> Extended</h4>
-                         <div className="flex flex-wrap gap-2">
-                            {["Uncle", "Aunt", "Cousin", "Grandparents"].map(word => (
-                              <span key={word} className="px-2 py-1 bg-orange-500/10 text-orange-300 rounded text-xs border border-orange-500/20">{word}</span>
-                            ))}
+
+                      <div className="bg-slate-950/50 rounded-xl p-5 border border-pink-500/20">
+                         <h4 className="text-pink-400 font-bold mb-3 flex items-center gap-2"><TreeDeciduous className="w-4 h-4"/> The Possessive 'S</h4>
+                         <div className="space-y-3">
+                           <div>
+                             <p className="text-slate-400 text-xs">Standard Object:</p>
+                             <p className="text-white">"John<strong className="text-pink-400">'s</strong> car"</p>
+                           </div>
+                           <div>
+                             <p className="text-slate-400 text-xs">Family Relation:</p>
+                             <p className="text-white">"My mother<strong className="text-pink-400">'s</strong> sister"</p>
+                           </div>
+                           <div>
+                             <p className="text-slate-400 text-xs">Singular Noun Ending in S:</p>
+                             <p className="text-white">"Carlos<strong className="text-pink-400">'s</strong> friend" OR "Carlos<strong className="text-pink-400">'</strong> friend"</p>
+                           </div>
                          </div>
                       </div>
                     </div>
                   </CurriculumBlock>
 
                   <CurriculumBlock 
-                    icon={<Baby />}
-                    title="Phase 2: Family Tree Activity"
-                    subtitle="30 Minutes • Interaction"
-                    methodology="Creative Workshop"
+                    icon={<MessageSquareQuote />}
+                    title="Phase 2: Relational Dialogues"
+                    subtitle="25 Minutes • Massive Expansion"
+                    methodology="Contextual Shadowing"
                     accentColor="rose"
                   >
-                    <div className="bg-slate-900/50 p-4 rounded-xl border border-slate-800 mt-4">
-                       <p className="text-sm text-slate-400 leading-relaxed">
-                          "Who is Maria?" → <span className="text-white italic">"She is my mother. She is a designer."</span>
-                       </p>
+                    <div className="bg-slate-900 rounded-xl overflow-hidden border border-slate-700 w-full mt-4">
+                      <div className="p-5 space-y-6">
+                        
+                        <div className="group">
+                          <p className="text-rose-400 text-xs font-bold mb-2 uppercase tracking-widest pl-2 border-l-2 border-rose-500">Dialogue 1: Meeting at the Party</p>
+                          <div className="space-y-2 font-serif text-sm">
+                              <p className="text-slate-300"><strong className="text-white">Sarah:</strong> "Who is that man over there?"</p>
+                              <p className="text-slate-400 italic">"Oh, that is my <strong className="text-rose-300">brother's</strong> friend, Michael."</p>
+                              <p className="text-slate-300"><strong className="text-white">Sarah:</strong> "Are those his <strong className="text-rose-300">children</strong>?"</p>
+                              <p className="text-slate-400 italic">"No, those are my <strong className="text-rose-300">sister's kids</strong>. Michael is single."</p>
+                          </div>
+                        </div>
+
+                        <div className="group">
+                          <p className="text-pink-400 text-xs font-bold mb-2 uppercase tracking-widest pl-2 border-l-2 border-pink-500">Dialogue 2: The Visa Sponsor</p>
+                          <div className="space-y-2 font-serif text-sm">
+                              <p className="text-slate-300"><strong className="text-white">Officer:</strong> "Where are you staying in New York?"</p>
+                              <p className="text-slate-400 italic">"I am staying at my <strong className="text-pink-300">aunt's</strong> house."</p>
+                              <p className="text-slate-300"><strong className="text-white">Officer:</strong> "What is your <strong className="text-pink-300">aunt's</strong> name?"</p>
+                              <p className="text-slate-400 italic">"Her name is Maria. And my <strong className="text-pink-300">uncle's</strong> name is David."</p>
+                          </div>
+                        </div>
+
+                      </div>
                     </div>
+                  </CurriculumBlock>
+
+                  <CurriculumBlock 
+                    icon={<Heart />}
+                    title="Phase 3: Building The Royal Family Tree"
+                    subtitle="20 Minutes • Visual Construction"
+                    methodology="Drawing & Description"
+                    accentColor="rose"
+                  >
+                     <p className="text-sm text-slate-300 leading-relaxed mt-4">
+                        On the board, the instructor draws a complex family tree (e.g., The Simpsons, or The Royal Family). The students must use the possessive 's and family vocabulary to explain the relationships linking the bottom of the tree to the top. (e.g., "Bart is Homer's son. Homer is Abraham's son. So, Bart is Abraham's grandson.")
+                     </p>
                   </CurriculumBlock>
                 </div>
               </div>
@@ -229,6 +328,8 @@ export default function EnglishClassHours5and6() {
       <CurriculumNavigation 
         prevHref="/english-class/hours-3-4"
         prevLabel="Hours 3 & 4"
+        nextHref="/english-class/hours-7-8"
+        nextLabel="Hours 7 & 8"
         accentColor="indigo"
       />
     </div>

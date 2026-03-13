@@ -6,7 +6,7 @@ import { Lightbulb } from "lucide-react";
 interface CurriculumContextProps {
   title: string;
   children: React.ReactNode;
-  accentColor?: "indigo" | "purple" | "rose" | "emerald" | "blue" | "cyan";
+  accentColor?: "indigo" | "purple" | "rose" | "emerald" | "blue" | "cyan" | "amber" | "teal";
   icon?: React.ReactNode;
 }
 
@@ -23,9 +23,11 @@ export function CurriculumContext({
     emerald: "text-emerald-400",
     blue: "text-blue-400",
     cyan: "text-cyan-400",
+    amber: "text-amber-400",
+    teal: "text-teal-400",
   };
 
-  const textColor = textColorMap[accentColor] || textColorMap.indigo;
+  const textColor = textColorMap[accentColor as keyof typeof textColorMap] || textColorMap.indigo;
 
   return (
     <div className="bg-slate-900/80 rounded-2xl p-6 border border-slate-800 shadow-xl">

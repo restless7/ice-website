@@ -9,7 +9,7 @@ interface CurriculumNavigationProps {
   prevLabel?: string;
   nextHref?: string;
   nextLabel?: string;
-  accentColor?: "indigo" | "purple" | "rose" | "emerald" | "blue" | "cyan";
+  accentColor?: "indigo" | "purple" | "rose" | "emerald" | "blue" | "cyan" | "amber" | "teal";
 }
 
 export function CurriculumNavigation({
@@ -23,6 +23,8 @@ export function CurriculumNavigation({
     indigo: "bg-indigo-600 hover:bg-indigo-500 shadow-indigo-500/30",
     emerald: "bg-emerald-500 hover:bg-emerald-400 text-slate-950 shadow-emerald-500/30",
     rose: "bg-rose-600 hover:bg-rose-500 shadow-rose-500/30",
+    teal: "bg-teal-600 hover:bg-teal-500 shadow-teal-500/30",
+    amber: "bg-amber-500 hover:bg-amber-400 text-slate-950 shadow-amber-500/30",
   };
 
   const accentClass = accentClassMap[accentColor as keyof typeof accentClassMap] || accentClassMap.indigo;

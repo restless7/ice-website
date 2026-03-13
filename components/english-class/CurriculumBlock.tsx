@@ -9,7 +9,7 @@ interface CurriculumBlockProps {
   subtitle: string;
   methodology: string;
   children: React.ReactNode;
-  accentColor?: "indigo" | "purple" | "rose" | "emerald" | "blue" | "cyan";
+  accentColor?: "indigo" | "purple" | "rose" | "emerald" | "blue" | "cyan" | "amber" | "teal";
 }
 
 export function CurriculumBlock({ 
@@ -27,9 +27,11 @@ export function CurriculumBlock({
     emerald: "text-emerald-400 bg-emerald-500/10 border-emerald-500/20 shadow-emerald-500/10",
     blue: "text-blue-400 bg-blue-500/10 border-blue-500/20 shadow-blue-500/10",
     cyan: "text-cyan-400 bg-cyan-500/10 border-cyan-500/20 shadow-cyan-500/10",
+    amber: "text-amber-400 bg-amber-500/10 border-amber-500/20 shadow-amber-500/10",
+    teal: "text-teal-400 bg-teal-500/10 border-teal-500/20 shadow-teal-500/10",
   };
 
-  const accentStyles = colorMap[accentColor] || colorMap.indigo;
+  const accentStyles = colorMap[accentColor as keyof typeof colorMap] || colorMap.indigo;
 
   return (
     <motion.div 

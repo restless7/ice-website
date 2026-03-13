@@ -9,7 +9,7 @@ interface CurriculumHeaderProps {
   title: string;
   subtitle: string;
   description: string;
-  accentColor?: "indigo" | "purple" | "rose" | "emerald" | "blue" | "cyan";
+  accentColor?: "indigo" | "purple" | "rose" | "emerald" | "blue" | "cyan" | "amber" | "teal";
   moduleInfo?: string;
 }
 
@@ -30,6 +30,8 @@ export function CurriculumHeader({
     indigo: "from-indigo-400 via-purple-300 to-rose-400",
     emerald: "from-emerald-400 via-cyan-300 to-blue-400",
     rose: "from-rose-400 via-orange-300 to-amber-400",
+    teal: "from-teal-400 via-emerald-300 to-cyan-400",
+    amber: "from-amber-400 via-yellow-300 to-orange-400",
   };
 
   const gradient = gradientMap[accentColor as keyof typeof gradientMap] || gradientMap.indigo;
