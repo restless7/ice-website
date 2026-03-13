@@ -248,10 +248,21 @@ export default function IceFooter() {
           </div>
 
           {/* Copyright */}
-          <div className="flex flex-col md:flex-row items-center justify-between text-white/60 text-sm">
-            <div className="flex items-center space-x-2 mb-4 md:mb-0">
-              <GlobeAltIcon className="w-5 h-5 text-brand-gold" />
-              <span>&copy; 2024 ICE Colombia - International Cultural Experience. Todos los derechos reservados.</span>
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between text-white/60 text-sm mt-8">
+            <div className="flex flex-col items-start gap-3 mb-4 md:mb-0">
+              <div className="flex items-center space-x-2">
+                <GlobeAltIcon className="w-5 h-5 text-brand-gold" />
+                <span>&copy; 2024 ICE Colombia - International Cultural Experience. Todos los derechos reservados.</span>
+              </div>
+              <a
+                href="https://www.apexaisolutions.dev/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-xs text-white/50 hover:text-white transition-colors duration-300 font-sans relative z-10"
+              >
+                <img src="/images/apex-logo.png" alt="Apex AI Solutions" className="w-4 h-4 object-contain brightness-0 invert opacity-70" />
+                Powered by Apex AI Solutions
+              </a>
             </div>
             <div className="flex items-center space-x-6">
               <Link href="#" className="hover:text-brand-gold transition-colors duration-300">
