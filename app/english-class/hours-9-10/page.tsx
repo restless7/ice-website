@@ -12,7 +12,20 @@ import {
   ShieldCheck, 
   GraduationCap, 
   MessageSquareQuote,
-  Crosshair
+  Crosshair,
+  AlertTriangle,
+  Lightbulb,
+  CheckCircle,
+  Target,
+  Clock,
+  Navigation2,
+  Calendar,
+  Building2,
+  Car,
+  Search,
+  Flag,
+  FileSearch,
+  Users
 } from "lucide-react";
 import { CurriculumHeader } from "@/components/english-class/CurriculumHeader";
 import { CurriculumBlock } from "@/components/english-class/CurriculumBlock";
@@ -36,7 +49,7 @@ export default function EnglishClassHours9and10() {
         hourNumber="9 & 10"
         title="Navigation &"
         subtitle="The Unit Capstone"
-        description="Conquer the final frontier of Unit 1: Prepositions of place and time. Then, integrate all 9 hours of training into the ultimate high-pressure border control simulation."
+        description="Conquer the final frontier of Unit 1: Prepositions of place and time. Then, integrate all 10 hours of training into the ultimate high-pressure border control simulation."
         accentColor="teal"
         moduleInfo="Intensive English Program • Finale"
       />
@@ -70,7 +83,7 @@ export default function EnglishClassHours9and10() {
                   </div>
                   
                   <p className="text-slate-400 text-lg leading-relaxed">
-                    Giving and receiving directions requires exact prepositional accuracy. "At the hospital" means something entirely different than "In the hospital".
+                    Giving and receiving directions requires exact prepositional accuracy. &quot;At the hospital&quot; means something entirely different than &quot;In the hospital&quot;.
                   </p>
 
                   <CurriculumContext title="Pedagogical Focus: The Triangle" accentColor="teal">
@@ -78,9 +91,19 @@ export default function EnglishClassHours9and10() {
                       IN (General) → ON (Specific) → AT (Exact)
                     </p>
                     <p className="text-sm text-slate-300 leading-relaxed mt-2 border-l-2 border-teal-500 pl-2">
-                       Spanish uses "EN" for everything. We must brutally separate "EN" into three distinct dimensions of time and space in English.
+                       Spanish uses &quot;EN&quot; for everything. We must brutally separate &quot;EN&quot; into three distinct dimensions of time and space in English.
                     </p>
                   </CurriculumContext>
+
+                  <div className="bg-teal-500/10 rounded-xl p-5 border border-teal-500/20">
+                     <h4 className="text-teal-400 font-bold text-xs uppercase mb-3 flex items-center gap-2"><Car className="w-4 h-4"/> Transport Rule</h4>
+                     <p className="text-xs text-slate-300 leading-relaxed">
+                        <strong className="text-white">IN:</strong> Small vehicles (car, taxi, truck). You must bend down. &quot;I am in a taxi.&quot;
+                     </p>
+                     <p className="text-xs text-slate-300 leading-relaxed mt-2">
+                        <strong className="text-white">ON:</strong> Large vehicles (bus, train, plane, boat). You can walk on them. &quot;I am on the metro.&quot;
+                     </p>
+                  </div>
                 </div>
               </div>
 
@@ -91,42 +114,70 @@ export default function EnglishClassHours9and10() {
                   <CurriculumBlock 
                     icon={<Compass />}
                     title="Phase 1: The Geometry of Prepositions"
-                    subtitle="25 Minutes • Direct Instruction"
-                    methodology="Visual Mapping"
+                    subtitle="25 Minutes • Visual Spatial Mapping"
+                    methodology="Visual Spatial Mapping"
                     accentColor="teal"
                   >
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-4 text-sm font-mono text-center">
-                      <div className="bg-slate-950 p-5 rounded-xl border border-teal-500/20">
-                         <h4 className="text-teal-400 text-2xl font-black mb-2">IN</h4>
-                         <p className="text-slate-400 text-xs mb-3">General (Volumes / Enclosed)</p>
-                         <div className="space-y-2 text-white border-t border-teal-500/20 pt-3">
-                            <p><strong className="text-teal-300">Space:</strong> In Miami, In Florida, In a box</p>
-                            <p><strong className="text-teal-300">Time:</strong> In 1995, In October, In the morning</p>
+                      <div className="bg-slate-950 p-5 rounded-xl border border-teal-500/20 flex flex-col items-center">
+                         <div className="w-10 h-10 rounded-lg bg-teal-500/20 flex items-center justify-center mb-3">
+                            <Building2 className="w-5 h-5 text-teal-400" />
+                         </div>
+                         <h4 className="text-teal-400 text-2xl font-black mb-1 italic">IN</h4>
+                         <p className="text-slate-500 text-[10px] mb-3 uppercase font-sans">Volumes / Enclosed Space</p>
+                         <div className="space-y-2 text-slate-300 border-t border-teal-500/20 pt-3 w-full">
+                            <p className="text-xs"><strong className="text-white">Cities:</strong> In New York</p>
+                            <p className="text-xs"><strong className="text-white">Rooms:</strong> In the office</p>
+                            <p className="text-xs"><strong className="text-white">Months:</strong> In December</p>
+                            <p className="text-xs"><strong className="text-white">Years:</strong> In 2025</p>
                          </div>
                       </div>
 
-                      <div className="bg-slate-950 p-5 rounded-xl border border-emerald-500/20">
-                         <h4 className="text-emerald-400 text-2xl font-black mb-2">ON</h4>
-                         <p className="text-slate-400 text-xs mb-3">Specific (Surfaces / Lines)</p>
-                         <div className="space-y-2 text-white border-t border-emerald-500/20 pt-3">
-                            <p><strong className="text-emerald-300">Space:</strong> On 5th Avenue, On the table, On the wall</p>
-                            <p><strong className="text-emerald-300">Time:</strong> On Monday, On July 4th, On my birthday</p>
+                      <div className="bg-slate-950 p-5 rounded-xl border border-emerald-500/20 flex flex-col items-center">
+                         <div className="w-10 h-10 rounded-lg bg-emerald-500/20 flex items-center justify-center mb-3">
+                            <Navigation2 className="w-5 h-5 text-emerald-400 rotate-45" />
+                         </div>
+                         <h4 className="text-emerald-400 text-2xl font-black mb-1 italic">ON</h4>
+                         <p className="text-slate-500 text-[10px] mb-3 uppercase font-sans">Surfaces / Lines</p>
+                         <div className="space-y-2 text-slate-300 border-t border-emerald-500/20 pt-3 w-full">
+                            <p className="text-xs"><strong className="text-white">Streets:</strong> On Ocean Drive</p>
+                            <p className="text-xs"><strong className="text-white">Floors:</strong> On the 10th floor</p>
+                            <p className="text-xs"><strong className="text-white">Days:</strong> On Friday</p>
+                            <p className="text-xs"><strong className="text-white">Dates:</strong> On August 21st</p>
                          </div>
                       </div>
 
-                      <div className="bg-slate-950 p-5 rounded-xl border border-cyan-500/20">
-                         <h4 className="text-cyan-400 text-2xl font-black mb-2">AT</h4>
-                         <p className="text-slate-400 text-xs mb-3">Exact (Points / Coordinates)</p>
-                         <div className="space-y-2 text-white border-t border-cyan-500/20 pt-3">
-                            <p><strong className="text-cyan-300">Space:</strong> At 123 Main St, At the door, At the airport</p>
-                            <p><strong className="text-cyan-300">Time:</strong> At 5:00 PM, At midnight, At noon</p>
+                      <div className="bg-slate-950 p-5 rounded-xl border border-cyan-500/20 flex flex-col items-center">
+                         <div className="w-10 h-10 rounded-lg bg-cyan-500/20 flex items-center justify-center mb-3">
+                            <MapPin className="w-5 h-5 text-cyan-400" />
+                         </div>
+                         <h4 className="text-cyan-400 text-2xl font-black mb-1 italic">AT</h4>
+                         <p className="text-slate-500 text-[10px] mb-3 uppercase font-sans">Points / Coordinates</p>
+                         <div className="space-y-2 text-slate-300 border-t border-cyan-500/20 pt-3 w-full">
+                            <p className="text-xs"><strong className="text-white">Address:</strong> At 742 Evergreen Tr</p>
+                            <p className="text-xs"><strong className="text-white">Point:</strong> At the bus stop</p>
+                            <p className="text-xs"><strong className="text-white">Time:</strong> At 9:15 AM</p>
+                            <p className="text-xs"><strong className="text-white">Place:</strong> At the library</p>
                          </div>
                       </div>
                     </div>
 
-                    <div className="mt-4 p-4 bg-teal-950/20 rounded-lg text-sm text-slate-300 border border-teal-500/30">
-                       <strong className="text-teal-400 block mb-1">Transport Exceptions:</strong>
-                       "In" a car/taxi (you bend down). "On" a bus/train/plane (you walk on a platform).
+                    <div className="bg-red-500/10 rounded-xl p-5 border border-red-500/20 mt-6">
+                       <h4 className="text-red-400 font-bold text-sm mb-3 flex items-center gap-2"><AlertTriangle className="w-4 h-4" /> The &quot;EN&quot; Trap</h4>
+                       <div className="space-y-2 text-sm">
+                          <div className="flex items-start gap-2">
+                            <span className="text-red-400">❌</span>
+                            <p className="text-slate-300">&quot;I will see you <strong className="text-white">in</strong> Monday.&quot; → <span className="text-green-400">On Monday.</span></p>
+                          </div>
+                          <div className="flex items-start gap-2">
+                            <span className="text-red-400">❌</span>
+                            <p className="text-slate-300">&quot;The hotel is <strong className="text-white">in</strong> the 5th Avenue.&quot; → <span className="text-green-400">On 5th Avenue.</span></p>
+                          </div>
+                          <div className="flex items-start gap-2">
+                            <span className="text-red-400">❌</span>
+                            <p className="text-slate-300">&quot;I am <strong className="text-white">at</strong> the car.&quot; → <span className="text-green-400">In the car.</span></p>
+                          </div>
+                       </div>
                     </div>
                   </CurriculumBlock>
 
@@ -134,29 +185,38 @@ export default function EnglishClassHours9and10() {
                     icon={<MessageSquareQuote />}
                     title="Phase 2: Navigational Dialogues"
                     subtitle="20 Minutes • Heavy Phrasal Drilling"
-                    methodology="Contextual Shadowing"
+                    methodology="Contextual Shadowing & Variation"
                     accentColor="teal"
                   >
                     <div className="bg-slate-900 rounded-xl overflow-hidden border border-slate-700 w-full mt-4">
                       <div className="p-5 space-y-6">
                         
-                        <div className="group">
-                          <p className="text-teal-400 text-xs font-bold mb-2 uppercase tracking-widest border-l-2 border-teal-500 pl-2">Dialogue 1: Making Plans</p>
+                        <div className="group border-b border-slate-800 pb-4">
+                          <p className="text-teal-400 text-xs font-bold mb-2 uppercase tracking-widest border-l-2 border-teal-500 pl-2">Dialogue 1: Meeting a Client</p>
                           <div className="space-y-2 font-serif text-sm">
-                              <p className="text-slate-300"><strong className="text-white">Friend:</strong> "Where are we meeting tomorrow?"</p>
-                              <p className="text-slate-400 italic">"Let's meet <strong className="text-teal-300">at</strong> the coffee shop <strong className="text-teal-300">on</strong> Lincoln Road."</p>
-                              <p className="text-slate-300"><strong className="text-white">Friend:</strong> "Okay, what time?"</p>
-                              <p className="text-slate-400 italic">"Be there <strong className="text-teal-300">at</strong> 3:30 PM. I will be <strong className="text-emerald-300">in</strong> my car."</p>
+                              <p className="text-slate-300"><strong className="text-white">Client:</strong> &quot;Where is your office located?&quot;</p>
+                              <p className="text-slate-400 italic">&quot;Our office is <strong className="text-teal-300">in</strong> the Financial District, <strong className="text-teal-300">at</strong> 500 Broadway.&quot;</p>
+                              <p className="text-slate-300"><strong className="text-white">Client:</strong> &quot;Is it <strong className="text-teal-300">on</strong> the ground floor?&quot;</p>
+                              <p className="text-slate-400 italic">&quot;No, it is <strong className="text-teal-300">on</strong> the 12th floor. Please arrive <strong className="text-teal-300">at</strong> 10:00 AM.&quot;</p>
                           </div>
                         </div>
 
-                        <div className="group">
-                          <p className="text-cyan-400 text-xs font-bold mb-2 uppercase tracking-widest border-l-2 border-cyan-500 pl-2">Dialogue 2: Giving Directions</p>
+                        <div className="group border-b border-slate-800 pb-4">
+                          <p className="text-emerald-400 text-xs font-bold mb-2 uppercase tracking-widest border-l-2 border-emerald-500 pl-2">Dialogue 2: Finding a Landmark</p>
                           <div className="space-y-2 font-serif text-sm">
-                              <p className="text-slate-300"><strong className="text-white">Tourist:</strong> "Excuse me, how do I get to the museum?"</p>
-                              <p className="text-slate-400 italic">"The museum is <strong className="text-cyan-300">on</strong> 8th Street. Go straight, and turn left <strong className="text-cyan-300">at</strong> the traffic light."</p>
-                              <p className="text-slate-300"><strong className="text-white">Tourist:</strong> "Is it far?"</p>
-                              <p className="text-slate-400 italic">"No, it is right next to the bank."</p>
+                              <p className="text-slate-300"><strong className="text-white">Tourist:</strong> &quot;How do I get to the Golden Gate Bridge?&quot;</p>
+                              <p className="text-slate-400 italic">&quot;Go straight <strong className="text-emerald-300">on</strong> this road. Turn right <strong className="text-emerald-300">at</strong> the park. It is right <strong className="text-emerald-300">at</strong> the end.&quot;</p>
+                              <p className="text-slate-300"><strong className="text-white">Tourist:</strong> &quot;Can I go <strong className="text-emerald-300">on</strong> foot?&quot;</p>
+                              <p className="text-slate-400 italic">&quot;It is too far. Better to go <strong className="text-emerald-300">on</strong> a bus or <strong className="text-emerald-300">in</strong> a taxi.&quot;</p>
+                          </div>
+                        </div>
+
+                        <div className="group pb-2">
+                          <p className="text-cyan-400 text-xs font-bold mb-2 uppercase tracking-widest border-l-2 border-cyan-500 pl-2">Dialogue 3: Scheduling a Delivery</p>
+                          <div className="space-y-2 font-serif text-sm">
+                              <p className="text-slate-300"><strong className="text-white">Driver:</strong> &quot;I am <strong className="text-cyan-300">at</strong> the gate. Can I leave the package <strong className="text-cyan-300">on</strong> the porch?&quot;</p>
+                              <p className="text-slate-400 italic">&quot;Yes, please. I am not <strong className="text-cyan-300">at</strong> home right now. I am <strong className="text-cyan-300">at</strong> work.&quot;</p>
+                              <p className="text-slate-300"><strong className="text-white">Driver:</strong> &quot;Okay, I will leave it <strong className="text-cyan-300">at</strong> the front door.&quot;</p>
                           </div>
                         </div>
 
@@ -164,23 +224,35 @@ export default function EnglishClassHours9and10() {
                     </div>
                   </CurriculumBlock>
 
+                  {/* Activity: The Blind Navigator */}
                   <CurriculumBlock 
                     icon={<Map />}
-                    title="Phase 3: The Blind Navigator"
-                    subtitle="15 Minutes • Active Practice"
-                    methodology="Directional Task Matrix"
+                    title="Phase 3: The Blind Navigator Challenge"
+                    subtitle="20 Minutes • Active Practice"
+                    methodology="Spatial Information Transfer"
                     accentColor="teal"
                   >
-                     <p className="text-sm text-slate-300 leading-relaxed mt-4">
-                        Student A is given a map with a starting point and a destination. Student B has a blank map. Student A must guide Student B using only prepositions of place and directional verbs across the map.
-                     </p>
+                     <div className="space-y-4">
+                        <p className="text-sm text-slate-300 leading-relaxed">
+                           One student has a map (The &quot;Eyes&quot;). The other has a blank grid (The &quot;Pen&quot;). The Eyes must guide the Pen to discover hidden objects using ONLY prepositions and directions.
+                        </p>
+                        <div className="bg-teal-900/10 rounded-xl p-5 border border-teal-500/20">
+                           <h4 className="text-teal-400 font-bold text-sm mb-3 flex items-center gap-2"><CheckCircle className="w-4 h-4"/> Success Criteria</h4>
+                           <ul className="text-xs text-slate-300 space-y-2">
+                              <li className="flex items-center gap-2 font-mono"><span className="text-teal-500">✓</span> &quot;Go straight <strong className="text-white">on</strong> the main road.&quot;</li>
+                              <li className="flex items-center gap-2 font-mono"><span className="text-teal-500">✓</span> &quot;Stop <strong className="text-white">at</strong> the red building.&quot;</li>
+                              <li className="flex items-center gap-2 font-mono"><span className="text-teal-500">✓</span> &quot;The key is <strong className="text-white">in</strong> the blue box.&quot;</li>
+                              <li className="flex items-center gap-2 font-mono"><span className="text-teal-500">✓</span> &quot;Turn right <strong className="text-white">at</strong> the intersection.&quot;</li>
+                           </ul>
+                        </div>
+                     </div>
                   </CurriculumBlock>
                 </div>
               </div>
             </div>
           </motion.div>
 
-          {/* HOUR 10: Capstone */}
+          {/* HOUR 10: Capstone Finale */}
           <motion.div 
             initial="hidden"
             whileInView="visible"
@@ -201,22 +273,23 @@ export default function EnglishClassHours9and10() {
                     </div>
                     <div>
                       <h2 className="text-3xl font-bold text-white tracking-tight">The Capstone</h2>
-                      <p className="text-blue-400 font-medium tracking-wide text-xs uppercase">Unit 1 Integration Test</p>
+                      <p className="text-blue-400 font-medium tracking-wide text-xs uppercase">The Border Simulation</p>
                     </div>
                   </div>
                   
                   <p className="text-slate-400 text-lg leading-relaxed">
-                    This is the culmination of 10 hours of rigorous training. No new grammar. Only execution. We simulate the highest-pressure environment possible to test structural retention.
+                    This is the final test of Unit 1. No new theory. Only survival. We simulate the high-pressure environment of a US Customs and Border Protection interrogation.
                   </p>
 
-                  <CurriculumContext title="Performance Objectives" accentColor="blue">
-                    <ul className="text-sm text-slate-300 space-y-2 list-disc list-inside marker:text-blue-500">
-                       <li>Automatic formulation of answers to Wh- Questions</li>
-                       <li>Zero hesitation on To Be vs Have/Has</li>
-                       <li>Flawless numeral and date regurgitation</li>
-                       <li>Correct formal registering</li>
+                  <div className="bg-slate-900/50 rounded-2xl p-6 border border-slate-800">
+                    <h4 className="text-blue-400 font-bold text-sm mb-4 flex items-center gap-2"><CheckCircle className="w-4 h-4"/> Success Requirements</h4>
+                    <ul className="text-xs text-slate-300 space-y-3">
+                       <li className="flex items-start gap-2"><span className="text-blue-500 font-bold">•</span> Answer Wh- questions without &apos;Ehhh...&apos;</li>
+                       <li className="flex items-start gap-2"><span className="text-blue-500 font-bold">•</span> Zero hesitation on To Be/Have when describing self.</li>
+                       <li className="flex items-start gap-2"><span className="text-blue-500 font-bold">•</span> Flawless date and number recognition.</li>
+                       <li className="flex items-start gap-2"><span className="text-blue-500 font-bold">•</span> Maintain formal register throughout.</li>
                     </ul>
-                  </CurriculumContext>
+                  </div>
                 </div>
               </div>
 
@@ -224,58 +297,97 @@ export default function EnglishClassHours9and10() {
               <div className="lg:w-2/3">
                 <div className="space-y-8">
                   <CurriculumBlock 
-                    icon={<Plane />}
-                    title="Phase 1: The Customs and Border Protection (CBP) Simulation"
-                    subtitle="45 Minutes • The Ultimate Roleplay"
-                    methodology="High-Stress Cognitive Overload"
+                    icon={<ShieldCheck />}
+                    title="Phase 1: The CBP High-Pressure Simulation"
+                    subtitle="45 Minutes • Maximum Stress Simulation"
+                    methodology="Cognitive Overload Roleplay"
                     accentColor="blue"
                   >
-                    <div className="bg-slate-950 rounded-xl border border-blue-500/30 w-full mt-4 p-5">
-                       <h4 className="flex items-center gap-2 text-blue-400 font-bold mb-4 uppercase tracking-widest border-b border-blue-500/20 pb-3">
-                          <ShieldCheck /> The Interrogation Script
-                       </h4>
+                    <div className="bg-slate-950 rounded-xl border border-blue-500/30 w-full mt-4 p-5 overflow-hidden">
+                       <div className="flex justify-between items-center mb-6">
+                          <h4 className="text-blue-400 font-black text-xs uppercase tracking-[0.2em] flex items-center gap-2">
+                             <Plane className="w-4 h-4" /> Port of Entry: JFK Airport
+                          </h4>
+                          <span className="text-[10px] text-slate-500 font-mono">CODE: UNIT1_FINAL</span>
+                       </div>
                        
-                       <p className="text-sm text-slate-400 italic mb-4">
-                          The instructor acts as the strict CBP Officer. The student must act as the passenger. Mistakes result in "Secondary Screening." This uses ALL Unit 1 Grammar.
+                       <p className="text-xs text-slate-400 italic mb-6 border-l-2 border-slate-700 pl-4 py-1">
+                          The instructor acts as the strict, non-smiling CBP Officer. The student must answer precisely. Incorrect prepositions or names spelled wrong result in &quot;Secondary Screening.&quot;
                        </p>
 
-                       <div className="space-y-3 font-serif text-sm bg-slate-900/50 p-4 rounded-lg">
-                           <p className="text-slate-300"><strong className="text-white">Officer:</strong> "Next! Good morning. Passport and customs declaration, please." <strong className="text-blue-300 text-xs font-sans">(Hour 1: Register)</strong></p>
-                           <p className="text-slate-400 italic">"Good morning, Officer. Here is my passport."</p>
+                       <div className="space-y-4 font-serif text-sm bg-slate-900/40 p-6 rounded-lg border border-white/5 relative">
+                           <div className="absolute top-0 right-0 p-2 opacity-10"><Flag className="w-20 h-20" /></div>
                            
-                           <p className="text-slate-300 mt-2"><strong className="text-white">Officer:</strong> "What is the purpose of your visit?" <strong className="text-blue-300 text-xs font-sans">(Hour 5: Wh- Question)</strong></p>
-                           <p className="text-slate-400 italic">"I am here for a cultural exchange program." <strong className="text-rose-300 text-xs font-sans">(Hour 4: To Be)</strong></p>
-
-                           <p className="text-slate-300 mt-2"><strong className="text-white">Officer:</strong> "What is your occupation in your home country?"</p>
-                           <p className="text-slate-400 italic">"I am an engineer." <strong className="text-rose-300 text-xs font-sans">(Hour 4: Articles)</strong></p>
-
-                           <p className="text-slate-300 mt-2"><strong className="text-white">Officer:</strong> "Where will you be staying?" <strong className="text-blue-300 text-xs font-sans">(Hour 9: Prepositions)</strong></p>
-                           <p className="text-slate-400 italic">"I am staying at my friend's house in Orlando." <strong className="text-fuchsia-300 text-xs font-sans">(Hour 6 & 9: Possessives & Prepositions)</strong></p>
-
-                           <p className="text-slate-300 mt-2"><strong className="text-white">Officer:</strong> "What is your date of birth?" <strong className="text-blue-300 text-xs font-sans">(Hour 3: Ordinals & Dates)</strong></p>
-                           <p className="text-slate-400 italic">"I was born on July 21st, 2002."</p>
-
-                           <p className="text-slate-300 mt-2"><strong className="text-white">Officer:</strong> "Can you spell your sponsor's last name?" <strong className="text-blue-300 text-xs font-sans">(Hour 2: Spelling & Phonetics)</strong></p>
-                           <p className="text-slate-400 italic font-mono uppercase">"M-A-R-T-I-N-E-Z."</p>
-
-                           <p className="text-slate-300 mt-2"><strong className="text-white">Officer:</strong> "Look at the camera. Take off your hat." <strong className="text-blue-300 text-xs font-sans">(Hour 8: Descriptions context)</strong></p>
-                           <p className="text-slate-400 italic">"Okay."</p>
-
-                           <p className="text-slate-300 mt-2"><strong className="text-white">Officer:</strong> "Welcome to the United States. Have a good day."</p>
+                           <div className="space-y-4">
+                              <p className="text-slate-300"><strong className="text-white uppercase font-sans text-xs tracking-wider">Officer:</strong> &quot;Next! Passport and declaration, please.&quot;</p>
+                              <p className="text-slate-400 italic pl-10">&quot;Good morning, Officer. Here is my passport.&quot;</p>
+                              
+                              <p className="text-slate-300"><strong className="text-white uppercase font-sans text-xs tracking-wider">Officer:</strong> &quot;What is the purpose of your visit?&quot;</p>
+                              <p className="text-slate-400 italic pl-10">&quot;I am here for a cultural exchange program/vacation.&quot;</p>
+                              
+                              <p className="text-slate-300"><strong className="text-white uppercase font-sans text-xs tracking-wider">Officer:</strong> &quot;Where are you staying? I need the exact address.&quot;</p>
+                              <p className="text-slate-400 italic pl-10">&quot;I am staying <strong className="text-white">at</strong> 1500 Ocean Avenue, in Miami.&quot;</p>
+                              
+                              <p className="text-slate-300"><strong className="text-white uppercase font-sans text-xs tracking-wider">Officer:</strong> &quot;Who lives there? Is it a hotel?&quot;</p>
+                              <p className="text-slate-400 italic pl-10">&quot;No, it is my <strong className="text-white">aunt&apos;s</strong> house. Her name is Martha.&quot;</p>
+                              
+                              <p className="text-slate-300"><strong className="text-white uppercase font-sans text-xs tracking-wider">Officer:</strong> &quot;How much money do you have with you?&quot;</p>
+                              <p className="text-slate-400 italic pl-10">&quot;I have <strong className="text-white font-mono">$1,500</strong> in cash and my credit cards.&quot;</p>
+                              
+                              <p className="text-slate-300"><strong className="text-white uppercase font-sans text-xs tracking-wider">Officer:</strong> &quot;Can you spell your sponsor&apos;s last name for me?&quot;</p>
+                              <p className="text-slate-400 italic pl-10 font-mono uppercase">&quot;R-O-D-R-I-G-U-E-Z.&quot;</p>
+                              
+                              <p className="text-slate-300"><strong className="text-white uppercase font-sans text-xs tracking-wider">Officer:</strong> &quot;When do you return to your country?&quot;</p>
+                              <p className="text-slate-400 italic pl-10">&quot;I return on <strong className="text-white">September 12th</strong>.&quot;</p>
+                           </div>
                        </div>
                     </div>
                   </CurriculumBlock>
 
                   <CurriculumBlock 
-                    icon={<GraduationCap />}
-                    title="Phase 2: Debrief & Graduation"
-                    subtitle="15 Minutes • Feedback & Award"
-                    methodology="Constructive Correction"
+                    icon={<FileSearch />}
+                    title="Phase 2: Secondary Screening (Advanced Mode)"
+                    subtitle="15 Minutes • Critical Thinking Under Fire"
+                    methodology="Unexpected Variation Challenge"
                     accentColor="blue"
                   >
-                     <p className="text-sm text-slate-300 leading-relaxed mt-4">
-                        The instructor provides individual feedback on phonetic slip-ups, grammar breaks under pressure, and registers. Students who successfully 'pass the border' graduate Unit 1 and are ready for the A2-B1 threshold of Unit 2.
-                     </p>
+                    <p className="text-sm text-slate-300 leading-relaxed mb-4">
+                      If the student successfully answers basic questions, the Officer increases the difficulty to test deeper Unit 1 knowledge (Hour 6 & 8).
+                    </p>
+                    <div className="bg-slate-900 rounded-xl p-5 border border-red-500/20">
+                       <h4 className="text-red-400 font-bold text-xs uppercase mb-3 flex items-center gap-2"><AlertTriangle className="w-4 h-4" /> &quot;The Secondary&quot; Challenges</h4>
+                       <ul className="space-y-3 text-sm">
+                          <li className="flex items-start gap-3">
+                             <div className="shrink-0 w-5 h-5 rounded-full bg-red-500/20 flex items-center justify-center text-[10px] text-red-400">1</div>
+                             <p className="text-slate-300">&quot;Describe the person waiting for you outside.&quot; <span className="text-slate-500 italic block mt-1">(Tests Hour 8: Physical/Personality)</span></p>
+                          </li>
+                          <li className="flex items-start gap-3">
+                             <div className="shrink-0 w-5 h-5 rounded-full bg-red-500/20 flex items-center justify-center text-[10px] text-red-400">2</div>
+                             <p className="text-slate-300">&quot;Explain your relationship to every person on this list.&quot; <span className="text-slate-500 italic block mt-1">(Tests Hour 6: Possessives & Family)</span></p>
+                          </li>
+                       </ul>
+                    </div>
+                  </CurriculumBlock>
+
+                  <CurriculumBlock 
+                    icon={<GraduationCap />}
+                    title="Phase 3: Debrief & Graduation"
+                    subtitle="15 Minutes • Unit 1 Conclusion"
+                    methodology="Diagnostic Feedback"
+                    accentColor="blue"
+                  >
+                     <div className="bg-slate-950 p-6 rounded-2xl border border-blue-500/20">
+                        <p className="text-sm text-slate-300 leading-relaxed mb-4">
+                           The instructor reviews the specific &apos;grammar breaks&apos; that happened under the simulation stress. Students who maintained structural integrity graduate to Unit 2 (The Threshold).
+                        </p>
+                        <div className="flex items-center gap-3 p-4 bg-green-500/5 rounded-xl border border-green-500/20">
+                           <CheckCircle className="w-10 h-10 text-green-500 opacity-50" />
+                           <div>
+                              <p className="text-green-400 font-bold text-sm underline">CERTIFICATION CRITERIA:</p>
+                              <p className="text-slate-400 text-xs mt-1">Foundational Fluency (Unit 1) - Level A1+ Achieved.</p>
+                           </div>
+                        </div>
+                     </div>
                   </CurriculumBlock>
                 </div>
               </div>
@@ -285,29 +397,41 @@ export default function EnglishClassHours9and10() {
         </div>
       </section>
 
-      {/* Graduation Banner */}
+      {/* Final Achievement Banner */}
       <section className="py-24 relative overflow-hidden">
          <div className="absolute inset-0 bg-gradient-to-t from-blue-900/10 to-transparent -z-10" />
          <div className="container mx-auto px-6 text-center max-w-4xl">
             <motion.div
-               initial={{ opacity: 0, y: 20 }}
-               whileInView={{ opacity: 1, y: 0 }}
+               initial={{ opacity: 0, scale: 0.9 }}
+               whileInView={{ opacity: 1, scale: 1 }}
                viewport={{ once: true }}
-               transition={{ duration: 0.5 }}
-               className="bg-slate-900/50 p-12 rounded-3xl border border-blue-500/20 shadow-[0_0_50px_rgba(59,130,246,0.1)] relative"
+               className="bg-slate-900/50 p-16 rounded-[3rem] border border-blue-500/10 shadow-[0_0_100px_rgba(59,130,246,0.05)] relative overflow-hidden"
             >
-               <Trophy className="w-16 h-16 text-blue-400 mx-auto mb-6" />
-               <h2 className="text-4xl font-black text-white mb-4">Unit 1 Complete.</h2>
-               <p className="text-slate-300 max-w-2xl mx-auto text-lg leading-relaxed">
-                  You have mastered the foundational mechanics of Survival English. You can spell, command numbers, wield the verb To Be, ask questions, describe reality, and navigate space. The architecture is built.
+               <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-blue-500/50 to-transparent" />
+               <Trophy className="w-20 h-20 text-blue-400 mx-auto mb-8 animate-pulse" />
+               <h2 className="text-5xl font-black text-white mb-6">Unit 1 Mastered.</h2>
+               <p className="text-slate-300 max-w-2xl mx-auto text-xl leading-relaxed font-serif italic">
+                  &quot;The infrastructure is complete. You have transitioned from speaking by instinct to speaking by architecture.&quot;
                </p>
-               <button className="mt-8 bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 px-10 rounded-full shadow-[0_0_20px_rgba(37,99,235,0.4)] transition-all uppercase tracking-wide">
-                  Advance to Unit 2
-               </button>
+               <div className="mt-12 flex flex-col md:flex-row gap-4 justify-center">
+                  <button className="bg-white text-slate-950 font-black py-5 px-12 rounded-2xl hover:bg-blue-50 transition-all uppercase tracking-widest text-sm shadow-xl">
+                     Begin Unit 2
+                  </button>
+                  <button className="bg-slate-800 text-white font-bold py-5 px-12 rounded-2xl hover:bg-slate-700 transition-all uppercase tracking-widest text-sm border border-white/5">
+                     Practice Exam
+                  </button>
+               </div>
             </motion.div>
          </div>
       </section>
 
+      <CurriculumNavigation 
+        prevHref="/english-class/hours-7-8"
+        prevLabel="Hours 7 & 8"
+        nextHref="/english-class"
+        nextLabel="Dashboard"
+        accentColor="teal"
+      />
     </div>
   );
 }
