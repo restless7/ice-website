@@ -309,6 +309,7 @@ export default function IceDashboard() {
       children: [
         { title: 'Sistema ERP', icon: Layers, href: '/ice-dashboard/erp' },
         { title: 'Catálogo de Programas', icon: BookOpen, href: '/ice-dashboard/programs/catalog' },
+        { title: 'Masterclass Teacher Guide', icon: GraduationCap, href: '/masterclass' },
         { title: 'Precios y Promociones', icon: CreditCard, href: '/ice-dashboard/programs/pricing' },
         { title: 'Universidades Aliadas', icon: Building, href: '/ice-dashboard/programs/universities' }
       ]

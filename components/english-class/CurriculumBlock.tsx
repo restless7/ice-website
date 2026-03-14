@@ -43,7 +43,7 @@ export function CurriculumBlock({
     >
       <div className="flex flex-col sm:flex-row sm:items-start gap-4 mb-4">
         <div className={`shrink-0 p-3 rounded-xl border ${accentStyles}`}>
-          {React.cloneElement(icon as React.ReactElement, { className: "w-6 h-6" })}
+          {React.cloneElement(icon as React.ReactElement<{ className?: string }>, { className: "w-6 h-6" })}
         </div>
         <div className="flex-grow">
           <h3 className="text-xl font-bold text-white mb-1">{title}</h3>
