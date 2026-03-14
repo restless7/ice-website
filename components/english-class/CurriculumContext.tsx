@@ -32,7 +32,7 @@ export function CurriculumContext({
   return (
     <div className="bg-slate-900/80 rounded-2xl p-6 border border-slate-800 shadow-xl">
       <h4 className={`${textColor} font-semibold mb-3 flex items-center gap-2`}>
-         {React.cloneElement(icon as React.ReactElement, { className: "w-5 h-5 flex-shrink-0" })}
+         {React.cloneElement(icon as React.ReactElement<{ className?: string }>, { className: "w-5 h-5 flex-shrink-0" })}
          {title}
       </h4>
       <div className="space-y-4">

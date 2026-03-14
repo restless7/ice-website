@@ -35,7 +35,7 @@ export function StepCard({
             className={`group flex items-start gap-4 p-5 rounded-2xl bg-slate-800/30 border border-white/5 backdrop-blur-sm transition-all duration-300 ${config} hover:bg-slate-800/60`}
         >
             <div className={`shrink-0 p-3 rounded-xl border ${config.split('hover:')[0]} transition-colors duration-300`}>
-                {React.cloneElement(icon as React.ReactElement, { className: "w-5 h-5" })}
+                {React.cloneElement(icon as React.ReactElement<{ className?: string }>, { className: "w-5 h-5" })}
             </div>
             <div>
                 <h4 className="text-lg font-semibold text-white mb-1 group-hover:text-blue-100 transition-colors">{title}</h4>
