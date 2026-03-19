@@ -428,8 +428,8 @@ export default function EnglishClassHours9and10() {
       <CurriculumNavigation 
         prevHref="/english-class/hours-7-8"
         prevLabel="Hours 7 & 8"
-        nextHref="/english-class"
-        nextLabel="Dashboard"
+        nextHref="/english-class/hours-11-12"
+        nextLabel="Unit 2: Hours 11 & 12"
         accentColor="teal"
       />
     </div>
