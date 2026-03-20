@@ -348,6 +348,7 @@ export default function EnglishClassHours3and4() {
         nextHref="/english-class/hours-5-6"
         nextLabel="Hours 5 & 6"
         accentColor="emerald"
+        moduleTitle="Personal Information"
       />
     </div>
   );

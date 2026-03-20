@@ -10,6 +10,7 @@ interface CurriculumNavigationProps {
   nextHref?: string;
   nextLabel?: string;
   accentColor?: "indigo" | "purple" | "rose" | "emerald" | "blue" | "cyan" | "amber" | "teal";
+  moduleTitle?: string;
 }
 
 export function CurriculumNavigation({
@@ -17,8 +18,22 @@ export function CurriculumNavigation({
   prevLabel,
   nextHref,
   nextLabel,
-  accentColor = "indigo"
+  accentColor = "indigo",
+  moduleTitle = "Current Module"
 }: CurriculumNavigationProps) {
+  const handleDownload = () => {
+    const content = `ICE ENGLISH CURRICULUM - STUDY MATERIALS\n\nModule: ${moduleTitle}\nHours: ${prevLabel?.split(' ')[1] || '0'} - ${nextLabel?.split(' ')[1] || '0'}\n\nKey Concepts:\n- Active Grammar Formulas\n- Conversational Dialogues\n- Real-world Scenarios\n- Common Error Corrections\n\nInstructions: Take notes during your practice sessions and use the interactive activities provided in the digital module to reinforce your learning.\n\n© ICE - International Cultural Exchange`;
+    const blob = new Blob([content], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `ICE_Materials_${moduleTitle.replace(/\s+/g, '_')}.txt`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
   const accentClassMap = {
     indigo: "bg-indigo-600 hover:bg-indigo-500 shadow-indigo-500/30",
     emerald: "bg-emerald-500 hover:bg-emerald-400 text-slate-950 shadow-emerald-500/30",
@@ -47,7 +62,10 @@ export function CurriculumNavigation({
           <div className="hidden md:block w-32" />
         )}
         
-        <button className={`${accentClass} font-bold py-3 px-8 rounded-full shadow-[0_0_20px_rgba(0,0,0,0.1)] transition-all duration-300`}>
+        <button 
+          onClick={handleDownload}
+          className={`${accentClass} font-bold py-3 px-8 rounded-full shadow-[0_0_20px_rgba(0,0,0,0.1)] transition-all duration-300 hover:scale-105 active:scale-95`}
+        >
           Download Materials
         </button>
 

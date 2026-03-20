@@ -511,6 +511,7 @@ export default function EnglishClassHours19and20() {
         nextHref="/english-class"
         nextLabel="Back to Curriculum"
         accentColor="teal"
+        moduleTitle="Possibility &amp; Milestone Review"
       />
     </div>
   );

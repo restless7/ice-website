@@ -521,6 +521,7 @@ export default function EnglishClassHours13and14() {
         nextHref="/english-class/hours-15-16"
         nextLabel="Hours 15 &amp; 16"
         accentColor="purple"
+        moduleTitle="Abilities &amp; Permissions (CAN)"
       />
     </div>
   );

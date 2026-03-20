@@ -714,6 +714,7 @@ export default function EnglishClassHours11and12() {
         nextHref="/english-class/hours-13-14"
         nextLabel="Hours 13 &amp; 14"
         accentColor="emerald"
+        moduleTitle="Simple Present &amp; Routines"
       />
     </div>
   );

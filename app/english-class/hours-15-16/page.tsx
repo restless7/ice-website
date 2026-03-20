@@ -586,6 +586,7 @@ export default function EnglishClassHours15and16() {
         nextHref="/english-class/hours-17-18"
         nextLabel="Hours 17 &amp; 18"
         accentColor="rose"
+        moduleTitle="Present Continuous &amp; Tense Contrast"
       />
     </div>
   );

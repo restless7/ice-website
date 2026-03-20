@@ -133,23 +133,23 @@ export default function EnglishClassHours17and18() {
                           <div>
                             <h4 className="text-green-400 font-bold text-xs uppercase mb-2 flex items-center gap-2"><CheckCircle className="w-3 h-3" /> You MUST / HAVE TO:</h4>
                             <ul className="text-sm text-slate-300 space-y-2">
-                              <li className="flex items-start gap-2"><span className="text-green-500">&check;</span> Arrive 10 minutes early.</li>
-                              <li className="flex items-start gap-2"><span className="text-green-500">&check;</span> Wear your uniform at all times.</li>
-                              <li className="flex items-start gap-2"><span className="text-green-500">&check;</span> Greet every guest with a smile.</li>
-                              <li className="flex items-start gap-2"><span className="text-green-500">&check;</span> Report any problems to a supervisor.</li>
-                              <li className="flex items-start gap-2"><span className="text-green-500">&check;</span> Wash your hands before handling food.</li>
-                              <li className="flex items-start gap-2"><span className="text-green-500">&check;</span> Clock in and out on time.</li>
+                              <li className="flex items-start gap-2"><span className="text-green-500">✓</span> Arrive 10 minutes early.</li>
+                              <li className="flex items-start gap-2"><span className="text-green-500">✓</span> Wear your uniform at all times.</li>
+                              <li className="flex items-start gap-2"><span className="text-green-500">✓</span> Greet every guest with a smile.</li>
+                              <li className="flex items-start gap-2"><span className="text-green-500">✓</span> Report any problems to a supervisor.</li>
+                              <li className="flex items-start gap-2"><span className="text-green-500">✓</span> Wash your hands before handling food.</li>
+                              <li className="flex items-start gap-2"><span className="text-green-500">✓</span> Clock in and out on time.</li>
                             </ul>
                           </div>
                           <div>
                             <h4 className="text-red-400 font-bold text-xs uppercase mb-2 flex items-center gap-2"><AlertTriangle className="w-3 h-3" /> You MUST NOT:</h4>
                             <ul className="text-sm text-slate-300 space-y-2">
-                              <li className="flex items-start gap-2"><span className="text-red-500">&cross;</span> Use your phone on the floor.</li>
-                              <li className="flex items-start gap-2"><span className="text-red-500">&cross;</span> Eat in front of guests.</li>
-                              <li className="flex items-start gap-2"><span className="text-red-500">&cross;</span> Leave early without permission.</li>
-                              <li className="flex items-start gap-2"><span className="text-red-500">&cross;</span> Share guest information.</li>
-                              <li className="flex items-start gap-2"><span className="text-red-500">&cross;</span> Be rude to customers.</li>
-                              <li className="flex items-start gap-2"><span className="text-red-500">&cross;</span> Take photos of guests.</li>
+                              <li className="flex items-start gap-2"><span className="text-red-500">✗</span> Use your phone on the floor.</li>
+                              <li className="flex items-start gap-2"><span className="text-red-500">✗</span> Eat in front of guests.</li>
+                              <li className="flex items-start gap-2"><span className="text-red-500">✗</span> Leave early without permission.</li>
+                              <li className="flex items-start gap-2"><span className="text-red-500">✗</span> Share guest information.</li>
+                              <li className="flex items-start gap-2"><span className="text-red-500">✗</span> Be rude to customers.</li>
+                              <li className="flex items-start gap-2"><span className="text-red-500">✗</span> Take photos of guests.</li>
                             </ul>
                           </div>
                         </div>
@@ -541,6 +541,7 @@ export default function EnglishClassHours17and18() {
         nextHref="/english-class/hours-19-20"
         nextLabel="Hours 19 &amp; 20"
         accentColor="amber"
+        moduleTitle="Obligation &amp; Advice"
       />
     </div>
   );
