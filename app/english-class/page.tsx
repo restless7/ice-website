@@ -46,6 +46,28 @@ export default function EnglishClassPage() {
                 accentColor="blue"
             />
 
+            {/* Intensive Crash Course Banner */}
+            <div className="container mx-auto px-6 max-w-7xl pt-12 pb-4">
+                <Link href="/english-class/intensive-5-hours" className="block group">
+                    <div className="bg-gradient-to-r from-cyan-900/40 via-blue-900/20 to-cyan-900/40 border border-cyan-500/30 rounded-2xl p-6 md:p-8 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6 shadow-[0_0_30px_rgba(6,182,212,0.15)] group-hover:border-cyan-400/50 group-hover:shadow-[0_0_40px_rgba(6,182,212,0.3)] transition-all duration-300">
+                        <div className="absolute inset-0 bg-cyan-500/5 group-hover:bg-cyan-500/10 transition-colors" />
+                        <div className="relative z-10">
+                            <h3 className="text-cyan-400 font-bold text-2xl mb-2 flex items-center gap-3">
+                                <Award className="w-6 h-6" /> Intensive 5-Hour Crash Course
+                            </h3>
+                            <p className="text-slate-300 max-w-2xl leading-relaxed">
+                                Short on time? Take our hyper-condensed survival masterclass. Covering introductions, routines, obligations, and the critical J-1 Visa interview in just 5 intensive hours.
+                            </p>
+                        </div>
+                        <div className="relative z-10 shrink-0">
+                            <span className="inline-flex items-center gap-2 bg-cyan-500/20 text-cyan-300 font-bold py-3 px-6 rounded-full border border-cyan-500/30 group-hover:bg-cyan-500 group-hover:text-slate-950 transition-colors">
+                                Start Intensive Course <ArrowRight className="w-4 h-4" />
+                            </span>
+                        </div>
+                    </div>
+                </Link>
+            </div>
+
             {/* Curriculum Grid */}
             <section className="py-20 relative z-10">
                 <div className="container mx-auto px-6 max-w-7xl">
