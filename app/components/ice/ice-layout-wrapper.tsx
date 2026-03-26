@@ -3,7 +3,6 @@
 import { ReactNode } from "react";
 import { PublicNavigation, ThemeProvider } from "@/app/components/shared";
 import IceFooter from "./ice-footer";
-import IceSocialButtons from "./ice-social-buttons";
 import ChatWidget from "../chat/ChatWidget";
 
 interface IceLayoutWrapperProps {
@@ -32,10 +31,7 @@ export default function IceLayoutWrapper({ children }: IceLayoutWrapperProps) {
         {/* ICE Footer */}
         <IceFooter />
         
-        {/* Fixed Social Media Buttons - as specified in outline section 1.4 */}
-        <IceSocialButtons />
-        
-        {/* AI Agent Chat Widget */}
+        {/* AI Agent Chat & Social Widget */}
         <ChatWidget />
       </div>
     </ThemeProvider>
