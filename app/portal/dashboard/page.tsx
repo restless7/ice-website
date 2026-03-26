@@ -236,9 +236,14 @@ export default function PortalDashboard() {
                   <FileText className="w-5 h-5 text-lime-400" />
                   Documentos
                 </h3>
-                {docSummary && (
-                  <span className="text-white/40 text-sm">{docSummary.approved} aprobados de {docSummary.total}</span>
-                )}
+                <div className="flex items-center gap-3">
+                  {docSummary && (
+                    <span className="text-white/40 text-sm">{docSummary.approved} aprobados de {docSummary.total}</span>
+                  )}
+                  <Link href="/portal/documents" className="text-lime-400 hover:text-lime-300 text-sm font-medium transition-colors">
+                    Ver todos →
+                  </Link>
+                </div>
               </div>
               <div className="space-y-3 max-h-80 overflow-y-auto pr-2">
                 {documents.length === 0 ? (
