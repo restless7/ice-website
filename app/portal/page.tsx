@@ -2,8 +2,11 @@
 
 import IceLayoutWrapper from "@/app/components/ice/ice-layout-wrapper";
 import { motion } from "framer-motion";
-import { LogIn, UserPlus, BookOpen, FileText, MessageCircle, Bell, User, Settings, Calendar, CreditCard, Award, Globe, Shield } from "lucide-react";
+import { LogIn, UserPlus, BookOpen, FileText, MessageCircle, Bell, User, Settings, Calendar, CreditCard, Award, Globe, Shield, Loader2, AlertCircle } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { login } from "@/app/lib/portal-api";
 
 const portalFeatures = [
   {
@@ -38,33 +41,6 @@ const portalFeatures = [
   }
 ];
 
-const quickActions = [
-  {
-    title: "Subir Documentos",
-    description: "Añade documentos faltantes",
-    icon: FileText,
-    color: "from-blue-500 to-cyan-500"
-  },
-  {
-    title: "Ver Cronograma",
-    description: "Próximas actividades",
-    icon: Calendar,
-    color: "from-green-500 to-emerald-500"
-  },
-  {
-    title: "Realizar Pago",
-    description: "Pagos pendientes",
-    icon: CreditCard,
-    color: "from-purple-500 to-violet-500"
-  },
-  {
-    title: "Contactar Asesor",
-    description: "Obtener ayuda",
-    icon: MessageCircle,
-    color: "from-orange-500 to-red-500"
-  }
-];
-
 const studentServices = [
   {
     icon: Globe,
@@ -87,6 +63,36 @@ const studentServices = [
 ];
 
 export default function IcePortalPage() {
+  const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError("");
+
+    try {
+      const result = await login(email, password);
+      if (result.success) {
+        // Redirect based on role
+        if (result.user?.role === "STUDENT") {
+          router.push("/portal/dashboard");
+        } else {
+          router.push("/portal/dashboard");
+        }
+      } else {
+        setError(result.error || "Credenciales inválidas. Intenta de nuevo.");
+      }
+    } catch (err: any) {
+      setError(err.message || "Error de conexión. Verifica que el servidor esté disponible.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <IceLayoutWrapper>
       <div className="relative w-full bg-gradient-to-br from-purple-950 via-indigo-900 to-black">
@@ -95,39 +101,102 @@ export default function IcePortalPage() {
           <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-transparent"></div>
           
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              className="text-center"
-            >
-              <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
-                Portal <span className="text-lime-400">Estudiantil</span>
-              </h1>
-              <p className="text-xl md:text-2xl text-white/80 max-w-3xl mx-auto mb-12">
-                Tu centro de control para gestionar todos los aspectos de tu experiencia educativa internacional
-              </p>
-              
-              {/* Login/Register Buttons */}
-              <div className="flex flex-col sm:flex-row gap-6 justify-center">
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="flex items-center justify-center gap-3 bg-gradient-to-r from-lime-400 to-green-500 text-black font-semibold py-4 px-8 rounded-full hover:from-lime-500 hover:to-green-600 transition-all duration-300 shadow-xl"
-                >
-                  <LogIn className="w-6 h-6" />
-                  Iniciar Sesión
-                </motion.button>
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="flex items-center justify-center gap-3 bg-white/10 text-white border border-white/20 font-semibold py-4 px-8 rounded-full hover:bg-white/20 transition-all duration-300 backdrop-blur-lg"
-                >
-                  <UserPlus className="w-6 h-6" />
-                  Crear Cuenta
-                </motion.button>
-              </div>
-            </motion.div>
+            <div className="grid lg:grid-cols-2 gap-16 items-center">
+              {/* Left: Branding */}
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8 }}
+              >
+                <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
+                  Portal <span className="text-lime-400">Estudiantil</span>
+                </h1>
+                <p className="text-xl md:text-2xl text-white/80 max-w-xl mb-8">
+                  Tu centro de control para gestionar todos los aspectos de tu experiencia educativa internacional
+                </p>
+                <div className="flex items-center gap-4 text-white/60">
+                  <Shield className="w-5 h-5 text-lime-400" />
+                  <span>Acceso seguro • Datos en tiempo real • Soporte 24/7</span>
+                </div>
+              </motion.div>
+
+              {/* Right: Login Form */}
+              <motion.div
+                initial={{ opacity: 0, x: 30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+              >
+                <div className="bg-white/5 backdrop-blur-lg rounded-2xl p-8 border border-lime-400/20 max-w-md mx-auto">
+                  <h3 className="text-white font-semibold text-2xl mb-2">Iniciar Sesión</h3>
+                  <p className="text-white/60 text-sm mb-6">Accede con las credenciales proporcionadas por ICE</p>
+
+                  {error && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="flex items-center gap-2 bg-red-500/20 border border-red-400/30 rounded-lg px-4 py-3 mb-4"
+                    >
+                      <AlertCircle className="w-4 h-4 text-red-400 shrink-0" />
+                      <span className="text-red-300 text-sm">{error}</span>
+                    </motion.div>
+                  )}
+
+                  <form onSubmit={handleLogin} className="space-y-4">
+                    <div>
+                      <label className="text-white/70 text-sm mb-1 block">Email o ID de estudiante</label>
+                      <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="tu@email.com"
+                        required
+                        className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-lime-400 focus:border-transparent backdrop-blur-lg transition-all duration-300"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-white/70 text-sm mb-1 block">Contraseña</label>
+                      <input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        placeholder="••••••••"
+                        required
+                        className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-lime-400 focus:border-transparent backdrop-blur-lg transition-all duration-300"
+                      />
+                    </div>
+                    <motion.button
+                      type="submit"
+                      disabled={isLoading}
+                      whileHover={{ scale: isLoading ? 1 : 1.02 }}
+                      whileTap={{ scale: isLoading ? 1 : 0.98 }}
+                      className="w-full bg-gradient-to-r from-lime-400 to-green-500 text-black font-semibold py-3 px-6 rounded-lg hover:from-lime-500 hover:to-green-600 transition-all duration-300 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    >
+                      {isLoading ? (
+                        <>
+                          <Loader2 className="w-5 h-5 animate-spin" />
+                          Verificando...
+                        </>
+                      ) : (
+                        <>
+                          <LogIn className="w-5 h-5" />
+                          Ingresar al Portal
+                        </>
+                      )}
+                    </motion.button>
+                  </form>
+                  
+                  <div className="mt-6 pt-6 border-t border-white/10">
+                    <p className="text-white/70 text-sm mb-4">¿No tienes una cuenta?</p>
+                    <Link 
+                      href="/ice-contacto"
+                      className="text-lime-400 hover:text-lime-300 font-semibold text-sm transition-colors duration-300"
+                    >
+                      Contáctanos para crear tu cuenta →
+                    </Link>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
           </div>
         </section>
 
@@ -170,103 +239,6 @@ export default function IcePortalPage() {
                 );
               })}
             </div>
-          </div>
-        </section>
-
-        {/* Demo Dashboard Preview */}
-        <section className="relative py-20 bg-gradient-to-r from-indigo-900/50 to-purple-900/50">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-              className="text-center mb-16"
-            >
-              <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-                Vista Previa del <span className="text-lime-400">Dashboard</span>
-              </h2>
-              <p className="text-xl text-white/80 max-w-3xl mx-auto">
-                Una interfaz intuitiva diseñada para simplificar tu experiencia
-              </p>
-            </motion.div>
-
-            {/* Mock Dashboard */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-              className="bg-white/5 backdrop-blur-lg rounded-2xl border border-lime-400/20 overflow-hidden"
-            >
-              {/* Dashboard Header */}
-              <div className="bg-gradient-to-r from-lime-400/20 to-green-500/20 p-6 border-b border-lime-400/20">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-lime-400 rounded-full flex items-center justify-center">
-                      <User className="w-6 h-6 text-black" />
-                    </div>
-                    <div>
-                      <h3 className="text-white font-semibold text-lg">Bienvenido, María González</h3>
-                      <p className="text-white/70">Programa: Work & Travel Canadá 2024</p>
-                    </div>
-                  </div>
-                  <Settings className="w-6 h-6 text-white/70 hover:text-lime-400 cursor-pointer" />
-                </div>
-              </div>
-
-              {/* Dashboard Content */}
-              <div className="p-6">
-                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                  {quickActions.map((action, index) => {
-                    const IconComponent = action.icon;
-                    return (
-                      <motion.div
-                        key={action.title}
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.4, delay: index * 0.1 }}
-                        viewport={{ once: true }}
-                        className={`bg-gradient-to-r ${action.color} p-6 rounded-xl text-white cursor-pointer hover:scale-105 transition-transform duration-300`}
-                      >
-                        <IconComponent className="w-8 h-8 mb-3" />
-                        <h4 className="font-semibold mb-1">{action.title}</h4>
-                        <p className="text-sm opacity-90">{action.description}</p>
-                      </motion.div>
-                    );
-                  })}
-                </div>
-
-                {/* Progress Section */}
-                <div className="bg-white/5 rounded-xl p-6">
-                  <h4 className="text-white font-semibold text-lg mb-4">Progreso de tu Aplicación</h4>
-                  <div className="space-y-4">
-                    {[
-                      { step: "Documentos Básicos", progress: 100, status: "completed" },
-                      { step: "Entrevista Virtual", progress: 100, status: "completed" },
-                      { step: "Pago de Cuotas", progress: 60, status: "in-progress" },
-                      { step: "Visa y Permisos", progress: 0, status: "pending" }
-                    ].map((item, index) => (
-                      <div key={item.step} className="space-y-2">
-                        <div className="flex justify-between items-center">
-                          <span className="text-white/80">{item.step}</span>
-                          <span className="text-lime-400 font-semibold">{item.progress}%</span>
-                        </div>
-                        <div className="w-full bg-white/10 rounded-full h-2">
-                          <div 
-                            className={`h-2 rounded-full transition-all duration-300 ${
-                              item.status === 'completed' ? 'bg-green-500' :
-                              item.status === 'in-progress' ? 'bg-lime-400' : 'bg-gray-500'
-                            }`}
-                            style={{ width: `${item.progress}%` }}
-                          ></div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </motion.div>
           </div>
         </section>
 
@@ -320,82 +292,31 @@ export default function IcePortalPage() {
           </div>
         </section>
 
-        {/* Access Portal CTA */}
-        <section className="relative py-20 bg-gradient-to-r from-purple-900/50 to-indigo-900/50">
+        {/* Support Links */}
+        <section className="relative py-12 bg-gradient-to-r from-purple-900/50 to-indigo-900/50">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-            >
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-                ¿Listo para <span className="text-lime-400">Comenzar?</span>
-              </h2>
-              <p className="text-xl text-white/80 mb-8">
-                Accede a tu portal estudiantil y comienza a gestionar tu experiencia educativa internacional
-              </p>
-              
-              <div className="space-y-6">
-                {/* Login Form Preview */}
-                <div className="bg-white/5 backdrop-blur-lg rounded-2xl p-8 border border-lime-400/20 max-w-md mx-auto">
-                  <h3 className="text-white font-semibold text-lg mb-6">Acceso Rápido</h3>
-                  <div className="space-y-4">
-                    <input
-                      type="email"
-                      placeholder="Email o ID de estudiante"
-                      className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-lime-400 focus:border-transparent backdrop-blur-lg transition-all duration-300"
-                    />
-                    <input
-                      type="password"
-                      placeholder="Contraseña"
-                      className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-lime-400 focus:border-transparent backdrop-blur-lg transition-all duration-300"
-                    />
-                    <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="w-full bg-gradient-to-r from-lime-400 to-green-500 text-black font-semibold py-3 px-6 rounded-lg hover:from-lime-500 hover:to-green-600 transition-all duration-300"
-                    >
-                      Ingresar al Portal
-                    </motion.button>
-                  </div>
-                  
-                  <div className="mt-6 pt-6 border-t border-white/10">
-                    <p className="text-white/70 text-sm mb-4">¿No tienes una cuenta?</p>
-                    <Link 
-                      href="/ice-contacto"
-                      className="text-lime-400 hover:text-lime-300 font-semibold text-sm transition-colors duration-300"
-                    >
-                      Contáctanos para crear tu cuenta →
-                    </Link>
-                  </div>
-                </div>
-
-                {/* Support Links */}
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <Link
-                    href="/ice-contacto"
-                    className="text-white/70 hover:text-lime-400 font-medium transition-colors duration-300"
-                  >
-                    ¿Necesitas ayuda?
-                  </Link>
-                  <span className="text-white/30 hidden sm:block">•</span>
-                  <Link
-                    href="#"
-                    className="text-white/70 hover:text-lime-400 font-medium transition-colors duration-300"
-                  >
-                    ¿Olvidaste tu contraseña?
-                  </Link>
-                  <span className="text-white/30 hidden sm:block">•</span>
-                  <Link
-                    href="#"
-                    className="text-white/70 hover:text-lime-400 font-medium transition-colors duration-300"
-                  >
-                    Guía del Portal
-                  </Link>
-                </div>
-              </div>
-            </motion.div>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link
+                href="/ice-contacto"
+                className="text-white/70 hover:text-lime-400 font-medium transition-colors duration-300"
+              >
+                ¿Necesitas ayuda?
+              </Link>
+              <span className="text-white/30 hidden sm:block">•</span>
+              <Link
+                href="#"
+                className="text-white/70 hover:text-lime-400 font-medium transition-colors duration-300"
+              >
+                ¿Olvidaste tu contraseña?
+              </Link>
+              <span className="text-white/30 hidden sm:block">•</span>
+              <Link
+                href="#"
+                className="text-white/70 hover:text-lime-400 font-medium transition-colors duration-300"
+              >
+                Guía del Portal
+              </Link>
+            </div>
           </div>
         </section>
       </div>
