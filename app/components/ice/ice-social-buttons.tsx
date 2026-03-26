@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useState } from "react";
+import { MessageCircle } from "lucide-react";
 
 const socialButtons = [
   {
@@ -94,16 +95,16 @@ export default function IceSocialButtons() {
           ))}
         </motion.div>
 
-        {/* Main Toggle Button (Chatbot) */}
+        {/* Main Toggle Button */}
         <motion.button
           onClick={() => setIsExpanded(!isExpanded)}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
           className={`w-14 h-14 rounded-full bg-brand-gold hover:bg-brand-orange text-white flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 ${isExpanded ? 'rotate-45' : ''}`}
-          title="Chatbot / Redes Sociales"
+          title="Redes Sociales"
         >
-          <span className="text-xl">
-            {isExpanded ? "✕" : "🤖"}
+          <span className="text-xl flex items-center justify-center">
+            {isExpanded ? "✕" : <MessageCircle className="w-6 h-6" />}
           </span>
         </motion.button>
 
