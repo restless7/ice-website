@@ -39,7 +39,7 @@ export default function ChatWidget() {
     setIsLoading(true);
 
     try {
-      const apiUrl = process.env.NEXT_PUBLIC_PORTAL_API_URL || "https://contributors-attention-outsourcing-school.trycloudflare.com";
+      const apiUrl = process.env.NEXT_PUBLIC_PORTAL_API_URL || "https://generator-separately-ought-catalogs.trycloudflare.com";
       const res = await fetch(`${apiUrl}/api/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
