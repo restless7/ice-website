@@ -178,7 +178,7 @@ async function portalFetch<T>(
     if (response.status === 401) {
       clearAuth();
       if (typeof window !== 'undefined') {
-        window.location.href = '/portal';
+        window.location.href = '/student-portal';
       }
     }
     throw new Error(data.error || `API error ${response.status}`);
@@ -220,7 +220,7 @@ export async function verifyToken(): Promise<{ success: boolean; user?: PortalUs
 export function logout(): void {
   clearAuth();
   if (typeof window !== 'undefined') {
-    window.location.href = '/portal';
+    window.location.href = '/student-portal';
   }
 }
 
