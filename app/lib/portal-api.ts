@@ -7,7 +7,7 @@
 
 // ─── Configuration ────────────────────────────────────────────────────
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_PORTAL_API_URL || 'https://generator-separately-ought-catalogs.trycloudflare.com';
+const API_BASE_URL = process.env.NEXT_PUBLIC_PORTAL_API_URL || 'https://api.iceworldteam.com';
 
 // ─── Token Management ─────────────────────────────────────────────────
 
