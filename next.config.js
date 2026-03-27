@@ -10,7 +10,7 @@ const nextConfig = {
     return [
       {
         source: '/student-portal',
-        destination: process.env.NEXT_PUBLIC_PORTAL_API_URL || 'http://192.168.1.17:3000',
+        destination: (process.env.NEXT_PUBLIC_PORTAL_API_URL || 'http://192.168.1.17:3000') + '/auth/signin',
         permanent: false,
       },
       {
