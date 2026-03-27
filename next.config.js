@@ -6,19 +6,17 @@ const nextConfig = {
   env: {
     CUSTOM_KEY: 'my-value',
   },
-  async rewrites() {
+  async redirects() {
     return [
       {
         source: '/student-portal',
-        destination: 'http://localhost:3000/student-portal'
+        destination: process.env.NEXT_PUBLIC_PORTAL_API_URL || 'http://192.168.1.17:3000',
+        permanent: false,
       },
       {
         source: '/student-portal/:path*',
-        destination: 'http://localhost:3000/student-portal/:path*'
-      },
-      {
-        source: '/api/chat',
-        destination: 'http://localhost:3000/api/chat'
+        destination: (process.env.NEXT_PUBLIC_PORTAL_API_URL || 'http://192.168.1.17:3000') + '/:path*',
+        permanent: false,
       }
     ]
   }
