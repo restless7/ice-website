@@ -39,7 +39,7 @@ export default function ChatWidget() {
     setIsLoading(true);
 
     try {
-      const apiUrl = "http://192.168.1.17:3000";
+      const apiUrl = process.env.NEXT_PUBLIC_PORTAL_API_URL || "https://contributors-attention-outsourcing-school.trycloudflare.com";
       const res = await fetch(`${apiUrl}/api/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },

@@ -7,7 +7,7 @@
 
 // ─── Configuration ────────────────────────────────────────────────────
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_PORTAL_API_URL || 'http://localhost:3000';
+const API_BASE_URL = process.env.NEXT_PUBLIC_PORTAL_API_URL || 'https://contributors-attention-outsourcing-school.trycloudflare.com';
 
 // ─── Token Management ─────────────────────────────────────────────────
 
