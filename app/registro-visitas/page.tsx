@@ -11,6 +11,7 @@ import {
   ArrowRightIcon 
 } from "@heroicons/react/24/outline";
 import IceLayoutWrapper from "@/app/components/ice/ice-layout-wrapper";
+import { supabase } from "@/app/lib/supabaseClient";
 
 export default function RegistroVisitasPage() {
   const [formData, setFormData] = useState({
@@ -33,14 +34,21 @@ export default function RegistroVisitasPage() {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // TODO: Connect this to the Next.js API route that hits internal Postgres
-    console.log('Form submitted:', formData);
-    
-    // Simulate API call
-    setTimeout(() => {
-      setIsSubmitting(false);
+    try {
+      const { error } = await supabase
+        .from('ice_visit_logs')
+        .insert([{
+          email: formData.email.trim().toLowerCase(),
+          full_name: formData.fullName.trim(),
+          id_type: formData.idType,
+          id_number: formData.idNumber.trim(),
+          phone: formData.phone.trim(),
+          reason: formData.reason.trim()
+        }]);
+
+      if (error) throw error;
+      
       alert('¡Registro exitoso! Bienvenido a ICE Colombia.');
-      // Optional: Reset form
       setFormData({
         email: '',
         fullName: '',
@@ -49,7 +57,12 @@ export default function RegistroVisitasPage() {
         phone: '',
         reason: '',
       });
-    }, 1500);
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      alert('Hubo un error al procesar el registro. Por favor, intenta de nuevo.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const idTypes = [
