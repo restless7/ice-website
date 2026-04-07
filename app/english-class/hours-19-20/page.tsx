@@ -23,6 +23,7 @@ import { CurriculumHeader } from "@/components/english-class/CurriculumHeader";
 import { CurriculumBlock } from "@/components/english-class/CurriculumBlock";
 import { CurriculumContext } from "@/components/english-class/CurriculumContext";
 import { CurriculumNavigation } from "@/components/english-class/CurriculumNavigation";
+import Link from "next/link";
 
 export default function EnglishClassHours19and20() {
   const staggerContainer = {
@@ -478,22 +479,17 @@ export default function EnglishClassHours19and20() {
 
                   <CurriculumBlock
                     icon={<Trophy />}
-                    title="Phase 4: Unit 2 Complete!"
-                    subtitle="5 Minutes &bull; Celebration &amp; Self-Assessment"
-                    methodology="Reflective Wrap-Up"
+                    title="Phase 4: Unit 2 Final Exam"
+                    subtitle="20 Minutes &bull; Comprehensive Assessment"
+                    methodology="Automated Qualification"
                     accentColor="teal"
                   >
-                    <div className="bg-gradient-to-br from-teal-500/10 to-cyan-500/10 rounded-xl p-6 border border-teal-500/20 mt-4">
-                      <h4 className="text-white font-bold text-lg mb-3 text-center">&#127881; Congratulations! Unit 2 Complete &#127881;</h4>
-                      <p className="text-sm text-slate-300 text-center leading-relaxed mb-4">You can now describe your life, talk about what&apos;s happening now, express abilities, understand rules, give advice, and speculate about the future. These are the building blocks of fluent conversation.</p>
-                      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 text-center text-xs">
-                        <div className="bg-slate-950/50 p-3 rounded-lg"><span className="text-emerald-400 font-bold">Simple Present</span><p className="text-slate-500 mt-1">Routines &amp; Habits</p></div>
-                        <div className="bg-slate-950/50 p-3 rounded-lg"><span className="text-rose-400 font-bold">Present Continuous</span><p className="text-slate-500 mt-1">Right Now</p></div>
-                        <div className="bg-slate-950/50 p-3 rounded-lg"><span className="text-purple-400 font-bold">CAN</span><p className="text-slate-500 mt-1">Abilities</p></div>
-                        <div className="bg-slate-950/50 p-3 rounded-lg"><span className="text-amber-400 font-bold">MUST / HAVE TO</span><p className="text-slate-500 mt-1">Obligation</p></div>
-                        <div className="bg-slate-950/50 p-3 rounded-lg"><span className="text-yellow-400 font-bold">SHOULD</span><p className="text-slate-500 mt-1">Advice</p></div>
-                        <div className="bg-slate-950/50 p-3 rounded-lg"><span className="text-teal-400 font-bold">MAY / MIGHT / COULD</span><p className="text-slate-500 mt-1">Possibility</p></div>
-                      </div>
+                    <div className="bg-gradient-to-br from-teal-500/10 to-cyan-500/10 rounded-xl p-6 border border-teal-500/20 mt-4 text-center">
+                      <h4 className="text-white font-bold text-lg mb-3">&#127881; Congratulations! Unit 2 Complete &#127881;</h4>
+                      <p className="text-sm text-slate-300 leading-relaxed mb-6">You are now ready to take the final assessment. Enter the exam portal when you are ready to begin.</p>
+                      <Link href="/english-class/unit-2-exam" className="inline-block bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-lg py-4 px-8 rounded-xl transition-all shadow-[0_0_20px_rgba(20,184,166,0.3)] hover:shadow-[0_0_30px_rgba(20,184,166,0.5)]">
+                        Enter Exam Portal
+                      </Link>
                     </div>
                   </CurriculumBlock>
 

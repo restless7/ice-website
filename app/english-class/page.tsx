@@ -68,6 +68,28 @@ export default function EnglishClassPage() {
                 </Link>
             </div>
 
+            {/* AU PAIR Elevated Course Banner */}
+            <div className="container mx-auto px-6 max-w-7xl pb-4">
+                <Link href="/english-class/au-pair-5-hours" className="block group">
+                    <div className="bg-gradient-to-r from-rose-900/40 via-purple-900/20 to-rose-900/40 border border-rose-500/30 rounded-2xl p-6 md:p-8 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6 shadow-[0_0_30px_rgba(244,63,94,0.15)] group-hover:border-rose-400/50 group-hover:shadow-[0_0_40px_rgba(244,63,94,0.3)] transition-all duration-300">
+                        <div className="absolute inset-0 bg-rose-500/5 group-hover:bg-rose-500/10 transition-colors" />
+                        <div className="relative z-10">
+                            <h3 className="text-rose-400 font-bold text-2xl mb-2 flex items-center gap-3">
+                                <Award className="w-6 h-6" /> AU PAIR 5-Hour Elevated Course
+                            </h3>
+                            <p className="text-slate-300 max-w-2xl leading-relaxed">
+                                Intermediate-level masterclass for AU PAIR candidates. Master household vocabulary, childcare communication, cultural fluency, conflict resolution, and the AU PAIR J-1 Visa interview.
+                            </p>
+                        </div>
+                        <div className="relative z-10 shrink-0">
+                            <span className="inline-flex items-center gap-2 bg-rose-500/20 text-rose-300 font-bold py-3 px-6 rounded-full border border-rose-500/30 group-hover:bg-rose-500 group-hover:text-white transition-colors">
+                                Start AU PAIR Course <ArrowRight className="w-4 h-4" />
+                            </span>
+                        </div>
+                    </div>
+                </Link>
+            </div>
+
             {/* Curriculum Grid */}
             <section className="py-20 relative z-10">
                 <div className="container mx-auto px-6 max-w-7xl">
