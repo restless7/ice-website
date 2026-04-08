@@ -504,8 +504,8 @@ export default function EnglishClassHours19and20() {
       <CurriculumNavigation
         prevHref="/english-class/hours-17-18"
         prevLabel="Hours 17 &amp; 18"
-        nextHref="/english-class"
-        nextLabel="Back to Curriculum"
+        nextHref="/english-class/hours-21-22"
+        nextLabel="Hours 21 &amp; 22"
         accentColor="teal"
         moduleTitle="Possibility &amp; Milestone Review"
       />
