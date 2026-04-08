@@ -328,6 +328,128 @@ export default function EnglishClassHours21and22() {
         </div>
       </section>
 
+      {/* APPLIED CONVERSATIONS */}
+      <section className="py-16 relative z-10 border-t border-slate-800/60">
+        <div className="container mx-auto px-6 max-w-7xl">
+          <div className="mb-12">
+            <p className="text-[10px] text-indigo-400 font-bold uppercase tracking-widest mb-2">Applied Conversations</p>
+            <h2 className="text-3xl font-bold text-white">Real Interview Simulations</h2>
+            <p className="text-slate-400 mt-2 max-w-2xl">Study each exchange. Notice the tense mirroring, the detail layering, and the Shield recovery technique in action.</p>
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+            {/* Conversation 1 */}
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
+              <div className="bg-indigo-900/30 border-b border-indigo-500/20 px-5 py-3">
+                <span className="text-[10px] text-indigo-400 font-bold uppercase tracking-widest">Dialogue 01 · Lifeguard · Wisconsin · Standard Open</span>
+              </div>
+              <div className="p-5 space-y-4 font-serif text-sm">
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"Good morning. What is the purpose of your trip to the United States?"</p></div>
+                <div><p className="text-[10px] text-indigo-300 uppercase font-bold mb-1">Student ✓</p><p className="text-indigo-200 italic">"Good morning, Officer. I am participating in a Summer Work &amp; Travel cultural exchange. I have a job offer as a Lifeguard at Wilderness Resort in Wisconsin Dells, Wisconsin."</p></div>
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"When are you returning to Colombia?"</p></div>
+                <div><p className="text-[10px] text-indigo-300 uppercase font-bold mb-1">Student ✓</p><p className="text-indigo-200 italic">"My program ends September 15th. I have a return ticket already booked and my university semester resumes in early October."</p></div>
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"What semester are you in?"</p></div>
+                <div><p className="text-[10px] text-indigo-300 uppercase font-bold mb-1">Student ✓</p><p className="text-indigo-200 italic">"I am currently in my sixth semester of Systems Engineering at UTS University. I have five semesters remaining before my graduation thesis."</p></div>
+              </div>
+              <div className="bg-slate-950 border-t border-slate-800 px-5 py-3">
+                <p className="text-[10px] text-emerald-400 font-bold uppercase">✓ Teacher Note</p>
+                <p className="text-[10px] text-slate-500 mt-1">Volunteer the return date without being asked. Give a concrete semester count with semesters remaining — never say "the last semester."</p>
+              </div>
+            </div>
+
+            {/* Conversation 2 */}
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
+              <div className="bg-indigo-900/30 border-b border-indigo-500/20 px-5 py-3">
+                <span className="text-[10px] text-indigo-400 font-bold uppercase tracking-widest">Dialogue 02 · Server · Florida · Shield Technique</span>
+              </div>
+              <div className="p-5 space-y-4 font-serif text-sm">
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"What will your primary responsibilities be in this position?"</p></div>
+                <div><p className="text-[10px] text-indigo-300 uppercase font-bold mb-1">Student ✓</p><p className="text-indigo-200 italic">"Sorry, Officer — could you please repeat the question?"</p></div>
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200 italic">"(Repeats) What will you be doing at work?"</p></div>
+                <div><p className="text-[10px] text-indigo-300 uppercase font-bold mb-1">Student ✓</p><p className="text-indigo-200 italic">"Of course. As a Server, I will be welcoming guests, taking food and beverage orders, and ensuring a high-quality dining experience. I will also handle payments and coordinate with the kitchen staff."</p></div>
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"Have you done this type of work before?"</p></div>
+                <div><p className="text-[10px] text-indigo-300 uppercase font-bold mb-1">Student ✓</p><p className="text-indigo-200 italic">"Yes. I have worked as a waiter at Café Ambrosia in Bucaramanga for two years, so I am comfortable in high-volume service environments."</p></div>
+              </div>
+              <div className="bg-slate-950 border-t border-slate-800 px-5 py-3">
+                <p className="text-[10px] text-emerald-400 font-bold uppercase">✓ Teacher Note</p>
+                <p className="text-[10px] text-slate-500 mt-1">Shield deployed smoothly. No panic, no silence. Requesting clarification shows professionalism, not weakness.</p>
+              </div>
+            </div>
+
+            {/* Conversation 3 */}
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
+              <div className="bg-indigo-900/30 border-b border-indigo-500/20 px-5 py-3">
+                <span className="text-[10px] text-indigo-400 font-bold uppercase tracking-widest">Dialogue 03 · Housekeeper · South Carolina · The "Why" Trap</span>
+              </div>
+              <div className="p-5 space-y-4 font-serif text-sm">
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"Why do you want to go to the United States specifically?"</p></div>
+                <div><p className="text-[10px] text-indigo-300 uppercase font-bold mb-1">Student ✓</p><p className="text-indigo-200 italic">"My primary motivation is to achieve full English immersion and gain professional hospitality experience — skills that are highly valued in my career in Colombia."</p></div>
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"Why not just take an English course here in Colombia?"</p></div>
+                <div><p className="text-[10px] text-indigo-300 uppercase font-bold mb-1">Student ✓</p><p className="text-indigo-200 italic">"A classroom teaches rules, but this program puts me in a live professional environment where English is the only language. The immersion and international experience are things a classroom cannot replicate."</p></div>
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"And after you return?"</p></div>
+                <div><p className="text-[10px] text-indigo-300 uppercase font-bold mb-1">Student ✓</p><p className="text-indigo-200 italic">"I will finish my final three semesters at UDES and pursue a career in international hotel management here in Colombia. This experience gives me a competitive professional advantage."</p></div>
+              </div>
+              <div className="bg-slate-950 border-t border-slate-800 px-5 py-3">
+                <p className="text-[10px] text-emerald-400 font-bold uppercase">✓ Teacher Note</p>
+                <p className="text-[10px] text-slate-500 mt-1">"Why not just stay?" is a classic trap. The answer MUST anchor the value back to a career in Colombia.</p>
+              </div>
+            </div>
+
+            {/* Conversation 4 - Failing */}
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
+              <div className="bg-red-900/20 border-b border-red-500/20 px-5 py-3">
+                <span className="text-[10px] text-red-400 font-bold uppercase tracking-widest">Dialogue 04 · ✗ Failing Example — Common Errors</span>
+              </div>
+              <div className="p-5 space-y-4 font-serif text-sm">
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"What are you going to do in the US?"</p></div>
+                <div>
+                  <p className="text-[10px] text-red-400 uppercase font-bold mb-1">Student ✗</p>
+                  <p className="text-red-300/80 italic line-through">"I work in travel program."</p>
+                  <p className="text-[10px] text-slate-500 mt-1">→ Wrong tense. Missing article. Should be: "I am participating in a Summer Work &amp; Travel program."</p>
+                </div>
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"How old are you?"</p></div>
+                <div>
+                  <p className="text-[10px] text-red-400 uppercase font-bold mb-1">Student ✗</p>
+                  <p className="text-red-300/80 italic line-through">"I have 22 years old."</p>
+                  <p className="text-[10px] text-slate-500 mt-1">→ Spanish calque. Always: "I am 22 years old."</p>
+                </div>
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"What semester are you in?"</p></div>
+                <div>
+                  <p className="text-[10px] text-red-400 uppercase font-bold mb-1">Student ✗</p>
+                  <p className="text-red-300/80 italic line-through">"I am in last semester."</p>
+                  <p className="text-[10px] text-slate-500 mt-1">→ "Last semester" implies you graduate now. That means no reason to return. Always give a number and semesters remaining.</p>
+                </div>
+              </div>
+              <div className="bg-red-950/30 border-t border-red-500/20 px-5 py-3">
+                <p className="text-[10px] text-red-400 font-bold uppercase">⚠ These errors trigger immediate suspicion or denial</p>
+              </div>
+            </div>
+
+            {/* Conversation 5 - Full Passing */}
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden lg:col-span-2">
+              <div className="bg-emerald-900/20 border-b border-emerald-500/20 px-5 py-3">
+                <span className="text-[10px] text-emerald-400 font-bold uppercase tracking-widest">Dialogue 05 · ✓ Full Passing Sequence — Camp Counselor · Texas</span>
+              </div>
+              <div className="p-5 grid md:grid-cols-2 gap-x-8 gap-y-4 font-serif text-sm">
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"Good morning. What is the purpose of your visit?"</p></div>
+                <div><p className="text-[10px] text-emerald-300 uppercase font-bold mb-1">Student ✓</p><p className="text-emerald-200 italic">"Good morning. I have a position as Camp Counselor at Camp Champions on Lake LBJ in Marble Falls, Texas, through the J-1 Summer Work &amp; Travel program."</p></div>
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"What exactly does a Camp Counselor do?"</p></div>
+                <div><p className="text-[10px] text-emerald-300 uppercase font-bold mb-1">Student ✓</p><p className="text-emerald-200 italic">"I will supervise and mentor American children aged 8 to 16. My responsibilities include organizing outdoor activities, ensuring camper safety, and supporting emotional development through structured group programs."</p></div>
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"Who is paying for all of this?"</p></div>
+                <div><p className="text-[10px] text-emerald-300 uppercase font-bold mb-1">Student ✓</p><p className="text-emerald-200 italic">"My parents are covering the program costs. My father is a construction engineer and my mother works as a schoolteacher. They have been planning and saving specifically for this opportunity."</p></div>
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"Are you planning to stay after your program ends?"</p></div>
+                <div><p className="text-[10px] text-emerald-300 uppercase font-bold mb-1">Student ✓</p><p className="text-emerald-200 italic">"Absolutely not, Officer. My program finishes August 31st and I have a return flight booked for September 5th. My university resumes September 22nd and I have my Design Thesis to complete."</p></div>
+              </div>
+              <div className="bg-slate-950 border-t border-slate-800 px-5 py-3 flex items-center justify-between">
+                <p className="text-[10px] text-emerald-400 font-bold uppercase">Result: VISA APPROVED ✓</p>
+                <p className="text-[10px] text-slate-500">Strong ties to Colombia. Concrete dates. Clear purpose. No hesitation.</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
       <CurriculumNavigation
         prevHref="/english-class/hours-19-20"
         prevLabel="Unit 2 Finish"

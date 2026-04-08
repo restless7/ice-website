@@ -281,6 +281,147 @@ export default function EnglishClassHours29and30() {
         </div>
       </section>
 
+      {/* APPLIED CONVERSATIONS — THE GAUNTLET */}
+      <section className="py-16 relative z-10 border-t border-slate-800/60">
+        <div className="container mx-auto px-6 max-w-7xl">
+          <div className="mb-12">
+            <p className="text-[10px] text-rose-400 font-bold uppercase tracking-widest mb-2">Applied Conversations</p>
+            <h2 className="text-3xl font-bold text-white">The Gauntlet — Complete Mock Transcripts</h2>
+            <p className="text-slate-400 mt-2 max-w-2xl">Full interview transcripts at maximum difficulty. Study the Pass, study the Fail, and master the Recovery.</p>
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+            {/* Conversation 1 - Full Passing Transcript */}
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden lg:col-span-2">
+              <div className="bg-emerald-900/20 border-b border-emerald-500/20 px-5 py-3">
+                <span className="text-[10px] text-emerald-400 font-bold uppercase tracking-widest">Dialogue 01 · ✓ Full Passing Interview — All Domains — Lifeguard · Wisconsin</span>
+              </div>
+              <div className="p-5 grid md:grid-cols-2 gap-x-8 gap-y-3 font-serif text-sm">
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"Good morning. Passport please. What brings you to the United States?"</p></div>
+                <div><p className="text-[10px] text-emerald-300 uppercase font-bold mb-1">Student ✓</p><p className="text-emerald-200 italic">"Good morning. I am participating in the J-1 Summer Work &amp; Travel program. I have a placement as a Lifeguard at Timber Ridge Resort in Lake Geneva, Wisconsin."</p></div>
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"What do you study?"</p></div>
+                <div><p className="text-[10px] text-emerald-300 uppercase font-bold mb-1">Student ✓</p><p className="text-emerald-200 italic">"I study Physical Education at UDES University in Bucaramanga. I am in my fifth semester of eight."</p></div>
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"How does lifeguarding relate to Physical Education?"</p></div>
+                <div><p className="text-[10px] text-emerald-300 uppercase font-bold mb-1">Student ✓</p><p className="text-emerald-200 italic">"Directly, Officer. My major covers sports physiology, emergency response, and aquatic recreation management. A Lifeguard position is an advanced practical application of exactly what I study in class. It also positions me for a career in sports and recreation management in Colombia after I graduate."</p></div>
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"Who is paying for this and how much did it cost?"</p></div>
+                <div><p className="text-[10px] text-emerald-300 uppercase font-bold mb-1">Student ✓</p><p className="text-emerald-200 italic">"My parents are covering the upfront expenses. The total program cost is approximately 8,200 USD, including flights and the CIEE program fee. My father is an accountant earning around 6 million pesos monthly and my mother is a nurse earning 4 million. They began saving over a year ago for this."</p></div>
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"Do you have family in the United States?"</p></div>
+                <div><p className="text-[10px] text-emerald-300 uppercase font-bold mb-1">Student ✓</p><p className="text-emerald-200 italic">"No, Officer. My entire family is in Bucaramanga — both parents, my two brothers, and my grandmother. I have no relatives anywhere in the United States."</p></div>
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"Are you planning to stay beyond your program?"</p></div>
+                <div><p className="text-[10px] text-emerald-300 uppercase font-bold mb-1">Student ✓</p><p className="text-emerald-200 italic">"Absolutely not. My program ends August 28th, my return flight is September 3rd, and my university resumes September 15th. I have practical coursework that I cannot defer and a thesis project I am actively working on."</p></div>
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"Alright. Have a good trip."</p></div>
+                <div><p className="text-[10px] text-emerald-300 uppercase font-bold mb-1">Student ✓</p><p className="text-emerald-200 italic">"Thank you very much, Officer. I will."</p></div>
+              </div>
+              <div className="bg-slate-950 border-t border-slate-800 px-5 py-3 flex items-center justify-between">
+                <p className="text-[10px] text-emerald-400 font-bold uppercase">Result: VISA APPROVED ✓ — Duration: Under 3 Minutes</p>
+                <p className="text-[10px] text-slate-500">Every domain covered. Zero hesitation. Anchored to Colombia at every turn.</p>
+              </div>
+            </div>
+
+            {/* Conversation 2 - Failing Interview */}
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
+              <div className="bg-red-900/20 border-b border-red-500/20 px-5 py-3">
+                <span className="text-[10px] text-red-400 font-bold uppercase tracking-widest">Dialogue 02 · ✗ Full Failing Interview — Analysis Included</span>
+              </div>
+              <div className="p-5 space-y-4 font-serif text-sm">
+                <div>
+                  <p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"What are you going to do in the US?"</p>
+                </div>
+                <div>
+                  <p className="text-[10px] text-red-400 uppercase font-bold mb-1">Student ✗</p>
+                  <p className="text-red-300/80 italic">"I will work in the Summer Work and Travel."</p>
+                  <p className="text-[10px] text-slate-500 mt-1">⚠ Missing: job title, employer name, location. Too vague.</p>
+                </div>
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"Who is your sponsor?"</p></div>
+                <div>
+                  <p className="text-[10px] text-red-400 uppercase font-bold mb-1">Student ✗</p>
+                  <p className="text-red-300/80 italic">"My parents are sponsoring me."</p>
+                  <p className="text-[10px] text-slate-500 mt-1">⚠ Confuses financial support with program sponsorship. Should be: "My sponsor is CIEE."</p>
+                </div>
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"When are you coming back?"</p></div>
+                <div>
+                  <p className="text-[10px] text-red-400 uppercase font-bold mb-1">Student ✗</p>
+                  <p className="text-red-300/80 italic">"I think... in September. Or maybe late August."</p>
+                  <p className="text-[10px] text-slate-500 mt-1">⚠ "I think" is a denial trigger. Exact date required: "September 10th. My flight is booked."</p>
+                </div>
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"What semester are you in?"</p></div>
+                <div>
+                  <p className="text-[10px] text-red-400 uppercase font-bold mb-1">Student ✗</p>
+                  <p className="text-red-300/80 italic">"The last one. Well, almost the last."</p>
+                  <p className="text-[10px] text-slate-500 mt-1">⚠ If you're almost done, why return? Always say: "sixth of ten" or "fourth of twelve."</p>
+                </div>
+              </div>
+              <div className="bg-red-950/30 border-t border-red-500/20 px-5 py-3">
+                <p className="text-[10px] text-red-400 font-bold uppercase">Result: VISA DENIED ✗ — Reason: Insufficient ties, inconsistent information</p>
+              </div>
+            </div>
+
+            {/* Conversation 3 - Recovery Drill */}
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
+              <div className="bg-rose-900/30 border-b border-rose-500/20 px-5 py-3">
+                <span className="text-[10px] text-rose-400 font-bold uppercase tracking-widest">Dialogue 03 · The Mid-Interview Recovery — Blank Mind Protocol</span>
+              </div>
+              <div className="p-5 space-y-4 font-serif text-sm">
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"Explain to me your daily schedule at the resort in detail."</p></div>
+                <div>
+                  <p className="text-[10px] text-rose-300 uppercase font-bold mb-1">Student — Blank</p>
+                  <p className="text-rose-200 italic">"I... um... I work at the pool... I..."</p>
+                  <p className="text-[10px] text-slate-500 mt-1 italic">→ Panic sets in. Mind goes blank. The student freezes.</p>
+                </div>
+                <div>
+                  <p className="text-[10px] text-emerald-300 uppercase font-bold mb-1">Student — Recovers ✓</p>
+                  <p className="text-emerald-200 italic">"I apologize, Officer. Let me organize my thoughts for just a moment. — As a Lifeguard, my typical shift runs from 9 AM to 5 PM. I begin with a zone inspection of the pool area, confirm equipment readiness, and then maintain surveillance of my assigned section for the duration of the shift. I also conduct entry-level swimming safety checks for younger visitors."</p>
+                </div>
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"That's fine. Continue."</p></div>
+              </div>
+              <div className="bg-slate-950 border-t border-slate-800 px-5 py-3">
+                <p className="text-[10px] text-emerald-400 font-bold uppercase">✓ Teacher Note</p>
+                <p className="text-[10px] text-slate-500 mt-1">Saying "Let me organize my thoughts" is NOT weakness. It is professionalism. The officer respects the self-correction. Silence for more than 4 seconds is what kills you — not imperfection.</p>
+              </div>
+            </div>
+
+            {/* Conversation 4 - Hostile Tone Test */}
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
+              <div className="bg-rose-900/30 border-b border-rose-500/20 px-5 py-3">
+                <span className="text-[10px] text-rose-400 font-bold uppercase tracking-widest">Dialogue 04 · Hostile Officer Tone Test — Stay Composed</span>
+              </div>
+              <div className="p-5 space-y-4 font-serif text-sm">
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer (aggressive)</p><p className="text-slate-200">"I don't believe you're going back. Every Colombian who comes here stays. Why should I trust you?"</p></div>
+                <div><p className="text-[10px] text-rose-300 uppercase font-bold mb-1">Student ✓</p><p className="text-rose-200 italic">"I understand your skepticism, Officer, and I respect your professional caution. However, I can assure you that my situation is different. I have three semesters remaining at UNAB with mandatory lab exams I cannot defer. I have a signed scholarship renewal conditioned on my returning by October 1st. My family's livelihood and my entire professional future are in Bucaramanga. I am not the demographic you are describing."</p></div>
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"What if I just say no?"</p></div>
+                <div><p className="text-[10px] text-rose-300 uppercase font-bold mb-1">Student ✓</p><p className="text-rose-200 italic">"That is entirely within your authority, Officer. But I have provided truthful, complete, and documented information. My program begins in three weeks and I am confident my paperwork is in order. I respect your decision, whatever it may be."</p></div>
+              </div>
+              <div className="bg-slate-950 border-t border-slate-800 px-5 py-3">
+                <p className="text-[10px] text-emerald-400 font-bold uppercase">✓ Teacher Note</p>
+                <p className="text-[10px] text-slate-500 mt-1">Never argue. Never panic. Respond to hostility with calm, evidence-based confidence. "I am not the demographic you are describing" is a masterclass phrase — factual, not offensive.</p>
+              </div>
+            </div>
+
+            {/* Conversation 5 - Cold Simulation */}
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden lg:col-span-2">
+              <div className="bg-rose-900/20 border-b border-rose-500/20 px-5 py-3">
+                <span className="text-[10px] text-rose-400 font-bold uppercase tracking-widest">Dialogue 05 · Cold Simulation — Mixed Curveballs — Server · New York</span>
+              </div>
+              <div className="p-5 grid md:grid-cols-2 gap-x-8 gap-y-3 font-serif text-sm">
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"You want to work in New York? That's an expensive city."</p></div>
+                <div><p className="text-[10px] text-rose-300 uppercase font-bold mb-1">Student ✓</p><p className="text-rose-200 italic">"My work location is actually Lake Placid in upstate New York — a resort town in the Adirondacks, not New York City. The cost of living there is significantly lower and my housing is arranged on-site."</p></div>
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"Your employer is Mirror Lake Inn. I've never heard of it."</p></div>
+                <div><p className="text-[10px] text-rose-300 uppercase font-bold mb-1">Student ✓</p><p className="text-rose-200 italic">"Mirror Lake Inn is a 130-year-old luxury resort awarded AAA Four Diamond status for over 20 consecutive years. It hosts around 1,200 guests per season. It has a well-documented history as one of New York's premier boutique resorts."</p></div>
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"Have you ever had a US visa before?"</p></div>
+                <div><p className="text-[10px] text-rose-300 uppercase font-bold mb-1">Student ✓</p><p className="text-rose-200 italic">"No, Officer. This is my first US visa application. I have traveled to Ecuador and Panama on my Colombian passport, but this is my first time applying for a non-Schengen visa."</p></div>
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"Your accent is strong. Will you be able to communicate with American customers?"</p></div>
+                <div><p className="text-[10px] text-rose-300 uppercase font-bold mb-1">Student ✓</p><p className="text-rose-200 italic">"That is a fair concern. I have been practicing spoken English for three years, I passed the TOEFL Junior with a score of 96, and I have been conducting this entire interview in English without assistance. I believe that speaks for itself — and I am confident I will adapt quickly in a total immersion environment."</p></div>
+              </div>
+              <div className="bg-slate-950 border-t border-slate-800 px-5 py-3 flex items-center justify-between">
+                <p className="text-[10px] text-emerald-400 font-bold uppercase">Result: VISA APPROVED ✓</p>
+                <p className="text-[10px] text-slate-500">Knew the employer's history cold. Corrected the officer's geography without being rude. Turned the accent criticism into a demonstration of fluency.</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
       <CurriculumNavigation
         prevHref="/english-class/hours-27-28"
         prevLabel="Hours 27 &amp; 28"

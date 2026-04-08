@@ -298,6 +298,113 @@ export default function EnglishClassHours23and24() {
         </div>
       </section>
 
+      {/* APPLIED CONVERSATIONS */}
+      <section className="py-16 relative z-10 border-t border-slate-800/60">
+        <div className="container mx-auto px-6 max-w-7xl">
+          <div className="mb-12">
+            <p className="text-[10px] text-purple-400 font-bold uppercase tracking-widest mb-2">Applied Conversations</p>
+            <h2 className="text-3xl font-bold text-white">Academic Profile Simulations</h2>
+            <p className="text-slate-400 mt-2 max-w-2xl">Each dialogue demonstrates how to anchor your academic story, handle follow-up pressure, and prove your intention to return.</p>
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+            {/* Conversation 1 */}
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
+              <div className="bg-purple-900/30 border-b border-purple-500/20 px-5 py-3">
+                <span className="text-[10px] text-purple-400 font-bold uppercase tracking-widest">Dialogue 01 · Engineering · The Anchor Technique in Action</span>
+              </div>
+              <div className="p-5 space-y-4 font-serif text-sm">
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"What do you study?"</p></div>
+                <div><p className="text-[10px] text-purple-300 uppercase font-bold mb-1">Student ✓</p><p className="text-purple-200 italic">"I study Systems Engineering at UTS University in Bucaramanga. I am currently in my sixth semester."</p></div>
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"Why did you choose Systems Engineering?"</p></div>
+                <div><p className="text-[10px] text-purple-300 uppercase font-bold mb-1">Student ✓</p><p className="text-purple-200 italic">"I chose Engineering because I have always been fascinated by how technology solves real problems. When I was sixteen, I built a small automation system for my father's business, and that spark never left me. Now I am focused on specializing in cloud infrastructure once I graduate."</p></div>
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"And your plans after you return from the US?"</p></div>
+                <div><p className="text-[10px] text-purple-300 uppercase font-bold mb-1">Student ✓</p><p className="text-purple-200 italic">"After I return, I will complete my final four semesters, defend my thesis on network security, and pursue a position at a technology firm here in Colombia. This program gives me the English fluency those companies require for international contracts."</p></div>
+              </div>
+              <div className="bg-slate-950 border-t border-slate-800 px-5 py-3">
+                <p className="text-[10px] text-emerald-400 font-bold uppercase">✓ Teacher Note</p>
+                <p className="text-[10px] text-slate-500 mt-1">The "spark story" makes the answer personal and memorable. The future plan anchors the student firmly in Colombia. This is the Anchor Technique working perfectly.</p>
+              </div>
+            </div>
+
+            {/* Conversation 2 */}
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
+              <div className="bg-purple-900/30 border-b border-purple-500/20 px-5 py-3">
+                <span className="text-[10px] text-purple-400 font-bold uppercase tracking-widest">Dialogue 02 · Business Admin · Immigrant Intent Pressure</span>
+              </div>
+              <div className="p-5 space-y-4 font-serif text-sm">
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"You study International Business. Couldn't you just work in the US permanently? There are many opportunities there."</p></div>
+                <div><p className="text-[10px] text-purple-300 uppercase font-bold mb-1">Student ✓</p><p className="text-purple-200 italic">"That is an interesting point, Officer, but my career goals are specifically in Colombia. The Latin American market is growing enormously right now, and my university degree, my family, and my professional network are all here. The US experience adds a global perspective to a fundamentally Colombian career."</p></div>
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"Do you have family in the United States?"</p></div>
+                <div><p className="text-[10px] text-purple-300 uppercase font-bold mb-1">Student ✓</p><p className="text-purple-200 italic">"No, Officer. My entire immediate family lives in Bucaramanga — my parents, my sister, and my grandparents. My father owns a small business there that I will eventually help manage."</p></div>
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"Good. And when do your university classes resume?"</p></div>
+                <div><p className="text-[10px] text-purple-300 uppercase font-bold mb-1">Student ✓</p><p className="text-purple-200 italic">"My second semester of 2026 starts on July 28th. I have a return flight on July 20th, giving me eight days to settle back in before classes start."</p></div>
+              </div>
+              <div className="bg-slate-950 border-t border-slate-800 px-5 py-3">
+                <p className="text-[10px] text-emerald-400 font-bold uppercase">✓ Teacher Note</p>
+                <p className="text-[10px] text-slate-500 mt-1">The family business detail is a powerful tie. Specific return dates with buffer time show preparation. The officer cannot dispute concrete logistics.</p>
+              </div>
+            </div>
+
+            {/* Conversation 3 */}
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
+              <div className="bg-purple-900/30 border-b border-purple-500/20 px-5 py-3">
+                <span className="text-[10px] text-purple-400 font-bold uppercase tracking-widest">Dialogue 03 · Medicine · The "How Does This Help Your Career?" Test</span>
+              </div>
+              <div className="p-5 space-y-4 font-serif text-sm">
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"You study Medicine, and your job is as a Housekeeper. How does cleaning hotel rooms help your medical career?"</p></div>
+                <div><p className="text-[10px] text-purple-300 uppercase font-bold mb-1">Student ✓</p><p className="text-purple-200 italic">"That is a fair question. As a medical student, I have a strong background in sanitation, infection control, and hygiene protocols. Working in professional hospital-grade housekeeping actually applies clinical standards in a real-world setting. Beyond that, this program funds my studies and gives me the English fluency required for international medical conferences and research."</p></div>
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"How many semesters do you have left?"</p></div>
+                <div><p className="text-[10px] text-purple-300 uppercase font-bold mb-1">Student ✓</p><p className="text-purple-200 italic">"I am in my fourth semester of twelve. I have eight semesters remaining and then a mandatory two-year medical residency here in Colombia. I cannot afford to miss that."</p></div>
+              </div>
+              <div className="bg-slate-950 border-t border-slate-800 px-5 py-3">
+                <p className="text-[10px] text-emerald-400 font-bold uppercase">✓ Teacher Note</p>
+                <p className="text-[10px] text-slate-500 mt-1">The "mismatch" between study field and job is a known trap. Always connect them logically. The residency requirement is an unbeatable anchor — the system forces you to return.</p>
+              </div>
+            </div>
+
+            {/* Conversation 4 - The Timeline Drill */}
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
+              <div className="bg-purple-900/30 border-b border-purple-500/20 px-5 py-3">
+                <span className="text-[10px] text-purple-400 font-bold uppercase tracking-widest">Dialogue 04 · Architecture · Past / Present / Future Timeline</span>
+              </div>
+              <div className="p-5 space-y-4 font-serif text-sm">
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"Tell me about your academic background."</p></div>
+                <div><p className="text-[10px] text-purple-300 uppercase font-bold mb-1">Student ✓</p><p className="text-purple-200 italic">"Certainly. I studied at Colegio La Salle in Bucaramanga, where I graduated with honors in 2021. I then started my Architecture degree at UNAB University that same year and I am currently in my fifth semester with a GPA of 4.2 out of 5.0. After I complete my degree in 2028, I plan to work at an architectural firm in Bogotá focused on sustainable urban design."</p></div>
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"Impressive. Have you ever been to the United States before?"</p></div>
+                <div><p className="text-[10px] text-purple-300 uppercase font-bold mb-1">Student ✓</p><p className="text-purple-200 italic">"No, this is my first time applying for a US visa. This is actually what makes this program so meaningful for me — it is a unique first experience in an English-speaking professional environment."</p></div>
+              </div>
+              <div className="bg-slate-950 border-t border-slate-800 px-5 py-3">
+                <p className="text-[10px] text-emerald-400 font-bold uppercase">✓ Teacher Note</p>
+                <p className="text-[10px] text-slate-500 mt-1">Past → Present → Future answered in one smooth paragraph. Specific GPA. Specific graduation year. A concrete career in Colombia after. This is the Timeline Project executed perfectly.</p>
+              </div>
+            </div>
+
+            {/* Conversation 5 - Full Academic Exchange */}
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden lg:col-span-2">
+              <div className="bg-emerald-900/20 border-b border-emerald-500/20 px-5 py-3">
+                <span className="text-[10px] text-emerald-400 font-bold uppercase tracking-widest">Dialogue 05 · ✓ Complete Academic Interview — Law Student · Virginia</span>
+              </div>
+              <div className="p-5 grid md:grid-cols-2 gap-x-8 gap-y-4 font-serif text-sm">
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"What do you study and where?"</p></div>
+                <div><p className="text-[10px] text-emerald-300 uppercase font-bold mb-1">Student ✓</p><p className="text-emerald-200 italic">"I study Law at Universidad Libre in Bucaramanga. I am in my seventh semester of ten."</p></div>
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"Why law? It seems unrelated to a work and travel program."</p></div>
+                <div><p className="text-[10px] text-emerald-300 uppercase font-bold mb-1">Student ✓</p><p className="text-emerald-200 italic">"I chose Law because of my deep interest in human rights and social justice. After graduation, I want to specialize in international law — and having professional-level English is not optional for that career path. This program gives me that foundation."</p></div>
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"What is your specific job in Virginia?"</p></div>
+                <div><p className="text-[10px] text-emerald-300 uppercase font-bold mb-1">Student ✓</p><p className="text-emerald-200 italic">"I will work as a Lifeguard at Busch Gardens amusement park in Williamsburg, Virginia. The park attracts over 3 million visitors per season, so professional safety standards are extremely high."</p></div>
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"And when do you come back?"</p></div>
+                <div><p className="text-[10px] text-emerald-300 uppercase font-bold mb-1">Student ✓</p><p className="text-emerald-200 italic">"My return flight is September 28th. My law faculty resumes October 6th. I have mandatory oral exams I must attend. Staying beyond my program end date is simply not an option I could afford academically."</p></div>
+              </div>
+              <div className="bg-slate-950 border-t border-slate-800 px-5 py-3 flex items-center justify-between">
+                <p className="text-[10px] text-emerald-400 font-bold uppercase">Result: VISA APPROVED ✓</p>
+                <p className="text-[10px] text-slate-500">Career need for English is clear. Mandatory exams = institutional anchor. Date precision closes all gaps.</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
       <CurriculumNavigation
         prevHref="/english-class/hours-21-22"
         prevLabel="Hours 21 &amp; 22"

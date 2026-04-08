@@ -283,6 +283,113 @@ export default function EnglishClassHours25and26() {
         </div>
       </section>
 
+      {/* APPLIED CONVERSATIONS */}
+      <section className="py-16 relative z-10 border-t border-slate-800/60">
+        <div className="container mx-auto px-6 max-w-7xl">
+          <div className="mb-12">
+            <p className="text-[10px] text-emerald-400 font-bold uppercase tracking-widest mb-2">Applied Conversations</p>
+            <h2 className="text-3xl font-bold text-white">Job Profile Simulations</h2>
+            <p className="text-slate-400 mt-2 max-w-2xl">Master the vocabulary of your specific role. Know your duties, your location, your schedule, and your employer cold.</p>
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+            {/* Conversation 1 */}
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
+              <div className="bg-emerald-900/30 border-b border-emerald-500/20 px-5 py-3">
+                <span className="text-[10px] text-emerald-400 font-bold uppercase tracking-widest">Dialogue 01 · Lifeguard · Myrtle Beach · Full Duty Breakdown</span>
+              </div>
+              <div className="p-5 space-y-4 font-serif text-sm">
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"What exactly is your position and what will you do there?"</p></div>
+                <div><p className="text-[10px] text-emerald-300 uppercase font-bold mb-1">Student ✓</p><p className="text-emerald-200 italic">"I will work as a Lifeguard at Myrtle Waves Water Park in Myrtle Beach, South Carolina. My primary duties include surveilling assigned pool zones, enforcing safety protocols, responding to aquatic emergencies, and performing routine water chemistry checks to maintain health standards."</p></div>
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"Are you certified to do that?"</p></div>
+                <div><p className="text-[10px] text-emerald-300 uppercase font-bold mb-1">Student ✓</p><p className="text-emerald-200 italic">"Yes, Officer. I completed my Red Cross Lifeguard Certification in February of this year. The training included CPR, AED operation, and water rescue techniques. The park will also provide a site-specific orientation during my first week."</p></div>
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"What are your working hours?"</p></div>
+                <div><p className="text-[10px] text-emerald-300 uppercase font-bold mb-1">Student ✓</p><p className="text-emerald-200 italic">"The park operates from 10 AM to 7 PM. I expect to work approximately 32 to 40 hours per week, primarily on weekends and holidays when visitor volume is highest."</p></div>
+              </div>
+              <div className="bg-slate-950 border-t border-slate-800 px-5 py-3">
+                <p className="text-[10px] text-emerald-400 font-bold uppercase">✓ Teacher Note</p>
+                <p className="text-[10px] text-slate-500 mt-1">Certification details project credibility. The officer now sees a trained professional, not a tourist using the program as a loophole.</p>
+              </div>
+            </div>
+
+            {/* Conversation 2 */}
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
+              <div className="bg-emerald-900/30 border-b border-emerald-500/20 px-5 py-3">
+                <span className="text-[10px] text-emerald-400 font-bold uppercase tracking-widest">Dialogue 02 · Server · Orlando · The Premium Adjective Protocol</span>
+              </div>
+              <div className="p-5 space-y-4 font-serif text-sm">
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"What will you be doing as a server?"</p></div>
+                <div><p className="text-[10px] text-emerald-300 uppercase font-bold mb-1">Student ✓</p><p className="text-emerald-200 italic">"I will facilitate premium dining experiences at the Grand Floridian Resort in Orlando, Florida. Specifically, I will greet and seat guests, present menus, take detailed food and beverage orders, coordinate with the culinary team, handle payment transactions, and ensure guest satisfaction at every stage of service."</p></div>
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"That is a Disney resort. Those are very high standards. Can you handle that?"</p></div>
+                <div><p className="text-[10px] text-emerald-300 uppercase font-bold mb-1">Student ✓</p><p className="text-emerald-200 italic">"Absolutely. I have two years of experience as a waiter at a five-star hotel restaurant in Cartagena, where I regularly served international guests and managed multi-course dining sequences. I am very comfortable with high-expectation environments."</p></div>
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"Will you live near the resort?"</p></div>
+                <div><p className="text-[10px] text-emerald-300 uppercase font-bold mb-1">Student ✓</p><p className="text-emerald-200 italic">"Yes. My program has arranged housing at a residency approximately 15 minutes from the resort. The accommodation cost is deducted directly from my paycheck, which simplifies my financial management considerably."</p></div>
+              </div>
+              <div className="bg-slate-950 border-t border-slate-800 px-5 py-3">
+                <p className="text-[10px] text-emerald-400 font-bold uppercase">✓ Teacher Note</p>
+                <p className="text-[10px] text-slate-500 mt-1">Previous work experience in Colombia is a powerful credibility booster. The housing detail shows the student is organized and has thought through logistics.</p>
+              </div>
+            </div>
+
+            {/* Conversation 3 */}
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
+              <div className="bg-emerald-900/30 border-b border-emerald-500/20 px-5 py-3">
+                <span className="text-[10px] text-emerald-400 font-bold uppercase tracking-widest">Dialogue 03 · Housekeeper · Las Vegas · The Skill Stacking Moment</span>
+              </div>
+              <div className="p-5 space-y-4 font-serif text-sm">
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"A housekeeper in Las Vegas. That seems like an unusual choice for a university student."</p></div>
+                <div><p className="text-[10px] text-emerald-300 uppercase font-bold mb-1">Student ✓</p><p className="text-emerald-200 italic">"I understand the surprise, but Hotel Housekeeping at the MGM Grand is a technically demanding position. I will be responsible for sanitizing and preparing luxury suites according to five-star hospitality standards, managing inventory of cleaning supplies, and conducting detailed room inspections. It develops discipline, attention to detail, and professional efficiency — skills that are genuinely transferable to any career."</p></div>
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"What if a guest leaves valuables in the room?"</p></div>
+                <div><p className="text-[10px] text-emerald-300 uppercase font-bold mb-1">Student ✓</p><p className="text-emerald-200 italic">"Hotel protocol is clear: any items found are immediately logged and reported to the front desk lost-and-found department. Professional discretion and on-property ethics are part of my job description and I take that very seriously."</p></div>
+              </div>
+              <div className="bg-slate-950 border-t border-slate-800 px-5 py-3">
+                <p className="text-[10px] text-emerald-400 font-bold uppercase">✓ Teacher Note</p>
+                <p className="text-[10px] text-slate-500 mt-1">Knowing the hotel ethics protocol in advance is extremely impressive and shows the student has done serious research on their employer.</p>
+              </div>
+            </div>
+
+            {/* Conversation 4 - Workplace Problem Trap */}
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
+              <div className="bg-emerald-900/30 border-b border-emerald-500/20 px-5 py-3">
+                <span className="text-[10px] text-emerald-400 font-bold uppercase tracking-widest">Dialogue 04 · Any Role · "What If You Have a Problem at Work?"</span>
+              </div>
+              <div className="p-5 space-y-4 font-serif text-sm">
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"What will you do if you have a serious problem with your supervisor or employer?"</p></div>
+                <div><p className="text-[10px] text-emerald-300 uppercase font-bold mb-1">Student ✓</p><p className="text-emerald-200 italic">"If I face a workplace issue, my first step is to communicate professionally and directly with my supervisor to resolve it. If the issue remains unresolved, I will contact my program sponsor — in my case, CIEE — who serves as my official point of contact and advocate in the US. I also understand that as a J-1 exchange visitor, I have specific rights under the Wilberforce Act that protect me from exploitation."</p></div>
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"Have you read those rights?"</p></div>
+                <div><p className="text-[10px] text-emerald-300 uppercase font-bold mb-1">Student ✓</p><p className="text-emerald-200 italic">"Yes, Officer. My sponsor provided me with the J-1 Exchange Visitor Rights pamphlet and I reviewed it carefully. I know that my employer cannot confiscate my passport, cannot restrict my movement, and cannot threaten my visa status as a form of coercion."</p></div>
+              </div>
+              <div className="bg-slate-950 border-t border-slate-800 px-5 py-3">
+                <p className="text-[10px] text-emerald-400 font-bold uppercase">✓ Teacher Note</p>
+                <p className="text-[10px] text-slate-500 mt-1">Knowing your rights fluently shows maturity and sends a signal that this student will not be exploited — which is what the consulate wants to see before approving a visa.</p>
+              </div>
+            </div>
+
+            {/* Conversation 5 - Full Job Interview */}
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden lg:col-span-2">
+              <div className="bg-emerald-900/20 border-b border-emerald-500/20 px-5 py-3">
+                <span className="text-[10px] text-emerald-400 font-bold uppercase tracking-widest">Dialogue 05 · ✓ Full Passing Job Profile — Camp Counselor · Colorado</span>
+              </div>
+              <div className="p-5 grid md:grid-cols-2 gap-x-8 gap-y-4 font-serif text-sm">
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"Tell me about your job offer."</p></div>
+                <div><p className="text-[10px] text-emerald-300 uppercase font-bold mb-1">Student ✓</p><p className="text-emerald-200 italic">"I have an offer as a Camp Counselor at Sky High Ranch, a summer camp located in Woodland Park, Colorado. The camp operates from June 15th to August 20th. My contract is with CIEE as my sponsoring organization."</p></div>
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"What will you actually do there day-to-day?"</p></div>
+                <div><p className="text-[10px] text-emerald-300 uppercase font-bold mb-1">Student ✓</p><p className="text-emerald-200 italic">"On a typical day, I will supervise a group of eight campers aged 12 to 15, organize morning activities like hiking and archery, lead evening educational sessions, monitor health and wellbeing, and write daily progress notes for each camper to share with their parents."</p></div>
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"This is quite a responsibility. Do you have experience working with children?"</p></div>
+                <div><p className="text-[10px] text-emerald-300 uppercase font-bold mb-1">Student ✓</p><p className="text-emerald-200 italic">"Yes. For the past year I have volunteered as a youth monitor at my local community center in Cali, supervising children's weekend sports programs. I am comfortable with child supervision, conflict resolution, and emergency first response."</p></div>
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"Where will you be living?"</p></div>
+                <div><p className="text-[10px] text-emerald-300 uppercase font-bold mb-1">Student ✓</p><p className="text-emerald-200 italic">"I will live on-site at the camp. Housing and three meals per day are included as part of my compensation package. My sponsor confirmed all housing arrangements in writing before I applied."</p></div>
+              </div>
+              <div className="bg-slate-950 border-t border-slate-800 px-5 py-3 flex items-center justify-between">
+                <p className="text-[10px] text-emerald-400 font-bold uppercase">Result: VISA APPROVED ✓</p>
+                <p className="text-[10px] text-slate-500">Specific daily schedule. Volunteer experience. On-site housing confirmed. No gaps for the officer to probe.</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
       <CurriculumNavigation
         prevHref="/english-class/hours-23-24"
         prevLabel="Hours 23 &amp; 24"

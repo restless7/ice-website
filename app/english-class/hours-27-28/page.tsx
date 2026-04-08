@@ -250,6 +250,117 @@ export default function EnglishClassHours27and28() {
         </div>
       </section>
 
+      {/* APPLIED CONVERSATIONS */}
+      <section className="py-16 relative z-10 border-t border-slate-800/60">
+        <div className="container mx-auto px-6 max-w-7xl">
+          <div className="mb-12">
+            <p className="text-[10px] text-amber-400 font-bold uppercase tracking-widest mb-2">Applied Conversations</p>
+            <h2 className="text-3xl font-bold text-white">Financial Interrogation Simulations</h2>
+            <p className="text-slate-400 mt-2 max-w-2xl">Financial questions are where most students panic. These dialogues train you to respond with absolute precision and zero hesitation.</p>
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+            {/* Conversation 1 */}
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
+              <div className="bg-amber-900/30 border-b border-amber-500/20 px-5 py-3">
+                <span className="text-[10px] text-amber-400 font-bold uppercase tracking-widest">Dialogue 01 · The Sponsor vs. Support Distinction</span>
+              </div>
+              <div className="p-5 space-y-4 font-serif text-sm">
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"Who is sponsoring your trip to the United States?"</p></div>
+                <div><p className="text-[10px] text-amber-300 uppercase font-bold mb-1">Student ✓</p><p className="text-amber-200 italic">"My official program sponsor is CIEE — the Council on International Educational Exchange. They issued my DS-2019 form and serve as my legal representative in the United States."</p></div>
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"And who is paying for all of this financially?"</p></div>
+                <div><p className="text-[10px] text-amber-300 uppercase font-bold mb-1">Student ✓</p><p className="text-amber-200 italic">"The upfront program and flight costs are being covered by my parents. My father works as a civil engineer and earns approximately 8 million pesos per month. My mother is a teacher and earns around 3 million pesos. Once I begin working in the US, I will supplement those costs with my own wages from the resort."</p></div>
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"How much did you pay for the program in total?"</p></div>
+                <div><p className="text-[10px] text-amber-300 uppercase font-bold mb-1">Student ✓</p><p className="text-amber-200 italic">"The total investment was approximately 8,500 US dollars, which includes the program fee, round-trip airfare, visa costs, and the first month of insurance. We paid this over six months of savings."</p></div>
+              </div>
+              <div className="bg-slate-950 border-t border-slate-800 px-5 py-3">
+                <p className="text-[10px] text-emerald-400 font-bold uppercase">✓ Teacher Note</p>
+                <p className="text-[10px] text-slate-500 mt-1">"Sponsor" means the legal program sponsor (CIEE, Work &amp; Travel, etc.), not the person paying. Always distinguish this. The officer tests whether you know the difference.</p>
+              </div>
+            </div>
+
+            {/* Conversation 2 */}
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
+              <div className="bg-amber-900/30 border-b border-amber-500/20 px-5 py-3">
+                <span className="text-[10px] text-amber-400 font-bold uppercase tracking-widest">Dialogue 02 · The Income Math — Can They Afford It?</span>
+              </div>
+              <div className="p-5 space-y-4 font-serif text-sm">
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"8,500 dollars is a lot of money. On your parents' salaries, how did you afford this?"</p></div>
+                <div><p className="text-[10px] text-amber-300 uppercase font-bold mb-1">Student ✓</p><p className="text-amber-200 italic">"My parents' combined income is roughly 11 million pesos per month — approximately 2,700 US dollars. We began saving 16 months ago specifically for this program. We also sold a small piece of land my family owned in the municipality of Girón, which contributed significantly to the total."</p></div>
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"Did you take out a loan?"</p></div>
+                <div><p className="text-[10px] text-amber-300 uppercase font-bold mb-1">Student ✓</p><p className="text-amber-200 italic">"No, Officer. Our policy as a family is not to travel on debt. All funds were saved and accumulated before this application was submitted. My parents have bank statements available as supporting documentation."</p></div>
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"What happens if you spend all the money and your job falls through?"</p></div>
+                <div><p className="text-[10px] text-amber-300 uppercase font-bold mb-1">Student ✓</p><p className="text-amber-200 italic">"My program sponsor, CIEE, guarantees job placement and provides a 24-hour emergency support line. In the worst case, they would facilitate my return to Colombia at no extra cost. I also maintain a 500-dollar emergency reserve specifically for unpredictable situations."</p></div>
+              </div>
+              <div className="bg-slate-950 border-t border-slate-800 px-5 py-3">
+                <p className="text-[10px] text-emerald-400 font-bold uppercase">✓ Teacher Note</p>
+                <p className="text-[10px] text-slate-500 mt-1">The "No Loan" rule is critical. A loan implies you are under financial pressure that might make you overstay. Asset sales (land, vehicle) are excellent legitimate explanations for large sums.</p>
+              </div>
+            </div>
+
+            {/* Conversation 3 */}
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
+              <div className="bg-amber-900/30 border-b border-amber-500/20 px-5 py-3">
+                <span className="text-[10px] text-amber-400 font-bold uppercase tracking-widest">Dialogue 03 · The Inconsistency Trap — Numbers Don&apos;t Match</span>
+              </div>
+              <div className="p-5 space-y-4 font-serif text-sm">
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"Your DS-2019 shows you earn $8.75 per hour. How much will you actually make this summer?"</p></div>
+                <div><p className="text-[10px] text-amber-300 uppercase font-bold mb-1">Student ✓</p><p className="text-amber-200 italic">"Working approximately 36 hours per week over 11 weeks, I project roughly $3,465 in gross wages. After tax withholding of approximately 15 to 20 percent and housing deductions of around $130 per week, my net savings will be in the range of $1,500 to $1,800 for the full program."</p></div>
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"That doesn't cover what you spent to get there. Why come all this way for so little?"</p></div>
+                <div><p className="text-[10px] text-amber-300 uppercase font-bold mb-1">Student ✓</p><p className="text-amber-200 italic">"The financial return was never the primary motivation, Officer. The professional experience, the bilingual fluency, and the cultural immersion are the investment. My parents understood from the beginning that this program operates at a net cost — and they consider it an investment in my career, not a vacation."</p></div>
+              </div>
+              <div className="bg-slate-950 border-t border-slate-800 px-5 py-3">
+                <p className="text-[10px] text-emerald-400 font-bold uppercase">✓ Teacher Note</p>
+                <p className="text-[10px] text-slate-500 mt-1">Know your numbers before you walk in. If the officer calculates the math and your answer doesn't add up, it creates immediate suspicion. Pre-calculate your expected income.</p>
+              </div>
+            </div>
+
+            {/* Conversation 4 */}
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
+              <div className="bg-amber-900/30 border-b border-amber-500/20 px-5 py-3">
+                <span className="text-[10px] text-amber-400 font-bold uppercase tracking-widest">Dialogue 04 · Rapid Fire Financial Drill — 60-Second Pressure Test</span>
+              </div>
+              <div className="p-5 space-y-4 font-serif text-sm">
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"What does your father do?"</p></div>
+                <div><p className="text-[10px] text-amber-300 uppercase font-bold mb-1">Student ✓</p><p className="text-amber-200 italic">"He is a mechanical technician at a manufacturing plant."</p></div>
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"Your mother?"</p></div>
+                <div><p className="text-[10px] text-amber-300 uppercase font-bold mb-1">Student ✓</p><p className="text-amber-200 italic">"She manages the accounting for a small family business."</p></div>
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"Do you have siblings?"</p></div>
+                <div><p className="text-[10px] text-amber-300 uppercase font-bold mb-1">Student ✓</p><p className="text-amber-200 italic">"One younger sister. She is 17 and still in high school."</p></div>
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"Who will pay the bills back home while you are gone?"</p></div>
+                <div><p className="text-[10px] text-amber-300 uppercase font-bold mb-1">Student ✓</p><p className="text-amber-200 italic">"My parents. My absence changes nothing about their monthly expenses — I am not a financial contributor to the household. They are self-sufficient and have been planning for my absence."</p></div>
+              </div>
+              <div className="bg-slate-950 border-t border-slate-800 px-5 py-3">
+                <p className="text-[10px] text-emerald-400 font-bold uppercase">✓ Teacher Note</p>
+                <p className="text-[10px] text-slate-500 mt-1">Rapid-fire questions test your composure. Every answer must be immediate, specific, and consistent. Hesitation on family income data is a red flag.</p>
+              </div>
+            </div>
+
+            {/* Conversation 5 - Full Financial Sequence */}
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden lg:col-span-2">
+              <div className="bg-emerald-900/20 border-b border-emerald-500/20 px-5 py-3">
+                <span className="text-[10px] text-emerald-400 font-bold uppercase tracking-widest">Dialogue 05 · ✓ Full Financial Interrogation — Passed With Precision</span>
+              </div>
+              <div className="p-5 grid md:grid-cols-2 gap-x-8 gap-y-4 font-serif text-sm">
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"Tell me about your finances for this trip."</p></div>
+                <div><p className="text-[10px] text-emerald-300 uppercase font-bold mb-1">Student ✓</p><p className="text-emerald-200 italic">"Certainly. The total cost of this program is approximately 9,200 USD, which includes flights, the CIEE program fee, health insurance, and a housing deposit. My parents have covered this through a combination of 14 months of planned savings and a personal contribution from my grandfather."</p></div>
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"How much will you make at the resort?"</p></div>
+                <div><p className="text-[10px] text-emerald-300 uppercase font-bold mb-1">Student ✓</p><p className="text-emerald-200 italic">"I will earn $10.50 per hour as a Food &amp; Beverage Associate at Snowbird Resort. Estimating 35 hours per week for 12 weeks, that is approximately $4,410 gross. After taxes and the on-site housing deduction of $120 per week, I expect to net around $2,400."</p></div>
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"Do you have a bank account in Colombia?"</p></div>
+                <div><p className="text-[10px] text-emerald-300 uppercase font-bold mb-1">Student ✓</p><p className="text-emerald-200 italic">"Yes. I hold a savings account at Bancolombia with a current balance of approximately 4 million pesos. I also carry a Visa debit card for emergency use during my program. The account statements are part of my visa package."</p></div>
+                <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"Alright. Anything else I should know?"</p></div>
+                <div><p className="text-[10px] text-emerald-300 uppercase font-bold mb-1">Student ✓</p><p className="text-emerald-200 italic">"Only that this program represents two years of planning by my family. I take the financial responsibility seriously, I understand my obligations as a J-1 holder, and I fully intend to return to Colombia on September 12th as my visa specifies."</p></div>
+              </div>
+              <div className="bg-slate-950 border-t border-slate-800 px-5 py-3 flex items-center justify-between">
+                <p className="text-[10px] text-emerald-400 font-bold uppercase">Result: VISA APPROVED ✓</p>
+                <p className="text-[10px] text-slate-500">Pre-calculated numbers. Bank account with balance. Grandfather contribution explains surplus. Closes with commitment to return.</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
       <CurriculumNavigation
         prevHref="/english-class/hours-25-26"
         prevLabel="Hours 25 &amp; 26"
