@@ -68,18 +68,24 @@ export default function EnglishClassHours27and28() {
                     Money questions are the most sensitive part of the interview. The officer wants to ensure you can support yourself and that your story is consistent.
                   </p>
 
-                  <CurriculumContext title="Directness Strategy" accentColor="amber">
+                  <CurriculumContext title="Financial Logic: The Why" accentColor="amber">
+                    <p className="text-sm text-slate-300 mb-4 leading-relaxed">
+                      The officer isn't just counting dollars; they are looking for <span className="text-white font-bold italic">legitimacy</span>. Use the <span className="text-white font-bold">Stable Origin Protocol</span>:
+                    </p>
                     <div className="space-y-3">
                       <div className="bg-slate-950/50 p-3 rounded-lg border border-amber-500/20">
-                        <p className="text-xs text-amber-400 font-bold uppercase mb-1 flex items-center gap-2"><ShieldCheck className="w-3 h-3" /> Be Absolute</p>
-                        <p className="text-sm text-white font-mono">&quot;My parents are paying for the program.&quot;</p>
-                        <p className="text-[10px] text-slate-500 mt-2 uppercase tracking-wide">Never sound hesitant about money sources.</p>
+                        <p className="text-[10px] text-amber-400 font-bold uppercase mb-1 flex items-center gap-2"><TrendingUp className="w-3 h-3" /> Source Consistency</p>
+                        <ul className="text-xs text-slate-300 space-y-1 font-mono">
+                          <li>• "My parents work in [Sector]."</li>
+                          <li>• "They have saved for 2 years."</li>
+                          <li>• "This is an investment in my English."</li>
+                        </ul>
                       </div>
-                      <div className="bg-red-500/10 p-3 rounded-lg border border-red-500/20">
-                        <p className="text-xs text-red-400 font-bold uppercase mb-1 flex items-center gap-2"><AlertTriangle className="w-3 h-3" /> Never Say</p>
-                        <p className="text-sm text-red-300 font-mono">&quot;I took out a loan.&quot;</p>
-                        <p className="text-sm text-red-300 font-mono mt-1">&quot;I borrowed money.&quot;</p>
-                        <p className="text-[10px] text-slate-500 mt-2 uppercase tracking-wide">Loans imply financial instability. Always: &quot;Parents&quot; or &quot;Savings.&quot;</p>
+                      <div className="bg-amber-900/10 p-3 rounded-lg border border-amber-500/30">
+                        <p className="text-[10px] text-amber-400 font-bold uppercase mb-1 flex items-center gap-2"><ShieldCheck className="w-3 h-3" /> The NO-LOAN Rule</p>
+                        <p className="text-[11px] text-slate-400 leading-relaxed italic">
+                           "I did not take a loan. My family's income is sufficient to cover these costs comfortably."
+                        </p>
                       </div>
                     </div>
                   </CurriculumContext>
@@ -91,44 +97,67 @@ export default function EnglishClassHours27and28() {
 
                   <CurriculumBlock
                     icon={<DollarSign />}
-                    title="Phase 1: Financial Questions Arsenal"
+                    title="Phase 1: Financial Logic Arsenal"
                     subtitle="25 Minutes &bull; Core Interview Prep"
-                    methodology="Script Mastery + Directness"
+                    methodology="Script Mastery + Economic Transparency"
                     accentColor="amber"
                   >
-                    <div className="space-y-4 mt-4">
-                      <div className="bg-slate-900 border border-slate-800 rounded-xl p-5 hover:border-amber-500/50 transition-colors">
-                        <p className="text-slate-500 text-xs mb-1">Q17: Sponsor</p>
-                        <h4 className="text-white font-bold text-sm mb-2">&quot;Who is sponsoring your trip?&quot;</h4>
-                        <p className="text-amber-300 text-sm font-serif italic">&quot;My sponsor is [Company Name], an organization approved by the US Department of State for cultural exchange.&quot;</p>
-                      </div>
-
-                      <div className="bg-slate-900 border border-slate-800 rounded-xl p-5 hover:border-amber-500/50 transition-colors">
-                        <p className="text-slate-500 text-xs mb-1">Q18: Financial Support</p>
-                        <h4 className="text-white font-bold text-sm mb-2">&quot;Who is paying for your trip?&quot; / &quot;Who is supporting you financially?&quot;</h4>
-                        <p className="text-amber-300 text-sm font-serif italic">&quot;My parents are paying for the program. They have been saving for this opportunity.&quot;</p>
-                        <div className="bg-red-500/10 px-3 py-2 rounded-lg mt-3 border-l-2 border-red-500">
-                          <p className="text-xs text-red-300"><strong>CRITICAL:</strong> Always say &quot;my parents&quot; or &quot;my savings.&quot; NEVER mention loans or borrowed money.</p>
+                    <div className="grid grid-cols-1 gap-6 mt-4">
+                      {/* Sponsor vs Support - Expanded */}
+                      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 hover:border-amber-500/50 transition-all">
+                        <h4 className="text-white font-bold text-lg mb-3">Distinguish: Sponsor vs. Support</h4>
+                        <div className="grid sm:grid-cols-2 gap-4">
+                           <div className="bg-slate-950 p-4 rounded-xl border-l-4 border-amber-500">
+                              <p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Legal Sponsor</p>
+                              <p className="text-xs text-slate-300">"CIEE / InterExchange / Intrax. They provide the DS-2019."</p>
+                           </div>
+                           <div className="bg-slate-950 p-4 rounded-xl border-l-4 border-emerald-500">
+                              <p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Financial Supporter</p>
+                              <p className="text-xs text-slate-300">"My parents. They provide the money."</p>
+                           </div>
                         </div>
                       </div>
 
-                      <div className="bg-slate-900 border border-slate-800 rounded-xl p-5 hover:border-amber-500/50 transition-colors">
-                        <p className="text-slate-500 text-xs mb-1">Q19: Family Income</p>
-                        <h4 className="text-white font-bold text-sm mb-2">&quot;How much do your parents earn?&quot;</h4>
-                        <p className="text-amber-300 text-sm font-serif italic">&quot;My parents earn around [X] million pesos per month combined. My dad works as a [Job] and my mom works as a [Job].&quot;</p>
-                        <p className="text-xs text-slate-500 mt-2">Be confident with approximate but realistic figures. Do not hesitate.</p>
+                      {/* Q19: Family Income - The Breakdown */}
+                      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 hover:border-amber-500/50 transition-all relative overflow-hidden">
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/5 blur-3xl rounded-full" />
+                        <h4 className="text-white font-bold text-lg mb-4">How do your parents afford this?</h4>
+                        <div className="space-y-3">
+                           <div className="p-3 bg-slate-950 rounded-lg border border-slate-800">
+                              <p className="text-slate-300 font-serif italic text-sm">"Actually, they have a combined income of [X] Million COP. This program is worth the investment for my professional future."</p>
+                           </div>
+                           <div className="bg-amber-900/20 p-3 rounded-lg text-[11px] text-amber-300 border border-amber-500/30">
+                              <strong>Strategy: Reframing as Investment.</strong> Don't just talk about "cost." Talk about "value."
+                           </div>
+                        </div>
                       </div>
 
-                      <div className="bg-slate-900 border border-slate-800 rounded-xl p-5 hover:border-amber-500/50 transition-colors">
-                        <p className="text-slate-500 text-xs mb-1">Q20: Program Cost</p>
-                        <h4 className="text-white font-bold text-sm mb-2">&quot;How much did you pay for the program?&quot;</h4>
-                        <p className="text-amber-300 text-sm font-serif italic">&quot;The program costs approximately [Amount] including the visa fee, the SEVIS fee, flights, and insurance.&quot;</p>
-                      </div>
-
-                      <div className="bg-slate-900 border border-slate-800 rounded-xl p-5 hover:border-amber-500/50 transition-colors">
-                        <p className="text-slate-500 text-xs mb-1">Q21: Salary</p>
-                        <h4 className="text-white font-bold text-sm mb-2">&quot;How much are you going to earn?&quot;</h4>
-                        <p className="text-amber-300 text-sm font-serif italic">&quot;I am going to earn approximately [Amount] dollars per hour. The exact amount depends on the hours I work each week.&quot;</p>
+                      {/* Salaries Table */}
+                      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+                         <h4 className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-4">Market Rate Awareness</h4>
+                         <div className="bg-slate-950 rounded-xl overflow-hidden border border-slate-800">
+                            <table className="w-full text-xs text-left">
+                               <thead className="bg-slate-900 text-slate-500">
+                                  <tr>
+                                     <th className="px-4 py-2">Role</th>
+                                     <th className="px-4 py-2">Avg. Rate</th>
+                                     <th className="px-4 py-2">Shift Logic</th>
+                                  </tr>
+                               </thead>
+                               <tbody className="divide-y divide-slate-800">
+                                  <tr>
+                                     <td className="px-4 py-3 text-white">Lifeguard</td>
+                                     <td className="px-4 py-3 text-amber-400">$12 - $15</td>
+                                     <td className="px-4 py-3 text-slate-400">Regular hours + Potential OT</td>
+                                  </tr>
+                                  <tr>
+                                     <td className="px-4 py-3 text-white">Server</td>
+                                     <td className="px-4 py-3 text-amber-400">$2.13 + Tips</td>
+                                     <td className="px-4 py-3 text-slate-400">Variable based on performance</td>
+                                  </tr>
+                               </tbody>
+                            </table>
+                         </div>
                       </div>
                     </div>
                   </CurriculumBlock>
@@ -168,56 +197,50 @@ export default function EnglishClassHours27and28() {
               </div>
 
               <div className="lg:w-2/3">
-                <div className="space-y-8">
-
-                  <CurriculumBlock
+                <div className="space-y-8">                  <CurriculumBlock
                     icon={<Mic2 />}
                     title="Phase 2: The Interrogation Room"
-                    subtitle="35 Minutes &bull; High Pressure Drill"
-                    methodology="Rapid-Fire Financial Q&amp;A"
+                    subtitle="35 Minutes &bull; Stress Test"
+                    methodology="Rapid-Fire Financial Interrogation"
                     accentColor="amber"
                   >
-                    <div className="bg-slate-950/50 p-6 rounded-xl border border-amber-500/30 mt-4">
-                      <h4 className="text-amber-400 font-bold mb-3 uppercase text-xs tracking-widest">Directive:</h4>
-                      <p className="text-sm text-slate-300 mb-4 leading-relaxed">
-                        Teacher sits at a desk with dim lighting. Students line up and sit across, one at a time. Each gets 5 rapid-fire money questions. If they hesitate for more than 3 seconds, they go to the back of the line and try again.
-                      </p>
-
-                      <div className="bg-slate-900 rounded-xl overflow-hidden border border-slate-700 w-full mt-4">
-                        <div className="p-5 space-y-4 font-serif text-sm">
-                          <p className="text-slate-300"><strong className="text-white">Officer:</strong> &quot;Who is paying for your trip?&quot;</p>
-                          <p className="text-amber-400 italic">&quot;My parents.&quot;</p>
-                          <p className="text-slate-300"><strong className="text-white">Officer:</strong> &quot;How much does the program cost?&quot;</p>
-                          <p className="text-amber-400 italic">&quot;Around 8 million pesos including everything.&quot;</p>
-                          <p className="text-slate-300"><strong className="text-white">Officer:</strong> &quot;What is your hourly salary?&quot;</p>
-                          <p className="text-amber-400 italic">&quot;Twelve dollars per hour.&quot;</p>
-                          <p className="text-slate-300"><strong className="text-white">Officer:</strong> &quot;How much do your parents make?&quot;</p>
-                          <p className="text-amber-400 italic">&quot;Combined, about 4 million pesos per month.&quot;</p>
-                          <p className="text-slate-300"><strong className="text-white">Officer:</strong> &quot;Did you take a loan for this?&quot;</p>
-                          <p className="text-amber-400 italic font-bold">&quot;No. My parents saved for this.&quot;</p>
-                        </div>
-                      </div>
-
-                      <div className="grid grid-cols-2 gap-4 mt-6">
-                        <div className="bg-emerald-900/10 border border-emerald-500/20 p-4 rounded-lg">
-                          <h5 className="text-emerald-400 font-bold text-sm mb-2 flex items-center gap-2"><CheckCircle className="w-4 h-4"/> Pass</h5>
-                          <ul className="text-xs text-slate-400 space-y-1">
-                            <li>&bull; All numbers stated without hesitation</li>
-                            <li>&bull; Consistent story across all answers</li>
-                            <li>&bull; Never mentioned loans or debt</li>
-                          </ul>
-                        </div>
-                        <div className="bg-rose-900/10 border border-rose-500/20 p-4 rounded-lg">
-                          <h5 className="text-rose-400 font-bold text-sm mb-2 flex items-center gap-2"><AlertTriangle className="w-4 h-4"/> Fail — Start Over</h5>
-                          <ul className="text-xs text-slate-400 space-y-1">
-                            <li>&bull; Hesitated on a number (&gt;3 seconds)</li>
-                            <li>&bull; Said &quot;Uhh&quot; or &quot;I think&quot; with uncertainty</li>
-                            <li>&bull; Contradicted a previous answer</li>
-                          </ul>
-                        </div>
-                      </div>
+                    <div className="bg-slate-950/50 p-6 rounded-2xl border border-amber-500/30 mt-4 overflow-hidden relative">
+                       <div className="absolute top-0 right-0 p-4">
+                          <AlertTriangle className="w-8 h-8 text-amber-500/20" />
+                       </div>
+                       <p className="text-sm text-slate-300 mb-6 leading-relaxed italic">
+                          "I see your parents earn 5 million pesos. How can they afford an 8-million-peso program plus flights?"
+                       </p>
+                       <div className="space-y-4">
+                          <div className="p-4 bg-slate-900 rounded-xl border-l-4 border-amber-500">
+                             <p className="text-[10px] text-amber-400 font-bold uppercase mb-2">The Winning Logic:</p>
+                             <p className="text-slate-300 font-serif italic mb-2">"Actually, they have been saving specifically for this exchange program for the last two years. It's a strategic investment in my future."</p>
+                             <p className="text-[10px] text-slate-500 uppercase">Status: PASSED (Solid Proof)</p>
+                          </div>
+                          <div className="grid grid-cols-2 gap-4">
+                             <div className="p-3 bg-slate-950 rounded-lg border border-slate-800">
+                                <p className="text-[10px] text-amber-400 font-bold uppercase mb-1">Key Vocabulary</p>
+                                <ul className="text-[10px] text-slate-400 space-y-1">
+                                   <li>• Savings / Assets</li>
+                                   <li>• Monthly Income</li>
+                                   <li>• Investment</li>
+                                   <li>• Financial Stability</li>
+                                </ul>
+                             </div>
+                             <div className="p-3 bg-red-950/20 rounded-lg border border-red-500/20">
+                                <p className="text-[10px] text-red-400 font-bold uppercase mb-1">Warning Signs</p>
+                                <ul className="text-[10px] text-slate-400 space-y-1 font-mono">
+                                   <li>- "I think..."</li>
+                                   <li>- "Maybe..."</li>
+                                   <li>- "Around..." (too vague)</li>
+                                   <li>- "Loan"</li>
+                                </ul>
+                             </div>
+                          </div>
+                       </div>
                     </div>
                   </CurriculumBlock>
+
 
                 </div>
               </div>

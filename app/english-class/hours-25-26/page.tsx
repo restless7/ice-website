@@ -70,18 +70,19 @@ export default function EnglishClassHours25and26() {
                     Your job title is not enough. You must describe what you DO, where you DO IT, and prove you are the right candidate with the right skills.
                   </p>
 
-                  <CurriculumContext title="Descriptive Layering" accentColor="emerald">
-                    <div className="space-y-3">
-                      <div className="bg-slate-950/50 p-3 rounded-lg border border-emerald-500/20">
-                        <p className="text-xs text-emerald-400 font-bold uppercase mb-1">Strategy: Stacking Adjectives</p>
-                        <p className="text-sm text-white font-mono">&quot;I am responsible, punctual, and reliable.&quot;</p>
-                        <p className="text-[10px] text-slate-500 mt-2">Never give a single adjective. Stack 3 minimum.</p>
-                      </div>
-                      <div className="bg-slate-950/50 p-3 rounded-lg border border-green-500/20">
-                        <p className="text-xs text-green-400 font-bold uppercase mb-1">Strategy: Prove It</p>
-                        <p className="text-sm text-white font-mono">&quot;I am a team player. For example, at my university, I always work in groups for projects.&quot;</p>
-                        <p className="text-[10px] text-slate-500 mt-2">Add real evidence after every claim.</p>
-                      </div>
+                  <CurriculumContext title="Precision Adjectives" accentColor="emerald">
+                    <p className="text-sm text-slate-300 mb-4 leading-relaxed">
+                      Don't just say you are "good." Use the <span className="text-white font-bold">Premium Adjective Protocol</span>:
+                    </p>
+                    <div className="grid grid-cols-2 gap-2 mb-4">
+                      <div className="p-2 bg-slate-950/50 rounded border border-emerald-500/20 text-[10px] text-slate-300 font-mono italic">"Adaptable"</div>
+                      <div className="p-2 bg-slate-950/50 rounded border border-emerald-500/20 text-[10px] text-slate-300 font-mono italic">"Vigilant"</div>
+                      <div className="p-2 bg-slate-950/50 rounded border border-emerald-500/20 text-[10px] text-slate-300 font-mono italic">"Proactive"</div>
+                      <div className="p-2 bg-slate-950/50 rounded border border-emerald-500/20 text-[10px] text-slate-300 font-mono italic">"Resilient"</div>
+                    </div>
+                    <div className="bg-emerald-900/20 p-3 rounded-lg border border-emerald-500/30">
+                       <p className="text-[10px] text-emerald-400 font-bold uppercase mb-1 flex items-center gap-2"><CheckCircle className="w-3 h-3" /> The Rule of Three</p>
+                       <p className="text-[11px] text-slate-300 italic">"I am <span className="text-white font-bold">vigilant</span>, <span className="text-white font-bold">responsible</span>, and <span className="text-white font-bold">punctual</span>."</p>
                     </div>
                   </CurriculumContext>
                 </div>
@@ -127,47 +128,63 @@ export default function EnglishClassHours25and26() {
 
                   <CurriculumBlock
                     icon={<ListChecks />}
-                    title="Job Responsibilities by Role"
-                    subtitle="Reference Guide"
-                    methodology="Vocabulary Bank"
+                    title="Phase 1: Advanced Job Descriptions"
+                    subtitle="25 Minutes &bull; Core Interview Prep"
+                    methodology="Script Mastery + Layering"
                     accentColor="emerald"
                   >
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                      <div className="bg-slate-900 border border-slate-800 rounded-xl p-5">
-                        <h4 className="text-emerald-400 font-bold text-xs uppercase mb-3 tracking-widest border-l-2 border-emerald-500 pl-2">Lifeguard</h4>
-                        <ul className="space-y-1 text-sm text-slate-300">
-                          <li>&bull; Monitor swimming areas</li>
-                          <li>&bull; Enforce safety rules</li>
-                          <li>&bull; Provide first aid &amp; CPR</li>
-                          <li>&bull; Maintain clean pool area</li>
-                        </ul>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                      {/* Lifeguard - Master Edition */}
+                      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 hover:border-emerald-500/50 transition-all relative overflow-hidden group">
+                        <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-100 transition-opacity">
+                           <Shield className="w-8 h-8 text-emerald-500" />
+                        </div>
+                        <h4 className="text-emerald-400 font-bold text-xs uppercase mb-3 tracking-widest flex items-center gap-2">
+                           Lifeguard
+                        </h4>
+                        <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 mb-4">
+                           <p className="text-slate-300 font-serif italic text-xs leading-relaxed">
+                              &quot;I am responsible for the <strong className="text-emerald-300">safety and well-being</strong> of all guests. I maintain <strong className="text-emerald-300">constant surveillance</strong> of the water and react instantly to emergencies.&quot;
+                           </p>
+                        </div>
+                        <p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Key Verbs:</p>
+                        <p className="text-[11px] text-emerald-500/70 font-mono italic">Monitor / Enforce / Respond / Sanitize</p>
                       </div>
-                      <div className="bg-slate-900 border border-slate-800 rounded-xl p-5">
-                        <h4 className="text-green-400 font-bold text-xs uppercase mb-3 tracking-widest border-l-2 border-green-500 pl-2">Housekeeper</h4>
-                        <ul className="space-y-1 text-sm text-slate-300">
-                          <li>&bull; Clean and sanitize rooms</li>
-                          <li>&bull; Change bed linens and towels</li>
-                          <li>&bull; Restock amenities (soap, shampoo)</li>
-                          <li>&bull; Report maintenance issues</li>
-                        </ul>
+
+                      {/* Food Service - Master Edition */}
+                      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 hover:border-green-500/50 transition-all relative overflow-hidden group">
+                        <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-100 transition-opacity">
+                           <Users className="w-8 h-8 text-green-500" />
+                        </div>
+                        <h4 className="text-green-400 font-bold text-xs uppercase mb-3 tracking-widest flex items-center gap-2">
+                           Food Service
+                        </h4>
+                        <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 mb-4">
+                           <p className="text-slate-300 font-serif italic text-xs leading-relaxed">
+                              &quot;My goal is to provide <strong className="text-green-300">excellent customer service</strong> in a fast-paced environment. I handle orders with <strong className="text-green-300">precision</strong> and ensure tables are perfectly set.&quot;
+                           </p>
+                        </div>
+                        <p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Key Verbs:</p>
+                        <p className="text-[11px] text-green-500/70 font-mono italic">Serve / Assist / Multi-task / Expedite</p>
                       </div>
-                      <div className="bg-slate-900 border border-slate-800 rounded-xl p-5">
-                        <h4 className="text-teal-400 font-bold text-xs uppercase mb-3 tracking-widest border-l-2 border-teal-500 pl-2">Server / Food Runner</h4>
-                        <ul className="space-y-1 text-sm text-slate-300">
-                          <li>&bull; Take orders from guests</li>
-                          <li>&bull; Serve food and beverages</li>
-                          <li>&bull; Set and clear tables</li>
-                          <li>&bull; Handle guest complaints politely</li>
-                        </ul>
-                      </div>
-                      <div className="bg-slate-900 border border-slate-800 rounded-xl p-5">
-                        <h4 className="text-sky-400 font-bold text-xs uppercase mb-3 tracking-widest border-l-2 border-sky-500 pl-2">Front Desk / Receptionist</h4>
-                        <ul className="space-y-1 text-sm text-slate-300">
-                          <li>&bull; Check guests in and out</li>
-                          <li>&bull; Answer phone calls and emails</li>
-                          <li>&bull; Provide information about the resort</li>
-                          <li>&bull; Handle reservations and billing</li>
-                        </ul>
+
+                      {/* J-1 Rights - The Critical Shield */}
+                      <div className="md:col-span-2 bg-emerald-950/20 border border-emerald-500/30 rounded-2xl p-6 relative overflow-hidden">
+                        <div className="absolute -right-4 -bottom-4 opacity-5">
+                           <Shield className="w-32 h-32 text-emerald-500" />
+                        </div>
+                        <div className="flex items-center gap-2 mb-4">
+                           <AlertTriangle className="w-4 h-4 text-emerald-400" />
+                           <p className="text-xs font-bold text-emerald-400 uppercase tracking-widest">Master Teacher's Warning: Know Your Rights</p>
+                        </div>
+                        <p className="text-sm text-slate-300 mb-4 leading-relaxed">
+                           While in the US, you are protected by federal law. If an officer asks about your rights, mention the <span className="text-white font-bold italic">Wilberforce Pamphlet</span>.
+                        </p>
+                        <div className="grid sm:grid-cols-3 gap-3">
+                           <div className="text-[10px] bg-slate-900/50 p-2 rounded border border-emerald-500/20 text-slate-400">Right to be paid federal minimum wage.</div>
+                           <div className="text-[10px] bg-slate-900/50 p-2 rounded border border-emerald-500/20 text-slate-400">Right to keep your own passport/documents.</div>
+                           <div className="text-[10px] bg-slate-900/50 p-2 rounded border border-emerald-500/20 text-slate-400">Right to a workplace free from discrimination.</div>
+                        </div>
                       </div>
                     </div>
                   </CurriculumBlock>
@@ -211,20 +228,32 @@ export default function EnglishClassHours25and26() {
 
                   <CurriculumBlock
                     icon={<Star />}
-                    title="Phase 2: The Job Fair"
-                    subtitle="35 Minutes &bull; Kinesthetic Activity"
-                    methodology="High STT / Walk and Talk"
+                    title="Phase 2: The Job Fair Simulation"
+                    subtitle="35 Minutes &bull; Stress Test"
+                    methodology="Kinesthetic High-Pressure Interaction"
                     accentColor="emerald"
                   >
-                    <div className="bg-slate-950/50 p-6 rounded-xl border border-emerald-500/30 mt-4">
-                      <h4 className="text-emerald-400 font-bold mb-3 uppercase text-xs tracking-widest">Activity Rules:</h4>
-                      <ul className="space-y-2 text-sm text-slate-300">
-                        <li className="flex items-start gap-2"><span className="text-emerald-500 font-bold">1.</span> Write your job title on a nametag and stick it to your chest.</li>
-                        <li className="flex items-start gap-2"><span className="text-emerald-500 font-bold">2.</span> Walk around the room. When you meet a partner, they play the &quot;Officer.&quot;</li>
-                        <li className="flex items-start gap-2"><span className="text-emerald-500 font-bold">3.</span> The Officer asks: &quot;What is your position?&quot;, &quot;What will you do?&quot;, &quot;Why should we hire you?&quot;</li>
-                        <li className="flex items-start gap-2"><span className="text-emerald-500 font-bold">4.</span> You must answer with 3+ full sentences including adjectives and examples.</li>
-                        <li className="flex items-start gap-2"><span className="text-emerald-500 font-bold">5.</span> Swap roles after 3 minutes. Meet at least 4 different partners.</li>
-                      </ul>
+                    <div className="bg-slate-950/50 p-6 rounded-2xl border border-emerald-500/30 mt-4 overflow-hidden relative">
+                       <div className="absolute -right-8 -top-8 w-32 h-32 bg-emerald-500/10 blur-3xl rounded-full" />
+                       <p className="text-sm text-slate-300 mb-6 leading-relaxed">
+                          Students move in three layers: <span className="text-white font-bold">Applicants</span>, <span className="text-white font-bold">Officers</span>, and <span className="text-white font-bold">Distractors</span>. 
+                       </p>
+                       <div className="space-y-4">
+                          <div className="p-4 bg-slate-900 rounded-xl border-l-4 border-emerald-500">
+                             <p className="text-[10px] text-emerald-400 font-bold uppercase mb-2">The Mission:</p>
+                             <p className="text-xs text-slate-400 italic">"Sell your candidate profile while a 'distractor' makes noise or asks irrelevant questions (e.g., 'What time is it?'). Stay focused on the Officer."</p>
+                          </div>
+                          <div className="grid grid-cols-2 gap-4">
+                             <div className="p-3 bg-slate-950 rounded-lg border border-slate-800 text-center">
+                                <p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Pass Criteria</p>
+                                <p className="text-[11px] text-slate-300">Eye contact maintained for 60 seconds.</p>
+                             </div>
+                             <div className="p-3 bg-slate-950 rounded-lg border border-slate-800 text-center">
+                                <p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Fail Criteria</p>
+                                <p className="text-[11px] text-slate-300">Saying "I don't know" or "Ummm..."</p>
+                             </div>
+                          </div>
+                       </div>
                     </div>
                   </CurriculumBlock>
 

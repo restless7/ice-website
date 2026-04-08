@@ -13,7 +13,8 @@ import {
   Target,
   Repeat,
   PenTool,
-  CheckCircle
+  CheckCircle,
+  Clock
 } from "lucide-react";
 import { CurriculumHeader } from "@/components/english-class/CurriculumHeader";
 import { CurriculumBlock } from "@/components/english-class/CurriculumBlock";
@@ -70,19 +71,26 @@ export default function EnglishClassHours23and24() {
                     The officer wants to know you are a real student with real plans. Your academic story must sound coherent and confident, never rehearsed.
                   </p>
 
-                  <CurriculumContext title="Conversation Strategy" accentColor="purple">
+                  <CurriculumContext title="Advanced Survival: Paraphrasing" accentColor="purple">
+                    <p className="text-sm text-slate-300 mb-4 leading-relaxed">
+                      High-stakes situations require the ability to recover from a linguistic freeze. Master the "Second Chance" logic:
+                    </p>
                     <div className="space-y-3">
                       <div className="bg-slate-950/50 p-3 rounded-lg border border-violet-500/20">
-                        <p className="text-xs text-violet-400 font-bold uppercase mb-1 flex items-center gap-2"><Repeat className="w-3 h-3" /> Paraphrasing</p>
-                        <p className="text-sm text-white font-mono">&quot;In other words...&quot;</p>
-                        <p className="text-sm text-white font-mono mt-1">&quot;What I mean is...&quot;</p>
-                        <p className="text-[10px] text-slate-500 mt-2 uppercase tracking-wide">Use this when your first answer is messy. Recover elegantly.</p>
+                        <p className="text-[10px] text-violet-400 font-bold uppercase mb-1 flex items-center gap-2"><Repeat className="w-3 h-3" /> The Recovery Loop</p>
+                        <ul className="text-xs text-white space-y-1 font-mono">
+                          <li>• "In other words..."</li>
+                          <li>• "What I'm trying to say is..."</li>
+                          <li>• "To put it simply..."</li>
+                        </ul>
                       </div>
                       <div className="bg-slate-950/50 p-3 rounded-lg border border-purple-500/20">
-                        <p className="text-xs text-purple-400 font-bold uppercase mb-1 flex items-center gap-2"><ArrowRight className="w-3 h-3" /> Expanding</p>
-                        <p className="text-sm text-white font-mono">&quot;Also, I should mention that...&quot;</p>
-                        <p className="text-sm text-white font-mono mt-1">&quot;On top of that...&quot;</p>
-                        <p className="text-[10px] text-slate-500 mt-2 uppercase tracking-wide">Add detail naturally, don&apos;t give one-word answers.</p>
+                        <p className="text-[10px] text-purple-400 font-bold uppercase mb-1 flex items-center gap-2"><ArrowRight className="w-3 h-3" /> The Expansion Layer</p>
+                        <ul className="text-xs text-white space-y-1 font-mono">
+                          <li>• "Furthermore, I believe..."</li>
+                          <li>• "Specifically, my target is..."</li>
+                          <li>• "This aligns with my goal to..."</li>
+                        </ul>
                       </div>
                     </div>
                   </CurriculumContext>
@@ -94,57 +102,71 @@ export default function EnglishClassHours23and24() {
 
                   <CurriculumBlock
                     icon={<GraduationCap />}
-                    title="Phase 1: Education Questions Arsenal"
+                    title="Phase 1: The Academic Profile Matrix"
                     subtitle="25 Minutes &bull; Core Interview Prep"
                     methodology="Script Mastery + Paraphrasing"
                     accentColor="purple"
                   >
-                    <p className="text-sm text-slate-300 leading-relaxed mb-4">
-                      These four questions form the backbone of your academic profile. The officer is checking that you are a genuine student who will return home to finish their degree.
-                    </p>
-
-                    <div className="space-y-4 mt-4">
-                      <div className="bg-slate-900 border border-slate-800 rounded-xl p-5 hover:border-violet-500/50 transition-colors">
-                        <p className="text-slate-500 text-xs mb-1">Q9: Major</p>
-                        <h4 className="text-white font-bold text-sm mb-2">&quot;What is your major?&quot; / &quot;What do you study?&quot;</h4>
-                        <p className="text-violet-300 text-sm font-serif italic">&quot;I am studying Technology in Electrical Engineering at Unidades Tecnológicas de Santander.&quot;</p>
-                        <div className="bg-violet-500/10 px-3 py-2 rounded-lg mt-3 border-l-2 border-violet-500">
-                          <p className="text-xs text-violet-300"><strong>UTS Students:</strong> Always say &quot;Technology in [Field]&quot;, never just the field name alone.</p>
+                    <div className="grid grid-cols-1 gap-6 mt-4">
+                      {/* Q9: Major - Expanded */}
+                      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 hover:border-violet-500/50 transition-all">
+                        <div className="flex items-center gap-2 mb-4">
+                          <span className="px-2 py-0.5 bg-violet-500/20 text-violet-400 text-[10px] font-bold rounded uppercase">Academy</span>
+                          <div className="h-px flex-grow bg-slate-800" />
+                        </div>
+                        <h4 className="text-white font-bold text-lg mb-3">What is your major?</h4>
+                        <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 mb-3">
+                           <p className="text-slate-300 font-serif italic italic text-sm">&quot;I am studying Technology in Electrical Engineering at UTS University.&quot;</p>
+                        </div>
+                        <div className="bg-violet-900/20 p-3 rounded-lg text-[11px] text-violet-300 border border-violet-500/30">
+                          <strong>Master Teacher Tip:</strong> Never just say "Engineering". Be specific. If you are a UTS student, the word <span className="text-white font-bold">"Technology"</span> is key to your legal status.
                         </div>
                       </div>
 
-                      <div className="bg-slate-900 border border-slate-800 rounded-xl p-5 hover:border-violet-500/50 transition-colors">
-                        <p className="text-slate-500 text-xs mb-1">Q10: University</p>
-                        <h4 className="text-white font-bold text-sm mb-2">&quot;What university do you go to?&quot;</h4>
-                        <p className="text-violet-300 text-sm font-serif italic">&quot;I go to Unidades Tecnológicas de Santander, in Bucaramanga, Colombia.&quot;</p>
-                        <p className="text-xs text-slate-500 mt-2">Always include the city. The officer may not know your university.</p>
-                      </div>
-
-                      <div className="bg-slate-900 border border-slate-800 rounded-xl p-5 hover:border-violet-500/50 transition-colors">
-                        <p className="text-slate-500 text-xs mb-1">Q11: Career Choice (Past Tense Trap)</p>
-                        <h4 className="text-white font-bold text-sm mb-2">&quot;Why did you choose that major?&quot;</h4>
-                        <p className="text-violet-300 text-sm font-serif italic">&quot;I chose it because I have always been passionate about technology. In other words, I enjoy solving problems with engineering.&quot;</p>
-                        <div className="bg-amber-500/10 px-3 py-2 rounded-lg mt-3 border-l-2 border-amber-500">
-                          <p className="text-xs text-amber-300"><strong>Tense Alert:</strong> &quot;Why <strong>DID</strong> you choose?&quot; → Answer: &quot;I <strong>chose</strong> it because...&quot; (Past Simple, not Present).</p>
+                      {/* Q11: Motivation - The "Why" Matrix */}
+                      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 hover:border-purple-500/50 transition-all relative overflow-hidden">
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/5 blur-3xl rounded-full" />
+                        <h4 className="text-white font-bold text-lg mb-4">Why did you choose that major?</h4>
+                        <div className="grid sm:grid-cols-3 gap-3 mb-4">
+                           <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 text-center">
+                              <p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Passion</p>
+                              <p className="text-[11px] text-slate-300 italic">"I've always loved how things work."</p>
+                           </div>
+                           <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 text-center">
+                              <p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Career</p>
+                              <p className="text-[11px] text-slate-300 italic">"It has a great job market in Colombia."</p>
+                           </div>
+                           <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 text-center">
+                              <p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Family</p>
+                              <p className="text-[11px] text-slate-300 italic">"My father is also an engineer."</p>
+                           </div>
                         </div>
+                        <p className="text-xs text-slate-400 leading-relaxed italic border-l-2 border-purple-500 pl-4 py-1 bg-purple-500/5">
+                           &quot;I chose it because it combines my passion for mathematics with practical infrastructure development.&quot;
+                        </p>
                       </div>
 
-                      <div className="bg-slate-900 border border-slate-800 rounded-xl p-5 hover:border-violet-500/50 transition-colors">
-                        <p className="text-slate-500 text-xs mb-1">Q12: Return Plans (CRITICAL)</p>
-                        <h4 className="text-white font-bold text-sm mb-2">&quot;What are your plans when you return to Colombia?&quot;</h4>
-                        <p className="text-violet-300 text-sm font-serif italic">&quot;When I return, I am going to finish my degree and start working in my field. I also want to use the English I improved during the program.&quot;</p>
-                        <div className="bg-red-500/10 px-3 py-2 rounded-lg mt-3 border-l-2 border-red-500">
-                          <p className="text-xs text-red-300"><strong>CRITICAL:</strong> You MUST show intention to return. Never say &quot;I might stay&quot; or &quot;I&apos;m not sure.&quot; Always express clear plans tied to your studies.</p>
+                      {/* Q12: Return Plans - The Anchor */}
+                      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 hover:border-emerald-500/50 transition-all">
+                        <div className="flex items-center gap-2 mb-4">
+                          <span className="px-2 py-0.5 bg-emerald-500/20 text-emerald-400 text-[10px] font-bold rounded uppercase">The Anchor</span>
+                          <div className="h-px flex-grow bg-slate-800" />
+                        </div>
+                        <h4 className="text-white font-bold text-lg mb-3">What will you do when you return?</h4>
+                        <div className="bg-emerald-900/10 p-5 rounded-xl border border-emerald-500/30 mb-4">
+                           <p className="text-white font-serif italic mb-3">&quot;My plan is to return immediately to finish my 9th semester and start my graduation project.&quot;</p>
+                           <p className="text-xs text-emerald-400 font-bold uppercase block mb-1 underline">Why this works:</p>
+                           <p className="text-[11px] text-slate-400">It shows a <span className="text-white font-bold italic">fixed date</span> and a <span className="text-white font-bold italic">specific task</span> waiting for you.</p>
                         </div>
                       </div>
                     </div>
                   </CurriculumBlock>
 
+
                 </div>
               </div>
             </div>
           </motion.div>
-
           {/* HOUR 24: The Timeline Project & Role-play */}
           <motion.div
             initial="hidden"
@@ -169,8 +191,21 @@ export default function EnglishClassHours23and24() {
                   </div>
 
                   <p className="text-slate-400 text-lg leading-relaxed">
-                    Draw your academic life on a timeline &mdash; past, present, and future. Then explain it verbally to three different partners using all tenses correctly.
+                    Mastering the temporal flow of your life. You must navigate from the past into a specific, documented future in Colombia.
                   </p>
+
+                  <CurriculumContext title="Temporal Logic" accentColor="purple">
+                    <div className="space-y-4">
+                        <div className="p-3 bg-slate-900 rounded-lg border border-slate-800">
+                            <p className="text-[10px] text-violet-400 font-bold uppercase mb-1">Consistency</p>
+                            <p className="text-[11px] text-slate-400">Your dates must match your university transcripts exactly.</p>
+                        </div>
+                        <div className="p-3 bg-slate-900 rounded-lg border border-slate-800">
+                            <p className="text-[10px] text-violet-400 font-bold uppercase mb-1">The Gap Rule</p>
+                            <p className="text-[11px] text-slate-400">Explain any "empty" semesters pro-actively (e.g., worked to save money).</p>
+                        </div>
+                    </div>
+                  </CurriculumContext>
                 </div>
               </div>
 
@@ -184,25 +219,31 @@ export default function EnglishClassHours23and24() {
                     methodology="Visual + Verbal Integration"
                     accentColor="purple"
                   >
-                    <p className="text-sm text-slate-300 leading-relaxed mb-4">
-                      Each student draws a horizontal timeline on paper with 3 clear sections. Then they must explain each section to a partner using the correct tense.
+                    <p className="text-sm text-slate-300 leading-relaxed mb-6">
+                      Draw your horizontal timeline. Then, explain it to a partner. They must "Interrogate" every transition point.
                     </p>
-                    <div className="bg-slate-900 rounded-xl overflow-hidden border border-slate-700 w-full mt-4">
-                      <div className="grid grid-cols-3 divide-x divide-slate-800">
-                        <div className="p-5">
-                          <p className="text-amber-400 text-xs font-bold uppercase mb-2 tracking-widest">Past</p>
-                          <p className="text-slate-300 text-sm font-serif italic">&quot;I <strong className="text-amber-300">graduated</strong> from high school in 2020. I <strong className="text-amber-300">chose</strong> engineering because...&quot;</p>
-                          <p className="text-slate-500 text-[10px] mt-2 uppercase tracking-wider">Simple Past</p>
+                    <div className="bg-slate-900 rounded-2xl overflow-hidden border border-slate-800 w-full mt-4 shadow-2xl">
+                      <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-slate-800">
+                        <div className="p-6 hover:bg-slate-950 transition-colors group">
+                          <p className="text-amber-500 text-xs font-bold uppercase mb-3 tracking-widest flex items-center gap-2">
+                             <Clock className="w-3 h-3" /> The Origin
+                          </p>
+                          <p className="text-slate-300 text-sm font-serif italic mb-4">"I <strong className="text-amber-300">started</strong> my university degree in January 2022 because I <strong className="text-amber-300">realized</strong> my potential in calculus."</p>
+                          <div className="h-1 bg-slate-800 rounded-full group-hover:bg-amber-500/30 transition-all" />
                         </div>
-                        <div className="p-5">
-                          <p className="text-violet-400 text-xs font-bold uppercase mb-2 tracking-widest">Present</p>
-                          <p className="text-slate-300 text-sm font-serif italic">&quot;Right now, I <strong className="text-violet-300">am studying</strong> my 5th semester. I <strong className="text-violet-300">live</strong> with my parents.&quot;</p>
-                          <p className="text-slate-500 text-[10px] mt-2 uppercase tracking-wider">Simple Present / Continuous</p>
+                        <div className="p-6 hover:bg-slate-950 transition-colors group">
+                          <p className="text-violet-400 text-xs font-bold uppercase mb-3 tracking-widest flex items-center gap-2">
+                             <Users className="w-3 h-3" /> The Present
+                          </p>
+                          <p className="text-slate-300 text-sm font-serif italic mb-4">"Currently, I <strong className="text-violet-300">am enrolled</strong> in the 5th level. I <strong className="text-violet-300">take</strong> 6 classes, including Thermodynamics."</p>
+                          <div className="h-1 bg-slate-800 rounded-full group-hover:bg-violet-500/30 transition-all" />
                         </div>
-                        <div className="p-5">
-                          <p className="text-emerald-400 text-xs font-bold uppercase mb-2 tracking-widest">Future</p>
-                          <p className="text-slate-300 text-sm font-serif italic">&quot;When I return, I <strong className="text-emerald-300">am going to</strong> finish my thesis and <strong className="text-emerald-300">start</strong> my career.&quot;</p>
-                          <p className="text-slate-500 text-[10px] mt-2 uppercase tracking-wider">Going To / Will</p>
+                        <div className="p-6 hover:bg-slate-950 transition-colors group">
+                          <p className="text-emerald-400 text-xs font-bold uppercase mb-3 tracking-widest flex items-center gap-2">
+                             <Target className="w-3 h-3" /> The Return
+                          </p>
+                          <p className="text-slate-300 text-sm font-serif italic mb-4">"When I return, I <strong className="text-emerald-300">am going to</strong> resume my classes immediately on September 15th."</p>
+                          <div className="h-1 bg-slate-800 rounded-full group-hover:bg-emerald-500/30 transition-all" />
                         </div>
                       </div>
                     </div>
@@ -210,23 +251,28 @@ export default function EnglishClassHours23and24() {
 
                   <CurriculumBlock
                     icon={<Users />}
-                    title="Phase 3: Academic Interview Roleplay"
-                    subtitle="30 Minutes &bull; Pressure Drill"
+                    title="Phase 3: Deep Context Simulations"
+                    subtitle="30 Minutes &bull; The Recovery Lab"
                     methodology="Officer / Applicant Simulation"
                     accentColor="purple"
                   >
-                    <div className="bg-slate-950/50 p-6 rounded-xl border border-violet-500/30 mt-4">
-                      <p className="text-sm text-slate-300 mb-4 leading-relaxed">
-                        The officer now combines personal info (Hour 21) AND academic questions (Hour 23). Students must handle both seamlessly in a single conversation. No pauses between topic switches.
+                    <div className="bg-slate-950/50 p-6 rounded-xl border border-violet-500/30 mt-4 overflow-hidden relative">
+                      <div className="absolute top-0 right-0 p-4">
+                         <Lightbulb className="w-8 h-8 text-violet-500/20" />
+                      </div>
+                      <p className="text-sm text-slate-300 mb-6 leading-relaxed">
+                        The "Officer" must ask <span className="text-white font-bold">Invasive Logic Questions</span>: "If you are an engineer, why work as a dishwasher?" 
                       </p>
-                      <div className="bg-slate-900 rounded-xl overflow-hidden border border-slate-700 w-full mt-4">
-                        <div className="p-5 space-y-4 font-serif text-sm">
-                          <p className="text-slate-300"><strong className="text-white">Officer:</strong> &quot;What do you study?&quot;</p>
-                          <p className="text-slate-400 italic">&quot;I am studying Technology in Systems Engineering at UTS.&quot;</p>
-                          <p className="text-slate-300"><strong className="text-white">Officer:</strong> &quot;Why did you choose that?&quot;</p>
-                          <p className="text-slate-400 italic">&quot;I chose it because I am passionate about software development. In other words, I love building things with code.&quot;</p>
-                          <p className="text-slate-300"><strong className="text-white">Officer:</strong> &quot;And what will you do when you come back?&quot;</p>
-                          <p className="text-slate-400 italic">&quot;When I return, I am going to finish my last courses and do my internship. I also plan to apply for a job at a tech company in Bucaramanga.&quot;</p>
+                      <div className="space-y-4">
+                        <div className="bg-slate-900 p-4 rounded-xl border-l-4 border-violet-500">
+                           <p className="text-xs text-slate-500 uppercase font-bold mb-2">Sample Recovery Strategy:</p>
+                           <p className="text-slate-300 font-serif italic mb-2">&quot;Actually, the position is less important to me than the cultural immersion. In other words, I want to experience the US workplace to build my soft skills.&quot;</p>
+                           <p className="text-[10px] text-violet-400 font-mono">Strategy: Reframing (The Sword)</p>
+                        </div>
+                        <div className="bg-slate-900 p-4 rounded-xl border-l-4 border-emerald-500">
+                           <p className="text-xs text-slate-500 uppercase font-bold mb-2">The Return Lock:</p>
+                           <p className="text-slate-300 font-serif italic mb-2">&quot;I precisely need to be back by October because I have my graduation seminar scheduled.&quot;</p>
+                           <p className="text-[10px] text-emerald-400 font-mono">Strategy: Concrete Commitment (The Anchor)</p>
                         </div>
                       </div>
                     </div>

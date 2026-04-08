@@ -71,18 +71,18 @@ export default function EnglishClassHours29and30() {
                     Everyone makes mistakes. What separates a Pass from a Fail is how you <strong className="text-white">recover</strong>. Learn the art of the smooth correction.
                   </p>
 
-                  <CurriculumContext title="The Recovery" accentColor="rose">
+                  <CurriculumContext title="The Advanced Recovery Loop" accentColor="rose">
+                    <p className="text-xs text-slate-400 mb-4 leading-relaxed italic">
+                      "I see you said you study Law, but your job offer is for a Lifeguard. Isn't that a contradiction?"
+                    </p>
                     <div className="space-y-3">
                       <div className="bg-slate-950/50 p-3 rounded-lg border border-rose-500/20">
-                        <p className="text-xs text-rose-400 font-bold uppercase mb-1 flex items-center gap-2"><RefreshCw className="w-3 h-3" /> Self-Correction</p>
-                        <p className="text-sm text-white font-mono">&quot;Sorry, what I meant was...&quot;</p>
-                        <p className="text-sm text-white font-mono mt-1">&quot;Let me rephrase that...&quot;</p>
-                        <p className="text-[10px] text-slate-500 mt-2 uppercase tracking-wide">Correct yourself smoothly. Never break character.</p>
+                        <p className="text-[10px] text-rose-400 font-bold uppercase mb-1 flex items-center gap-2"><RefreshCw className="w-3 h-3" /> Step 1: Acknowledge & Pivot</p>
+                        <p className="text-xs text-slate-300">"That's an interesting point, Officer. While Law is my academic passion, I've always been an active swimmer, and this job allows me to fund my studies while practicing professional responsibility."</p>
                       </div>
-                      <div className="bg-slate-950/50 p-3 rounded-lg border border-orange-500/20">
-                        <p className="text-xs text-orange-400 font-bold uppercase mb-1">Keep Moving</p>
-                        <p className="text-sm text-white font-mono">&quot;As I was saying...&quot;</p>
-                        <p className="text-[10px] text-slate-500 mt-2 uppercase tracking-wide">Don&apos;t freeze after an error. Bridge back to your answer.</p>
+                      <div className="bg-emerald-500/10 p-3 rounded-lg border border-emerald-500/20">
+                        <p className="text-[10px] text-emerald-400 font-bold uppercase mb-1 flex items-center gap-2"><ShieldCheck className="w-3 h-3" /> Step 2: The Logic Bridge</p>
+                        <p className="text-[10px] text-slate-400 leading-relaxed uppercase tracking-tighter">Connect the disparate dots using high-stakes vocational vocabulary.</p>
                       </div>
                     </div>
                   </CurriculumContext>
@@ -94,66 +94,57 @@ export default function EnglishClassHours29and30() {
 
                   <CurriculumBlock
                     icon={<BookOpen />}
-                    title="Phase 1: The Complete Question Bank"
-                    subtitle="20 Minutes &bull; Final Review"
-                    methodology="Full Arsenal Walkthrough"
+                    title="Phase 1: The Master Question Bank"
+                    subtitle="20 Minutes &bull; The Final 50"
+                    methodology="Cognitive Load Stress Test"
                     accentColor="rose"
                   >
-                    <p className="text-sm text-slate-300 leading-relaxed mb-4">
-                      Every question from Units 1-3 combined. Grouped by category. The officer can pick from ANY of these.
-                    </p>
-                    <div className="space-y-4 mt-4">
-                      <div className="bg-slate-900 border border-slate-800 rounded-xl p-5">
-                        <h4 className="text-indigo-400 font-bold text-xs uppercase mb-3 tracking-widest border-l-2 border-indigo-500 pl-2">Personal Identity (8 Questions)</h4>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs text-slate-300 font-mono">
-                          <p>1. What are you going to do in the USA?</p>
-                          <p>2. Where are you going?</p>
-                          <p>3. Why do you want to participate?</p>
-                          <p>4. What do you study?</p>
-                          <p>5. What semester are you in?</p>
-                          <p>6. How old are you?</p>
-                          <p>7. Who do you live with?</p>
-                          <p>8. What do your parents do?</p>
-                        </div>
-                      </div>
-                      <div className="bg-slate-900 border border-slate-800 rounded-xl p-5">
-                        <h4 className="text-violet-400 font-bold text-xs uppercase mb-3 tracking-widest border-l-2 border-violet-500 pl-2">Academic Profile (4 Questions)</h4>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs text-slate-300 font-mono">
-                          <p>9. What is your major?</p>
-                          <p>10. What university do you go to?</p>
-                          <p>11. Why did you choose that major?</p>
-                          <p>12. What are your plans when you return?</p>
-                        </div>
-                      </div>
-                      <div className="bg-slate-900 border border-slate-800 rounded-xl p-5">
-                        <h4 className="text-emerald-400 font-bold text-xs uppercase mb-3 tracking-widest border-l-2 border-emerald-500 pl-2">Job Profile (4 Questions)</h4>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs text-slate-300 font-mono">
-                          <p>13. What is your job offer / position?</p>
-                          <p>14. What city and state are you going to?</p>
-                          <p>15. Where are you going to live?</p>
-                          <p>16. What are your responsibilities?</p>
-                        </div>
-                      </div>
-                      <div className="bg-slate-900 border border-slate-800 rounded-xl p-5">
-                        <h4 className="text-amber-400 font-bold text-xs uppercase mb-3 tracking-widest border-l-2 border-amber-500 pl-2">Financial (5 Questions)</h4>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs text-slate-300 font-mono">
-                          <p>17. Who is sponsoring your trip?</p>
-                          <p>18. Who is paying for your trip?</p>
-                          <p>19. How much do your parents earn?</p>
-                          <p>20. How much did you pay for the program?</p>
-                          <p>21. How much are you going to earn?</p>
-                        </div>
-                      </div>
-                      <div className="bg-slate-900 border border-slate-800 rounded-xl p-5">
-                        <h4 className="text-rose-400 font-bold text-xs uppercase mb-3 tracking-widest border-l-2 border-rose-500 pl-2">Trap &amp; Curveball Questions</h4>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs text-slate-300 font-mono">
-                          <p>22. Do you have family in the US?</p>
-                          <p>23. Have you visited the US before?</p>
-                          <p>24. What will you do if you don&apos;t like the job?</p>
-                          <p>25. Do you plan to stay in the US?</p>
-                          <p>26. How did you hear about this program?</p>
-                        </div>
-                      </div>
+                    <div className="grid grid-cols-1 gap-4 mt-6">
+                       <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 relative overflow-hidden group hover:border-rose-500/50 transition-all">
+                          <div className="flex items-center gap-3 mb-4">
+                             <Target className="w-5 h-5 text-rose-400" />
+                             <h4 className="text-white font-bold text-sm tracking-widest uppercase">The Critical Path Questions</h4>
+                          </div>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2">
+                             {[
+                               "What are you going to do specifically in [City]?",
+                               "Why did you choose this employer over others?",
+                               "How will this benefit your career in Colombia?",
+                               "What will you do if your flight is delayed?",
+                               "How much did you pay in total for the visa?",
+                               "Explain your daily responsibilities in detail.",
+                               "What is your plan for the first night in the US?",
+                               "How do you plan to handle a workplace emergency?",
+                               "Why should I grant you this visa today?",
+                               "What is your backup plan if the job falls through?"
+                             ].map((q, idx) => (
+                               <p key={idx} className="text-[11px] text-slate-400 font-mono border-b border-slate-800/50 pb-1 hover:text-white transition-colors">
+                                 <span className="text-rose-500/50 mr-2">{idx + 1}.</span> {q}
+                               </p>
+                             ))}
+                          </div>
+                       </div>
+
+                       <div className="grid grid-cols-2 gap-4">
+                          <div className="bg-slate-900 border border-slate-800 p-4 rounded-xl">
+                             <p className="text-[10px] text-indigo-400 font-bold uppercase mb-2">The Immigrant Intent Bank</p>
+                             <ul className="text-[10px] text-slate-500 space-y-1">
+                                <li>• Will you apply for another visa?</li>
+                                <li>• Do you plan to visit New York City?</li>
+                                <li>• What happens after September [Date]?</li>
+                                <li>• Are you returning to finish your thesis?</li>
+                             </ul>
+                          </div>
+                          <div className="bg-slate-900 border border-slate-800 p-4 rounded-xl">
+                             <p className="text-[10px] text-emerald-400 font-bold uppercase mb-2">The Vocational Bank</p>
+                             <ul className="text-[10px] text-slate-500 space-y-1">
+                                <li>• Explain the 'Wilberforce' rights.</li>
+                                <li>• How many hours per week is average?</li>
+                                <li>• Describe your housing arrangement.</li>
+                                <li>• Who is your emergency contact?</li>
+                             </ul>
+                          </div>
+                       </div>
                     </div>
                   </CurriculumBlock>
 
@@ -251,25 +242,34 @@ export default function EnglishClassHours29and30() {
                   <CurriculumBlock
                     icon={<Trophy />}
                     title="Unit 3 Complete"
-                    subtitle="Graduation &amp; Next Steps"
-                    methodology="Celebration &amp; Assessment"
+                    subtitle="Embassy Readiness Achieved"
+                    methodology="Final Certification"
                     accentColor="rose"
                   >
-                    <div className="bg-gradient-to-br from-rose-500/10 to-orange-500/10 rounded-xl p-6 border border-rose-500/20 mt-4 text-center">
-                      <h4 className="text-white font-bold text-lg mb-3">🎉 Unit 3: Conversation Strategies — Complete 🎉</h4>
-                      <p className="text-sm text-slate-300 leading-relaxed mb-4">
-                        You have mastered your personal profile, academic story, job description, financial details, and conversation strategies. You are now ready for the real embassy interview.
-                      </p>
-                      <div className="flex flex-wrap justify-center gap-2 mb-6">
-                        <span className="px-3 py-1 bg-indigo-500/20 rounded-full text-indigo-400 text-xs font-bold">Core 8 Questions</span>
-                        <span className="px-3 py-1 bg-violet-500/20 rounded-full text-violet-400 text-xs font-bold">Academic Profile</span>
-                        <span className="px-3 py-1 bg-emerald-500/20 rounded-full text-emerald-400 text-xs font-bold">Job Profile</span>
-                        <span className="px-3 py-1 bg-amber-500/20 rounded-full text-amber-400 text-xs font-bold">Financial</span>
-                        <span className="px-3 py-1 bg-rose-500/20 rounded-full text-rose-400 text-xs font-bold">Recovery Strategies</span>
-                      </div>
-                      <Link href="/english-class" className="inline-block bg-rose-500 hover:bg-rose-400 text-slate-950 font-bold text-lg py-4 px-8 rounded-xl transition-all shadow-[0_0_20px_rgba(244,63,94,0.3)] hover:shadow-[0_0_30px_rgba(244,63,94,0.5)]">
-                        Back to Curriculum
-                      </Link>
+                    <div className="bg-gradient-to-br from-rose-600/20 to-orange-500/10 rounded-3xl p-10 border border-rose-500/30 mt-4 text-center relative overflow-hidden">
+                       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-rose-500 via-orange-500 to-rose-500" />
+                       <Trophy className="w-16 h-16 text-amber-400 mx-auto mb-6 drop-shadow-[0_0_20px_rgba(251,191,36,0.4)]" />
+                       <h4 className="text-3xl font-bold text-white mb-4">You are Embassy-Ready.</h4>
+                       <p className="text-slate-400 max-w-lg mx-auto mb-8 leading-relaxed">
+                          By completing The Gauntlet, you have proven that you can handle high-stakes diplomatic pressure, articulate your vocational future, and maintain poise under hostility.
+                       </p>
+                       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-10">
+                          {[
+                             { label: "Hours", value: "10" },
+                             { label: "Drills", value: "25+" },
+                             { label: "Vocabulary", value: "300+" },
+                             { label: "Confidence", value: "100%" }
+                          ].map((stat, i) => (
+                             <div key={i} className="bg-slate-950/50 p-3 rounded-xl border border-rose-500/10">
+                                <p className="text-2xl font-bold text-white">{stat.value}</p>
+                                <p className="text-[10px] text-slate-500 uppercase tracking-widest">{stat.label}</p>
+                             </div>
+                          ))}
+                       </div>
+                       <Link href="/english-class" className="inline-flex items-center gap-3 bg-white hover:bg-rose-50 text-slate-950 font-bold text-lg py-5 px-10 rounded-2xl transition-all shadow-xl hover:scale-105 active:scale-95 group">
+                         Return to Control Panel
+                         <Target className="w-5 h-5 group-hover:rotate-12 transition-transform" />
+                       </Link>
                     </div>
                   </CurriculumBlock>
 
