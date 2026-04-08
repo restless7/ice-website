@@ -90,6 +90,47 @@ export default function EnglishClassPage() {
                 </Link>
             </div>
 
+            {/* Curriculum Units Quick Navigation */}
+            <div className="container mx-auto px-6 max-w-7xl pb-12">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {/* Unit 1 Card */}
+                    <div className="bg-slate-900/50 border border-blue-500/20 rounded-2xl p-6 hover:border-blue-500/40 transition-all group">
+                        <div className="flex items-center gap-4 mb-4">
+                            <div className="w-12 h-12 rounded-xl bg-blue-500/20 flex items-center justify-center text-blue-400 font-bold">1</div>
+                            <h4 className="text-white font-bold">The Essentials</h4>
+                        </div>
+                        <p className="text-slate-400 text-sm mb-6">Master greetings, spelling, and basic interactions. Hours 1-10.</p>
+                        <Link href="/english-class" className="inline-flex items-center gap-2 text-blue-400 text-sm font-bold group-hover:gap-3 transition-all">
+                            Review Unit 1 <ArrowRight className="w-4 h-4" />
+                        </Link>
+                    </div>
+
+                    {/* Unit 2 Card */}
+                    <div className="bg-slate-900/50 border border-teal-500/20 rounded-2xl p-6 hover:border-teal-500/40 transition-all group">
+                        <div className="flex items-center gap-4 mb-4">
+                            <div className="w-12 h-12 rounded-xl bg-teal-500/20 flex items-center justify-center text-teal-400 font-bold">2</div>
+                            <h4 className="text-white font-bold">Exploring the World</h4>
+                        </div>
+                        <p className="text-slate-400 text-sm mb-6">Simple present, present continuous, and daily routines. Hours 11-20.</p>
+                        <Link href="/english-class/hours-11-12" className="inline-flex items-center gap-2 text-teal-400 text-sm font-bold group-hover:gap-3 transition-all">
+                            Jump to Unit 2 <ArrowRight className="w-4 h-4" />
+                        </Link>
+                    </div>
+
+                    {/* Unit 3 Card */}
+                    <div className="bg-slate-900/50 border border-indigo-500/20 rounded-2xl p-6 hover:border-indigo-500/40 transition-all group">
+                        <div className="flex items-center gap-4 mb-4">
+                            <div className="w-12 h-12 rounded-xl bg-indigo-500/20 flex items-center justify-center text-indigo-400 font-bold">3</div>
+                            <h4 className="text-white font-bold">Conversation Strategies</h4>
+                        </div>
+                        <p className="text-slate-400 text-sm mb-6">Interview strategies, profile building, and mock sessions. Hours 21-30.</p>
+                        <Link href="/english-class/hours-21-22" className="inline-flex items-center gap-2 text-indigo-400 text-sm font-bold group-hover:gap-3 transition-all">
+                            Start Unit 3 <ArrowRight className="w-4 h-4" />
+                        </Link>
+                    </div>
+                </div>
+            </div>
+
             {/* Curriculum Grid */}
             <section className="py-20 relative z-10">
                 <div className="container mx-auto px-6 max-w-7xl">
