@@ -119,6 +119,16 @@ export interface StudentPayment {
   method: string | null;
 }
 
+export interface EnglishAssessment {
+  id: string;
+  attemptNumber: number;
+  score: number | null;
+  interviewer: string | null;
+  notes: string | null;
+  date: string | null;
+  programName: string | null;
+}
+
 export interface SponsorStudent {
   assignmentId: string;
   relationshipType: string | null;
@@ -255,6 +265,7 @@ export async function getStudentProgress(): Promise<{
   requirements: StudentRequirement[];
   milestones: StudentMilestone[];
   payments: StudentPayment[];
+  englishAssessments: EnglishAssessment[];
 }> {
   return portalFetch('/api/portal/student/progress');
 }

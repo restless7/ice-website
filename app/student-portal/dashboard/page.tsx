@@ -8,13 +8,13 @@ import {
   GraduationCap, FileText, Clock, CheckCircle, AlertCircle,
   Calendar, LogOut, User, TrendingUp, CreditCard,
   BookOpen, Target, Award, Loader2, RefreshCw, ArrowLeft,
-  FileCheck, FileClock, FileX
+  FileCheck, FileClock, FileX, Languages
 } from "lucide-react";
 import {
   getStudentProfile, getStudentDocuments, getStudentProgress,
   getStoredUser, isAuthenticated, logout,
   type StudentProfile, type StudentDocument, type StudentRequirement,
-  type StudentMilestone, type StudentPayment
+  type StudentMilestone, type StudentPayment, type EnglishAssessment
 } from "@/app/lib/portal-api";
 
 // ─── Progress Bar Component ──────────────────────────────────────────
@@ -92,6 +92,7 @@ export default function PortalDashboard() {
   const [milestones, setMilestones] = useState<StudentMilestone[]>([]);
   const [payments, setPayments] = useState<StudentPayment[]>([]);
   const [enrollments, setEnrollments] = useState<any[]>([]);
+  const [englishAssessments, setEnglishAssessments] = useState<EnglishAssessment[]>([]);
 
   const user = getStoredUser();
 
@@ -127,6 +128,7 @@ export default function PortalDashboard() {
         setRequirements(progressRes.requirements);
         setMilestones(progressRes.milestones);
         setPayments(progressRes.payments);
+        setEnglishAssessments(progressRes.englishAssessments || []);
       }
     } catch (err: any) {
       setError(err.message || "Error al cargar datos");
@@ -426,6 +428,55 @@ export default function PortalDashboard() {
                   <button className="w-full mt-6 py-4 bg-brand-gold/10 hover:bg-brand-gold text-brand-gold hover:text-black font-black text-xs uppercase tracking-widest rounded-2xl transition-all duration-300 border border-brand-gold/20 hover:border-brand-gold">
                     Historial de Facturación
                   </button>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* English Assessment Card */}
+            <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.8 }}>
+              <div className="bg-white/[0.03] backdrop-blur-xl rounded-3xl border border-white/10 overflow-hidden shadow-2xl">
+                <div className="p-6 border-b border-white/5 flex items-center gap-3 bg-white/[0.02]">
+                  <div className="p-2 bg-blue-400/10 rounded-lg">
+                    <Languages className="w-5 h-5 text-blue-400" />
+                  </div>
+                  <h3 className="font-bold text-lg uppercase tracking-wider">Evaluación de Inglés</h3>
+                </div>
+                <div className="p-6 space-y-3">
+                  {englishAssessments.length === 0 ? (
+                    <p className="text-white/20 text-center py-6 text-sm">Sin evaluaciones registradas.</p>
+                  ) : (
+                    englishAssessments.map((a) => (
+                      <div key={a.id} className="p-4 rounded-2xl bg-white/5 border border-white/5 hover:border-blue-400/20 transition-all">
+                        <div className="flex justify-between items-start mb-2">
+                          <div>
+                            <p className="text-sm font-bold text-white">Intento #{a.attemptNumber}</p>
+                            {a.interviewer && (
+                              <p className="text-[10px] text-white/30 uppercase font-bold tracking-tight mt-0.5">
+                                Entrevistador: {a.interviewer}
+                              </p>
+                            )}
+                          </div>
+                          <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider shrink-0 ${
+                            a.score === null ? 'bg-gray-500/20 text-gray-400 border border-gray-500/10' :
+                            a.score >= 7 ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/10' :
+                            a.score >= 5 ? 'bg-brand-gold/10 text-brand-gold border border-brand-gold/10' :
+                            'bg-red-500/10 text-red-400 border border-red-500/10'
+                          }`}>
+                            {a.score !== null ? `Score: ${a.score}` : 'Pendiente'}
+                          </span>
+                        </div>
+                        {a.date && (
+                          <p className="text-[10px] text-white/30 font-bold uppercase flex items-center gap-1 mt-2">
+                            <Calendar className="w-3 h-3" />
+                            {new Date(a.date).toLocaleDateString("es-CO", { day: 'numeric', month: 'long', year: 'numeric' })}
+                          </p>
+                        )}
+                        {a.notes && (
+                          <p className="text-xs text-white/40 mt-2 italic">{a.notes}</p>
+                        )}
+                      </div>
+                    ))
+                  )}
                 </div>
               </div>
             </motion.div>
