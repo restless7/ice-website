@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import IceLayoutWrapper from "@/app/components/ice/ice-layout-wrapper";
 import Link from "next/link";
-import { 
+import {
   SunIcon,
   CheckCircleIcon,
   HeartIcon,
@@ -39,8 +39,8 @@ export default function SummerCamp() {
                   </div>
                 </div>
                 <p className="text-xl text-gray-600 leading-relaxed mb-8">
-                  Vive la experiencia auténtica de los campamentos de verano estadounidenses. 
-                  Actividades al aire libre, deportes, artes y amistades que durarán toda la vida 
+                  Vive la experiencia auténtica de los campamentos de verano estadounidenses.
+                  Actividades al aire libre, deportes, artes y amistades que durarán toda la vida
                   en un ambiente seguro y divertido.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
@@ -503,9 +503,9 @@ export default function SummerCamp() {
                   <span className="text-2xl font-bold text-white">🧒</span>
                 </div>
                 <blockquote className="text-xl text-gray-700 italic mb-6">
-                  "Mi hija regresó del campamento como una persona completamente nueva: 
-                  más independiente, confiada y con amigos de todo el mundo. Fue la mejor 
-                  inversión que pudimos hacer para su desarrollo personal y su inglés 
+                  "Mi hija regresó del campamento como una persona completamente nueva:
+                  más independiente, confiada y con amigos de todo el mundo. Fue la mejor
+                  inversión que pudimos hacer para su desarrollo personal y su inglés
                   mejoró increíblemente."
                 </blockquote>
                 <div>
@@ -526,15 +526,15 @@ export default function SummerCamp() {
             <p className="text-xl text-gray-600 mb-8">
               Inscribe a tu hijo en una experiencia que recordará toda la vida
             </p>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
               <div className="bg-gray-50 rounded-2xl p-6 border border-gray-200">
                 <PhoneIcon className="w-8 h-8 text-brand-gold mx-auto mb-4" />
                 <h3 className="font-bold text-gray-900 mb-2">Llámanos</h3>
-                <p className="text-brand-gold font-semibold">+75 3104994800</p>
+                <p className="text-brand-gold font-semibold">+57 3104994800</p>
                 <p className="text-gray-600 text-sm">Manuel - Procesos Colombia</p>
               </div>
-              
+
               <div className="bg-gray-50 rounded-2xl p-6 border border-gray-200">
                 <EnvelopeIcon className="w-8 h-8 text-brand-gold mx-auto mb-4" />
                 <h3 className="font-bold text-gray-900 mb-2">Escríbenos</h3>

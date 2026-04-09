@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import IceLayoutWrapper from "@/app/components/ice/ice-layout-wrapper";
 import Link from "next/link";
-import { 
+import {
   ArrowTopRightOnSquareIcon,
   CheckCircleIcon,
   ClockIcon,
@@ -40,8 +40,8 @@ export default function SummerWorkAndTravel() {
                   </div>
                 </div>
                 <p className="text-xl text-gray-600 leading-relaxed mb-8">
-                  Trabaja y viaja por Estados Unidos durante las vacaciones universitarias. 
-                  Una experiencia única que te permitirá ganar dinero, mejorar tu inglés, 
+                  Trabaja y viaja por Estados Unidos durante las vacaciones universitarias.
+                  Una experiencia única que te permitirá ganar dinero, mejorar tu inglés,
                   conocer nuevas culturas y hacer amigos de todo el mundo.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
@@ -80,7 +80,7 @@ export default function SummerWorkAndTravel() {
                       <span className="font-bold text-gray-900">Mayo - Agosto</span>
                     </div>
                   </div>
-                  
+
                   <div className="mt-6 p-4 bg-white/50 rounded-xl">
                     <p className="text-sm text-gray-700">
                       <strong>Sponsors oficiales:</strong><br />
@@ -379,15 +379,15 @@ export default function SummerWorkAndTravel() {
             <p className="text-xl text-gray-600 mb-8">
               Comienza tu aventura laboral en Estados Unidos
             </p>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
               <div className="bg-gray-50 rounded-2xl p-6 border border-gray-200">
                 <PhoneIcon className="w-8 h-8 text-brand-gold mx-auto mb-4" />
                 <h3 className="font-bold text-gray-900 mb-2">Llámanos</h3>
-                <p className="text-brand-gold font-semibold">+75 3104994800</p>
+                <p className="text-brand-gold font-semibold">+57 3104994800</p>
                 <p className="text-gray-600 text-sm">Manuel - Procesos Colombia</p>
               </div>
-              
+
               <div className="bg-gray-50 rounded-2xl p-6 border border-gray-200">
                 <EnvelopeIcon className="w-8 h-8 text-brand-gold mx-auto mb-4" />
                 <h3 className="font-bold text-gray-900 mb-2">Escríbenos</h3>

@@ -155,7 +155,7 @@ Use Supabase dashboard or API to export submissions for analysis.
 
 ## 📞 Contact Integration
 The form aligns with the restored contact information:
-- **Phone**: +75 3104994800
+- **Phone**: +57 3104994800
 - **Email**: info.col@icebga.com
 
 ## 🛠️ Maintenance

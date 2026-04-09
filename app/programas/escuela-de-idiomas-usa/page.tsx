@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import IceLayoutWrapper from "@/app/components/ice/ice-layout-wrapper";
 import Link from "next/link";
-import { 
+import {
   AcademicCapIcon,
   CheckCircleIcon,
   GlobeAltIcon,
@@ -39,8 +39,8 @@ export default function EscuelaIdiomasUSA() {
                   </div>
                 </div>
                 <p className="text-xl text-gray-600 leading-relaxed mb-8">
-                  Estudia inglés en las mejores escuelas de idiomas de Estados Unidos. 
-                  Cursos intensivos diseñados para acelerar tu aprendizaje mientras 
+                  Estudia inglés en las mejores escuelas de idiomas de Estados Unidos.
+                  Cursos intensivos diseñados para acelerar tu aprendizaje mientras
                   vives una experiencia cultural auténtica.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
@@ -485,9 +485,9 @@ export default function EscuelaIdiomasUSA() {
                   <span className="text-2xl font-bold text-white">👩‍🎓</span>
                 </div>
                 <blockquote className="text-xl text-gray-700 italic mb-6">
-                  "Estudiar inglés en Estados Unidos cambió mi vida completamente. 
-                  No solo mejoré mi nivel del idioma dramáticamente, sino que viví 
-                  experiencias increíbles y conocí personas de todo el mundo. 
+                  "Estudiar inglés en Estados Unidos cambió mi vida completamente.
+                  No solo mejoré mi nivel del idioma dramáticamente, sino que viví
+                  experiencias increíbles y conocí personas de todo el mundo.
                   Fue la mejor inversión que pude hacer para mi futuro."
                 </blockquote>
                 <div>
@@ -508,15 +508,15 @@ export default function EscuelaIdiomasUSA() {
             <p className="text-xl text-gray-600 mb-8">
               Comienza tu aventura académica en Estados Unidos
             </p>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
               <div className="bg-gray-50 rounded-2xl p-6 border border-gray-200">
                 <PhoneIcon className="w-8 h-8 text-brand-gold mx-auto mb-4" />
                 <h3 className="font-bold text-gray-900 mb-2">Llámanos</h3>
-                <p className="text-brand-gold font-semibold">+75 3104994800</p>
+                <p className="text-brand-gold font-semibold">+57 3104994800</p>
                 <p className="text-gray-600 text-sm">Manuel - Procesos Colombia</p>
               </div>
-              
+
               <div className="bg-gray-50 rounded-2xl p-6 border border-gray-200">
                 <EnvelopeIcon className="w-8 h-8 text-brand-gold mx-auto mb-4" />
                 <h3 className="font-bold text-gray-900 mb-2">Escríbenos</h3>

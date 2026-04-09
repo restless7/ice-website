@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import IceLayoutWrapper from "@/app/components/ice/ice-layout-wrapper";
 import Link from "next/link";
-import { 
+import {
   HeartIcon,
   CheckCircleIcon,
   ClockIcon,
@@ -39,8 +39,8 @@ export default function AuPairUSA() {
                   </div>
                 </div>
                 <p className="text-xl text-gray-600 leading-relaxed mb-8">
-                  El programa Au Pair en USA es tu oportunidad de vivir un intercambio cultural único: 
-                  convivirás con una familia anfitriona americana, cuidarás de sus hijos y, al mismo tiempo, 
+                  El programa Au Pair en USA es tu oportunidad de vivir un intercambio cultural único:
+                  convivirás con una familia anfitriona americana, cuidarás de sus hijos y, al mismo tiempo,
                   disfrutarás de beneficios que harán tu experiencia inolvidable.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
@@ -227,7 +227,7 @@ export default function AuPairUSA() {
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-4">Aplicación y Matching</h3>
                 <p className="text-gray-600">
-                  Completas tu aplicación y te conectamos con familias anfitrionas 
+                  Completas tu aplicación y te conectamos con familias anfitrionas
                   que coincidan con tu perfil y preferencias.
                 </p>
               </div>
@@ -238,7 +238,7 @@ export default function AuPairUSA() {
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-4">Entrenamiento y Visa</h3>
                 <p className="text-gray-600">
-                  Recibes entrenamiento sobre cuidado infantil y tramitamos 
+                  Recibes entrenamiento sobre cuidado infantil y tramitamos
                   tu visa J-1 para viajar legalmente a Estados Unidos.
                 </p>
               </div>
@@ -249,7 +249,7 @@ export default function AuPairUSA() {
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-4">Vive la Experiencia</h3>
                 <p className="text-gray-600">
-                  Viajas a Estados Unidos, vives con tu familia anfitriona 
+                  Viajas a Estados Unidos, vives con tu familia anfitriona
                   y disfrutas de una experiencia cultural única.
                 </p>
               </div>
@@ -266,9 +266,9 @@ export default function AuPairUSA() {
                   <span className="text-2xl font-bold text-white">👩‍🎓</span>
                 </div>
                 <blockquote className="text-xl text-gray-700 italic mb-6">
-                  "Mi experiencia como Au Pair cambió mi vida completamente. No solo mejoré mi inglés 
-                  y conocí una nueva cultura, sino que también creé vínculos familiares que durarán 
-                  para siempre. Los niños se convirtieron en mis hermanos menores y la familia 
+                  "Mi experiencia como Au Pair cambió mi vida completamente. No solo mejoré mi inglés
+                  y conocí una nueva cultura, sino que también creé vínculos familiares que durarán
+                  para siempre. Los niños se convirtieron en mis hermanos menores y la familia
                   en mi segunda familia."
                 </blockquote>
                 <div>
@@ -289,15 +289,15 @@ export default function AuPairUSA() {
             <p className="text-xl text-gray-600 mb-8">
               Comienza tu proceso de aplicación hoy mismo
             </p>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
               <div className="bg-gray-50 rounded-2xl p-6 border border-gray-200">
                 <PhoneIcon className="w-8 h-8 text-brand-gold mx-auto mb-4" />
                 <h3 className="font-bold text-gray-900 mb-2">Llámanos</h3>
-                <p className="text-brand-gold font-semibold">+75 3104994800</p>
+                <p className="text-brand-gold font-semibold">+57 3104994800</p>
                 <p className="text-gray-600 text-sm">Camilo Manrique - CEO</p>
               </div>
-              
+
               <div className="bg-gray-50 rounded-2xl p-6 border border-gray-200">
                 <EnvelopeIcon className="w-8 h-8 text-brand-gold mx-auto mb-4" />
                 <h3 className="font-bold text-gray-900 mb-2">Escríbenos</h3>

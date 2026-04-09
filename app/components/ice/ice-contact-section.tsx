@@ -17,7 +17,7 @@ export default function IceContactSection() {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
-    
+
     if (type === 'checkbox') {
       const checked = (e.target as HTMLInputElement).checked;
       setFormData(prev => ({ ...prev, [name]: checked }));
@@ -66,7 +66,7 @@ export default function IceContactSection() {
           >
             <span className="bg-gradient-to-r from-brand-gold to-brand-orange bg-clip-text text-transparent">Contáctanos</span>
           </motion.h2>
-          
+
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -251,7 +251,7 @@ export default function IceContactSection() {
               <h3 className="text-2xl font-bold text-gray-900 mb-6">
                 Información de Contacto
               </h3>
-              
+
               <div className="space-y-6">
                 <div className="flex items-start space-x-4">
                   <div className="w-12 h-12 bg-brand-gold/10 rounded-xl p-3 flex-shrink-0">
@@ -259,7 +259,7 @@ export default function IceContactSection() {
                   </div>
                   <div>
                     <h4 className="font-semibold text-gray-900 mb-1">Teléfono</h4>
-                    <p className="text-brand-gold font-semibold">+75 3104994800</p>
+                    <p className="text-brand-gold font-semibold">+57 3104994800</p>
                     <p className="text-gray-600 text-sm">Manuel - Procesos Colombia</p>
                   </div>
                 </div>
@@ -293,7 +293,7 @@ export default function IceContactSection() {
               <h3 className="text-xl font-bold text-gray-900 mb-6">
                 Acceso Rápido
               </h3>
-              
+
               <div className="space-y-4">
                 <Link
                   href="https://wa.me/573104994800?text=Hola,%20estoy%20interesado%20en%20los%20programas%20de%20ICE"

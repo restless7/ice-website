@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import IceLayoutWrapper from "@/app/components/ice/ice-layout-wrapper";
 import Link from "next/link";
-import { 
+import {
   BriefcaseIcon,
   CheckCircleIcon,
   CurrencyDollarIcon,
@@ -39,8 +39,8 @@ export default function H2BProgram() {
                   </div>
                 </div>
                 <p className="text-xl text-gray-600 leading-relaxed mb-8">
-                  Trabaja temporalmente en Estados Unidos con visa H2B. Empleos 
-                  estacionales legales con salarios competitivos en sectores como 
+                  Trabaja temporalmente en Estados Unidos con visa H2B. Empleos
+                  estacionales legales con salarios competitivos en sectores como
                   agricultura, turismo, construcción y servicios.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
@@ -529,8 +529,8 @@ export default function H2BProgram() {
                   <span className="text-2xl font-bold text-white">👷‍♂️</span>
                 </div>
                 <blockquote className="text-xl text-gray-700 italic mb-6">
-                  "El programa H2B cambió mi vida. Trabajé 8 meses en Colorado en un 
-                  hotel de esquí, ahorré mucho dinero y mejoré mi inglés. La experiencia 
+                  "El programa H2B cambió mi vida. Trabajé 8 meses en Colorado en un
+                  hotel de esquí, ahorré mucho dinero y mejoré mi inglés. La experiencia
                   fue increíble y ahora tengo mejores oportunidades laborales en Colombia."
                 </blockquote>
                 <div>
@@ -551,15 +551,15 @@ export default function H2BProgram() {
             <p className="text-xl text-gray-600 mb-8">
               Inicia tu proceso H2B hoy mismo
             </p>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
               <div className="bg-gray-50 rounded-2xl p-6 border border-gray-200">
                 <PhoneIcon className="w-8 h-8 text-brand-gold mx-auto mb-4" />
                 <h3 className="font-bold text-gray-900 mb-2">Llámanos</h3>
-                <p className="text-brand-gold font-semibold">+75 3104994800</p>
+                <p className="text-brand-gold font-semibold">+57 3104994800</p>
                 <p className="text-gray-600 text-sm">Manuel - Procesos Colombia</p>
               </div>
-              
+
               <div className="bg-gray-50 rounded-2xl p-6 border border-gray-200">
                 <EnvelopeIcon className="w-8 h-8 text-brand-gold mx-auto mb-4" />
                 <h3 className="font-bold text-gray-900 mb-2">Escríbenos</h3>

@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import IceLayoutWrapper from "@/app/components/ice/ice-layout-wrapper";
 import Link from "next/link";
-import { 
+import {
   MapPinIcon,
   CheckCircleIcon,
   AcademicCapIcon,
@@ -39,8 +39,8 @@ export default function CanadaTuProyectoDeVida() {
                   </div>
                 </div>
                 <p className="text-xl text-gray-600 leading-relaxed mb-8">
-                  Construye tu futuro en Canadá, uno de los mejores países del mundo para vivir. 
-                  Oportunidades de estudio, trabajo, inmigración y residencia permanente 
+                  Construye tu futuro en Canadá, uno de los mejores países del mundo para vivir.
+                  Oportunidades de estudio, trabajo, inmigración y residencia permanente
                   en una sociedad multicultural y próspera.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
@@ -531,9 +531,9 @@ export default function CanadaTuProyectoDeVida() {
                   <span className="text-2xl font-bold text-white">🍁</span>
                 </div>
                 <blockquote className="text-xl text-gray-700 italic mb-6">
-                  "ICE hizo realidad mi sueño canadiense. Comenzé con un programa de Business 
-                  Administration en Toronto, conseguí mi PGWP, y ahora tengo mi residencia 
-                  permanente. Mi familia completa vive aquí y mis hijos estudian en escuelas 
+                  "ICE hizo realidad mi sueño canadiense. Comenzé con un programa de Business
+                  Administration en Toronto, conseguí mi PGWP, y ahora tengo mi residencia
+                  permanente. Mi familia completa vive aquí y mis hijos estudian en escuelas
                   públicas canadienses. ¡No podría estar más agradecido!"
                 </blockquote>
                 <div>
@@ -554,15 +554,15 @@ export default function CanadaTuProyectoDeVida() {
             <p className="text-xl text-gray-600 mb-8">
               Comienza tu proyecto de vida canadiense hoy
             </p>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
               <div className="bg-gray-50 rounded-2xl p-6 border border-gray-200">
                 <PhoneIcon className="w-8 h-8 text-brand-gold mx-auto mb-4" />
                 <h3 className="font-bold text-gray-900 mb-2">Llámanos</h3>
-                <p className="text-brand-gold font-semibold">+75 3104994800</p>
+                <p className="text-brand-gold font-semibold">+57 3104994800</p>
                 <p className="text-gray-600 text-sm">Manuel - Procesos Colombia</p>
               </div>
-              
+
               <div className="bg-gray-50 rounded-2xl p-6 border border-gray-200">
                 <EnvelopeIcon className="w-8 h-8 text-brand-gold mx-auto mb-4" />
                 <h3 className="font-bold text-gray-900 mb-2">Escríbenos</h3>
