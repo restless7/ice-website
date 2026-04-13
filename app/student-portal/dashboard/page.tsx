@@ -8,13 +8,13 @@ import {
   GraduationCap, FileText, Clock, CheckCircle, AlertCircle,
   Calendar, LogOut, User, TrendingUp, CreditCard,
   BookOpen, Target, Award, Loader2, RefreshCw, ArrowLeft,
-  FileCheck, FileClock, FileX, Languages, RotateCcw, ClipboardList, ChevronDown
+  FileCheck, FileClock, FileX, Languages, RotateCcw, ClipboardList, ChevronDown, Building2, Briefcase
 } from "lucide-react";
 import {
-  getStudentProfile, getStudentDocuments, getStudentProgress, getStudentRefunds,
+  getStudentProfile, getStudentDocuments, getStudentProgress, getStudentRefunds, getStudentPlacements,
   getStoredUser, isAuthenticated, logout,
   type StudentProfile, type StudentDocument, type StudentRequirement,
-  type StudentMilestone, type StudentPayment, type EnglishAssessment, type RefundRequest
+  type StudentMilestone, type StudentPayment, type EnglishAssessment, type RefundRequest, type StudentPlacementApi
 } from "@/app/lib/portal-api";
 
 // ─── Progress Bar Component ──────────────────────────────────────────
@@ -93,6 +93,7 @@ export default function PortalDashboard() {
   const [payments, setPayments] = useState<StudentPayment[]>([]);
   const [enrollments, setEnrollments] = useState<any[]>([]);
   const [englishAssessments, setEnglishAssessments] = useState<EnglishAssessment[]>([]);
+  const [placements, setPlacements] = useState<StudentPlacementApi[]>([]);
   const [refunds, setRefunds] = useState<RefundRequest[]>([]);
   const [showSolicitudes, setShowSolicitudes] = useState(false);
 
@@ -110,10 +111,11 @@ export default function PortalDashboard() {
     setLoading(true);
     setError("");
     try {
-      const [profileRes, docsRes, progressRes] = await Promise.all([
+      const [profileRes, docsRes, progressRes, placementsRes] = await Promise.all([
         getStudentProfile(),
         getStudentDocuments(),
         getStudentProgress(),
+        getStudentPlacements()
       ]);
 
       if (profileRes.success) {
@@ -131,6 +133,9 @@ export default function PortalDashboard() {
         setMilestones(progressRes.milestones);
         setPayments(progressRes.payments);
         setEnglishAssessments(progressRes.englishAssessments || []);
+      }
+      if (placementsRes.success) {
+        setPlacements(placementsRes.placements || []);
       }
       // Load refunds separately (non-blocking)
       try {
@@ -325,6 +330,70 @@ export default function PortalDashboard() {
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Main Column - Timeline & Progress */}
           <div className="lg:col-span-2 space-y-8">
+            
+            {/* Sponsor & Job Placement Card */}
+            {placements.length > 0 && (
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
+                <div className="bg-gradient-to-br border-2 border-brand-gold/30 from-white/[0.05] relative to-brand-gold/5 backdrop-blur-xl rounded-3xl overflow-hidden shadow-2xl">
+                  {/* Glowing accent border */}
+                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand-gold via-brand-orange to-brand-gold"></div>
+                  <div className="p-6 border-b border-white/5 flex items-center justify-between bg-white/[0.02]">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 bg-brand-gold/20 rounded-lg">
+                        <Building2 className="w-5 h-5 text-brand-gold" />
+                      </div>
+                      <h3 className="font-bold text-lg uppercase tracking-wider text-brand-gold">Mi Empleo Oficial</h3>
+                    </div>
+                  </div>
+                  <div className="p-6">
+                    {placements.map(placement => (
+                      <div key={placement.id} className="flex flex-col md:flex-row md:items-center justify-between gap-6 border border-white/10 bg-white/5 rounded-2xl p-6 mb-4 last:mb-0">
+                        <div className="flex-1">
+                          <p className="text-white/40 text-[10px] font-bold uppercase tracking-widest mb-1">Sponsor Asignado</p>
+                          <p className="text-xl font-bold text-white mb-4">{placement.sponsor?.name}</p>
+                          
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            {placement.employer && (
+                              <div>
+                                <p className="text-white/40 text-[10px] font-bold uppercase tracking-widest mb-1">Empleador</p>
+                                <p className="text-white font-medium flex items-center gap-2">
+                                  <Building2 className="w-4 h-4 text-white/50" />
+                                  {placement.employer.name}
+                                </p>
+                              </div>
+                            )}
+                            {placement.position && (
+                              <div>
+                                <p className="text-white/40 text-[10px] font-bold uppercase tracking-widest mb-1">Cargo / Posición</p>
+                                <p className="text-white font-medium flex items-center gap-2">
+                                  <Briefcase className="w-4 h-4 text-white/50" />
+                                  {placement.position.title}
+                                </p>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                        <div className="bg-white/5 border border-white/10 rounded-xl p-4 text-center md:text-right min-w-[200px]">
+                          <span className={`inline-block px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest border ${placement.status === 'CONFIRMED' ? 'border-emerald-500/50 text-emerald-400 bg-emerald-500/10' : 'border-brand-gold/50 text-brand-gold bg-brand-gold/10'}`}>
+                            {placement.status}
+                          </span>
+                          <p className="text-xs text-white/40 uppercase tracking-widest mt-3">
+                            {placement.placementType === 'FULL_PLACEMENT' ? 'Programa Full' : 'Self Placement'}
+                          </p>
+                          {(placement.startDate || placement.endDate) && (
+                            <p className="text-sm text-white/60 mt-2 font-mono">
+                              {placement.startDate ? new Date(placement.startDate).toLocaleDateString() : 'TBD'} - 
+                              {placement.endDate ? new Date(placement.endDate).toLocaleDateString() : 'TBD'}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            )}
+
             {/* Documents Grid Wrapper */}
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
               <div className="bg-white/[0.03] backdrop-blur-xl rounded-3xl border border-white/10 overflow-hidden shadow-2xl">

@@ -191,6 +191,17 @@ export interface SponsorStudent {
   progressPercent: number;
 }
 
+export interface StudentPlacementApi {
+  id: string;
+  placementType: string;
+  startDate: string | null;
+  endDate: string | null;
+  status: string;
+  sponsor: { id: string; name: string };
+  employer: { id: string; name: string } | null;
+  position: { id: string; title: string } | null;
+}
+
 interface ApiResponse<T> {
   success: boolean;
   error?: string;
@@ -352,4 +363,13 @@ export async function submitRefundRequest(data: {
     method: 'POST',
     body: JSON.stringify(data),
   });
+}
+
+// ─── Placements API ───────────────────────────────────────────────────
+
+export async function getStudentPlacements(): Promise<{
+  success: boolean;
+  placements: StudentPlacementApi[];
+}> {
+  return portalFetch('/api/placements');
 }
