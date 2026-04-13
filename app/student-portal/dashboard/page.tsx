@@ -8,7 +8,7 @@ import {
   GraduationCap, FileText, Clock, CheckCircle, AlertCircle,
   Calendar, LogOut, User, TrendingUp, CreditCard,
   BookOpen, Target, Award, Loader2, RefreshCw, ArrowLeft,
-  FileCheck, FileClock, FileX, Languages, RotateCcw
+  FileCheck, FileClock, FileX, Languages, RotateCcw, ClipboardList, ChevronDown
 } from "lucide-react";
 import {
   getStudentProfile, getStudentDocuments, getStudentProgress, getStudentRefunds,
@@ -94,6 +94,7 @@ export default function PortalDashboard() {
   const [enrollments, setEnrollments] = useState<any[]>([]);
   const [englishAssessments, setEnglishAssessments] = useState<EnglishAssessment[]>([]);
   const [refunds, setRefunds] = useState<RefundRequest[]>([]);
+  const [showSolicitudes, setShowSolicitudes] = useState(false);
 
   const user = getStoredUser();
 
@@ -207,6 +208,43 @@ export default function PortalDashboard() {
               </div>
               
               <div className="flex items-center gap-2">
+                {/* Solicitudes Dropdown – neutral entry point */}
+                <div className="relative"
+                  onMouseEnter={() => setShowSolicitudes(true)}
+                  onMouseLeave={() => setShowSolicitudes(false)}>
+                  <button className="p-2.5 hover:bg-white/10 rounded-xl transition-all border border-transparent hover:border-white/10 flex items-center gap-1.5" title="Solicitudes">
+                    <ClipboardList className="w-5 h-5 text-white/50" />
+                    <ChevronDown className="w-3 h-3 text-white/30" />
+                  </button>
+                  {showSolicitudes && (
+                    <div className="absolute right-0 top-full mt-2 w-56 bg-gray-900/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden z-50">
+                      <div className="p-2">
+                        <p className="px-3 py-2 text-[9px] text-white/20 uppercase font-bold tracking-widest">Solicitudes</p>
+                        <Link href="/student-portal/refunds" className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-white/5 transition-colors group">
+                          <RotateCcw className="w-4 h-4 text-white/20 group-hover:text-white/50" />
+                          <div>
+                            <p className="text-xs font-medium text-white/60 group-hover:text-white/80">Devolución</p>
+                            <p className="text-[10px] text-white/20">Solicitar reembolso</p>
+                          </div>
+                        </Link>
+                        <Link href="/student-portal/solicitudes/certificado" className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-white/5 transition-colors group">
+                          <FileText className="w-4 h-4 text-white/20 group-hover:text-white/50" />
+                          <div>
+                            <p className="text-xs font-medium text-white/60 group-hover:text-white/80">Certificado</p>
+                            <p className="text-[10px] text-white/20">Solicitar constancia</p>
+                          </div>
+                        </Link>
+                        <Link href="/student-portal/solicitudes/cambio-programa" className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-white/5 transition-colors group">
+                          <Target className="w-4 h-4 text-white/20 group-hover:text-white/50" />
+                          <div>
+                            <p className="text-xs font-medium text-white/60 group-hover:text-white/80">Cambio de programa</p>
+                            <p className="text-[10px] text-white/20">Transferir inscripción</p>
+                          </div>
+                        </Link>
+                      </div>
+                    </div>
+                  )}
+                </div>
                 <button onClick={loadDashboardData} className="p-2.5 hover:bg-white/10 rounded-xl transition-all border border-transparent hover:border-white/10" title="Actualizar">
                   <RefreshCw className="w-5 h-5 text-white/50" />
                 </button>
@@ -438,43 +476,33 @@ export default function PortalDashboard() {
               </div>
             </motion.div>
 
-            {/* Devoluciones Card */}
-            <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.75 }}>
-              <div className="bg-white/[0.03] backdrop-blur-xl rounded-3xl border border-white/10 overflow-hidden shadow-2xl">
-                <div className="p-6 border-b border-white/5 flex items-center justify-between bg-white/[0.02]">
-                  <div className="flex items-center gap-3">
-                    <div className="p-2 bg-purple-400/10 rounded-lg">
-                      <RotateCcw className="w-5 h-5 text-purple-400" />
+            {/* Active Refund Tracker — only rendered when student has in-progress refunds */}
+            {refunds.filter(r => !['PROCESSED', 'REJECTED', 'CANCELLED'].includes(r.status)).length > 0 && (
+              <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.75 }}>
+                <div className="bg-white/[0.03] backdrop-blur-xl rounded-3xl border border-white/10 overflow-hidden shadow-2xl">
+                  <div className="p-6 border-b border-white/5 flex items-center justify-between bg-white/[0.02]">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 bg-purple-400/10 rounded-lg">
+                        <RotateCcw className="w-5 h-5 text-purple-400" />
+                      </div>
+                      <h3 className="font-bold text-lg uppercase tracking-wider">Solicitudes Activas</h3>
                     </div>
-                    <h3 className="font-bold text-lg uppercase tracking-wider">Devoluciones</h3>
+                    <Link href="/student-portal/refunds" className="text-[10px] font-bold uppercase tracking-widest text-white/30 hover:text-white/50 transition-colors">
+                      Detalle →
+                    </Link>
                   </div>
-                  <Link href="/student-portal/refunds" className="text-[10px] font-bold uppercase tracking-widest text-purple-400 hover:text-purple-300 transition-colors">
-                    Ver todo →
-                  </Link>
-                </div>
-                <div className="p-6 space-y-3">
-                  {refunds.length === 0 ? (
-                    <div className="text-center py-6">
-                      <RotateCcw className="w-10 h-10 text-white/5 mx-auto mb-3" />
-                      <p className="text-white/20 text-sm">Sin solicitudes de devolución.</p>
-                      <Link href="/student-portal/refunds" className="inline-block mt-4 px-4 py-2 bg-purple-500/10 text-purple-400 text-[10px] font-bold uppercase tracking-widest rounded-xl border border-purple-500/20 hover:bg-purple-500/20 transition-all">
-                        Nueva Solicitud
-                      </Link>
-                    </div>
-                  ) : (
-                    refunds.slice(0, 3).map((r) => {
+                  <div className="p-6 space-y-3">
+                    {refunds.filter(r => !['PROCESSED', 'REJECTED', 'CANCELLED'].includes(r.status)).slice(0, 3).map((r) => {
                       const statusConfig: Record<string, { bg: string; text: string; label: string }> = {
                         PENDING: { bg: "bg-brand-gold/10", text: "text-brand-gold", label: "Pendiente" },
                         UNDER_REVIEW: { bg: "bg-brand-orange/10", text: "text-brand-orange", label: "En Revisión" },
                         APPROVED: { bg: "bg-blue-500/10", text: "text-blue-400", label: "Aprobada" },
                         PROCESSING: { bg: "bg-blue-500/10", text: "text-blue-400", label: "Procesando" },
-                        PROCESSED: { bg: "bg-emerald-500/10", text: "text-emerald-400", label: "Procesada" },
-                        REJECTED: { bg: "bg-red-500/10", text: "text-red-400", label: "Rechazada" },
-                        CANCELLED: { bg: "bg-gray-500/20", text: "text-gray-400", label: "Cancelada" },
+                        DRAFT: { bg: "bg-gray-500/20", text: "text-gray-400", label: "Borrador" },
                       };
                       const sc = statusConfig[r.status] || { bg: "bg-gray-500/20", text: "text-gray-400", label: r.status };
                       return (
-                        <div key={r.id} className="p-4 rounded-2xl bg-white/5 border border-white/5 hover:border-purple-400/20 transition-all">
+                        <div key={r.id} className="p-4 rounded-2xl bg-white/5 border border-white/5">
                           <div className="flex justify-between items-start mb-2">
                             <div>
                               <p className="text-sm font-bold text-white">{r.refundNumber}</p>
@@ -498,11 +526,11 @@ export default function PortalDashboard() {
                           </div>
                         </div>
                       );
-                    })
-                  )}
+                    })}
+                  </div>
                 </div>
-              </div>
-            </motion.div>
+              </motion.div>
+            )}
 
             {/* English Assessment Card */}
             <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.8 }}>
