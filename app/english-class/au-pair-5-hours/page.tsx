@@ -772,6 +772,111 @@ export default function AuPairCoursePage() {
                         </div>
                     </motion.div>
 
+                    {/* APPLIED DIALOGUES — THE FINAL IMMERSION */}
+                    <section className="py-20 relative z-10 border-t border-slate-800/60">
+                        <div className="mb-12">
+                            <p className="text-[10px] text-rose-400 font-bold uppercase tracking-widest mb-2">Applied Conversations</p>
+                            <h2 className="text-3xl font-bold text-white">The Final Immersion</h2>
+                            <p className="text-slate-400 mt-2 max-w-2xl">High-stakes scenarios for domestic life. Master the nuance of family communication and professional boundary setting.</p>
+                        </div>
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+                            {/* Dialogue 1 - The First Evening */}
+                            <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
+                                <div className="bg-rose-900/20 border-b border-rose-500/20 px-5 py-3">
+                                    <span className="text-[10px] text-rose-400 font-bold uppercase tracking-widest">Scenario 01 · The "First Evening" Check-in</span>
+                                </div>
+                                <div className="p-5 space-y-4 font-serif text-sm">
+                                    <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Host Mom</p><p className="text-slate-200">"We are so happy you're here, Maria. Let's talk about the kids' bedtime routine starting tomorrow."</p></div>
+                                    <div><p className="text-[10px] text-rose-300 uppercase font-bold mb-1">Maria ✓</p><p className="text-rose-200 italic">"I'm so excited too! I'd love to go over that. <strong className="text-white">Would</strong> you like me to start bath time at 7 PM or earlier?"</p></div>
+                                    <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Host Mom</p><p className="text-slate-200">"7 PM is perfect. But please, no sugar after 6 PM."</p></div>
+                                    <div><p className="text-[10px] text-rose-300 uppercase font-bold mb-1">Maria ✓</p><p className="text-rose-200 italic">"Got it. No sugar after 6. And <strong className="text-white">if</strong> they ask for a snack before bed, <strong className="text-white">should</strong> I offer fruit or just water?"</p></div>
+                                </div>
+                                <div className="bg-slate-950 border-t border-slate-800 px-5 py-3">
+                                    <p className="text-[10px] text-rose-400 font-bold uppercase">Teaching Point</p>
+                                    <p className="text-[10px] text-slate-500 mt-1">Establishing specifics immediately avoids future conflict. Use "Would you like me to..." for professional initiative.</p>
+                                </div>
+                            </div>
+
+                            {/* Dialogue 2 - The 911 Emergency */}
+                            <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden border-rose-500/30 shadow-[0_0_20px_rgba(244,63,94,0.1)]">
+                                <div className="bg-red-950/40 border-b border-red-500/20 px-5 py-3">
+                                    <span className="text-[10px] text-red-400 font-bold uppercase tracking-widest">Scenario 02 · The 911 Emergency Protocol</span>
+                                </div>
+                                <div className="p-5 space-y-4 font-serif text-sm">
+                                    <div><p className="text-[10px] text-slate-400 uppercase font-bold mb-1">911 Operator</p><p className="text-slate-200">"911, what is your emergency?"</p></div>
+                                    <div><p className="text-[10px] text-red-400 uppercase font-bold mb-1"> Maria (Urgent) ✓</p><p className="text-red-200 italic">"I need an ambulance. A 4-year-old child has fallen and is <strong className="text-white">unconscious</strong>. He hit his head on the kitchen counter."</p></div>
+                                    <div><p className="text-[10px] text-slate-400 uppercase font-bold mb-1">911 Operator</p><p className="text-slate-200">"What is the address?"</p></div>
+                                    <div><p className="text-[10px] text-red-400 uppercase font-bold mb-1"> Maria ✓</p><p className="text-red-200 italic">"142 Maple Street, Westport. I am the AU PAIR. The bleeding is steady from the back of the head. <strong className="text-white">What should I do first?</strong>"</p></div>
+                                </div>
+                                <div className="bg-slate-950 border-t border-slate-800 px-5 py-3">
+                                    <p className="text-[10px] text-red-400 font-bold uppercase">CRITICAL</p>
+                                    <p className="text-[10px] text-slate-500 mt-1">Clarity and sequence. Identification as 'AU PAIR' helps the operator understand the resident dynamic immediately.</p>
+                                </div>
+                            </div>
+
+                            {/* Dialogue 3 - School Teacher Interaction */}
+                            <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
+                                <div className="bg-emerald-900/20 border-b border-emerald-500/20 px-5 py-3">
+                                    <span className="text-[10px] text-emerald-400 font-bold uppercase tracking-widest">Scenario 03 · School Interaction (Teacher)</span>
+                                </div>
+                                <div className="p-5 space-y-4 font-serif text-sm">
+                                    <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Preschool Teacher</p><p className="text-slate-200">"Hi Maria, just a heads up, Leo had a bit of a hard time sharing the blocks today."</p></div>
+                                    <div><p className="text-[10px] text-emerald-300 uppercase font-bold mb-1">Maria ✓</p><p className="text-emerald-200 italic">"Oh, thank you for telling me. <strong className="text-white">Did something specific happen</strong> that triggered it?"</p></div>
+                                    <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Preschool Teacher</p><p className="text-slate-200">"Another student grabbed them first. He was quite frustrated."</p></div>
+                                    <div><p className="text-[10px] text-emerald-300 uppercase font-bold mb-1">Maria ✓</p><p className="text-emerald-200 italic">"I'll make sure to <strong className="text-white">report this to the parents</strong> tonight so we can work on 'sharing words' at home too."</p></div>
+                                </div>
+                                <div className="bg-slate-950 border-t border-slate-800 px-5 py-3">
+                                    <p className="text-[10px] text-emerald-400 font-bold uppercase">Teaching Point</p>
+                                    <p className="text-[10px] text-slate-500 mt-1">"Report this to the parents" shows you are a reliable bridge, not just a driver.</p>
+                                </div>
+                            </div>
+
+                            {/* Dialogue 4 - The Boundary Protocol */}
+                            <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
+                                <div className="bg-purple-900/20 border-b border-purple-500/20 px-5 py-3">
+                                    <span className="text-[10px] text-purple-400 font-bold uppercase tracking-widest">Scenario 04 · Boundary Setting (Cleaning vs Childcare)</span>
+                                </div>
+                                <div className="p-5 space-y-4 font-serif text-sm">
+                                    <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Host Dad</p><p className="text-slate-200">"Maria, since the kids are at school, could you mop the whole downstairs and clean the guest bathroom?"</p></div>
+                                    <div><p className="text-[10px] text-purple-300 uppercase font-bold mb-1">Maria ✓</p><p className="text-purple-200 italic">"I <strong className="text-white">don't mind helping out</strong>, but our contract specifies that I handle childcare-related cleaning. Moping the dining room and guest bath <strong className="text-white">seems to be</strong> general house cleaning. <strong className="text-white">Would it be okay if</strong> I focus on the kids' laundry and preparing their snacks instead?"</p></div>
+                                    <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Host Dad</p><p className="text-slate-200">"Oh, you're right. I apologize. Those snacks are definitely higher priority."</p></div>
+                                </div>
+                                <div className="bg-slate-950 border-t border-slate-800 px-5 py-3">
+                                    <p className="text-[10px] text-purple-400 font-bold uppercase">Diplomatic Mastery</p>
+                                    <p className="text-[10px] text-slate-500 mt-1">Using "Would it be okay if..." instead of "I won't do that" preserves the relationship while enforcing the boundary.</p>
+                                </div>
+                            </div>
+
+                            {/* Dialogue 5 - The Ultimate Visa Simulation */}
+                            <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden lg:col-span-2 shadow-xl border-teal-500/20">
+                                <div className="bg-teal-900/20 border-b border-teal-500/20 px-5 py-3 flex items-center justify-between">
+                                    <span className="text-[10px] text-teal-400 font-bold uppercase tracking-widest">Scenario 05 · The Ultimate AU PAIR Visa Interview Simulation</span>
+                                    <span className="bg-teal-500/10 text-teal-400 text-[10px] px-2 py-0.5 rounded font-bold">MODE: HIGH DIFFICULTY</span>
+                                </div>
+                                <div className="p-8 grid md:grid-cols-2 gap-12 font-serif text-sm">
+                                    <div className="space-y-6">
+                                        <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"Why are you going as an AU PAIR instead of just visiting on a tourist visa?"</p></div>
+                                        <div><p className="text-[10px] text-teal-400 uppercase font-bold mb-1">Candidate ✓</p><p className="text-teal-200 italic">"Because the J-1 Au Pair program is a specific cultural exchange. I <strong className="text-white">am committed to</strong> sharing my Colombian culture with an American family while gaining professional childcare experience. A tourist visa <strong className="text-white">would not allow</strong> this level of immersion or legal participation in family life."</p></div>
+                                        <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"How do I know you won't stay and become an illegal nanny?"</p></div>
+                                        <div><p className="text-[10px] text-teal-400 uppercase font-bold mb-1">Candidate ✓</p><p className="text-teal-200 italic">"Officer, I have a <strong className="text-white">scholarship waiting</strong> for me in Bucaramanga to finish my Child Psychology degree. This program is a bridge to my career in Colombia. My entire family, my property, and my legal future depend on my return and maintaining a clean visa record. I have <strong className="text-white">every incentive to follow the rules</strong>."</p></div>
+                                    </div>
+                                    <div className="space-y-6">
+                                        <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"The child has a severe allergic reaction and the parents aren't home. What's the protocol?"</p></div>
+                                        <div><p className="text-[10px] text-teal-400 uppercase font-bold mb-1">Candidate ✓</p><p className="text-teal-200 italic">"First, I administer the EpiPen immediately if prescribed. Then, I <strong className="text-white">call 911 instantly</strong>. Only after help is on the way do I call the parents to report the situation. Life-safety is the 100% priority."</p></div>
+                                        <div><p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Officer</p><p className="text-slate-200">"What do your parents think of this?"</p></div>
+                                        <div><p className="text-[10px] text-teal-400 uppercase font-bold mb-1">Candidate ✓</p><p className="text-teal-200 italic">"My parents are fully supportive. They are actually <strong className="text-white">financing the upfront costs</strong> of my flights and program fees because they see this as a vital professional investment for my future career."</p></div>
+                                    </div>
+                                </div>
+                                <div className="bg-slate-950 border-t border-slate-800 px-5 py-3 flex items-center justify-between">
+                                    <p className="text-[10px] text-emerald-400 font-bold uppercase">Result: VISA APPROVED ✓</p>
+                                    <p className="text-[10px] text-slate-500">Perfect alignment of intent, experience, and safety knowledge.</p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </section>
+
                 </div>
             </section>
 
