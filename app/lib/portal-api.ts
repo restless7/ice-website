@@ -129,6 +129,40 @@ export interface EnglishAssessment {
   programName: string | null;
 }
 
+export interface RefundRequest {
+  id: string;
+  refundNumber: string;
+  requestedAmount: number;
+  approvedAmount: number | null;
+  currency: string;
+  status: string;
+  reason: string;
+  reasonDetail: string | null;
+  studentNotes: string | null;
+  adminNotes: string | null;
+  rejectionReason: string | null;
+  programName: string | null;
+  createdAt: string;
+  reviewedAt: string | null;
+  approvedAt: string | null;
+  processedAt: string | null;
+  items: {
+    id: string;
+    amount: number;
+    currency: string;
+    paymentDescription: string;
+    paymentAmount: number;
+  }[];
+  timeline: {
+    id: string;
+    from: string | null;
+    to: string;
+    comment: string | null;
+    changedBy: string;
+    date: string;
+  }[];
+}
+
 export interface SponsorStudent {
   assignmentId: string;
   relationshipType: string | null;
@@ -282,4 +316,40 @@ export async function getSponsorStudents(): Promise<{
   };
 }> {
   return portalFetch('/api/portal/sponsor/students');
+}
+
+// ─── Refunds API ──────────────────────────────────────────────────────
+
+export async function getStudentRefunds(): Promise<{
+  success: boolean;
+  refunds: RefundRequest[];
+  summary: {
+    total: number;
+    pending: number;
+    approved: number;
+    processed: number;
+    rejected: number;
+  };
+}> {
+  return portalFetch('/api/portal/student/refunds');
+}
+
+export async function submitRefundRequest(data: {
+  enrollmentId?: string;
+  programId?: string;
+  requestedAmount: number;
+  currency?: string;
+  reason: string;
+  reasonDetail?: string;
+  studentNotes?: string;
+  paymentIds: string[];
+}): Promise<{
+  success: boolean;
+  refund?: { id: string; refundNumber: string; status: string };
+  error?: string;
+}> {
+  return portalFetch('/api/portal/student/refunds', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
 }
