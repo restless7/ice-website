@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -96,8 +96,19 @@ export default function PortalDashboard() {
   const [placements, setPlacements] = useState<StudentPlacementApi[]>([]);
   const [refunds, setRefunds] = useState<RefundRequest[]>([]);
   const [showSolicitudes, setShowSolicitudes] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const user = getStoredUser();
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setShowSolicitudes(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   useEffect(() => {
     if (!isAuthenticated()) {
@@ -214,10 +225,12 @@ export default function PortalDashboard() {
               
               <div className="flex items-center gap-2">
                 {/* Solicitudes Dropdown – neutral entry point */}
-                <div className="relative"
-                  onMouseEnter={() => setShowSolicitudes(true)}
-                  onMouseLeave={() => setShowSolicitudes(false)}>
-                  <button className="p-2.5 hover:bg-white/10 rounded-xl transition-all border border-transparent hover:border-white/10 flex items-center gap-1.5" title="Solicitudes">
+                <div className="relative" ref={dropdownRef}>
+                  <button 
+                    onClick={() => setShowSolicitudes(!showSolicitudes)}
+                    className="p-2.5 hover:bg-white/10 rounded-xl transition-all border border-transparent hover:border-white/10 flex items-center gap-1.5" 
+                    title="Solicitudes"
+                  >
                     <ClipboardList className="w-5 h-5 text-white/50" />
                     <ChevronDown className="w-3 h-3 text-white/30" />
                   </button>
