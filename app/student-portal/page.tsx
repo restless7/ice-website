@@ -169,6 +169,7 @@ export default function IcePortalPage() {
                         <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
                         <input
                           type="email"
+                          autoComplete="username"
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
                           placeholder="tu@email.com"
@@ -183,6 +184,7 @@ export default function IcePortalPage() {
                         <Key className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
                         <input
                           type="password"
+                          autoComplete="current-password"
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
                           placeholder="••••••••"
