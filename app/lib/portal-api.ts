@@ -221,7 +221,7 @@ async function portalFetch<T>(
     ...(options.headers as Record<string, string> || {}),
   };
 
-  const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+  const response = await fetch(`${API_BASE_URL}${endpoint}${endpoint.includes('?') ? '&' : '?'}t=${Date.now()}`, {
     ...options,
     headers,
   });
