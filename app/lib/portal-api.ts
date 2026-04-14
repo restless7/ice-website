@@ -371,5 +371,5 @@ export async function getStudentPlacements(): Promise<{
   success: boolean;
   placements: StudentPlacementApi[];
 }> {
-  return portalFetch('/api/placements');
+  return portalFetch('/api/portal/student/placements');
 }
