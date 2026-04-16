@@ -29,7 +29,7 @@ export default function IceContactSection() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Handle form submission here
-    console.log('Form submitted:', formData);
+    
   };
 
   const programs = [

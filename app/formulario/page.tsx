@@ -150,7 +150,7 @@ export default function FormularioPage() {
       }
 
       // Success
-      console.log("Form submitted successfully:", data);
+      
       setSubmitStatus("success");
       setSubmitMessage("¡Solicitud enviada con éxito! Nos pondremos en contacto contigo pronto.");
       

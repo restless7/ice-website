@@ -68,8 +68,8 @@ export default function SponsorPortalPage() {
         setStudents(res.students);
         setSummary(res.summary);
       }
-    } catch (err: any) {
-      setError(err.message || "Error al cargar datos");
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Error al cargar datos");
     } finally {
       setLoading(false);
     }

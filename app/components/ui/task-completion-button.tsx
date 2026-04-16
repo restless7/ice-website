@@ -37,38 +37,31 @@ export function TaskCompletionButton({ taskId, onClick }: TaskCompletionButtonPr
     setIsSubmitting(true);
     
     try {
-      console.log(`[TaskCompletionButton] Starting completion for task ${taskId}`);
-      
       // Update the completion status locally first (optimistic)
       updateTaskCompletion(taskId, true);
       
       // Call the original onClick handler (this makes the API call)
       await onClick(e);
       
-      console.log(`[TaskCompletionButton] Task ${taskId} completed successfully`);
-      
       // Clear the optimistic update after successful completion
       // Don't force refresh immediately - let natural refresh cycle handle it
       setTimeout(() => {
-        console.log(`[TaskCompletionButton] Clearing optimistic update for task ${taskId}`);
         clearOptimisticUpdate(taskId);
         // Only refresh if we haven't refreshed recently to avoid fallback data conflicts
         refreshCompletionStatus(false); // Don't force - use cache-aware refresh
       }, 1000);
       
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error(`[TaskCompletionButton] Error completing task ${taskId}:`, error);
       
+      const message = error instanceof Error ? error.message : String(error);
       // Check if this is an "already completed" error
-      if (error.message?.includes('already completed') || 
-          (typeof error === 'string' && error.includes('already completed'))) {
-        console.log(`[TaskCompletionButton] Task ${taskId} was already completed, keeping optimistic state`);
+      if (message.includes('already completed')) {
         // Don't revert optimistic update for "already completed" errors
         clearOptimisticUpdate(taskId);
         refreshCompletionStatus(true);
       } else {
         // For other errors, revert the optimistic update
-        console.log(`[TaskCompletionButton] Reverting optimistic update for task ${taskId}`);
         updateTaskCompletion(taskId, false);
         clearOptimisticUpdate(taskId);
       }

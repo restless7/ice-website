@@ -37,38 +37,31 @@ export function HabitCompletionButton({ habitId, onClick }: HabitCompletionButto
     setIsSubmitting(true);
     
     try {
-      console.log(`[HabitCompletionButton] Starting completion for habit ${habitId}`);
-      
       // Update the completion status locally first (optimistic)
       updateHabitCompletion(habitId, true);
       
       // Call the original onClick handler (this makes the API call)
       await onClick(e, habitId);
       
-      console.log(`[HabitCompletionButton] Habit ${habitId} completed successfully`);
-      
       // Clear the optimistic update after successful completion
       // Don't force refresh immediately - let natural refresh cycle handle it
       setTimeout(() => {
-        console.log(`[HabitCompletionButton] Clearing optimistic update for habit ${habitId}`);
         clearOptimisticUpdate(habitId);
         // Only refresh if we haven't refreshed recently to avoid fallback data conflicts
         refreshCompletionStatus(false); // Don't force - use cache-aware refresh
       }, 1000);
       
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error(`[HabitCompletionButton] Error completing habit ${habitId}:`, error);
       
+      const message = error instanceof Error ? error.message : String(error);
       // Check if this is an "already completed" error
-      if (error.message?.includes('already completed') || 
-          (typeof error === 'string' && error.includes('already completed'))) {
-        console.log(`[HabitCompletionButton] Habit ${habitId} was already completed, keeping optimistic state`);
+      if (message.includes('already completed')) {
         // Don't revert optimistic update for "already completed" errors
         clearOptimisticUpdate(habitId);
         refreshCompletionStatus(true);
       } else {
         // For other errors, revert the optimistic update
-        console.log(`[HabitCompletionButton] Reverting optimistic update for habit ${habitId}`);
         updateHabitCompletion(habitId, false);
         clearOptimisticUpdate(habitId);
       }

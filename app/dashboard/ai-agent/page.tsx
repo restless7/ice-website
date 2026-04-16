@@ -774,7 +774,7 @@ export default function AiAgentDashboard() {
       });
       const data = await response.json();
       if (data.success) {
-        console.log('Voice tone updated successfully');
+        
       }
     } catch (error) {
       console.error('Error updating voice tone:', error);

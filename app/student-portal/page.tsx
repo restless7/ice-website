@@ -87,8 +87,8 @@ export default function IcePortalPage() {
       } else {
         setError(result.error || "Credenciales inválidas. Intenta de nuevo.");
       }
-    } catch (err: any) {
-      setError(err.message || "Error de conexión. Verifica que el servidor esté disponible.");
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Error de conexión. Verifica que el servidor esté disponible.");
     } finally {
       setIsLoading(false);
     }

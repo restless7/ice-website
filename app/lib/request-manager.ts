@@ -22,7 +22,6 @@ class RequestManager {
       if (cacheTTL && this.cache.has(key)) {
         const cached = this.cache.get(key)!;
         if (Date.now() - cached.timestamp < cached.ttl) {
-          console.log(`[RequestManager] Cache hit for ${url}`);
           // Return cached data as a mock Response
           return new Response(JSON.stringify(cached.data), {
             status: 200,
@@ -37,12 +36,9 @@ class RequestManager {
     
     // Check if request is already pending
     if (this.pendingRequests.has(key)) {
-      console.log(`[RequestManager] Deduplicating request for ${url}`);
       return this.pendingRequests.get(key)!;
     }
     
-    // Make new request
-    console.log(`[RequestManager] Making new request to ${url}`);
     const requestPromise = fetch(url, options);
     
     this.pendingRequests.set(key, requestPromise);
@@ -60,7 +56,6 @@ class RequestManager {
             timestamp: Date.now(),
             ttl: cacheTTL
           });
-          console.log(`[RequestManager] Cached response for ${url} (TTL: ${cacheTTL}ms)`);
         } catch (e) {
           // Ignore caching errors for non-JSON responses
         }
@@ -75,7 +70,6 @@ class RequestManager {
   clearCache(pattern?: string): void {
     if (!pattern) {
       this.cache.clear();
-      console.log('[RequestManager] Cleared all cache');
       return;
     }
     
@@ -87,13 +81,11 @@ class RequestManager {
     });
     
     keysToDelete.forEach(key => this.cache.delete(key));
-    console.log(`[RequestManager] Cleared cache for pattern: ${pattern} (${keysToDelete.length} entries)`);
   }
   
   abort(pattern?: string): void {
     if (!pattern) {
       this.pendingRequests.clear();
-      console.log('[RequestManager] Aborted all pending requests');
       return;
     }
     
@@ -105,7 +97,6 @@ class RequestManager {
     });
     
     keysToDelete.forEach(key => this.pendingRequests.delete(key));
-    console.log(`[RequestManager] Aborted requests for pattern: ${pattern} (${keysToDelete.length} requests)`);
   }
   
   getPendingRequestsCount(): number {

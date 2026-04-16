@@ -69,8 +69,8 @@ export default function PortalDocumentsPage() {
         setDocuments(res.documents);
         setSummary(res.summary);
       }
-    } catch (err: any) {
-      setError(err.message || "Error al cargar documentos");
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Error al cargar documentos");
     } finally {
       setLoading(false);
     }

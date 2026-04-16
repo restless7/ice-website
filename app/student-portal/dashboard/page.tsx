@@ -153,8 +153,8 @@ export default function PortalDashboard() {
         const refundsRes = await getStudentRefunds();
         if (refundsRes.success) setRefunds(refundsRes.refunds || []);
       } catch { /* Refunds not critical for dashboard load */ }
-    } catch (err: any) {
-      setError(err.message || "Error al cargar datos");
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Error al cargar datos");
     } finally {
       setLoading(false);
     }

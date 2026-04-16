@@ -97,7 +97,7 @@ const FlickeringGrid: React.FC<FlickeringGridProps> = ({
       ctx.fillStyle = "transparent";
       ctx.fillRect(0, 0, width, height);
 
-      console.log("Drawing grid..."); // <--- AÑADE ESTE CONSOLE.LOG
+      
 
 
       for (let i = 0; i < cols; i++) {

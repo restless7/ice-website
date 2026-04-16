@@ -104,8 +104,8 @@ export default function RefundsPage() {
       } else {
         setSubmitError(res.error || "Error al crear la solicitud.");
       }
-    } catch (err: any) {
-      setSubmitError(err.message || "Error inesperado.");
+    } catch (err: unknown) {
+      setSubmitError(err instanceof Error ? err.message : "Error inesperado.");
     } finally {
       setSubmitting(false);
     }

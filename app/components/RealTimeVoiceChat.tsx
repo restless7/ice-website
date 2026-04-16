@@ -86,7 +86,6 @@ export default function RealTimeVoiceChat({ onClose }: RealTimeVoiceChatProps) {
       setConnectionError(null);
       
       // Step 1: Setup Bella agent
-      console.log('Setting up Bella agent...');
       const setupResponse = await fetch('/api/ai-agent/voice-agent', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -109,7 +108,6 @@ export default function RealTimeVoiceChat({ onClose }: RealTimeVoiceChatProps) {
       }
       
       // Step 2: Start conversation session
-      console.log('Starting conversation with Bella...');
       const conversationResponse = await fetch('/api/ai-agent/voice-agent', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -150,7 +148,6 @@ export default function RealTimeVoiceChat({ onClose }: RealTimeVoiceChatProps) {
         wsRef.current = ws;
         
         ws.onopen = () => {
-          console.log('Connected to Bella\'s voice WebSocket');
           setIsConnected(true);
           setConnectionError(null);
           resolve();
@@ -167,7 +164,6 @@ export default function RealTimeVoiceChat({ onClose }: RealTimeVoiceChatProps) {
         };
         
         ws.onclose = (event) => {
-          console.log('WebSocket closed:', event.code, event.reason);
           setIsConnected(false);
           if (!event.wasClean) {
             setConnectionError('Connection lost unexpectedly');
@@ -183,11 +179,9 @@ export default function RealTimeVoiceChat({ onClose }: RealTimeVoiceChatProps) {
   const handleWebSocketMessage = (event: MessageEvent) => {
     try {
       const data = JSON.parse(event.data);
-      console.log('WebSocket message:', data);
       
       switch (data.type) {
         case 'conversation_initiation_metadata':
-          console.log('Conversation initiated');
           break;
           
         case 'agent_response':
@@ -209,12 +203,10 @@ export default function RealTimeVoiceChat({ onClose }: RealTimeVoiceChatProps) {
           break;
           
         case 'interruption':
-          console.log('Conversation interrupted');
           setIsTalking(false);
           break;
           
         default:
-          console.log('Unknown message type:', data.type);
       }
     } catch (error) {
       console.error('Error handling WebSocket message:', error);
