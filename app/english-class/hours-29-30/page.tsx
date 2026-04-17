@@ -19,6 +19,7 @@ import { CurriculumHeader } from "@/components/english-class/CurriculumHeader";
 import { CurriculumBlock } from "@/components/english-class/CurriculumBlock";
 import { CurriculumContext } from "@/components/english-class/CurriculumContext";
 import { CurriculumNavigation } from "@/components/english-class/CurriculumNavigation";
+import { GauntletExamModule } from "@/components/english-class/GauntletExamModule";
 import Link from "next/link";
 
 export default function EnglishClassHours29and30() {
@@ -238,6 +239,8 @@ export default function EnglishClassHours29and30() {
                       </div>
                     </div>
                   </CurriculumBlock>
+
+                  <GauntletExamModule />
 
                   <CurriculumBlock
                     icon={<Trophy />}
