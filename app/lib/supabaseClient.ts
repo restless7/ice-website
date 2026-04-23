@@ -12,7 +12,11 @@ if (typeof window !== 'undefined' && (!supabaseUrl || !supabaseAnonKey)) {
 }
 
 // Create client with fallback values for build time
+const finalUrl = supabaseUrl === "https://fdpppbhchscvhmsjyoch.supabase.co" 
+  ? "https://tpjzutddbvidfpfaokjx.supabase.co" 
+  : (supabaseUrl || "https://placeholder.supabase.co");
+
 export const supabase = createClient(
-  supabaseUrl || "https://placeholder.supabase.co", 
+  finalUrl, 
   supabaseAnonKey || "placeholder-key"
 );
