@@ -10,14 +10,77 @@ import {
   ChatBubbleLeftRightIcon, 
   ArrowRightIcon,
   CheckCircleIcon,
-  ArrowLeftIcon
+  ArrowLeftIcon,
+  XMarkIcon
 } from "@heroicons/react/24/outline";
 import IceLayoutWrapper from "@/app/components/ice/ice-layout-wrapper";
 import { supabase } from "@/app/lib/supabaseClient";
+import Image from "next/image";
+
+// Improved Success Modal Component
+const SuccessModal = ({ isOpen, onClose, name }: { isOpen: boolean, onClose: () => void, name: string }) => {
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <>
+          <motion.div 
+            initial={{ opacity: 0 }} 
+            animate={{ opacity: 1 }} 
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] flex items-center justify-center p-4"
+          />
+          <motion.div 
+            initial={{ scale: 0.9, opacity: 0, y: 20 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            exit={{ scale: 0.9, opacity: 0, y: 20 }}
+            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-sm bg-white rounded-[2rem] shadow-2xl z-[101] overflow-hidden"
+          >
+            <div className="absolute top-4 right-4">
+              <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-full transition-colors">
+                <XMarkIcon className="w-5 h-5 text-gray-400" />
+              </button>
+            </div>
+            
+            <div className="p-8 flex flex-col items-center text-center">
+              <div className="relative w-24 h-24 mb-6">
+                <div className="absolute inset-0 bg-brand-gold/20 rounded-full animate-ping" />
+                <div className="relative bg-white rounded-full p-2 shadow-lg border-2 border-brand-gold">
+                  <Image src="/images/logo_ice.png" alt="ICE Logo" width={80} height={80} className="object-contain" />
+                </div>
+              </div>
+              
+              <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mb-4 text-green-600">
+                <CheckCircleIcon className="w-8 h-8" />
+              </div>
+              
+              <h2 className="text-2xl font-bold text-gray-900 mb-2">¡Todo listo, {name.split(' ')[0]}!</h2>
+              <p className="text-gray-600 mb-8 leading-relaxed">
+                Tu registro ha sido exitoso. Bienvenido a nuestra oficina de ICE Colombia.
+              </p>
+              
+              <button 
+                onClick={onClose}
+                className="w-full py-4 bg-gradient-to-r from-brand-gold to-brand-orange text-white font-bold rounded-2xl shadow-lg hover:shadow-xl transition-all active:scale-95"
+              >
+                Entendido
+              </button>
+            </div>
+            
+            <div className="bg-gray-50 py-4 border-t border-gray-100">
+              <p className="text-xs text-gray-400 uppercase tracking-widest font-bold">#ICExperience</p>
+            </div>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
+  );
+};
 
 export default function RegistroVisitasPage() {
   const [flowType, setFlowType] = useState<'selection' | 'firstTime' | 'frequent'>('selection');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const [formData, setFormData] = useState({
     email: '',
@@ -69,8 +132,7 @@ export default function RegistroVisitasPage() {
 
       if (error) throw error;
       
-      alert('¡Registro exitoso! Bienvenido a ICE Colombia.');
-      resetForm();
+      setShowSuccess(true);
     } catch (error) {
       console.error('Error submitting form:', error);
       alert('Hubo un error al procesar el registro. Por favor, intenta de nuevo.');
@@ -119,8 +181,9 @@ export default function RegistroVisitasPage() {
 
       if (error) throw error;
       
-      alert('¡Registro exitoso! Qué bueno verte de nuevo.');
-      resetForm();
+      // Update local state for success modal display
+      setFormData(prev => ({ ...prev, fullName: previousRecord.full_name }));
+      setShowSuccess(true);
     } catch (error) {
       console.error('Error submitting frequent visitor:', error);
       alert('Hubo un error al procesar el registro. Por favor, intenta de nuevo.');
@@ -140,6 +203,7 @@ export default function RegistroVisitasPage() {
     });
     setSelectedReasons([]);
     setFlowType('selection');
+    setShowSuccess(false);
   };
 
   const idTypes = [
@@ -151,7 +215,10 @@ export default function RegistroVisitasPage() {
 
   return (
     <IceLayoutWrapper>
-      <div className="relative min-h-screen bg-gray-50 flex flex-col justify-center py-20">
+      <div className="relative min-h-screen bg-gray-50 flex flex-col justify-center py-20 overflow-hidden">
+        {/* Success Modal */}
+        <SuccessModal isOpen={showSuccess} onClose={resetForm} name={formData.fullName} />
+
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute -top-10 left-10 w-96 h-96 bg-brand-gold/10 rounded-full blur-3xl opacity-70" />
           <div className="absolute bottom-20 right-10 w-[30rem] h-[30rem] bg-brand-orange/10 rounded-full blur-3xl opacity-70" />
@@ -167,25 +234,28 @@ export default function RegistroVisitasPage() {
             </p>
           </motion.div>
 
-          <div className="bg-white rounded-3xl p-8 md:p-12 border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] min-h-[400px]">
+          <div className="relative bg-white rounded-[2.5rem] p-8 md:p-12 border border-blue-50/50 shadow-[0_20px_50px_rgba(0,0,0,0.05)] min-h-[400px]">
+             {/* Decorative corner element */}
+             <div className="absolute -top-4 -right-4 w-24 h-24 bg-gradient-to-br from-brand-gold/20 to-transparent rounded-full blur-2xl pointer-events-none" />
+
             <AnimatePresence mode="wait">
               {flowType === 'selection' && (
                 <motion.div key="selection" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} transition={{ duration: 0.4 }} className="flex flex-col items-center justify-center space-y-6 pt-4 text-center">
                   <h2 className="text-xl font-bold text-gray-800 mb-4">¿Es tu primera vez en nuestra oficina?</h2>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-2xl">
-                    <button onClick={() => setFlowType('firstTime')} className="group flex flex-col items-center p-8 bg-gray-50 hover:bg-white rounded-2xl border-2 border-gray-100 hover:border-brand-gold transition-all duration-300 shadow-sm hover:shadow-xl">
-                      <div className="w-16 h-16 rounded-full bg-brand-gold/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                        <UserIcon className="w-8 h-8 text-brand-gold" />
+                    <button onClick={() => setFlowType('firstTime')} className="group flex flex-col items-center p-8 bg-gray-50/50 hover:bg-white rounded-3xl border border-gray-100 hover:border-brand-gold transition-all duration-500 shadow-sm hover:shadow-2xl">
+                      <div className="w-20 h-20 rounded-2xl bg-brand-gold/10 flex items-center justify-center mb-4 group-hover:rotate-12 group-hover:scale-110 transition-all duration-500">
+                        <UserIcon className="w-10 h-10 text-brand-gold" />
                       </div>
-                      <h3 className="text-lg font-bold text-gray-900 mb-2">Primera Vez</h3>
-                      <p className="text-sm text-gray-500">Nunca me he registrado en este sistema de visitas.</p>
+                      <h3 className="text-xl font-bold text-gray-900 mb-2">Primera Vez</h3>
+                      <p className="text-sm text-gray-500 leading-relaxed px-4">Nunca me he registrado en este sistema de visitas.</p>
                     </button>
-                    <button onClick={() => setFlowType('frequent')} className="group flex flex-col items-center p-8 bg-gray-50 hover:bg-white rounded-2xl border-2 border-gray-100 hover:border-brand-orange transition-all duration-300 shadow-sm hover:shadow-xl">
-                      <div className="w-16 h-16 rounded-full bg-brand-orange/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                        <CheckCircleIcon className="w-8 h-8 text-brand-orange" />
+                    <button onClick={() => setFlowType('frequent')} className="group flex flex-col items-center p-8 bg-gray-50/50 hover:bg-white rounded-3xl border border-gray-100 hover:border-brand-orange transition-all duration-500 shadow-sm hover:shadow-2xl">
+                      <div className="w-20 h-20 rounded-2xl bg-brand-orange/10 flex items-center justify-center mb-4 group-hover:-rotate-12 group-hover:scale-110 transition-all duration-500">
+                        <CheckCircleIcon className="w-10 h-10 text-brand-orange" />
                       </div>
-                      <h3 className="text-lg font-bold text-gray-900 mb-2">Visitante Frecuente</h3>
-                      <p className="text-sm text-gray-500">Ya me he registrado antes. Ingreso rápido.</p>
+                      <h3 className="text-xl font-bold text-gray-900 mb-2">Visitante Frecuente</h3>
+                      <p className="text-sm text-gray-500 leading-relaxed px-4">Ya me he registrado antes. Ingreso rápido.</p>
                     </button>
                   </div>
                 </motion.div>
@@ -193,30 +263,30 @@ export default function RegistroVisitasPage() {
 
               {flowType === 'firstTime' && (
                 <motion.div key="firstTime" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} transition={{ duration: 0.4 }}>
-                  <button onClick={() => setFlowType('selection')} className="flex items-center text-sm font-semibold text-gray-500 hover:text-brand-gold mb-8 transition-colors">
-                    <ArrowLeftIcon className="w-4 h-4 mr-2" /> Volver
+                  <button onClick={() => setFlowType('selection')} className="flex items-center text-sm font-semibold text-gray-400 hover:text-brand-gold mb-8 transition-colors group">
+                    <ArrowLeftIcon className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" /> Volver
                   </button>
                   <form onSubmit={handleFirstTimeSubmit} className="space-y-6 text-left">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="md:col-span-2">
                         <label htmlFor="email" className="block text-sm font-semibold text-gray-900 mb-2">Correo electrónico *</label>
-                        <div className="relative">
-                          <EnvelopeIcon className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-                          <input type="email" id="email" name="email" value={formData.email} onChange={handleInputChange} required className="w-full pl-12 pr-4 py-3.5 bg-gray-50/50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-gold/50 focus:border-brand-gold transition-colors text-gray-800" placeholder="tu.email@ejemplo.com" />
+                        <div className="relative group">
+                          <EnvelopeIcon className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-brand-gold transition-colors" />
+                          <input type="email" id="email" name="email" value={formData.email} onChange={handleInputChange} required className="w-full pl-12 pr-4 py-4 bg-gray-50/50 border border-gray-100 rounded-2xl focus:ring-4 focus:ring-brand-gold/10 focus:border-brand-gold transition-all text-gray-800" placeholder="tu.email@ejemplo.com" />
                         </div>
                       </div>
                       <div className="md:col-span-2">
                         <label htmlFor="fullName" className="block text-sm font-semibold text-gray-900 mb-2 uppercase tracking-wide text-xs">Nombre Completo del Visitante *</label>
-                        <div className="relative">
-                          <UserIcon className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-                          <input type="text" id="fullName" name="fullName" value={formData.fullName} onChange={handleInputChange} required className="w-full pl-12 pr-4 py-3.5 bg-gray-50/50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-gold/50 focus:border-brand-gold transition-colors text-gray-800" placeholder="Ej. Juan Pérez" />
+                        <div className="relative group">
+                          <UserIcon className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-brand-gold transition-colors" />
+                          <input type="text" id="fullName" name="fullName" value={formData.fullName} onChange={handleInputChange} required className="w-full pl-12 pr-4 py-4 bg-gray-50/50 border border-gray-100 rounded-2xl focus:ring-4 focus:ring-brand-gold/10 focus:border-brand-gold transition-all text-gray-800" placeholder="Ej. Juan Pérez" />
                         </div>
                       </div>
                       <div>
-                        <label htmlFor="idType" className="block text-sm font-semibold text-gray-900 mb-2 uppercase tracking-wide text-xs">Documento de Identidad *</label>
-                        <div className="relative">
-                          <IdentificationIcon className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 z-10 pointer-events-none" />
-                          <select id="idType" name="idType" value={formData.idType} onChange={handleInputChange} required className="w-full pl-12 pr-10 py-3.5 bg-gray-50/50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-gold/50 focus:border-brand-gold transition-colors text-gray-800 appearance-none relative">
+                        <label htmlFor="idType" className="block text-sm font-semibold text-gray-900 mb-2 uppercase tracking-wide text-xs">Tipo de Documento *</label>
+                        <div className="relative group">
+                          <IdentificationIcon className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 z-10 pointer-events-none group-focus-within:text-brand-gold transition-colors" />
+                          <select id="idType" name="idType" value={formData.idType} onChange={handleInputChange} required className="w-full pl-12 pr-10 py-4 bg-gray-50/50 border border-gray-100 rounded-2xl focus:ring-4 focus:ring-brand-gold/10 focus:border-brand-gold transition-all text-gray-800 appearance-none relative">
                             <option value="" disabled>Selecciona el tipo</option>
                             {idTypes.map((type) => <option key={type} value={type}>{type}</option>)}
                           </select>
@@ -226,33 +296,15 @@ export default function RegistroVisitasPage() {
                         </div>
                       </div>
                       <div>
-                        <label htmlFor="idNumber" className="block text-sm font-semibold text-gray-900 mb-2 uppercase tracking-wide text-xs">Número de Documento *</label>
-                        <div className="relative">
-                          <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 font-mono">#</span>
-                          <input type="text" id="idNumber" name="idNumber" value={formData.idNumber} onChange={handleInputChange} required className="w-full pl-12 pr-4 py-3.5 bg-gray-50/50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-gold/50 focus:border-brand-gold transition-colors text-gray-800 font-mono" placeholder="1234567890" />
-                        </div>
-                      </div>
-                      <div className="md:col-span-2">
-                        <label htmlFor="phone" className="block text-sm font-semibold text-gray-900 mb-2 uppercase tracking-wide text-xs">Celular / WhatsApp *</label>
-                        <div className="relative">
-                          <PhoneIcon className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-                          <input type="tel" id="phone" name="phone" value={formData.phone} onChange={handleInputChange} required className="w-full pl-12 pr-4 py-3.5 bg-gray-50/50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-gold/50 focus:border-brand-gold transition-colors text-gray-800" placeholder="+57 300 000 0000" />
-                        </div>
-                      </div>
-                      <div className="md:col-span-2">
-                        <label htmlFor="reason" className="block text-sm font-semibold text-gray-900 mb-2 uppercase tracking-wide text-xs">¿Cuál es el motivo de la visita? *</label>
-                        <div className="relative">
-                          <ChatBubbleLeftRightIcon className="absolute left-4 top-4 w-5 h-5 text-gray-400" />
-                          <textarea id="reason" name="reason" rows={3} value={formData.reason} onChange={handleInputChange} required className="w-full pl-12 pr-4 py-3.5 bg-gray-50/50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-gold/50 focus:border-brand-gold transition-colors text-gray-800 resize-none" placeholder="Ej. Asesoría presencial, entrega de documentos..." />
+                        <label htmlFor="idNumber" className="block text-sm font-semibold text-gray-900 mb-2 uppercase tracking-wide text-xs">Número *</label>
+                        <div className="relative group">
+                          <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 font-mono group-focus-within:text-brand-gold transition-colors">#</span>
+                          <input type="text" id="idNumber" name="idNumber" value={formData.idNumber} onChange={handleInputChange} required className="w-full pl-12 pr-4 py-4 bg-gray-50/50 border border-gray-100 rounded-2xl focus:ring-4 focus:ring-brand-gold/10 focus:border-brand-gold transition-all text-gray-800 font-mono" placeholder="123456" />
                         </div>
                       </div>
                     </div>
-                    <div className="bg-brand-gold/5 border border-brand-gold/20 rounded-xl p-4 text-sm text-gray-600 flex gap-3 mt-6">
-                      <svg className="w-5 h-5 text-brand-gold flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8V7a4 4 0 00-8 0v4h8z" /></svg>
-                      <p>Tus datos están protegidos. ICE Colombia no los compartirá con terceros.</p>
-                    </div>
-                    <button type="submit" disabled={isSubmitting} className="w-full mt-4 px-8 py-4 bg-gradient-to-r from-brand-gold to-brand-orange text-white font-bold text-lg rounded-xl hover:from-brand-orange hover:to-brand-gold transition-all duration-300 shadow-[0_10px_20px_rgba(235,148,34,0.2)] hover:shadow-[0_15px_30px_rgba(235,148,34,0.3)] disabled:opacity-70 flex items-center justify-center space-x-2">
-                      {isSubmitting ? <span className="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full" /> : <><span>Registrar Ingreso</span><ArrowRightIcon className="w-5 h-5" /></>}
+                    <button type="submit" disabled={isSubmitting} className="w-full py-5 bg-gradient-to-r from-brand-gold to-brand-orange text-white font-bold text-lg rounded-2xl shadow-xl hover:shadow-2xl transition-all active:scale-[0.98] flex items-center justify-center space-x-3 disabled:opacity-70">
+                      {isSubmitting ? <span className="animate-spin h-6 w-6 border-3 border-white border-t-transparent rounded-full" /> : <><span>Completar Registro</span><ArrowRightIcon className="w-6 h-6" /></>}
                     </button>
                   </form>
                 </motion.div>
@@ -260,38 +312,32 @@ export default function RegistroVisitasPage() {
 
               {flowType === 'frequent' && (
                 <motion.div key="frequent" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} transition={{ duration: 0.4 }}>
-                  <button onClick={() => setFlowType('selection')} className="flex items-center text-sm font-semibold text-gray-500 hover:text-brand-orange mb-8 transition-colors">
-                    <ArrowLeftIcon className="w-4 h-4 mr-2" /> Volver
+                  <button onClick={() => setFlowType('selection')} className="flex items-center text-sm font-semibold text-gray-400 hover:text-brand-orange mb-8 transition-colors group">
+                    <ArrowLeftIcon className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" /> Volver
                   </button>
                   <form onSubmit={handleFrequentSubmit} className="space-y-8 text-left">
                     <div>
-                      <label htmlFor="idNumberFreq" className="block text-sm font-semibold text-gray-900 mb-2 uppercase tracking-wide text-xs">Número de Documento (Cédula) *</label>
-                      <div className="relative">
-                        <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 font-mono">#</span>
-                        <input type="text" id="idNumberFreq" name="idNumber" value={formData.idNumber} onChange={handleInputChange} required className="w-full pl-12 pr-4 py-4 bg-gray-50/50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-orange/50 focus:border-brand-orange transition-colors text-gray-800 font-mono text-lg" placeholder="1234567890" />
+                      <label htmlFor="idNumberFreq" className="block text-sm font-semibold text-gray-900 mb-2 uppercase tracking-wide text-xs">Ingresa tu Cédula *</label>
+                      <div className="relative group">
+                        <span className="absolute left-6 top-1/2 transform -translate-y-1/2 text-brand-orange font-mono text-xl group-focus-within:animate-pulse">#</span>
+                        <input type="text" id="idNumberFreq" name="idNumber" value={formData.idNumber} onChange={handleInputChange} required className="w-full pl-14 pr-4 py-6 bg-brand-orange/[0.02] border border-brand-orange/10 rounded-3xl focus:ring-8 focus:ring-brand-orange/5 focus:border-brand-orange/30 transition-all text-gray-800 font-mono text-2xl placeholder:opacity-20" placeholder="1234567890" />
                       </div>
-                      <p className="text-xs text-gray-500 mt-2">Usaremos este número para buscar tus datos previos.</p>
                     </div>
                     <div>
-                      <label className="block text-sm font-semibold text-gray-900 mb-4 uppercase tracking-wide text-xs">¿Cuál es el motivo de tu visita hoy?</label>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <label className="block text-sm font-semibold text-gray-900 mb-4 uppercase tracking-wide text-xs">Selecciona el motivo de tu visita</label>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         {commonReasons.map(reason => (
-                          <div key={reason} onClick={() => toggleReason(reason)} className={`cursor-pointer px-4 py-3 rounded-lg border-2 flex items-center gap-3 transition-colors ${selectedReasons.includes(reason) ? 'border-brand-orange bg-brand-orange/5' : 'border-gray-100 hover:border-gray-300 bg-white'}`}>
-                            <div className={`w-5 h-5 rounded flex items-center justify-center border-2 ${selectedReasons.includes(reason) ? 'border-brand-orange bg-brand-orange text-white' : 'border-gray-300 bg-transparent'}`}>
-                              {selectedReasons.includes(reason) && <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>}
+                          <div key={reason} onClick={() => toggleReason(reason)} className={`cursor-pointer px-5 py-4 rounded-2xl border-2 flex items-center gap-3 transition-all duration-300 ${selectedReasons.includes(reason) ? 'border-brand-orange bg-brand-orange/5 shadow-inner' : 'border-gray-50 hover:border-gray-200 bg-gray-50/50'}`}>
+                            <div className={`w-6 h-6 rounded-lg flex items-center justify-center border-2 transition-all ${selectedReasons.includes(reason) ? 'border-brand-orange bg-brand-orange text-white scale-110 shadow-lg' : 'border-gray-200 bg-white'}`}>
+                              {selectedReasons.includes(reason) && <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={4} d="M5 13l4 4L19 7" /></svg>}
                             </div>
-                            <span className={`text-sm font-medium ${selectedReasons.includes(reason) ? 'text-gray-900' : 'text-gray-600'}`}>{reason}</span>
+                            <span className={`text-md font-semibold ${selectedReasons.includes(reason) ? 'text-gray-900' : 'text-gray-600'}`}>{reason}</span>
                           </div>
                         ))}
                       </div>
-                      {selectedReasons.includes('Otro') && (
-                        <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} className="mt-4">
-                          <input type="text" name="reason" value={formData.reason} onChange={handleInputChange} placeholder="Por favor especifica..." className="w-full px-4 py-3 bg-gray-50/50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-orange/50 focus:border-brand-orange transition-colors text-gray-800" />
-                        </motion.div>
-                      )}
                     </div>
-                    <button type="submit" disabled={isSubmitting} className="w-full px-8 py-4 bg-gradient-to-r from-gray-900 to-gray-800 text-white font-bold text-lg rounded-xl hover:from-black hover:to-gray-900 transition-all duration-300 shadow-[0_10px_20px_rgba(0,0,0,0.15)] hover:shadow-[0_15px_30px_rgba(0,0,0,0.25)] disabled:opacity-70 flex items-center justify-center space-x-2">
-                      {isSubmitting ? <span className="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full" /> : <><span>Check-in Rápido</span><ArrowRightIcon className="w-5 h-5" /></>}
+                    <button type="submit" disabled={isSubmitting} className="w-full py-5 bg-gray-900 text-white font-bold text-lg rounded-2xl shadow-2xl hover:bg-black transition-all active:scale-[0.98] flex items-center justify-center space-x-3">
+                      {isSubmitting ? <span className="animate-spin h-6 w-6 border-3 border-white border-t-transparent rounded-full" /> : <><span>Check-in Flash</span><ArrowRightIcon className="w-6 h-6 text-brand-orange" /></>}
                     </button>
                   </form>
                 </motion.div>
