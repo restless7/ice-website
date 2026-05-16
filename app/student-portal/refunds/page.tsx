@@ -139,7 +139,7 @@ export default function RefundsPage() {
                 <RotateCcw className="w-6 h-6 text-purple-400" />
                 Devoluciones
               </h1>
-              <p className="text-white/30 text-xs uppercase tracking-widest mt-0.5">Gestión de solicitudes de reembolso</p>
+              <p className="text-white/30 text-xs uppercase tracking-widest mt-0.5">Gestión de solicitudes de reembolso (SLA 120 días)</p>
             </div>
           </div>
           <button onClick={() => setShowForm(!showForm)}
@@ -293,12 +293,16 @@ export default function RefundsPage() {
                           </p>
                         </div>
                       </div>
-                      <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-4">
                         <div className="text-right">
                           <p className="text-xl font-black text-white">
                             ${r.requestedAmount.toLocaleString()}
                             <span className="text-[10px] font-medium text-white/30 uppercase"> {r.currency}</span>
                           </p>
+                          <div className="flex items-center justify-end gap-1 text-[10px] text-white/40 font-bold uppercase tracking-tight mt-1">
+                             <Clock className="w-3 h-3" />
+                             {Math.max(0, 120 - Math.ceil(Math.abs(new Date().getTime() - new Date(r.createdAt).getTime()) / (1000 * 60 * 60 * 24)))} días restantes
+                          </div>
                           {r.approvedAmount && r.approvedAmount !== r.requestedAmount && (
                             <p className="text-[10px] text-emerald-400 font-bold">Aprobado: ${r.approvedAmount.toLocaleString()}</p>
                           )}
