@@ -8,6 +8,7 @@ import {
   ClockIcon,
   PaperAirplaneIcon
 } from "@heroicons/react/24/outline";
+import Link from "next/link";
 
 export default function IceFinalCTASection() {
   const contactInfo = [
@@ -91,13 +92,15 @@ export default function IceFinalCTASection() {
               <PaperAirplaneIcon className="w-6 h-6 group-hover:translate-x-1 transition-transform duration-300" />
             </motion.button>
             
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="px-8 py-4 border-2 border-brand-gold text-brand-gold font-semibold text-lg rounded-full hover:bg-brand-gold/10 transition-colors duration-300"
-            >
-              Agendar consulta gratuita
-            </motion.button>
+            <Link href="/agendar">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="px-8 py-4 border-2 border-brand-gold text-brand-gold font-semibold text-lg rounded-full hover:bg-brand-gold/10 transition-colors duration-300"
+              >
+                Agendar consulta gratuita
+              </motion.button>
+            </Link>
           </motion.div>
         </motion.div>
 

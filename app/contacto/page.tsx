@@ -3,6 +3,7 @@
 import IceLayoutWrapper from "@/app/components/ice/ice-layout-wrapper";
 import { motion } from "framer-motion";
 import { MapPin, Phone, Mail, Clock, Send, MessageSquare, User, Globe } from "lucide-react";
+import Link from "next/link";
 
 const contactInfo = [
   {
@@ -364,13 +365,15 @@ export default function IceContactoPage() {
                 Nuestro equipo de asesores especializados está listo para ayudarte.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="bg-gradient-to-r from-brand-gold to-brand-orange text-brand-dark font-semibold py-3 px-8 rounded-full hover:from-brand-orange hover:to-brand-gold transition-all duration-300"
-                >
-                  Agendar Consulta Gratuita
-                </motion.button>
+                <Link href="/agendar">
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="bg-gradient-to-r from-brand-gold to-brand-orange text-brand-dark font-semibold py-3 px-8 rounded-full hover:from-brand-orange hover:to-brand-gold transition-all duration-300"
+                  >
+                    Agendar Consulta Gratuita
+                  </motion.button>
+                </Link>
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
