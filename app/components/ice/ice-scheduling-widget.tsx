@@ -42,7 +42,7 @@ export default function IceSchedulingWidget() {
     // Fetch upcoming appointments to disable booked slots
     const fetchAppointments = async () => {
       try {
-        const portalUrl = process.env.NEXT_PUBLIC_PORTAL_API_URL || "http://localhost:3000";
+        const portalUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.iceworldteam.com";
         const res = await fetch(`${portalUrl}/api/appointments?showAll=true`);
         if (res.ok) {
           const data = await res.json();
@@ -77,7 +77,7 @@ export default function IceSchedulingWidget() {
     setError(null);
     try {
       const startTime = new Date(`${data.date}T${data.time}:00`).toISOString();
-      const portalUrl = process.env.NEXT_PUBLIC_PORTAL_API_URL || "http://localhost:3000";
+      const portalUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.iceworldteam.com";
 
       const res = await fetch(`${portalUrl}/api/appointments`, {
         method: "POST",
