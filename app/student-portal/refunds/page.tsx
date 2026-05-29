@@ -6,11 +6,11 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   RotateCcw, ArrowLeft, Calendar, Clock, CheckCircle,
-  AlertCircle, Loader2, Plus, X, ChevronDown, FileText
+  AlertCircle, Loader2, Plus, X, ChevronDown, FileText, GraduationCap
 } from "lucide-react";
 import {
-  getStudentRefunds, getStudentProgress, submitRefundRequest,
-  isAuthenticated, type RefundRequest, type StudentPayment
+  getStudentRefunds, getStudentProfile, submitRefundRequest,
+  isAuthenticated, type RefundRequest
 } from "@/app/lib/portal-api";
 
 // ─── Reason Labels ───────────────────────────────────────────────────
@@ -36,6 +36,14 @@ const STATUS_CONFIG: Record<string, { bg: string; text: string; label: string; i
   CANCELLED:    { bg: "bg-gray-500/20",      text: "text-gray-400",      label: "Cancelada",    icon: X },
 };
 
+// ─── Types ───────────────────────────────────────────────────────────
+
+interface EnrollmentProgram {
+  id: string;
+  program: { name: string; code: string; programCategory?: { name: string } | null };
+  status: string;
+}
+
 // ─── Main Page ───────────────────────────────────────────────────────
 
 export default function RefundsPage() {
@@ -43,19 +51,18 @@ export default function RefundsPage() {
   const [loading, setLoading] = useState(true);
   const [refunds, setRefunds] = useState<RefundRequest[]>([]);
   const [summary, setSummary] = useState<any>(null);
-  const [paidPayments, setPaidPayments] = useState<StudentPayment[]>([]);
+  const [enrollments, setEnrollments] = useState<EnrollmentProgram[]>([]);
   const [showForm, setShowForm] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
   const [submitSuccess, setSubmitSuccess] = useState("");
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
-  // Form state
-  const [formAmount, setFormAmount] = useState("");
+  // Form state — Program-based
+  const [formProgramId, setFormProgramId] = useState("");
   const [formReason, setFormReason] = useState("");
   const [formDetail, setFormDetail] = useState("");
   const [formNotes, setFormNotes] = useState("");
-  const [selectedPayments, setSelectedPayments] = useState<string[]>([]);
 
   useEffect(() => {
     if (!isAuthenticated()) { router.push("/student-portal"); return; }
@@ -65,16 +72,16 @@ export default function RefundsPage() {
   async function loadData() {
     setLoading(true);
     try {
-      const [refundsRes, progressRes] = await Promise.all([
+      const [refundsRes, profileRes] = await Promise.all([
         getStudentRefunds(),
-        getStudentProgress(),
+        getStudentProfile(),
       ]);
       if (refundsRes.success) {
         setRefunds(refundsRes.refunds);
         setSummary(refundsRes.summary);
       }
-      if (progressRes.success) {
-        setPaidPayments(progressRes.payments.filter(p => p.status === "PAID"));
+      if (profileRes.success && profileRes.enrollments) {
+        setEnrollments(profileRes.enrollments);
       }
     } catch (err) {
       console.error(err);
@@ -90,16 +97,15 @@ export default function RefundsPage() {
     setSubmitting(true);
     try {
       const res = await submitRefundRequest({
-        requestedAmount: parseFloat(formAmount),
+        programId: formProgramId,
         reason: formReason,
         reasonDetail: formDetail || undefined,
         studentNotes: formNotes || undefined,
-        paymentIds: selectedPayments,
       });
       if (res.success && res.refund) {
-        setSubmitSuccess(`Solicitud ${res.refund.refundNumber} creada exitosamente.`);
+        setSubmitSuccess(`Solicitud ${res.refund.refundNumber} creada exitosamente para "${res.refund.programName || 'Programa'}". Monto calculado: $${res.refund.requestedAmount?.toLocaleString() || '0'} USD.`);
         setShowForm(false);
-        setFormAmount(""); setFormReason(""); setFormDetail(""); setFormNotes(""); setSelectedPayments([]);
+        setFormProgramId(""); setFormReason(""); setFormDetail(""); setFormNotes("");
         loadData();
       } else {
         setSubmitError(res.error || "Error al crear la solicitud.");
@@ -109,12 +115,6 @@ export default function RefundsPage() {
     } finally {
       setSubmitting(false);
     }
-  }
-
-  function togglePayment(id: string) {
-    setSelectedPayments(prev =>
-      prev.includes(id) ? prev.filter(p => p !== id) : [...prev, id]
-    );
   }
 
   if (loading) {
@@ -184,7 +184,7 @@ export default function RefundsPage() {
           </div>
         )}
 
-        {/* New Request Form */}
+        {/* New Request Form — Program-Based */}
         <AnimatePresence>
           {showForm && (
             <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }}
@@ -197,66 +197,77 @@ export default function RefundsPage() {
                   </button>
                 </div>
 
-                {/* Payment Selection */}
+                {/* Program Selection */}
                 <div>
                   <label className="block text-[10px] text-white/40 uppercase font-bold tracking-widest mb-3">
-                    Seleccione los pagos a devolver *
+                    <GraduationCap className="w-3.5 h-3.5 inline mr-1.5 -mt-0.5" />
+                    Seleccione el Programa a Devolver *
                   </label>
-                  {paidPayments.length === 0 ? (
-                    <p className="text-white/20 text-sm p-4 bg-white/5 rounded-xl">No hay pagos disponibles para devolución.</p>
+                  {enrollments.length === 0 ? (
+                    <p className="text-white/20 text-sm p-4 bg-white/5 rounded-xl">No tienes programas activos disponibles para devolución.</p>
                   ) : (
-                    <div className="space-y-2 max-h-[200px] overflow-y-auto custom-scrollbar">
-                      {paidPayments.map((p) => (
-                        <label key={p.id} className={`flex items-center gap-4 p-4 rounded-xl border cursor-pointer transition-all ${
-                          selectedPayments.includes(p.id) ? "bg-purple-500/10 border-purple-500/30" : "bg-white/5 border-white/5 hover:border-white/10"
-                        }`}>
-                          <input type="checkbox" checked={selectedPayments.includes(p.id)} onChange={() => togglePayment(p.id)}
-                            className="w-4 h-4 rounded accent-purple-500" />
-                          <div className="flex-1">
-                            <p className="text-sm font-bold">{p.concept || "Pago"}</p>
-                            <p className="text-[10px] text-white/30">{p.method}</p>
-                          </div>
-                          <p className="font-black">${p.amount.toLocaleString()} <span className="text-[10px] text-white/30">{p.currency}</span></p>
-                        </label>
-                      ))}
+                    <div className="space-y-2">
+                      {enrollments.map((e: any) => {
+                        const pid = e.programId || e.program?.id;
+                        const isSelected = formProgramId === pid;
+                        return (
+                          <label key={e.id} className={`flex items-center gap-4 p-4 rounded-xl border cursor-pointer transition-all ${
+                            isSelected
+                              ? "bg-purple-500/10 border-purple-500/30 ring-1 ring-purple-500/30"
+                              : "bg-white/5 border-white/5 hover:border-white/10"
+                          }`}
+                            onClick={() => { if (pid) setFormProgramId(pid); }}>
+                            <div className={`p-2 rounded-lg ${isSelected ? 'bg-purple-500/20' : 'bg-white/5'}`}>
+                              <GraduationCap className={`w-5 h-5 ${isSelected ? 'text-purple-400' : 'text-white/30'}`} />
+                            </div>
+                            <div className="flex-1">
+                              <p className="text-sm font-bold">{e.program.name}</p>
+                              <p className="text-[10px] text-white/30">{e.program.code} • {e.program.programCategory?.name || 'Programa'} • Estado: {e.status}</p>
+                            </div>
+                            <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                              isSelected ? 'border-purple-500 bg-purple-500' : 'border-white/20'
+                            }`}>
+                              {isSelected && <div className="w-2 h-2 rounded-full bg-white" />}
+                            </div>
+                          </label>
+                        );
+                      })}
                     </div>
                   )}
+                  <p className="text-[10px] text-white/20 mt-2 italic">
+                    El monto de la devolución se calculará automáticamente según los pagos registrados en el programa seleccionado.
+                  </p>
                 </div>
 
-                <div className="grid sm:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-[10px] text-white/40 uppercase font-bold tracking-widest mb-2">Monto solicitado (USD) *</label>
-                    <input type="number" step="0.01" required value={formAmount} onChange={e => setFormAmount(e.target.value)}
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:border-purple-500/50 focus:outline-none transition-colors" />
-                  </div>
-                  <div>
-                    <label className="block text-[10px] text-white/40 uppercase font-bold tracking-widest mb-2">Motivo *</label>
-                    <select required value={formReason} onChange={e => setFormReason(e.target.value)}
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:border-purple-500/50 focus:outline-none transition-colors appearance-none">
-                      <option value="" className="bg-gray-900">Seleccionar...</option>
-                      {Object.entries(REASON_LABELS).map(([k, v]) => (
-                        <option key={k} value={k} className="bg-gray-900">{v}</option>
-                      ))}
-                    </select>
-                  </div>
+                <div>
+                  <label className="block text-[10px] text-white/40 uppercase font-bold tracking-widest mb-2">Motivo *</label>
+                  <select required value={formReason} onChange={e => setFormReason(e.target.value)}
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:border-purple-500/50 focus:outline-none transition-colors appearance-none">
+                    <option value="" className="bg-gray-900">Seleccionar motivo...</option>
+                    {Object.entries(REASON_LABELS).map(([k, v]) => (
+                      <option key={k} value={k} className="bg-gray-900">{v}</option>
+                    ))}
+                  </select>
                 </div>
 
                 <div>
                   <label className="block text-[10px] text-white/40 uppercase font-bold tracking-widest mb-2">Detalle del motivo</label>
                   <textarea rows={3} value={formDetail} onChange={e => setFormDetail(e.target.value)}
+                    placeholder="Explique brevemente la situación..."
                     className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:border-purple-500/50 focus:outline-none transition-colors resize-none" />
                 </div>
 
                 <div>
                   <label className="block text-[10px] text-white/40 uppercase font-bold tracking-widest mb-2">Notas adicionales</label>
                   <textarea rows={2} value={formNotes} onChange={e => setFormNotes(e.target.value)}
+                    placeholder="Información adicional que considere relevante..."
                     className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:border-purple-500/50 focus:outline-none transition-colors resize-none" />
                 </div>
 
-                <button type="submit" disabled={submitting || selectedPayments.length === 0}
+                <button type="submit" disabled={submitting || !formProgramId || !formReason}
                   className="w-full py-4 bg-purple-500 hover:bg-purple-400 disabled:bg-gray-700 disabled:text-gray-400 text-white font-black text-xs uppercase tracking-widest rounded-2xl transition-all duration-300 flex items-center justify-center gap-2">
                   {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <RotateCcw className="w-4 h-4" />}
-                  {submitting ? "Enviando..." : "Enviar Solicitud"}
+                  {submitting ? "Enviando..." : "Solicitar Devolución del Programa"}
                 </button>
               </form>
             </motion.div>
@@ -289,6 +300,7 @@ export default function RefundsPage() {
                         <div>
                           <p className="text-base font-black text-white">{r.refundNumber}</p>
                           <p className="text-[10px] text-white/30 uppercase font-bold tracking-tight mt-0.5">
+                            {r.programName && <span className="text-purple-400/60">{r.programName} • </span>}
                             {REASON_LABELS[r.reason] || r.reason} • {new Date(r.createdAt).toLocaleDateString("es-CO", { day: 'numeric', month: 'long', year: 'numeric' })}
                           </p>
                         </div>

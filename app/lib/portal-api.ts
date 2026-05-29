@@ -346,17 +346,13 @@ export async function getStudentRefunds(): Promise<{
 }
 
 export async function submitRefundRequest(data: {
-  enrollmentId?: string;
-  programId?: string;
-  requestedAmount: number;
-  currency?: string;
+  programId: string;
   reason: string;
   reasonDetail?: string;
   studentNotes?: string;
-  paymentIds: string[];
 }): Promise<{
   success: boolean;
-  refund?: { id: string; refundNumber: string; status: string };
+  refund?: { id: string; refundNumber: string; status: string; programName?: string; requestedAmount?: number };
   error?: string;
 }> {
   return portalFetch('/api/portal/student/refunds', {
