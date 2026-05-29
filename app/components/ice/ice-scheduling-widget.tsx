@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Calendar, Clock, User, Mail, Phone, ArrowRight, CheckCircle2, Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
+import Link from "next/link";
 
 type FormData = {
   name: string;
@@ -316,12 +317,13 @@ export default function IceSchedulingWidget() {
                   <p><span className="text-gray-500">Hora:</span> <span className="font-medium text-gray-900">{selectedTime}</span></p>
                   <p><span className="text-gray-500">Programa:</span> <span className="font-medium text-gray-900">{watch("programOfInterest")}</span></p>
                 </div>
-                <button
-                  onClick={() => window.location.href = '/'}
-                  className="mt-8 px-6 py-3 bg-gray-900 text-white rounded-xl hover:bg-gray-800 transition-all"
+                <Link
+                  href="/"
+                  prefetch={false}
+                  className="mt-8 px-6 py-3 bg-gray-900 text-white rounded-xl hover:bg-gray-800 transition-all block text-center"
                 >
                   Volver al Inicio
-                </button>
+                </Link>
               </motion.div>
             )}
           </AnimatePresence>
