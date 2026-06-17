@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: '/images/working-holiday-germany-hero.png',
+        url: '/images/working-holiday-germany-hero.webp',
         width: 1200,
         height: 630,
         alt: 'Estudiante Working Holiday Alemania 2026',
@@ -61,7 +61,7 @@ export default function WorkingHolidayAlemania() {
         <section className="relative pt-32 pb-24 bg-gradient-to-br from-gray-900 via-black to-gray-900 overflow-hidden">
           <div className="absolute inset-0 z-0">
             <Image 
-              src="/images/working-holiday-germany-hero.png" 
+              src="/images/working-holiday-germany-hero.webp" 
               alt="Working Holiday Alemania Hero" 
               fill 
               className="object-cover object-[center_15%]" 

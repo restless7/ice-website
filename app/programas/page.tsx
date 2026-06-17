@@ -158,7 +158,7 @@ const programs = [
     title: "Working Holiday Alemania 2026",
     description: "Trabaja y vive una experiencia internacional en Europa durante tus vacaciones universitarias. ¡Sin filas de visa!",
     icon: <GlobeAltIcon className="w-6 h-6" />,
-    image: "/images/working-holiday-germany-hero.png",
+    image: "/images/working-holiday-germany-hero.webp",
     href: "/programas/working-holiday-alemania-2026",
     duration: "90 Días",
     age: "18-30 años",
