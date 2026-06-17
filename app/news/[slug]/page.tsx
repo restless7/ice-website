@@ -101,7 +101,7 @@ export default async function SingleArticlePage({ params }: Props) {
           </div>
           
           {/* Main Content & Sidebar */}
-          <div className="flex flex-col md:flex-row gap-12">
+          <div className="flex flex-col lg:flex-row gap-12 relative">
             
             {/* Social Share Sidebar (Desktop) */}
             <div className="hidden md:block w-16 flex-shrink-0">
@@ -119,11 +119,48 @@ export default async function SingleArticlePage({ params }: Props) {
             </div>
             
             {/* Article Body using Tailwind Typography */}
-            <article className="prose prose-lg md:prose-xl prose-slate max-w-none prose-headings:font-black prose-headings:text-gray-900 prose-a:text-brand-orange hover:prose-a:text-brand-gold prose-img:rounded-2xl">
+            <article className="prose prose-lg md:prose-xl prose-slate max-w-none lg:max-w-[800px] prose-headings:font-black prose-headings:text-gray-900 prose-a:text-brand-orange hover:prose-a:text-brand-gold prose-img:rounded-2xl flex-1">
               {/* Note: In a real implementation with a CMS, this might be rendered via marked or a RichText component. */}
               {/* For now, we assume 'content' might be pre-rendered HTML or we just display the text block */}
               <div dangerouslySetInnerHTML={{ __html: article.content.replace(/\n/g, '<br />') }} />
+              
+              {/* Mid-article or end-article mobile callout */}
+              <div className="lg:hidden mt-12 bg-gradient-to-br from-brand-dark to-gray-900 p-8 rounded-2xl text-center shadow-xl border border-brand-gold/20">
+                <h4 className="text-2xl font-bold text-white mb-3">
+                  ¿Interesado en {article.category}?
+                </h4>
+                <p className="text-white/80 mb-6">Da el primer paso hacia tu experiencia internacional. Nuestro equipo está listo para asesorarte.</p>
+                <Link 
+                  href={`/agendar?programId=${encodeURIComponent(article.category)}&source=news_article`}
+                  className="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-brand-gold to-brand-orange text-gray-900 font-bold rounded-xl hover:scale-105 transition-transform w-full sm:w-auto"
+                >
+                  Agendar Asesoría Gratuita
+                </Link>
+              </div>
             </article>
+
+            {/* Sticky Contextual Sidebar (Desktop) */}
+            <div className="hidden lg:block w-[320px] flex-shrink-0">
+              <div className="sticky top-40 bg-gradient-to-br from-gray-50 to-white border border-gray-200 shadow-2xl rounded-3xl p-8 text-center overflow-hidden">
+                <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-brand-gold to-brand-orange"></div>
+                <div className="w-16 h-16 bg-brand-gold/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                  <CalendarDaysIcon className="w-8 h-8 text-brand-gold" />
+                </div>
+                <h4 className="text-2xl font-bold text-gray-900 mb-3">
+                  ¿Interesado en {article.category}?
+                </h4>
+                <p className="text-gray-600 mb-8 leading-relaxed">
+                  Da el primer paso hacia tu experiencia internacional. Agenda una sesión personalizada hoy mismo.
+                </p>
+                <Link 
+                  href={`/agendar?programId=${encodeURIComponent(article.category)}&source=news_article`}
+                  className="block w-full px-6 py-4 bg-gray-900 text-white font-bold rounded-xl hover:bg-brand-orange hover:shadow-[0_0_20px_rgba(249,115,22,0.4)] hover:-translate-y-1 transition-all duration-300"
+                >
+                  Agendar Asesoría
+                </Link>
+                <p className="text-xs text-gray-400 mt-4">Sesión virtual gratuita de 30 min</p>
+              </div>
+            </div>
             
           </div>
           

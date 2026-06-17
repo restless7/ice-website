@@ -36,11 +36,13 @@ const FALLBACK_PROGRAMS = [
 export default function IceSchedulingWidget({ 
   sourceCTA = "Website Form", 
   programs = [],
-  preselectedProgramId
+  preselectedProgramId,
+  lockProgram = false
 }: { 
   sourceCTA?: string; 
   programs?: any[];
   preselectedProgramId?: string;
+  lockProgram?: boolean;
 }) {
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const [isLoading, setIsLoading] = useState(false);
@@ -178,7 +180,30 @@ export default function IceSchedulingWidget({
         </div>
 
         {/* Main Content Area */}
-        <div className="w-full md:w-2/3 p-6 md:p-8 relative">
+        <div className="w-full md:w-2/3 p-6 md:p-8 relative flex flex-col">
+          {/* Progress Bar */}
+          <div className="mb-8 relative">
+            <div className="absolute top-1/2 left-0 right-0 h-1 bg-gray-100 -translate-y-1/2 rounded-full"></div>
+            <div 
+              className="absolute top-1/2 left-0 h-1 bg-brand-gold -translate-y-1/2 rounded-full transition-all duration-500 ease-in-out"
+              style={{ width: step === 1 ? '0%' : step === 2 ? '50%' : '100%' }}
+            ></div>
+            <div className="relative flex justify-between">
+              <div className="flex flex-col items-center gap-2 relative z-10">
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm transition-colors duration-300 ${step >= 1 ? 'bg-brand-gold text-white shadow-md shadow-brand-gold/30' : 'bg-gray-100 text-gray-400'}`}>1</div>
+                <span className={`text-xs font-medium ${step >= 1 ? 'text-gray-900' : 'text-gray-400'}`}>Fecha y Hora</span>
+              </div>
+              <div className="flex flex-col items-center gap-2 relative z-10">
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm transition-colors duration-300 ${step >= 2 ? 'bg-brand-gold text-white shadow-md shadow-brand-gold/30' : 'bg-gray-100 text-gray-400'}`}>2</div>
+                <span className={`text-xs font-medium ${step >= 2 ? 'text-gray-900' : 'text-gray-400'}`}>Tus Datos</span>
+              </div>
+              <div className="flex flex-col items-center gap-2 relative z-10">
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm transition-colors duration-300 ${step >= 3 ? 'bg-brand-gold text-white shadow-md shadow-brand-gold/30' : 'bg-gray-100 text-gray-400'}`}>3</div>
+                <span className={`text-xs font-medium ${step >= 3 ? 'text-gray-900' : 'text-gray-400'}`}>Confirmación</span>
+              </div>
+            </div>
+          </div>
+
           <AnimatePresence mode="wait">
             {step === 1 && (
               <motion.div
@@ -221,10 +246,10 @@ export default function IceSchedulingWidget({
                               key={time}
                               type="button"
                               onClick={() => setValue("time", time)}
-                              className={`py-2 px-3 text-sm rounded-lg border transition-all ${
+                              className={`py-3 px-4 text-base md:text-sm rounded-xl border transition-all ${
                                 selectedTime === time
-                                  ? "bg-brand-gold text-white border-brand-gold font-medium"
-                                  : "border-gray-200 text-gray-700 hover:border-brand-gold/50 hover:bg-brand-gold/5"
+                                  ? "bg-brand-gold text-white border-brand-gold font-bold shadow-md shadow-brand-gold/20"
+                                  : "border-gray-200 text-gray-700 hover:border-brand-gold/50 hover:bg-brand-gold/5 font-medium"
                               }`}
                             >
                               {time}
@@ -327,8 +352,8 @@ export default function IceSchedulingWidget({
                     <label className="text-sm font-medium text-gray-700">Programa de Interés</label>
                     <select
                       {...register("programOfInterest", { required: true })}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-brand-gold outline-none bg-white"
-                      disabled={!!preselectedProgramId}
+                      className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-brand-gold outline-none bg-white disabled:bg-gray-100 disabled:text-gray-600"
+                      disabled={lockProgram || !!preselectedProgramId}
                     >
                       <option value="">Selecciona un programa</option>
                       {(programs && programs.length > 0 ? programs : FALLBACK_PROGRAMS).map(p => (

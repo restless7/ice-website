@@ -3,6 +3,7 @@
 import { ReactNode } from "react";
 import { PublicNavigation, ThemeProvider } from "@/app/components/shared";
 import IceFooter from "./ice-footer";
+import IceBreadcrumbs from "./ice-breadcrumbs";
 import ChatWidget from "../chat/ChatWidget";
 
 interface IceLayoutWrapperProps {
@@ -22,6 +23,7 @@ export default function IceLayoutWrapper({ children }: IceLayoutWrapperProps) {
           packageName="ice-website" 
           theme="ice-colombia" 
         />
+        <IceBreadcrumbs />
         
         {/* Main Content */}
         <main className="flex-1">
