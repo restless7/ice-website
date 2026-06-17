@@ -72,24 +72,38 @@ export async function scheduleAppointment(data: ScheduleFormData) {
     // Asumimos 30 min de reunión
     const endDate = new Date(startDate.getTime() + 30 * 60000);
 
-    // 3. Insertar primero en DB local (Tolerancia a fallos)
-    const { data: dbLead, error: dbError } = await supabaseServer
-      .from("leads")
-      .insert({
-        name: data.name,
-        email: data.email,
-        phone: data.phone,
-        program_interest: data.programOfInterest,
-        scheduled_at: startDate.toISOString(),
-        sync_status: "pending_google",
-      })
-      .select("id")
-      .single();
+    // 3. Insertar primero en DB local (Tolerancia a fallos) enviándolo al Portal de Leads
+    let leadId = null;
+    let dbError = null;
+    
+    try {
+      const portalUrl = process.env.PORTAL_API_URL || process.env.NEXT_PUBLIC_PORTAL_API_URL || "http://localhost:3000";
+      const res = await fetch(`${portalUrl}/api/appointments`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: `Asesoría ICE: ${data.name}`,
+          description: `Programa de interés: ${data.programOfInterest}\nTeléfono: ${data.phone}`,
+          startTime: startDate.toISOString(),
+          durationMinutes: 30,
+          attendees: [{ email: data.email }],
+          calendarType: "ICE"
+        })
+      });
 
-    // Si la tabla leads no existe (o falla), solo lo logueamos y continuamos intentando Google
-    const leadId = dbLead?.id;
+      if (!res.ok) {
+        dbError = await res.text();
+      } else {
+        const result = await res.json();
+        // El portal podría devolver un id de appointment o de lead
+        leadId = result.data?.id || null;
+      }
+    } catch (err) {
+      dbError = err;
+    }
+
     if (dbError) {
-      console.error("Error saving lead to DB:", dbError);
+      console.error("Error saving lead to Portal System:", dbError);
     }
 
     // 4. Conectar a Google Calendar
@@ -150,16 +164,10 @@ export async function scheduleAppointment(data: ScheduleFormData) {
       console.warn("No Google Credentials found, skipping calendar sync.");
     }
 
-    // 5. Actualizar DB si es necesario
-    if (leadId) {
-      await supabaseServer
-        .from("leads")
-        .update({
-          sync_status: syncStatus,
-          google_event_id: googleEventId,
-        })
-        .eq("id", leadId);
-    }
+    // 5. Actualizar estado en el Portal (Opcional, si el portal tiene un endpoint para esto)
+    // if (leadId) {
+    //   await fetch(`${portalUrl}/api/appointments/${leadId}`, { method: 'PATCH', body: ... })
+    // }
 
     return {
       success: true,
