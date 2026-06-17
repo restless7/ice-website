@@ -47,9 +47,9 @@ export default function WorkingHolidayAlemania() {
 
         {/* Section 1: Hero Section */}
         <section className="relative pt-32 pb-24 bg-gradient-to-br from-gray-900 via-black to-gray-900 overflow-hidden">
-          <div className="absolute inset-0 z-0 opacity-40 mix-blend-overlay">
+          <div className="absolute inset-0 z-0 opacity-60">
             <Image 
-              src="/images/imagenes programas/working-holiday-germany-Master-Website-Hero.png" 
+              src="/images/working-holiday-germany-hero.png" 
               alt="Working Holiday Alemania Hero" 
               fill 
               className="object-cover object-center" 

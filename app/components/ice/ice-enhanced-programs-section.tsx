@@ -200,7 +200,7 @@ export function IceEnhancedProgramsSection() {
           className="relative z-20 mb-12 rounded-3xl overflow-hidden shadow-2xl"
         >
           <div className="absolute inset-0 bg-gradient-to-r from-red-600/90 via-red-500/80 to-brand-gold/90 z-10 mix-blend-multiply"></div>
-          <div className="absolute inset-0 bg-[url('/images/imagenes programas/working-holiday-germany-Master-Website-Hero.png')] bg-cover bg-center z-0 opacity-100"></div>
+          <div className="absolute inset-0 bg-cover bg-center z-0 opacity-100" style={{ backgroundImage: "url('/images/working-holiday-germany-hero.png')" }}></div>
           {/* Collage decorative elements */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2 z-10"></div>
           <div className="absolute bottom-0 left-0 w-48 h-48 bg-black/10 rounded-full blur-2xl transform -translate-x-1/2 translate-y-1/2 z-10"></div>
