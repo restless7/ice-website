@@ -24,7 +24,16 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Working Holiday Alemania 2026 | ICE World Team',
     description: 'Trabaja legalmente en tus vacaciones universitarias en Alemania sin filas de visa.',
-    images: [{ url: '/images/working-holiday-germany-hero.png', width: 1200, height: 630 }],
+    url: 'https://www.iceworldteam.com/programas/working-holiday-alemania-2026',
+    type: 'website',
+    images: [
+      {
+        url: '/images/working-holiday-germany-hero.png',
+        width: 1200,
+        height: 630,
+        alt: 'Estudiante Working Holiday Alemania 2026',
+      },
+    ],
   }
 };
 
