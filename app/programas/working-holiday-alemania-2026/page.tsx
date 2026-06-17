@@ -34,7 +34,10 @@ export const metadata: Metadata = {
         alt: 'Estudiante Working Holiday Alemania 2026',
       },
     ],
-  }
+  },
+  other: {
+    'fb:app_id': process.env.NEXT_PUBLIC_FB_APP_ID || '1956792428547252', 
+  },
 };
 
 export default function WorkingHolidayAlemania() {
