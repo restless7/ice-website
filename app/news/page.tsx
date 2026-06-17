@@ -1,290 +1,104 @@
-"use client";
-
+import { Metadata } from "next";
 import IceLayoutWrapper from "@/app/components/ice/ice-layout-wrapper";
-import { motion } from "framer-motion";
-import { CalendarDays, ArrowRight, User, Clock } from "lucide-react";
-import Head from "next/head";
+import { getArticles } from "@/app/lib/db-articles";
+import NewsGridClient from "./NewsGridClient";
+import Image from "next/image";
+import Link from "next/link";
+import { ArrowRightIcon, CalendarDaysIcon } from "@heroicons/react/24/outline";
 
-// Sample news data - in a real app, this would come from a CMS or API
-const newsArticles = [
-  {
-    id: 1,
-    title: "Nuevos Destinos de Intercambio para 2024",
-    excerpt: "ICE amplía su red de programas con nuevos destinos en Asia y Europa, ofreciendo más oportunidades para nuestros estudiantes.",
-    author: "Equipo ICE",
-    date: "2024-01-15",
-    readTime: "3 min",
-    category: "Programas",
-    featured: true,
-    image: "/images/ice-hero-main.png"
-  },
-  {
-    id: 2,
-    title: "Historias de Éxito: María en Canadá",
-    excerpt: "Conoce la experiencia transformadora de María durante su programa de Work & Travel en Canadá y cómo cambió su perspectiva.",
-    author: "María González",
-    date: "2024-01-10",
-    readTime: "5 min",
-    category: "Testimonios",
-    featured: false,
-    image: "/images/ice-hero-main.png"
-  },
-  {
-    id: 3,
-    title: "Becas Disponibles para Programas de Verano",
-    excerpt: "ICE anuncia nuevas becas para estudiantes destacados que deseen participar en programas de verano en Europa.",
-    author: "Departamento de Becas",
-    date: "2024-01-05",
-    readTime: "4 min",
-    category: "Becas",
-    featured: false,
-    image: "/images/ice-hero-main.png"
-  },
-  {
-    id: 4,
-    title: "Consejos para tu Primer Intercambio",
-    excerpt: "Guía completa con los mejores consejos para prepararte para tu primera experiencia de intercambio internacional.",
-    author: "Consejeros ICE",
-    date: "2023-12-28",
-    readTime: "7 min",
-    category: "Consejos",
-    featured: false,
-    image: "/images/ice-hero-main.png"
-  },
-  {
-    id: 5,
-    title: "Alianza Estratégica con Universidades Europeas",
-    excerpt: "ICE firma convenios con prestigiosas universidades europeas para ampliar las opciones académicas de nuestros estudiantes.",
-    author: "Dirección Académica",
-    date: "2023-12-20",
-    readTime: "4 min",
-    category: "Alianzas",
-    featured: false,
-    image: "/images/ice-hero-main.png"
-  },
-  {
-    id: 6,
-    title: "Evento Virtual: Feria de Intercambios 2024",
-    excerpt: "Únete a nuestra feria virtual donde podrás conocer todos nuestros programas y hablar directamente con nuestros asesores.",
-    author: "Eventos ICE",
-    date: "2023-12-15",
-    readTime: "2 min",
-    category: "Eventos",
-    featured: false,
-    image: "/images/ice-hero-main.png"
-  }
-];
+export const metadata: Metadata = {
+  title: "Mundo ICE | Noticias y Actualizaciones",
+  description: "Descubre las últimas noticias, promociones y actualizaciones de visas de nuestros programas de intercambio en ICE World Team.",
+};
 
-const categories = ["Todos", "Programas", "Testimonios", "Becas", "Consejos", "Alianzas", "Eventos"];
+// Next.js ISR setting
+export const revalidate = 60; // Revalidate every 60 seconds
 
-export default function IceNewsPage() {
+export default async function NewsDirectoryPage() {
+  const articles = await getArticles();
+  
+  // Find featured article
+  const featuredArticle = articles.find(a => a.is_featured) || articles[0];
+  const remainingArticles = featuredArticle 
+    ? articles.filter(a => a.id !== featuredArticle.id && a.slug !== featuredArticle.slug) 
+    : articles;
+
   return (
     <IceLayoutWrapper>
-      <div className="relative w-full bg-gradient-to-br from-purple-950 via-indigo-900 to-black">
-        {/* Hero Section */}
-        <section className="relative min-h-screen flex items-center justify-center pt-20">
-          <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-transparent"></div>
-          
-          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              className="text-center"
-            >
-              <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
-                ICE <span className="text-lime-400">News</span>
-              </h1>
-              <p className="text-xl md:text-2xl text-white/80 max-w-3xl mx-auto">
-                Mantente informado sobre las últimas noticias, eventos y oportunidades educativas
-              </p>
-            </motion.div>
+      <div className="relative w-full bg-white pt-[104px]">
+        
+        {/* Header Title Section */}
+        <section className="bg-gradient-to-br from-gray-900 to-black py-20 border-b border-white/10 relative overflow-hidden">
+          <div className="absolute inset-0 bg-[url('/images/pattern-bg.png')] opacity-10"></div>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            <h1 className="text-5xl md:text-7xl font-black text-white mb-6 tracking-tight">
+              Mundo <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-gold to-brand-orange">ICE</span>
+            </h1>
+            <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto font-medium">
+              Todo lo que necesitas saber sobre intercambios, promociones y visas.
+            </p>
           </div>
         </section>
 
-        {/* Featured Article Section */}
-        <section className="relative py-20">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-              className="mb-16"
-            >
-              <h2 className="text-4xl md:text-5xl font-bold text-white mb-12 text-center">
-                Artículo <span className="text-lime-400">Destacado</span>
-              </h2>
-              
-              {newsArticles.filter(article => article.featured).map((article) => (
-                <div key={article.id} className="bg-white/5 backdrop-blur-lg rounded-2xl border border-lime-400/20 overflow-hidden hover:bg-white/10 transition-all duration-300">
-                  <div className="md:flex">
-                    <div className="md:w-1/2">
-                      <img 
-                        src={article.image} 
-                        alt={article.title}
-                        className="w-full h-64 md:h-full object-cover"
-                      />
+        {/* Dynamic Featured Article */}
+        {featuredArticle && (
+          <section className="py-16 bg-white border-b border-gray-100">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="group relative bg-white rounded-[2rem] overflow-hidden shadow-2xl border border-gray-100 hover:border-brand-gold/50 transition-all duration-500 flex flex-col md:flex-row hover:shadow-3xl">
+                <div className="md:w-1/2 relative h-80 md:h-auto overflow-hidden">
+                  <Image 
+                    src={featuredArticle.image_url || "/images/ice-hero-main.png"} 
+                    alt={featuredArticle.title} 
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-700"
+                    priority
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+                  
+                  {featuredArticle.badge && (
+                    <div className="absolute top-6 left-6 z-10">
+                      <span className="bg-red-600 text-white px-4 py-2 rounded-full text-sm font-black shadow-xl uppercase tracking-wider">
+                        {featuredArticle.badge}
+                      </span>
                     </div>
-                    <div className="md:w-1/2 p-8">
-                      <div className="flex items-center gap-4 mb-4">
-                        <span className="bg-lime-400 text-black px-3 py-1 rounded-full text-sm font-semibold">
-                          {article.category}
-                        </span>
-                        <div className="flex items-center text-white/60 text-sm">
-                          <CalendarDays className="w-4 h-4 mr-1" />
-                          {new Date(article.date).toLocaleDateString('es-ES', {
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric'
-                          })}
-                        </div>
-                      </div>
-                      <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">{article.title}</h3>
-                      <p className="text-white/80 text-lg leading-relaxed mb-6">{article.excerpt}</p>
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center text-white/60 text-sm">
-                          <User className="w-4 h-4 mr-1" />
-                          <span className="mr-4">{article.author}</span>
-                          <Clock className="w-4 h-4 mr-1" />
-                          <span>{article.readTime}</span>
-                        </div>
-                        <motion.button
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
-                          className="flex items-center gap-2 bg-gradient-to-r from-lime-400 to-green-500 text-black font-semibold py-2 px-6 rounded-full hover:from-lime-500 hover:to-green-600 transition-all duration-300"
-                        >
-                          Leer más <ArrowRight className="w-4 h-4" />
-                        </motion.button>
-                      </div>
-                    </div>
-                  </div>
+                  )}
                 </div>
-              ))}
-            </motion.div>
-          </div>
-        </section>
-
-        {/* Categories Filter */}
-        <section className="relative py-12 bg-gradient-to-r from-indigo-900/50 to-purple-900/50">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-              className="flex flex-wrap justify-center gap-4"
-            >
-              {categories.map((category, index) => (
-                <motion.button
-                  key={category}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.4, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className={`px-6 py-3 rounded-full font-semibold transition-all duration-300 ${
-                    index === 0 
-                      ? 'bg-lime-400 text-black' 
-                      : 'bg-white/10 text-white border border-white/20 hover:bg-white/20'
-                  }`}
-                >
-                  {category}
-                </motion.button>
-              ))}
-            </motion.div>
-          </div>
-        </section>
-
-        {/* News Articles Grid */}
-        <section className="relative py-20">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {newsArticles.filter(article => !article.featured).map((article, index) => (
-                <motion.article
-                  key={article.id}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  className="bg-white/5 backdrop-blur-lg rounded-2xl border border-lime-400/20 overflow-hidden hover:bg-white/10 transition-all duration-300 group cursor-pointer"
-                >
-                  <div className="relative">
-                    <img 
-                      src={article.image} 
-                      alt={article.title}
-                      className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                    <div className="absolute top-4 left-4">
-                      <span className="bg-lime-400 text-black px-3 py-1 rounded-full text-sm font-semibold">
-                        {article.category}
-                      </span>
-                    </div>
+                <div className="md:w-1/2 p-10 md:p-14 flex flex-col justify-center bg-white relative">
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-brand-gold/5 rounded-bl-[100px] -z-0"></div>
+                  
+                  <div className="flex items-center gap-4 mb-6 relative z-10">
+                    <span className="bg-brand-orange/10 text-brand-orange px-4 py-1.5 rounded-full text-xs font-black tracking-widest uppercase">
+                      DESTACADO
+                    </span>
+                    <span className="text-gray-500 text-sm font-medium flex items-center">
+                      <CalendarDaysIcon className="w-4 h-4 mr-2" />
+                      {new Date(featuredArticle.published_at).toLocaleDateString('es-ES', {
+                        year: 'numeric', month: 'long', day: 'numeric'
+                      })}
+                    </span>
                   </div>
-                  <div className="p-6">
-                    <div className="flex items-center text-white/60 text-sm mb-3">
-                      <CalendarDays className="w-4 h-4 mr-1" />
-                      <span className="mr-4">
-                        {new Date(article.date).toLocaleDateString('es-ES', {
-                          year: 'numeric',
-                          month: 'short',
-                          day: 'numeric'
-                        })}
-                      </span>
-                      <Clock className="w-4 h-4 mr-1" />
-                      <span>{article.readTime}</span>
-                    </div>
-                    <h3 className="text-xl font-bold text-white mb-3 group-hover:text-lime-400 transition-colors duration-300">
-                      {article.title}
-                    </h3>
-                    <p className="text-white/80 mb-4 line-clamp-3">{article.excerpt}</p>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center text-white/60 text-sm">
-                        <User className="w-4 h-4 mr-1" />
-                        <span>{article.author}</span>
-                      </div>
-                      <ArrowRight className="w-5 h-5 text-lime-400 group-hover:translate-x-1 transition-transform duration-300" />
-                    </div>
-                  </div>
-                </motion.article>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Newsletter Subscription */}
-        <section className="relative py-20 bg-gradient-to-r from-purple-900/50 to-indigo-900/50">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-            >
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-                Mantente <span className="text-lime-400">Informado</span>
-              </h2>
-              <p className="text-xl text-white/80 mb-8">
-                Suscríbete a nuestro newsletter y recibe las últimas noticias y oportunidades directamente en tu correo
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
-                <input
-                  type="email"
-                  placeholder="Tu correo electrónico"
-                  className="flex-1 px-4 py-3 rounded-full bg-white/10 border border-white/20 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-lime-400 backdrop-blur-lg"
-                />
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="bg-gradient-to-r from-lime-400 to-green-500 text-black font-semibold py-3 px-8 rounded-full hover:from-lime-500 hover:to-green-600 transition-all duration-300 whitespace-nowrap"
-                >
-                  Suscribirse
-                </motion.button>
+                  
+                  <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-6 leading-tight group-hover:text-brand-orange transition-colors duration-300 relative z-10">
+                    {featuredArticle.title}
+                  </h2>
+                  
+                  <p className="text-xl text-gray-600 leading-relaxed mb-8 relative z-10">
+                    {featuredArticle.excerpt}
+                  </p>
+                  
+                  <Link href={`/news/${featuredArticle.slug}`} className="inline-flex items-center text-white bg-gradient-to-r from-brand-orange to-brand-gold px-8 py-4 rounded-xl font-bold hover:shadow-lg transform hover:-translate-y-1 transition-all w-fit group/btn relative z-10 text-lg">
+                    <span>Leer Artículo Completo</span>
+                    <ArrowRightIcon className="w-5 h-5 ml-3 group-hover/btn:translate-x-2 transition-transform duration-300" />
+                  </Link>
+                </div>
               </div>
-            </motion.div>
-          </div>
-        </section>
+            </div>
+          </section>
+        )}
+
+        {/* Client-side Grid with Tabs */}
+        <NewsGridClient articles={remainingArticles} />
+
       </div>
     </IceLayoutWrapper>
   );
