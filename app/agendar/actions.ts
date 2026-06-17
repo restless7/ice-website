@@ -64,7 +64,7 @@ export async function scheduleAppointment(data: {
   programOfInterest: string;
   date: string;
   time: string;
-}, sourceCTA: string = "Website Form") {
+}, sourceCTA: string = "Website Form", utmData?: any) {
   try {
     // 1. Validar formato de fecha/hora (ej: 2024-05-20 y 14:30)
     const [year, month, day] = data.date.split("-").map(Number);
@@ -91,7 +91,8 @@ export async function scheduleAppointment(data: {
           phone: data.phone,
           programId: data.programOfInterest,
           source: sourceCTA, // Usamos la variable inyectada
-          notes: `Agendamiento desde ${sourceCTA}.\nPrograma: ${data.programOfInterest}`
+          notes: `Agendamiento desde ${sourceCTA}.\nPrograma: ${data.programOfInterest}`,
+          utmData: utmData
         })
       });
 

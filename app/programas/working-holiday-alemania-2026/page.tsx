@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import IceLayoutWrapper from "@/app/components/ice/ice-layout-wrapper";
 import Link from "next/link";
 import Image from "next/image";
+import IceSchedulingWidget from "@/app/components/ice/ice-scheduling-widget";
 import {
   GlobeAltIcon,
   CheckCircleIcon,
@@ -40,7 +41,29 @@ export const metadata: Metadata = {
   },
 };
 
-export default function WorkingHolidayAlemania() {
+export const revalidate = 3600; // ISR for dynamic program data
+
+export default async function WorkingHolidayAlemania() {
+  let programs: any[] = [];
+  let preselectedProgramId = "Working Holiday Alemania 2026"; // Fallback string
+
+  try {
+    const portalUrl = process.env.NEXT_PUBLIC_PORTAL_API_URL || 'http://localhost:3000';
+    const res = await fetch(`${portalUrl}/api/public/programs`, {
+      next: { revalidate: 3600 }
+    });
+    if (res.ok) {
+      const data = await res.json();
+      programs = data.data || [];
+      const germanyProgram = programs.find((p: any) => p.name.toLowerCase().includes('alemania') || p.name.includes('Working Holiday'));
+      if (germanyProgram) {
+        preselectedProgramId = germanyProgram.id;
+      }
+    }
+  } catch (error) {
+    console.error("Failed to fetch programs for Germany page", error);
+  }
+
   const whatsappUrl = "https://wa.me/573104994800?text=Hola,%20quiero%20iniciar%20mi%20proceso%20de%20postulaci%C3%B3n%20para%20el%20programa%20Working%20Holiday%20Alemania%202026.";
 
   return (
@@ -352,6 +375,17 @@ export default function WorkingHolidayAlemania() {
               <span>Iniciar Mi Proceso de Selección</span>
               <ArrowRightIcon className="w-6 h-6 ml-3" />
             </Link>
+          </div>
+          
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20 mt-16 pb-12">
+            <h3 className="text-2xl font-bold text-white mb-6 text-center shadow-md">Agenda tu Asesoría Gratuita</h3>
+            <div className="shadow-2xl rounded-2xl overflow-hidden ring-4 ring-white/20">
+              <IceSchedulingWidget 
+                sourceCTA="Germany Landing Page" 
+                programs={programs} 
+                preselectedProgramId={preselectedProgramId} 
+              />
+            </div>
           </div>
         </section>
 

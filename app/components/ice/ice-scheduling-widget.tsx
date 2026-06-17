@@ -21,17 +21,27 @@ const AVAILABLE_TIMES = [
   "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00"
 ];
 
-const PROGRAMS = [
-  "Working Holiday Alemania 2026",
-  "Work and Travel USA",
-  "Asesoría Visa de Turismo USA",
-  "Au Pair USA",
-  "Camp Counselor",
-  "Canadá: Tu proyecto de vida",
-  "Curso de Inglés"
+// Dynamic programs will be passed as props.
+// Fallback if needed:
+const FALLBACK_PROGRAMS = [
+  { id: "Working Holiday Alemania 2026", name: "Working Holiday Alemania 2026" },
+  { id: "Work and Travel USA", name: "Work and Travel USA" },
+  { id: "Asesoría Visa de Turismo USA", name: "Asesoría Visa de Turismo USA" },
+  { id: "Au Pair USA", name: "Au Pair USA" },
+  { id: "Camp Counselor", name: "Camp Counselor" },
+  { id: "Canadá: Tu proyecto de vida", name: "Canadá: Tu proyecto de vida" },
+  { id: "Curso de Inglés", name: "Curso de Inglés" }
 ];
 
-export default function IceSchedulingWidget({ sourceCTA = "Website Form" }: { sourceCTA?: string }) {
+export default function IceSchedulingWidget({ 
+  sourceCTA = "Website Form", 
+  programs = [],
+  preselectedProgramId
+}: { 
+  sourceCTA?: string; 
+  programs?: any[];
+  preselectedProgramId?: string;
+}) {
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const [isLoading, setIsLoading] = useState(false);
   const [isCheckingSlots, setIsCheckingSlots] = useState(false);
@@ -41,6 +51,13 @@ export default function IceSchedulingWidget({ sourceCTA = "Website Form" }: { so
   const { register, handleSubmit, watch, formState: { errors }, setValue, setError: setFormError, clearErrors } = useForm<FormData>();
   const selectedDate = watch("date");
   const selectedTime = watch("time");
+
+  // Set the preselected program if provided
+  useEffect(() => {
+    if (preselectedProgramId) {
+      setValue("programOfInterest", preselectedProgramId);
+    }
+  }, [preselectedProgramId, setValue]);
 
   useEffect(() => {
     if (!selectedDate) return;
@@ -101,7 +118,16 @@ export default function IceSchedulingWidget({ sourceCTA = "Website Form" }: { so
     setError(null);
     
     try {
-      const result = await scheduleAppointment(data, sourceCTA);
+      // Extraer parámetros UTM
+      const searchParams = new URLSearchParams(window.location.search);
+      const utmData = {
+        source: searchParams.get('utm_source'),
+        medium: searchParams.get('utm_medium'),
+        campaign: searchParams.get('utm_campaign'),
+        content: searchParams.get('utm_content')
+      };
+
+      const result = await scheduleAppointment(data, sourceCTA, utmData);
 
       if (!result.success) {
         throw new Error(result.error || "Hubo un error agendando la cita.");
@@ -302,9 +328,12 @@ export default function IceSchedulingWidget({ sourceCTA = "Website Form" }: { so
                     <select
                       {...register("programOfInterest", { required: true })}
                       className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-brand-gold outline-none bg-white"
+                      disabled={!!preselectedProgramId}
                     >
                       <option value="">Selecciona un programa</option>
-                      {PROGRAMS.map(p => <option key={p} value={p}>{p}</option>)}
+                      {(programs && programs.length > 0 ? programs : FALLBACK_PROGRAMS).map(p => (
+                        <option key={p.id} value={p.id}>{p.name}</option>
+                      ))}
                     </select>
                     {errors.programOfInterest && <span className="text-xs text-red-500">Selecciona un programa</span>}
                   </div>
@@ -345,7 +374,9 @@ export default function IceSchedulingWidget({ sourceCTA = "Website Form" }: { so
                 <div className="bg-gray-50 p-6 rounded-xl w-full mt-6 text-left space-y-2 border border-gray-100">
                   <p><span className="text-gray-500">Fecha:</span> <span className="font-medium text-gray-900">{selectedDate}</span></p>
                   <p><span className="text-gray-500">Hora:</span> <span className="font-medium text-gray-900">{selectedTime}</span></p>
-                  <p><span className="text-gray-500">Programa:</span> <span className="font-medium text-gray-900">{watch("programOfInterest")}</span></p>
+                  <p><span className="text-gray-500">Programa:</span> <span className="font-medium text-gray-900">
+                    {(programs && programs.length > 0 ? programs : FALLBACK_PROGRAMS).find(p => p.id === watch("programOfInterest"))?.name || watch("programOfInterest")}
+                  </span></p>
                 </div>
                 <Link
                   href="/"
