@@ -31,7 +31,7 @@ const PROGRAMS = [
   "Curso de Inglés"
 ];
 
-export default function IceSchedulingWidget() {
+export default function IceSchedulingWidget({ sourceCTA = "Website Form" }: { sourceCTA?: string }) {
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const [isLoading, setIsLoading] = useState(false);
   const [isCheckingSlots, setIsCheckingSlots] = useState(false);
@@ -101,7 +101,7 @@ export default function IceSchedulingWidget() {
     setError(null);
     
     try {
-      const result = await scheduleAppointment(data);
+      const result = await scheduleAppointment(data, sourceCTA);
 
       if (!result.success) {
         throw new Error(result.error || "Hubo un error agendando la cita.");

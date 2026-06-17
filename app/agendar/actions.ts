@@ -57,46 +57,73 @@ export async function checkAvailability(date: string) {
   }
 }
 
-export async function scheduleAppointment(data: ScheduleFormData) {
+export async function scheduleAppointment(data: {
+  name: string;
+  email: string;
+  phone: string;
+  programOfInterest: string;
+  date: string;
+  time: string;
+}, sourceCTA: string = "Website Form") {
   try {
-    // 1. Validaciones básicas
-    if (!data.name || !data.email || !data.phone || !data.date || !data.time) {
-      return { success: false, error: "Faltan datos requeridos" };
-    }
-
-    // 2. Normalizar fecha y hora con zona horaria estricta
-    // date: "2026-06-20", time: "14:00" -> America/Bogota is UTC-5
-    const startTimeStr = `${data.date}T${data.time}:00-05:00`;
-    const startDate = new Date(startTimeStr);
+    // 1. Validar formato de fecha/hora (ej: 2024-05-20 y 14:30)
+    const [year, month, day] = data.date.split("-").map(Number);
+    const [hours, minutes] = data.time.split(":").map(Number);
     
-    // Asumimos 30 min de reunión
+    // Configurar la fecha en UTC-5 (America/Bogota)
+    const startDate = new Date(Date.UTC(year, month - 1, day, hours + 5, minutes));
     const endDate = new Date(startDate.getTime() + 30 * 60000);
 
-    // 3. Insertar primero en DB local (Tolerancia a fallos) enviándolo al Portal de Leads
+    // 3. Insertar primero en el CRM central (Portal de Leads)
     let leadId = null;
+    let personId = null;
     let dbError = null;
+    const portalUrl = process.env.PORTAL_API_URL || process.env.NEXT_PUBLIC_PORTAL_API_URL || "http://localhost:3000";
     
     try {
-      const portalUrl = process.env.PORTAL_API_URL || process.env.NEXT_PUBLIC_PORTAL_API_URL || "http://localhost:3000";
-      const res = await fetch(`${portalUrl}/api/appointments`, {
+      // a) Crear el Lead en el CRM
+      const leadRes = await fetch(`${portalUrl}/api/leads`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          title: `Asesoría ICE: ${data.name}`,
-          description: `Programa de interés: ${data.programOfInterest}\nTeléfono: ${data.phone}`,
-          startTime: startDate.toISOString(),
-          durationMinutes: 30,
-          attendees: [{ email: data.email }],
-          calendarType: "ICE"
+          fullName: data.name,
+          email: data.email,
+          phone: data.phone,
+          programId: data.programOfInterest,
+          source: sourceCTA, // Usamos la variable inyectada
+          notes: `Agendamiento desde ${sourceCTA}.\nPrograma: ${data.programOfInterest}`
         })
       });
 
-      if (!res.ok) {
-        dbError = await res.text();
+      if (!leadRes.ok && leadRes.status !== 409) {
+        dbError = await leadRes.text();
       } else {
-        const result = await res.json();
-        // El portal podría devolver un id de appointment o de lead
-        leadId = result.data?.id || null;
+        const leadData = await leadRes.json();
+        leadId = leadData.data?.lead?.id;
+        personId = leadData.data?.lead?.personId;
+      }
+
+      // b) Agendar en el Calendario Central
+      if (!dbError) {
+        const apptRes = await fetch(`${portalUrl}/api/appointments`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            title: `Asesoría ICE: ${data.name}`,
+            description: `Programa de interés: ${data.programOfInterest}\nTeléfono: ${data.phone}`,
+            startTime: startDate.toISOString(),
+            durationMinutes: 30,
+            attendees: [{ email: data.email }],
+            calendarType: "ICE",
+            leadId,
+            personId,
+            fullName: data.name,
+            email: data.email
+          })
+        });
+        if (!apptRes.ok) {
+          console.warn("Appointment creation failed in portal, but lead was created.", await apptRes.text());
+        }
       }
     } catch (err) {
       dbError = err;
