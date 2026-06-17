@@ -45,6 +45,7 @@ interface NavigationItem {
   active?: boolean;
   badge?: number;
   description?: string;
+  children?: { name: string; href: string }[];
 }
 
 interface PublicNavigationProps {
@@ -69,7 +70,15 @@ const defaultBranding = {
 
 const defaultNavigation = {
   main: [
-    { name: 'Programas', href: '/programas', icon: 'Briefcase' as IconName },
+    { 
+      name: 'Programas', 
+      href: '/programas', 
+      icon: 'Briefcase' as IconName,
+      children: [
+        { name: 'Working Holiday Alemania 2026', href: '/programas/working-holiday-alemania-2026' },
+        { name: 'Ver Todos', href: '/programas' }
+      ]
+    },
     { name: 'Nosotros', href: '/nosotros', icon: 'Building2' as IconName },
     { name: 'ICExperiences', href: '/experiences', icon: 'Award' as IconName },
     { name: 'Contáctanos', href: '/contacto', icon: 'Mail' as IconName },
@@ -235,6 +244,7 @@ export default function PublicNavigation({
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: navigation.main.indexOf(item) * 0.1 }}
+        className="relative group"
       >
         <Link
           href={item.href}
@@ -249,6 +259,21 @@ export default function PublicNavigation({
             </span>
           )}
         </Link>
+        {item.children && !isMobile && (
+          <div className="absolute top-full left-0 mt-2 w-64 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform group-hover:translate-y-0 translate-y-2">
+            <div className="bg-black/90 backdrop-blur-xl border border-white/20 rounded-xl shadow-2xl p-2 flex flex-col gap-1">
+              {item.children.map((child) => (
+                <Link
+                  key={child.name}
+                  href={child.href}
+                  className="px-4 py-3 rounded-lg text-sm font-medium text-white/90 hover:bg-brand-gold/20 hover:text-brand-gold transition-colors block"
+                >
+                  {child.name}
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
       </motion.div>
     );
   };
@@ -326,19 +351,34 @@ export default function PublicNavigation({
           >
             <div className="px-4 py-6 space-y-1">
               {navigation.main.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className={cn(
-                    'block px-4 py-3 rounded-lg text-base font-medium transition-all duration-300 hover:bg-brand-gold/20 hover:text-brand-gold',
-                    item.name === 'Contáctanos'
-                      ? 'bg-gradient-to-r from-brand-gold to-brand-orange text-white hover:from-brand-orange hover:to-brand-gold'
-                      : 'text-white/90'
+                <div key={item.name}>
+                  <Link
+                    href={item.href}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className={cn(
+                      'block px-4 py-3 rounded-lg text-base font-medium transition-all duration-300 hover:bg-brand-gold/20 hover:text-brand-gold',
+                      item.name === 'Contáctanos'
+                        ? 'bg-gradient-to-r from-brand-gold to-brand-orange text-white hover:from-brand-orange hover:to-brand-gold'
+                        : 'text-white/90'
+                    )}
+                  >
+                    {item.name}
+                  </Link>
+                  {item.children && (
+                    <div className="pl-6 space-y-1 mt-1 border-l border-white/10 ml-4">
+                      {item.children.map((child) => (
+                        <Link
+                          key={child.name}
+                          href={child.href}
+                          onClick={() => setIsMobileMenuOpen(false)}
+                          className="block px-4 py-2 rounded-lg text-sm font-medium text-white/70 hover:bg-brand-gold/10 hover:text-brand-gold transition-colors"
+                        >
+                          {child.name}
+                        </Link>
+                      ))}
+                    </div>
                   )}
-                >
-                  {item.name}
-                </Link>
+                </div>
               ))}
             </div>
           </motion.div>

@@ -136,10 +136,34 @@ const programs = [
     description: "Asistencia médica, odontológica, pérdida de equipaje, robo de documentos y cobertura completa para tu viaje.",
     icon: <ShieldCheckIcon className="w-6 h-6" />,
     image: "/images/imagenes programas/health-care-medical-science-with-digital-technology-doctor-white-coat-innovation-treatment-medicine-medical-research-hospital-elements-this-image-furnished-by-nasa.jpg",
-    href: "/contacto",
+    href: "/programas/seguros-internacionales",
     duration: "Por estadía",
     age: "Todas las edades",
     country: "🌍 Mundial"
+  },
+  {
+    id: "rumbo-colombia",
+    title: "Rumbo Colombia",
+    description: "Atrae estudiantes y profesionales internacionales para estudiar en Colombia con inmersión cultural completa.",
+    icon: <GlobeAltIcon className="w-6 h-6" />,
+    image: "/images/imagenes programas/tourist-with-hat-front.jpg",
+    href: "/programas/rumbo-colombia",
+    duration: "Semestre/Año",
+    age: "18+ años",
+    country: "🇨🇴 Colombia",
+    tags: ["Latam", "Inmersión", "Español"]
+  },
+  {
+    id: "alemania-2026",
+    title: "Working Holiday Alemania 2026",
+    description: "Trabaja y vive una experiencia internacional en Europa durante tus vacaciones universitarias. ¡Sin filas de visa!",
+    icon: <GlobeAltIcon className="w-6 h-6" />,
+    image: "/images/imagenes programas/working-holiday-germany-Master-Website-Hero.png",
+    href: "/programas/working-holiday-alemania-2026",
+    duration: "90 Días",
+    age: "18-30 años",
+    country: "🇩🇪 Alemania",
+    tags: ["Europa", "Trabajo Vacacional", "Para Universitarios"]
   }
 ];
 
@@ -224,7 +248,7 @@ const ProgramFeature = ({
   program,
   index,
 }: {
-  program: typeof programs[0];
+  program: typeof programs[0] & { tags?: string[] };
   index: number;
 }) => {
   const [imageError, setImageError] = useState(false);
@@ -301,6 +325,17 @@ const ProgramFeature = ({
             <span>{program.age}</span>
           </div>
         </div>
+
+        {/* Tags */}
+        {program.tags && (
+          <div className="relative z-10 px-6 mt-3 flex flex-wrap gap-1">
+            {program.tags.map((tag, idx) => (
+              <span key={idx} className="text-[10px] font-semibold bg-brand-gold/10 text-brand-orange px-2 py-0.5 rounded-full">
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
 
         {/* CTA Arrow */}
         <div className="relative z-10 px-6 mt-4 opacity-0 group-hover/feature:opacity-100 transition-opacity duration-200">

@@ -135,7 +135,7 @@ const programs = [
     description: "Atrae estudiantes y profesionales internacionales para estudiar en Colombia con inmersión cultural completa.",
     icon: <GlobeAltIcon className="w-6 h-6" />,
     image: "/images/imagenes programas/tourist-with-hat-front.jpg",
-    href: "/programas",
+    href: "/programas/rumbo-colombia",
     duration: "Semestre/Año",
     age: "18+ años",
     country: "🇨🇴 Colombia"
@@ -146,7 +146,7 @@ const programs = [
     description: "Asistencia médica, odontológica, pérdida de equipaje, robo de documentos y cobertura completa para tu viaje.",
     icon: <ShieldCheckIcon className="w-6 h-6" />,
     image: "/images/imagenes programas/health-care-medical-science-with-digital-technology-doctor-white-coat-innovation-treatment-medicine-medical-research-hospital-elements-this-image-furnished-by-nasa.jpg",
-    href: "/contacto",
+    href: "/programas/seguros-internacionales",
     duration: "Por estadía",
     age: "Todas las edades",
     country: "🌍 Mundial"
@@ -190,6 +190,60 @@ export function IceEnhancedProgramsSection() {
             Elige tu ruta para explorar el mundo
           </motion.p>
         </div>
+
+        {/* Working Holiday Alemania 2026 Featured Card */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          viewport={{ once: true }}
+          className="relative z-20 mb-12 rounded-3xl overflow-hidden shadow-2xl"
+        >
+          <div className="absolute inset-0 bg-gradient-to-r from-red-600/90 via-red-500/80 to-brand-gold/90 z-10 mix-blend-multiply"></div>
+          <div className="absolute inset-0 bg-[url('/images/imagenes programas/working-holiday-germany-Master-Website-Hero.png')] bg-cover bg-center z-0 opacity-100"></div>
+          {/* Collage decorative elements */}
+          <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2 z-10"></div>
+          <div className="absolute bottom-0 left-0 w-48 h-48 bg-black/10 rounded-full blur-2xl transform -translate-x-1/2 translate-y-1/2 z-10"></div>
+          
+          <div className="relative z-20 p-8 md:p-12 lg:p-16 flex flex-col md:flex-row items-center justify-between">
+            <div className="md:w-2/3 mb-8 md:mb-0 text-white">
+              <div className="inline-block px-4 py-1.5 bg-black/20 rounded-full backdrop-blur-md text-sm font-bold tracking-wider mb-6 border border-white/20 shadow-sm">
+                ¡NUEVO PROGRAMA! 🇩🇪
+              </div>
+              <h3 className="text-4xl md:text-5xl lg:text-6xl font-black mb-4 leading-tight tracking-tight">
+                Working Holiday <br/>
+                <span className="text-yellow-300">Alemania 2026</span>
+              </h3>
+              <p className="text-lg md:text-xl text-white/95 mb-8 font-medium max-w-2xl leading-relaxed">
+                Trabaja y vive una experiencia internacional en Europa durante tus vacaciones universitarias. ¡Sin filas de visa!
+              </p>
+              <div className="flex flex-wrap gap-3 mb-10 text-sm font-semibold">
+                <span className="bg-black/20 border border-white/10 px-4 py-1.5 rounded-full backdrop-blur-md shadow-sm">🇪🇺 Europa</span>
+                <span className="bg-black/20 border border-white/10 px-4 py-1.5 rounded-full backdrop-blur-md shadow-sm">💼 Trabajo Vacacional</span>
+                <span className="bg-black/20 border border-white/10 px-4 py-1.5 rounded-full backdrop-blur-md shadow-sm">🎓 Para Universitarios</span>
+              </div>
+              <Link href="/programas/working-holiday-alemania-2026">
+                <button className="px-8 py-4 bg-gray-900 text-white font-bold rounded-xl hover:bg-black transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 shadow-xl flex items-center space-x-3 group">
+                  <span className="text-lg">Ver Programa Alemania</span>
+                  <ArrowRightIcon className="w-6 h-6 text-brand-gold group-hover:translate-x-1 transition-transform" />
+                </button>
+              </Link>
+            </div>
+            
+            <div className="md:w-1/3 w-full flex justify-center md:justify-end relative">
+              <div className="relative w-64 h-64 md:w-80 md:h-80 bg-black/20 rounded-3xl backdrop-blur-sm border-2 border-white/20 flex flex-col items-center justify-center transform rotate-3 hover:rotate-6 transition-transform duration-500 shadow-2xl p-6 text-center">
+                <GlobeAltIcon className="w-24 h-24 text-yellow-300/90 mb-6 drop-shadow-md" />
+                <div className="space-y-1">
+                  <span className="block text-2xl md:text-3xl font-black text-white drop-shadow-md">Work hard.</span>
+                  <span className="block text-2xl md:text-3xl font-black text-yellow-300 drop-shadow-md">Travel often.</span>
+                </div>
+                <div className="absolute -bottom-4 -left-4 bg-white text-gray-900 font-bold px-4 py-2 rounded-lg transform -rotate-12 shadow-lg">
+                  ¡Cupos Limitados!
+                </div>
+              </div>
+            </div>
+          </div>
+        </motion.div>
 
         {/* Enhanced Programs Grid */}
         <motion.div 

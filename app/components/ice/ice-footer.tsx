@@ -21,6 +21,7 @@ export default function IceFooter() {
 
   // Programs as specified in outline section 2.8
   const programs = [
+    { name: "Working Holiday Alemania 2026", href: "/programas/working-holiday-alemania-2026" },
     { name: "Work and Travel USA", href: "/programas/summer-work-and-travel" },
     { name: "Au Pair USA", href: "/programas/au-pair-usa" },
     { name: "Camp Counselor", href: "/programas/camp-counselor" },
