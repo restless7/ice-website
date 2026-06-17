@@ -4,6 +4,9 @@ import IceLayoutWrapper from "@/app/components/ice/ice-layout-wrapper";
 import { motion } from "framer-motion";
 import { MapPin, Phone, Mail, Clock, Send, MessageSquare, User, Globe } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { Loader2, CheckCircle2 } from "lucide-react";
 
 const contactInfo = [
   {
@@ -50,6 +53,60 @@ const contactReasons = [
 ];
 
 export default function IceContactoPage() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const { register, handleSubmit, formState: { errors } } = useForm({
+    defaultValues: {
+      name: "",
+      email: "",
+      phone: "",
+      programOfInterest: "Información General",
+      message: ""
+    }
+  });
+
+  const onSubmit = async (data: any) => {
+    setIsLoading(true);
+    setError(null);
+    
+    try {
+      const searchParams = new URLSearchParams(window.location.search);
+      const utmData = {
+        source: searchParams.get('utm_source'),
+        medium: searchParams.get('utm_medium'),
+        campaign: searchParams.get('utm_campaign'),
+        content: searchParams.get('utm_content')
+      };
+
+      const portalUrl = process.env.NEXT_PUBLIC_PORTAL_API_URL || "http://localhost:3000";
+      const leadRes = await fetch(`${portalUrl}/api/leads`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fullName: data.name,
+          email: data.email,
+          phone: data.phone,
+          programId: data.programOfInterest,
+          source: "Página de Contacto",
+          notes: `Motivo: ${data.programOfInterest}\nMensaje: ${data.message}`,
+          utmData: utmData
+        })
+      });
+
+      if (!leadRes.ok && leadRes.status !== 409) {
+        throw new Error("No pudimos enviar tu mensaje. Por favor, intenta de nuevo.");
+      }
+
+      setIsSuccess(true);
+    } catch (err: any) {
+      setError(err.message || "Error conectando con el servidor.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <IceLayoutWrapper>
       <div className="relative w-full bg-gradient-to-br from-gray-900 via-brand-dark to-black">
@@ -128,72 +185,126 @@ export default function IceContactoPage() {
                 <h3 className="text-3xl font-bold text-white mb-8">
                   Envíanos un <span className="bg-gradient-to-r from-brand-gold to-brand-orange bg-clip-text text-transparent">Mensaje</span>
                 </h3>
-                <form className="space-y-6">
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <label className="block text-white/80 text-sm font-medium mb-2">
-                        Nombre Completo
-                      </label>
-                      <input
-                        type="text"
-                        className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent backdrop-blur-lg transition-all duration-300"
-                        placeholder="Tu nombre completo"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-white/80 text-sm font-medium mb-2">
-                        Email
-                      </label>
-                      <input
-                        type="email"
-                        className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent backdrop-blur-lg transition-all duration-300"
-                        placeholder="tu@email.com"
-                      />
-                    </div>
+                
+                {isSuccess ? (
+                  <div className="bg-white/5 border border-green-500/30 rounded-2xl p-8 text-center backdrop-blur-lg">
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      className="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6"
+                    >
+                      <CheckCircle2 className="w-10 h-10 text-green-400" />
+                    </motion.div>
+                    <h3 className="text-2xl font-bold text-white mb-2">¡Mensaje Enviado!</h3>
+                    <p className="text-white/80 mb-6">
+                      Gracias por contactarnos. Un asesor de ICE te responderá en las próximas 24 horas.
+                    </p>
+                    <button
+                      onClick={() => setIsSuccess(false)}
+                      className="text-brand-gold font-semibold hover:text-brand-orange transition-colors"
+                    >
+                      Enviar otro mensaje
+                    </button>
                   </div>
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <label className="block text-white/80 text-sm font-medium mb-2">
-                        Teléfono
-                      </label>
-                      <input
-                        type="tel"
-                        className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent backdrop-blur-lg transition-all duration-300"
-                        placeholder="+1 (555) 123-4567"
-                      />
+                ) : (
+                  <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                    <div className="grid md:grid-cols-2 gap-6">
+                      <div>
+                        <label className="block text-white/80 text-sm font-medium mb-2">
+                          Nombre Completo *
+                        </label>
+                        <input
+                          {...register("name", { required: "El nombre es obligatorio" })}
+                          type="text"
+                          className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent backdrop-blur-lg transition-all duration-300"
+                          placeholder="Tu nombre completo"
+                        />
+                        {errors.name && <p className="mt-1 text-sm text-red-400">{errors.name.message as string}</p>}
+                      </div>
+                      <div>
+                        <label className="block text-white/80 text-sm font-medium mb-2">
+                          Email *
+                        </label>
+                        <input
+                          {...register("email", { 
+                            required: "El correo es obligatorio",
+                            pattern: { value: /^\S+@\S+$/i, message: "Correo inválido" }
+                          })}
+                          type="email"
+                          className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent backdrop-blur-lg transition-all duration-300"
+                          placeholder="tu@email.com"
+                        />
+                        {errors.email && <p className="mt-1 text-sm text-red-400">{errors.email.message as string}</p>}
+                      </div>
+                    </div>
+                    <div className="grid md:grid-cols-2 gap-6">
+                      <div>
+                        <label className="block text-white/80 text-sm font-medium mb-2">
+                          Teléfono *
+                        </label>
+                        <input
+                          {...register("phone", { required: "El celular es obligatorio" })}
+                          type="tel"
+                          className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent backdrop-blur-lg transition-all duration-300"
+                          placeholder="+1 (555) 123-4567"
+                        />
+                        {errors.phone && <p className="mt-1 text-sm text-red-400">{errors.phone.message as string}</p>}
+                      </div>
+                      <div>
+                        <label className="block text-white/80 text-sm font-medium mb-2">
+                          Motivo de Consulta
+                        </label>
+                        <select 
+                          {...register("programOfInterest")}
+                          className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent backdrop-blur-lg transition-all duration-300"
+                        >
+                          {contactReasons.map((reason) => (
+                            <option key={reason} value={reason} className="bg-gray-800 text-white">
+                              {reason}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
                     </div>
                     <div>
                       <label className="block text-white/80 text-sm font-medium mb-2">
-                        Motivo de Consulta
+                        Mensaje
                       </label>
-                      <select className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent backdrop-blur-lg transition-all duration-300">
-                        {contactReasons.map((reason) => (
-                          <option key={reason} value={reason} className="bg-gray-800 text-white">
-                            {reason}
-                          </option>
-                        ))}
-                      </select>
+                      <textarea
+                        {...register("message")}
+                        rows={5}
+                        className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent backdrop-blur-lg transition-all duration-300 resize-none"
+                        placeholder="Cuéntanos sobre tu interés en estudiar en el extranjero..."
+                      ></textarea>
                     </div>
-                  </div>
-                  <div>
-                    <label className="block text-white/80 text-sm font-medium mb-2">
-                      Mensaje
-                    </label>
-                    <textarea
-                      rows={5}
-                      className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent backdrop-blur-lg transition-all duration-300 resize-none"
-                      placeholder="Cuéntanos sobre tu interés en estudiar en el extranjero..."
-                    ></textarea>
-                  </div>
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="w-full bg-gradient-to-r from-brand-gold to-brand-orange text-brand-dark font-semibold py-4 px-8 rounded-lg hover:from-brand-orange hover:to-brand-gold transition-all duration-300 flex items-center justify-center gap-2"
-                  >
-                    <Send className="w-5 h-5" />
-                    Enviar Mensaje
-                  </motion.button>
-                </form>
+
+                    {error && (
+                      <div className="p-3 bg-red-500/20 text-red-200 rounded-lg text-sm border border-red-500/30">
+                        {error}
+                      </div>
+                    )}
+
+                    <motion.button
+                      type="submit"
+                      disabled={isLoading}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="w-full bg-gradient-to-r from-brand-gold to-brand-orange text-brand-dark font-semibold py-4 px-8 rounded-lg hover:from-brand-orange hover:to-brand-gold transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none"
+                    >
+                      {isLoading ? (
+                        <>
+                          <Loader2 className="w-5 h-5 animate-spin" />
+                          <span>Enviando...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Send className="w-5 h-5" />
+                          <span>Enviar Mensaje</span>
+                        </>
+                      )}
+                    </motion.button>
+                  </form>
+                )}
               </motion.div>
 
               {/* Office Hours & Quick Info */}
