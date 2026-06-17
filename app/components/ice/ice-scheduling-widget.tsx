@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Calendar, Clock, User, Mail, Phone, ArrowRight, CheckCircle2, Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
+import { checkAvailability, scheduleAppointment } from "@/app/agendar/actions";
 
 type FormData = {
   name: string;
@@ -21,80 +22,88 @@ const AVAILABLE_TIMES = [
 ];
 
 const PROGRAMS = [
+  "Working Holiday Alemania 2026",
+  "Work and Travel USA",
   "Asesoría Visa de Turismo USA",
   "Au Pair USA",
   "Camp Counselor",
   "Canadá: Tu proyecto de vida",
-  "Curso de Inglés",
-  "Summer Work and Travel"
+  "Curso de Inglés"
 ];
 
 export default function IceSchedulingWidget() {
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const [isLoading, setIsLoading] = useState(false);
+  const [isCheckingSlots, setIsCheckingSlots] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [bookedAppointments, setBookedAppointments] = useState<any[]>([]);
+  const [busySlots, setBusySlots] = useState<{start: string, end: string}[]>([]);
 
-  const { register, handleSubmit, watch, formState: { errors }, setValue } = useForm<FormData>();
+  const { register, handleSubmit, watch, formState: { errors }, setValue, setError: setFormError, clearErrors } = useForm<FormData>();
   const selectedDate = watch("date");
   const selectedTime = watch("time");
 
   useEffect(() => {
-    // Fetch upcoming appointments to disable booked slots
-    const fetchAppointments = async () => {
+    if (!selectedDate) return;
+
+    // Validate weekend
+    const dateObj = new Date(`${selectedDate}T00:00:00`);
+    const day = dateObj.getDay(); // 0 = Sunday, 6 = Saturday
+    if (day === 0 || day === 6) {
+      setError("Los fines de semana no están disponibles para asesorías.");
+      setValue("time", "");
+      return;
+    } else {
+      setError(null);
+    }
+
+    // Fetch real availability from Google Calendar via Server Action
+    const fetchAvailability = async () => {
+      setIsCheckingSlots(true);
+      setValue("time", ""); // clear time when date changes
       try {
-        const portalUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.iceworldteam.com";
-        const res = await fetch(`${portalUrl}/api/appointments?showAll=true`);
-        if (res.ok) {
-          const data = await res.json();
-          if (data.success && data.data) {
-            setBookedAppointments(data.data);
-          }
+        const result = await checkAvailability(selectedDate);
+        if (result.success && result.busySlots) {
+          setBusySlots(result.busySlots);
+        } else {
+          setBusySlots([]);
         }
       } catch (err) {
-        console.error("Error fetching appointments:", err);
+        console.error("Failed to fetch slots", err);
+        setBusySlots([]);
+      } finally {
+        setIsCheckingSlots(false);
       }
     };
-    fetchAppointments();
-  }, []);
+
+    fetchAvailability();
+  }, [selectedDate, setValue]);
 
   const getAvailableTimeSlots = () => {
     if (!selectedDate) return AVAILABLE_TIMES;
     
-    // Simple filter: if an appointment starts at the same time, remove it
-    // In a real scenario, we'd check overlaps properly
-    const bookedTimesOnDate = bookedAppointments
-      .filter(app => new Date(app.startTime).toISOString().split("T")[0] === selectedDate)
-      .map(app => {
-        const d = new Date(app.startTime);
-        return `${d.getHours().toString().padStart(2, "0")}:${d.getMinutes().toString().padStart(2, "0")}`;
-      });
+    // Filter out busy slots dynamically
+    // Each busy slot has start and end ISO strings
+    const busyTimesOnDate = busySlots.map(slot => {
+      const start = new Date(slot.start);
+      // Extraemos la hora en formato HH:mm local (America/Bogota)
+      // Como el browser puede estar en otro timezone, forzamos UTC asumiendo que ya están normalizados o simplemente comparamos strings
+      // Es más seguro extraer la hora local asumiendo que el usuario está viendo la misma franja o hacer match de HH:mm
+      // Simplificaremos extrayendo en el tz de Bogota o usando Intl
+      const timeStr = start.toLocaleTimeString("es-CO", { timeZone: "America/Bogota", hour: "2-digit", minute: "2-digit", hour12: false });
+      return timeStr;
+    });
 
-    return AVAILABLE_TIMES.filter(time => !bookedTimesOnDate.includes(time));
+    return AVAILABLE_TIMES.filter(time => !busyTimesOnDate.includes(time));
   };
 
   const onSubmit = async (data: FormData) => {
     setIsLoading(true);
     setError(null);
+    
     try {
-      const startTime = new Date(`${data.date}T${data.time}:00`).toISOString();
-      const portalUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.iceworldteam.com";
+      const result = await scheduleAppointment(data);
 
-      const res = await fetch(`${portalUrl}/api/appointments`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          title: `Asesoría ICE: ${data.name}`,
-          description: `Programa de interés: ${data.programOfInterest}\nTeléfono: ${data.phone}`,
-          startTime,
-          durationMinutes: 30,
-          attendees: [{ email: data.email }],
-          calendarType: "ICE"
-        }),
-      });
-
-      const result = await res.json();
-      if (!res.ok || !result.success) {
+      if (!result.success) {
         throw new Error(result.error || "Hubo un error agendando la cita.");
       }
 
@@ -107,7 +116,8 @@ export default function IceSchedulingWidget() {
   };
 
   // Ensure minimum date is today
-  const today = new Date().toISOString().split("T")[0];
+  // Usamos el timezone local para dar el 'today' correcto
+  const today = new Date().toLocaleDateString("en-CA"); // YYYY-MM-DD
 
   return (
     <div className="w-full max-w-4xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden text-left border border-gray-100 relative min-h-[500px]">
@@ -154,6 +164,12 @@ export default function IceSchedulingWidget() {
               >
                 <h2 className="text-2xl font-bold text-gray-900">Selecciona Fecha y Hora</h2>
                 
+                {error && (
+                  <div className="p-3 bg-red-50 text-red-700 rounded-lg text-sm border border-red-100 mb-4">
+                    {error}
+                  </div>
+                )}
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-3">
                     <label className="block text-sm font-medium text-gray-700">1. Elige una fecha</label>
@@ -169,7 +185,11 @@ export default function IceSchedulingWidget() {
                     <label className="block text-sm font-medium text-gray-700">2. Elige un horario</label>
                     <div className="grid grid-cols-2 gap-2 max-h-[250px] overflow-y-auto pr-2 custom-scrollbar">
                       {selectedDate ? (
-                        getAvailableTimeSlots().length > 0 ? (
+                        isCheckingSlots ? (
+                          <div className="col-span-2 flex justify-center py-8">
+                            <Loader2 className="w-6 h-6 animate-spin text-brand-gold" />
+                          </div>
+                        ) : getAvailableTimeSlots().length > 0 ? (
                           getAvailableTimeSlots().map((time) => (
                             <button
                               key={time}
@@ -197,9 +217,9 @@ export default function IceSchedulingWidget() {
                 <div className="pt-6 flex justify-end">
                   <button
                     onClick={() => {
-                      if (selectedDate && selectedTime) setStep(2);
+                      if (selectedDate && selectedTime && !error) setStep(2);
                     }}
-                    disabled={!selectedDate || !selectedTime}
+                    disabled={!selectedDate || !selectedTime || !!error}
                     className="flex items-center justify-center px-6 py-3 bg-gray-900 text-white rounded-xl hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                   >
                     Siguiente Paso
@@ -218,7 +238,7 @@ export default function IceSchedulingWidget() {
                 className="space-y-6"
               >
                 <div className="flex items-center gap-3 mb-6">
-                  <button onClick={() => setStep(1)} className="text-sm text-gray-500 hover:text-gray-900">
+                  <button onClick={() => setStep(1)} className="text-sm text-gray-500 hover:text-gray-900 transition-colors">
                     ← Volver
                   </button>
                   <h2 className="text-2xl font-bold text-gray-900">Tus Datos</h2>
@@ -240,6 +260,7 @@ export default function IceSchedulingWidget() {
                       className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-brand-gold outline-none"
                       placeholder="Ej. Juan Pérez"
                     />
+                    {errors.name && <span className="text-xs text-red-500">Este campo es requerido</span>}
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -249,10 +270,17 @@ export default function IceSchedulingWidget() {
                       </label>
                       <input
                         type="email"
-                        {...register("email", { required: true })}
+                        {...register("email", { 
+                          required: true,
+                          pattern: {
+                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                            message: "Correo electrónico inválido"
+                          }
+                        })}
                         className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-brand-gold outline-none"
                         placeholder="tucorreo@ejemplo.com"
                       />
+                      {errors.email && <span className="text-xs text-red-500">{errors.email.message || "Este campo es requerido"}</span>}
                     </div>
                     
                     <div className="space-y-1">
@@ -265,6 +293,7 @@ export default function IceSchedulingWidget() {
                         className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-brand-gold outline-none"
                         placeholder="+57 300 000 0000"
                       />
+                      {errors.phone && <span className="text-xs text-red-500">Este campo es requerido</span>}
                     </div>
                   </div>
 
@@ -277,6 +306,7 @@ export default function IceSchedulingWidget() {
                       <option value="">Selecciona un programa</option>
                       {PROGRAMS.map(p => <option key={p} value={p}>{p}</option>)}
                     </select>
+                    {errors.programOfInterest && <span className="text-xs text-red-500">Selecciona un programa</span>}
                   </div>
 
                   <div className="pt-4">

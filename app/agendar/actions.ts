@@ -1,0 +1,175 @@
+"use server";
+
+import { google } from "googleapis";
+import { format, parseISO } from "date-fns";
+import { formatInTimeZone, toDate } from "date-fns-tz";
+import { supabaseServer } from "@/app/lib/supabaseServer";
+
+const TIMEZONE = "America/Bogota";
+
+type ScheduleFormData = {
+  name: string;
+  email: string;
+  phone: string;
+  programOfInterest: string;
+  date: string; // YYYY-MM-DD
+  time: string; // HH:mm
+};
+
+export async function checkAvailability(date: string) {
+  try {
+    const calendarId = process.env.GOOGLE_CALENDAR_ID || "primary";
+    const privateKey = (process.env.GOOGLE_PRIVATE_KEY || "").replace(/\\n/g, "\n");
+    
+    if (!process.env.GOOGLE_CLIENT_EMAIL || !privateKey) {
+      console.warn("Google credentials not configured, returning full availability.");
+      return { success: true, busySlots: [] };
+    }
+
+    const auth = new google.auth.JWT({
+      email: process.env.GOOGLE_CLIENT_EMAIL,
+      key: privateKey,
+      scopes: ["https://www.googleapis.com/auth/calendar.readonly", "https://www.googleapis.com/auth/calendar.events"]
+    });
+
+    const calendar = google.calendar({ version: "v3", auth });
+
+    // Rango del día solicitado en America/Bogota
+    const timeMin = new Date(`${date}T00:00:00-05:00`).toISOString();
+    const timeMax = new Date(`${date}T23:59:59-05:00`).toISOString();
+
+    const response = await calendar.freebusy.query({
+      requestBody: {
+        timeMin,
+        timeMax,
+        timeZone: TIMEZONE,
+        items: [{ id: calendarId }],
+      },
+    });
+
+    const busySlots = (response.data.calendars?.[calendarId]?.busy || []) as { start: string; end: string; }[];
+    
+    return { success: true, busySlots };
+  } catch (error) {
+    console.error("Error checking availability in Google Calendar:", error);
+    // Si falla Google, permitimos avanzar pero logueamos el error
+    return { success: false, busySlots: [], error: "No se pudo consultar disponibilidad" };
+  }
+}
+
+export async function scheduleAppointment(data: ScheduleFormData) {
+  try {
+    // 1. Validaciones básicas
+    if (!data.name || !data.email || !data.phone || !data.date || !data.time) {
+      return { success: false, error: "Faltan datos requeridos" };
+    }
+
+    // 2. Normalizar fecha y hora con zona horaria estricta
+    // date: "2026-06-20", time: "14:00" -> America/Bogota is UTC-5
+    const startTimeStr = `${data.date}T${data.time}:00-05:00`;
+    const startDate = new Date(startTimeStr);
+    
+    // Asumimos 30 min de reunión
+    const endDate = new Date(startDate.getTime() + 30 * 60000);
+
+    // 3. Insertar primero en DB local (Tolerancia a fallos)
+    const { data: dbLead, error: dbError } = await supabaseServer
+      .from("leads")
+      .insert({
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        program_interest: data.programOfInterest,
+        scheduled_at: startDate.toISOString(),
+        sync_status: "pending_google",
+      })
+      .select("id")
+      .single();
+
+    // Si la tabla leads no existe (o falla), solo lo logueamos y continuamos intentando Google
+    const leadId = dbLead?.id;
+    if (dbError) {
+      console.error("Error saving lead to DB:", dbError);
+    }
+
+    // 4. Conectar a Google Calendar
+    const calendarId = process.env.GOOGLE_CALENDAR_ID || "primary";
+    const privateKey = (process.env.GOOGLE_PRIVATE_KEY || "").replace(/\\n/g, "\n");
+    let googleEventId = null;
+    let syncStatus = "failed_google";
+
+    if (process.env.GOOGLE_CLIENT_EMAIL && privateKey) {
+      try {
+        const auth = new google.auth.JWT({
+          email: process.env.GOOGLE_CLIENT_EMAIL,
+          key: privateKey,
+          scopes: ["https://www.googleapis.com/auth/calendar.events"]
+        });
+
+        const calendar = google.calendar({ version: "v3", auth });
+
+        const event = {
+          summary: `Asesoría ICE - ${data.name} - ${data.programOfInterest}`,
+          description: `Datos del Lead:\nNombre: ${data.name}\nEmail: ${data.email}\nTeléfono: ${data.phone}\nPrograma de Interés: ${data.programOfInterest}\n\nReunión agendada automáticamente vía ICE World Team.`,
+          start: {
+            dateTime: startDate.toISOString(),
+            timeZone: TIMEZONE,
+          },
+          end: {
+            dateTime: endDate.toISOString(),
+            timeZone: TIMEZONE,
+          },
+          attendees: [
+            { email: data.email },
+            // Asesor asignado puede venir de otra lógica, acá podemos poner un default
+            { email: process.env.ADVISOR_EMAIL || "info@iceworldteam.com" }
+          ],
+          conferenceData: {
+            createRequest: {
+              requestId: `meet-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
+              conferenceSolutionKey: { type: "hangoutsMeet" },
+            },
+          },
+        };
+
+        const res = await calendar.events.insert({
+          calendarId,
+          conferenceDataVersion: 1,
+          sendUpdates: "all", // Envía invitación al estudiante
+          requestBody: event,
+        });
+
+        googleEventId = res.data.id;
+        syncStatus = "synced";
+
+      } catch (googleError) {
+        console.error("Google Calendar Error:", googleError);
+        // Si falla google, mantenemos syncStatus = "failed_google"
+      }
+    } else {
+      console.warn("No Google Credentials found, skipping calendar sync.");
+    }
+
+    // 5. Actualizar DB si es necesario
+    if (leadId) {
+      await supabaseServer
+        .from("leads")
+        .update({
+          sync_status: syncStatus,
+          google_event_id: googleEventId,
+        })
+        .eq("id", leadId);
+    }
+
+    return {
+      success: true,
+      data: {
+        syncStatus,
+        eventId: googleEventId,
+      }
+    };
+  } catch (error: any) {
+    console.error("Critical error in scheduleAppointment:", error);
+    return { success: false, error: "Ha ocurrido un error interno. Intente nuevamente." };
+  }
+}

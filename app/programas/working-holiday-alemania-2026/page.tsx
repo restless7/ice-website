@@ -34,6 +34,7 @@ export const metadata: Metadata = {
         alt: 'Estudiante Working Holiday Alemania 2026',
       },
     ],
+  },
   facebook: {
     appId: process.env.NEXT_PUBLIC_FB_APP_ID || '1956792428547252', 
   },
