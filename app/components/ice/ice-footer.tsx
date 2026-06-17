@@ -16,6 +16,7 @@ export default function IceFooter() {
     { name: "Portafolio", href: "/portafolio" },
     { name: "ICExperiences", href: "/experiences" },
     { name: "ICE News", href: "/news" },
+    { name: "Agendar", href: "/agendar" },
     { name: "Contáctanos", href: "/contacto" }
   ];
 

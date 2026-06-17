@@ -231,7 +231,7 @@ export default function ProgramasPage() {
               Nuestros asesores pueden ayudarte a encontrar la experiencia ideal para ti
             </p>
             <Link
-              href="/contacto"
+              href="/agendar"
               className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-brand-gold to-brand-orange text-white font-semibold text-lg rounded-xl hover:shadow-lg transform hover:scale-105 transition-all duration-300"
             >
               <span>Contactar Asesor</span>

@@ -28,6 +28,7 @@ export default function IceNavigation() {
     { name: "ICExperiences", href: "/experiences" },
     { name: "ICE News", href: "/news" },
     { name: "Contácto", href: "/contacto" },
+    { name: "Agendar", href: "/agendar" },
     { name: "Portal", href: "/portal" }
   ];
 

@@ -45,13 +45,13 @@ export default function H2BProgram() {
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Link
-                    href="/contacto"
+                    href="/agendar"
                     className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-brand-gold to-brand-orange text-white font-semibold text-lg rounded-xl hover:shadow-lg transform hover:scale-105 transition-all duration-300"
                   >
                     Aplicar Ahora
                   </Link>
                   <Link
-                    href="/contacto"
+                    href="/agendar"
                     className="inline-flex items-center px-8 py-4 border-2 border-brand-gold text-brand-gold font-semibold text-lg rounded-xl hover:bg-brand-gold/10 transition-all duration-300"
                   >
                     Más Información
@@ -570,7 +570,7 @@ export default function H2BProgram() {
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
-                href="/contacto"
+                href="/agendar"
                 className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-brand-gold to-brand-orange text-white font-semibold text-lg rounded-xl hover:shadow-lg transform hover:scale-105 transition-all duration-300"
               >
                 Aplicar Ahora
