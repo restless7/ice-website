@@ -64,6 +64,7 @@ export async function scheduleAppointment(data: {
   programOfInterest: string;
   date: string;
   time: string;
+  geoCity?: string;
 }, sourceCTA: string = "Website Form", utmData?: any) {
   try {
     // 1. Validar formato de fecha/hora (ej: 2024-05-20 y 14:30)
@@ -92,7 +93,8 @@ export async function scheduleAppointment(data: {
           programId: data.programOfInterest,
           source: sourceCTA, // Usamos la variable inyectada
           notes: `Agendamiento desde ${sourceCTA}.\nPrograma: ${data.programOfInterest}`,
-          utmData: utmData
+          utmData: utmData,
+          geoContext: data.geoCity
         })
       });
 

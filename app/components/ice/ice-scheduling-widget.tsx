@@ -37,12 +37,14 @@ export default function IceSchedulingWidget({
   sourceCTA = "Website Form", 
   programs = [],
   preselectedProgramId,
-  lockProgram = false
+  lockProgram = false,
+  geoCity
 }: { 
   sourceCTA?: string; 
   programs?: any[];
   preselectedProgramId?: string;
   lockProgram?: boolean;
+  geoCity?: string;
 }) {
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const [isLoading, setIsLoading] = useState(false);
@@ -129,7 +131,7 @@ export default function IceSchedulingWidget({
         content: searchParams.get('utm_content')
       };
 
-      const result = await scheduleAppointment(data, sourceCTA, utmData);
+      const result = await scheduleAppointment({ ...data, geoCity }, sourceCTA, utmData);
 
       if (!result.success) {
         throw new Error(result.error || "Hubo un error agendando la cita.");
@@ -153,6 +155,14 @@ export default function IceSchedulingWidget({
         {/* Sidebar Info */}
         <div className="md:w-1/3 bg-gray-50 p-8 border-r border-gray-100 hidden md:block">
           <h3 className="text-xl font-bold text-gray-900 mb-6">Asesoría ICE</h3>
+          
+          {geoCity && (
+            <div className="mb-6 p-4 bg-brand-gold/10 rounded-xl border border-brand-gold/20">
+              <p className="text-sm font-medium text-brand-dark">
+                Agenda tu cita virtual o presencial con nuestro equipo de ICE {geoCity}.
+              </p>
+            </div>
+          )}
           
           <div className="space-y-6">
             <div className="flex items-start gap-3 text-gray-600">
