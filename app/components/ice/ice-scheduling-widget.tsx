@@ -51,6 +51,7 @@ export default function IceSchedulingWidget({
   const [isCheckingSlots, setIsCheckingSlots] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [busySlots, setBusySlots] = useState<{start: string, end: string}[]>([]);
+  const [meetLink, setMeetLink] = useState<string | null>(null);
 
   const { register, handleSubmit, watch, formState: { errors }, setValue, setError: setFormError, clearErrors } = useForm<FormData>();
   const selectedDate = watch("date");
@@ -135,6 +136,10 @@ export default function IceSchedulingWidget({
 
       if (!result.success) {
         throw new Error(result.error || "Hubo un error agendando la cita.");
+      }
+
+      if (result.data?.meetLink) {
+        setMeetLink(result.data.meetLink);
       }
 
       setStep(3);
@@ -412,7 +417,24 @@ export default function IceSchedulingWidget({
                   <p><span className="text-gray-500">Programa:</span> <span className="font-medium text-gray-900">
                     {(programs && programs.length > 0 ? programs : FALLBACK_PROGRAMS).find(p => p.id === watch("programOfInterest"))?.name || watch("programOfInterest")}
                   </span></p>
+                  {meetLink && (
+                    <div className="pt-4 mt-4 border-t border-gray-200">
+                      <p className="text-gray-500 mb-2">Enlace de Google Meet:</p>
+                      <a href={meetLink} target="_blank" rel="noopener noreferrer" className="text-brand-gold font-bold hover:underline break-all">
+                        {meetLink}
+                      </a>
+                    </div>
+                  )}
                 </div>
+
+                {geoCity?.toLowerCase() === 'bucaramanga' && (
+                  <div className="mt-4 p-4 bg-brand-gold/10 border border-brand-gold/30 rounded-xl w-full text-left">
+                    <p className="text-brand-dark font-medium text-sm">
+                      🌟 ¡Estás en Bucaramanga! Aunque te hemos agendado virtualmente, te invitamos a que te acerques directamente a nuestras instalaciones en Bucaramanga. Es nuestro método preferido para darte una atención más personalizada.
+                    </p>
+                  </div>
+                )}
+
                 <Link
                   href="/"
                   prefetch={false}

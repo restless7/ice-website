@@ -140,6 +140,7 @@ export async function scheduleAppointment(data: {
     const calendarId = process.env.GOOGLE_CALENDAR_ID || "primary";
     const privateKey = (process.env.GOOGLE_PRIVATE_KEY || "").replace(/\\n/g, "\n");
     let googleEventId = null;
+    let meetLink = null;
     let syncStatus = "failed_google";
 
     if (process.env.GOOGLE_CLIENT_EMAIL && privateKey) {
@@ -184,6 +185,7 @@ export async function scheduleAppointment(data: {
         });
 
         googleEventId = res.data.id;
+        meetLink = res.data.hangoutLink;
         syncStatus = "synced";
 
       } catch (googleError) {
@@ -204,6 +206,7 @@ export async function scheduleAppointment(data: {
       data: {
         syncStatus,
         eventId: googleEventId,
+        meetLink,
       }
     };
   } catch (error: any) {
