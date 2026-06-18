@@ -117,7 +117,12 @@ export default function GeoProgramPage({ params }: Props) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
         />
       ))}
-      <div className="relative w-full bg-gradient-to-br from-gray-900 via-brand-dark to-black min-h-screen pt-24 pb-12">
+      <div 
+        className="relative w-full min-h-screen pt-24 pb-12 bg-cover bg-center bg-no-repeat"
+        style={{ 
+          backgroundImage: `linear-gradient(to bottom right, rgba(17, 24, 39, 0.95), rgba(0, 0, 0, 0.9)), url(${city.heroImageUrl})` 
+        }}
+      >
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
             <span className="inline-flex items-center gap-2 bg-brand-gold/10 text-brand-gold px-4 py-1.5 rounded-full text-sm font-bold tracking-widest uppercase mb-4">

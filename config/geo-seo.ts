@@ -15,6 +15,7 @@ export const CITIES = {
       latitude: 4.6097,
       longitude: -74.0817
     },
+    heroImageUrl: "/images/geo/bogota-hero.jpg",
     hasPhysicalOffice: true
   },
   medellin: {
@@ -33,6 +34,7 @@ export const CITIES = {
       latitude: 6.2442,
       longitude: -75.5812
     },
+    heroImageUrl: "/images/geo/medellin-hero.jpg",
     hasPhysicalOffice: true
   },
   cali: {
@@ -51,6 +53,7 @@ export const CITIES = {
       latitude: 3.4516,
       longitude: -76.5320
     },
+    heroImageUrl: "/images/geo/cali-hero.jpg",
     hasPhysicalOffice: false
   },
   barranquilla: {
@@ -69,6 +72,7 @@ export const CITIES = {
       latitude: 10.9685,
       longitude: -74.7813
     },
+    heroImageUrl: "/images/geo/barranquilla-hero.jpg",
     hasPhysicalOffice: false
   },
   bucaramanga: {
@@ -87,6 +91,7 @@ export const CITIES = {
       latitude: 7.1193,
       longitude: -73.1227
     },
+    heroImageUrl: "/images/geo/bucaramanga-hero.jpg",
     hasPhysicalOffice: true
   },
   pereira: {
@@ -105,6 +110,7 @@ export const CITIES = {
       latitude: 4.8133,
       longitude: -75.6961
     },
+    heroImageUrl: "/images/geo/pereira-hero.jpg",
     hasPhysicalOffice: false
   }
 };
