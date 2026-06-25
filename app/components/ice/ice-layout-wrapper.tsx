@@ -23,7 +23,7 @@ export default function IceLayoutWrapper({ children }: IceLayoutWrapperProps) {
           packageName="ice-website" 
           theme="ice-colombia" 
         />
-        <IceBreadcrumbs />
+        {/* <IceBreadcrumbs /> */}
         
         {/* Main Content */}
         <main className="flex-1">

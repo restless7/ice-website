@@ -88,7 +88,6 @@ export default function IceContactoPage() {
           fullName: data.name,
           email: data.email,
           phone: data.phone,
-          programId: data.programOfInterest,
           source: "Página de Contacto",
           notes: `Motivo: ${data.programOfInterest}\nMensaje: ${data.message}`,
           utmData: utmData

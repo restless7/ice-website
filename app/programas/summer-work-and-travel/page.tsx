@@ -1,3 +1,4 @@
+import IceSchedulingWidget from "@/app/components/ice/ice-scheduling-widget";
 import { Metadata } from "next";
 import IceLayoutWrapper from "@/app/components/ice/ice-layout-wrapper";
 import Link from "next/link";
@@ -414,6 +415,23 @@ export default function SummerWorkAndTravel() {
           </div>
         </section>
       </div>
-    </IceLayoutWrapper>
+    
+        {/* Scheduling Widget */}
+        <section className="py-20 bg-gray-50 border-t border-gray-100" id="agendar">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                ¿Listo para iniciar tu proceso?
+              </h2>
+              <p className="text-xl text-gray-600">
+                Agenda una asesoría gratuita o asiste a nuestras charlas informativas
+              </p>
+            </div>
+            <div className="bg-white rounded-3xl shadow-xl p-6 md:p-8 border border-gray-100">
+              <IceSchedulingWidget />
+            </div>
+          </div>
+        </section>
+</IceLayoutWrapper>
   );
 }

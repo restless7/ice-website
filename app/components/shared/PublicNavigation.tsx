@@ -76,6 +76,18 @@ const defaultNavigation = {
       icon: 'Briefcase' as IconName,
       children: [
         { name: 'Working Holiday Alemania 2026', href: '/programas/working-holiday-alemania-2026' },
+        { name: 'Work and Travel USA', href: '/programas/summer-work-and-travel' },
+        { name: 'Au Pair USA', href: '/programas/au-pair-usa' },
+        { name: 'Camp Counselor USA', href: '/programas/camp-counselor' },
+        { name: 'Intern and Trainee USA', href: '/programas/interntrainee-usa' },
+        { name: 'Escuelas de Idiomas', href: '/programas/escuela-de-idiomas-usa' },
+        { name: 'Canadá - Tu Proyecto de Vida', href: '/programas/canada-tu-proyecto-de-vida' },
+        { name: 'Asesoría de Visas', href: '/programas/asesoria-visa-turismo-usa' },
+        { name: 'ICEnglish', href: '/programas/curso-de-ingles' },
+        { name: 'H2B USA', href: '/programas/h2b' },
+        { name: 'Summer Camp', href: '/programas/summer-camp' },
+        { name: 'Seguros Internacionales', href: '/programas/seguros-internacionales' },
+        { name: 'Rumbo Colombia', href: '/programas/rumbo-colombia' },
         { name: 'Ver Todos', href: '/programas' }
       ]
     },
