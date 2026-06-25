@@ -2,10 +2,10 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Calendar, Clock, User, Mail, Phone, ArrowRight, CheckCircle2, Loader2 } from "lucide-react";
+import { Calendar, Clock, User, Mail, Phone, ArrowRight, CheckCircle2, Loader2, Users, Video } from "lucide-react";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
-import { checkAvailability, scheduleAppointment } from "@/app/agendar/actions";
+import { checkAvailability, scheduleAppointment, getUpcomingEvents, registerForCharla, createLeadOnly } from "@/app/agendar/actions";
 
 type FormData = {
   name: string;
@@ -14,6 +14,7 @@ type FormData = {
   programOfInterest: string;
   date: string;
   time: string;
+  charlaId: string;
 };
 
 const AVAILABLE_TIMES = [
@@ -21,8 +22,6 @@ const AVAILABLE_TIMES = [
   "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00"
 ];
 
-// Dynamic programs will be passed as props.
-// Fallback if needed:
 const FALLBACK_PROGRAMS = [
   { id: "Working Holiday Alemania 2026", name: "Working Holiday Alemania 2026" },
   { id: "Work and Travel USA", name: "Work and Travel USA" },
@@ -47,30 +46,39 @@ export default function IceSchedulingWidget({
   geoCity?: string;
 }) {
   const [step, setStep] = useState<1 | 2 | 3>(1);
+  const [intent, setIntent] = useState<'1-on-1' | 'charla'>('1-on-1');
   const [isLoading, setIsLoading] = useState(false);
   const [isCheckingSlots, setIsCheckingSlots] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  
   const [busySlots, setBusySlots] = useState<{start: string, end: string}[]>([]);
+  const [charlas, setCharlas] = useState<any[]>([]);
   const [meetLink, setMeetLink] = useState<string | null>(null);
+  const [confirmedEventSummary, setConfirmedEventSummary] = useState<string | null>(null);
+  const [confirmedDateStr, setConfirmedDateStr] = useState<string | null>(null);
 
-  const { register, handleSubmit, watch, formState: { errors }, setValue, setError: setFormError, clearErrors } = useForm<FormData>();
+  const { register, handleSubmit, watch, formState: { errors }, setValue, trigger, getValues } = useForm<FormData>();
   const selectedDate = watch("date");
   const selectedTime = watch("time");
+  const selectedCharlaId = watch("charlaId");
 
-  // Set the preselected program if provided
   useEffect(() => {
-    if (preselectedProgramId) {
-      setValue("programOfInterest", preselectedProgramId);
-    }
+    if (preselectedProgramId) setValue("programOfInterest", preselectedProgramId);
   }, [preselectedProgramId, setValue]);
 
+  // Fetch upcoming charlas on mount
   useEffect(() => {
-    if (!selectedDate) return;
+    getUpcomingEvents().then(res => {
+      if (res.success) setCharlas(res.events);
+    });
+  }, []);
 
-    // Validate weekend
+  // Watch for date changes for 1-on-1
+  useEffect(() => {
+    if (!selectedDate || intent !== '1-on-1') return;
+
     const dateObj = new Date(`${selectedDate}T00:00:00`);
-    const day = dateObj.getDay(); // 0 = Sunday, 6 = Saturday
-    if (day === 0 || day === 6) {
+    if (dateObj.getDay() === 0 || dateObj.getDay() === 6) {
       setError("Los fines de semana no están disponibles para asesorías.");
       setValue("time", "");
       return;
@@ -78,10 +86,9 @@ export default function IceSchedulingWidget({
       setError(null);
     }
 
-    // Fetch real availability from Google Calendar via Server Action
     const fetchAvailability = async () => {
       setIsCheckingSlots(true);
-      setValue("time", ""); // clear time when date changes
+      setValue("time", "");
       try {
         const result = await checkAvailability(selectedDate);
         if (result.success && result.busySlots) {
@@ -90,7 +97,7 @@ export default function IceSchedulingWidget({
           setBusySlots([]);
         }
       } catch (err) {
-        console.error("Failed to fetch slots", err);
+        console.error(err);
         setBusySlots([]);
       } finally {
         setIsCheckingSlots(false);
@@ -98,32 +105,24 @@ export default function IceSchedulingWidget({
     };
 
     fetchAvailability();
-  }, [selectedDate, setValue]);
+  }, [selectedDate, intent, setValue]);
 
   const getAvailableTimeSlots = () => {
     if (!selectedDate) return AVAILABLE_TIMES;
-    
-    // Filter out busy slots dynamically
-    // Each busy slot has start and end ISO strings
     const busyTimesOnDate = busySlots.map(slot => {
       const start = new Date(slot.start);
-      // Extraemos la hora en formato HH:mm local (America/Bogota)
-      // Como el browser puede estar en otro timezone, forzamos UTC asumiendo que ya están normalizados o simplemente comparamos strings
-      // Es más seguro extraer la hora local asumiendo que el usuario está viendo la misma franja o hacer match de HH:mm
-      // Simplificaremos extrayendo en el tz de Bogota o usando Intl
-      const timeStr = start.toLocaleTimeString("es-CO", { timeZone: "America/Bogota", hour: "2-digit", minute: "2-digit", hour12: false });
-      return timeStr;
+      return start.toLocaleTimeString("es-CO", { timeZone: "America/Bogota", hour: "2-digit", minute: "2-digit", hour12: false });
     });
-
     return AVAILABLE_TIMES.filter(time => !busyTimesOnDate.includes(time));
   };
 
-  const onSubmit = async (data: FormData) => {
+  const handleStep1Submit = async () => {
+    const isValid = await trigger(["name", "email", "phone", "programOfInterest"]);
+    if (!isValid) return;
+
     setIsLoading(true);
     setError(null);
-    
     try {
-      // Extraer parámetros UTM
       const searchParams = new URLSearchParams(window.location.search);
       const utmData = {
         source: searchParams.get('utm_source'),
@@ -132,88 +131,104 @@ export default function IceSchedulingWidget({
         content: searchParams.get('utm_content')
       };
 
-      const result = await scheduleAppointment({ ...data, geoCity }, sourceCTA, utmData);
-
-      if (!result.success) {
-        throw new Error(result.error || "Hubo un error agendando la cita.");
-      }
-
-      if (result.data?.meetLink) {
-        setMeetLink(result.data.meetLink);
-      }
-
-      setStep(3);
+      // Create lead early so it hits the CRM
+      const result = await createLeadOnly({ ...getValues(), geoCity }, sourceCTA, utmData);
+      if (!result.success) throw new Error(result.error);
+      
+      setStep(2);
     } catch (err: any) {
-      setError(err.message || "No se pudo conectar con el servidor.");
+      setError(err.message || "Error conectando con el servidor");
     } finally {
       setIsLoading(false);
     }
   };
 
-  // Ensure minimum date is today
-  // Usamos el timezone local para dar el 'today' correcto
-  const today = new Date().toLocaleDateString("en-CA"); // YYYY-MM-DD
+  const handleStep2Submit = async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const data = getValues();
+      if (intent === '1-on-1') {
+        if (!data.date || !data.time) throw new Error("Selecciona fecha y hora");
+        const result = await scheduleAppointment({ ...data, geoCity }, sourceCTA);
+        if (!result.success) throw new Error(result.error);
+        if (result.data?.meetLink) setMeetLink(result.data.meetLink);
+        setConfirmedEventSummary(`Asesoría 1-on-1 ICE`);
+        setConfirmedDateStr(`${data.date} a las ${data.time}`);
+      } else {
+        if (!data.charlaId) throw new Error("Selecciona una charla");
+        const result = await registerForCharla(data.charlaId, { ...data, geoCity }, sourceCTA);
+        if (!result.success) throw new Error(result.error);
+        if (result.event?.meetLink) setMeetLink(result.event.meetLink);
+        setConfirmedEventSummary(result.event?.summary || 'Charla Grupal ICE');
+        if (result.event?.start) {
+            const d = new Date(result.event.start);
+            setConfirmedDateStr(d.toLocaleString("es-CO", { timeZone: "America/Bogota" }));
+        }
+      }
+      setStep(3);
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const today = new Date().toLocaleDateString("en-CA");
 
   return (
-    <div className="w-full max-w-4xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden text-left border border-gray-100 relative min-h-[500px]">
-      <div className="flex flex-col md:flex-row h-full min-h-[500px]">
-        {/* Sidebar Info */}
-        <div className="md:w-1/3 bg-gray-50 p-8 border-r border-gray-100 hidden md:block">
-          <h3 className="text-xl font-bold text-gray-900 mb-6">Asesoría ICE</h3>
-          
-          {geoCity && (
-            <div className="mb-6 p-4 bg-brand-gold/10 rounded-xl border border-brand-gold/20">
-              <p className="text-sm font-medium text-brand-dark">
-                Agenda tu cita virtual o presencial con nuestro equipo de ICE {geoCity}.
-              </p>
-            </div>
-          )}
-          
-          <div className="space-y-6">
-            <div className="flex items-start gap-3 text-gray-600">
-              <Clock className="w-5 h-5 text-brand-gold shrink-0 mt-0.5" />
-              <div>
-                <p className="font-medium text-gray-900">Duración</p>
-                <p className="text-sm">30 minutos</p>
+    <div className="w-full max-w-5xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden text-left border border-gray-100 relative min-h-[550px]">
+      <div className="flex flex-col md:flex-row h-full min-h-[550px]">
+        {/* Sidebar */}
+        <div className="md:w-1/3 bg-gray-50 p-8 border-r border-gray-100 hidden md:flex flex-col justify-between">
+          <div>
+            <h3 className="text-xl font-bold text-gray-900 mb-6">Asesorías y Eventos</h3>
+            {geoCity && (
+              <div className="mb-6 p-4 bg-brand-gold/10 rounded-xl border border-brand-gold/20">
+                <p className="text-sm font-medium text-brand-dark">
+                  Atención especial para prospectos en {geoCity}.
+                </p>
               </div>
-            </div>
-            
-            <div className="flex items-start gap-3 text-gray-600">
-              <Calendar className="w-5 h-5 text-brand-gold shrink-0 mt-0.5" />
-              <div>
-                <p className="font-medium text-gray-900">Modalidad</p>
-                <p className="text-sm">Reunión Virtual (Google Meet)</p>
+            )}
+            <div className="space-y-6">
+              <div className="flex items-start gap-3 text-gray-600">
+                <Video className="w-5 h-5 text-brand-gold shrink-0 mt-0.5" />
+                <div>
+                  <p className="font-medium text-gray-900">Modalidad Híbrida</p>
+                  <p className="text-sm">Asesorías 1-on-1 o Charlas Grupales vía Google Meet.</p>
+                </div>
               </div>
-            </div>
-
-            <div className="pt-6 mt-6 border-t border-gray-200">
-              <p className="text-sm text-gray-500">
-                Selecciona la fecha y hora que mejor se ajusten a tu disponibilidad. Nuestro equipo de asesores se conectará contigo para evaluar tu perfil y guiarte en tu proyecto.
-              </p>
+              <div className="flex items-start gap-3 text-gray-600">
+                <Calendar className="w-5 h-5 text-brand-gold shrink-0 mt-0.5" />
+                <div>
+                  <p className="font-medium text-gray-900">Sincronización Total</p>
+                  <p className="text-sm">Recibirás invitaciones directas a tu calendario.</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Main Content Area */}
+        {/* Main Content */}
         <div className="w-full md:w-2/3 p-6 md:p-8 relative flex flex-col">
           {/* Progress Bar */}
           <div className="mb-8 relative">
             <div className="absolute top-1/2 left-0 right-0 h-1 bg-gray-100 -translate-y-1/2 rounded-full"></div>
             <div 
-              className="absolute top-1/2 left-0 h-1 bg-brand-gold -translate-y-1/2 rounded-full transition-all duration-500 ease-in-out"
+              className="absolute top-1/2 left-0 h-1 bg-brand-gold -translate-y-1/2 rounded-full transition-all duration-500"
               style={{ width: step === 1 ? '0%' : step === 2 ? '50%' : '100%' }}
             ></div>
             <div className="relative flex justify-between">
               <div className="flex flex-col items-center gap-2 relative z-10">
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm transition-colors duration-300 ${step >= 1 ? 'bg-brand-gold text-white shadow-md shadow-brand-gold/30' : 'bg-gray-100 text-gray-400'}`}>1</div>
-                <span className={`text-xs font-medium ${step >= 1 ? 'text-gray-900' : 'text-gray-400'}`}>Fecha y Hora</span>
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm transition-colors ${step >= 1 ? 'bg-brand-gold text-white shadow-md' : 'bg-gray-100 text-gray-400'}`}>1</div>
+                <span className={`text-xs font-medium ${step >= 1 ? 'text-gray-900' : 'text-gray-400'}`}>Tus Datos</span>
               </div>
               <div className="flex flex-col items-center gap-2 relative z-10">
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm transition-colors duration-300 ${step >= 2 ? 'bg-brand-gold text-white shadow-md shadow-brand-gold/30' : 'bg-gray-100 text-gray-400'}`}>2</div>
-                <span className={`text-xs font-medium ${step >= 2 ? 'text-gray-900' : 'text-gray-400'}`}>Tus Datos</span>
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm transition-colors ${step >= 2 ? 'bg-brand-gold text-white shadow-md' : 'bg-gray-100 text-gray-400'}`}>2</div>
+                <span className={`text-xs font-medium ${step >= 2 ? 'text-gray-900' : 'text-gray-400'}`}>Modalidad</span>
               </div>
               <div className="flex flex-col items-center gap-2 relative z-10">
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm transition-colors duration-300 ${step >= 3 ? 'bg-brand-gold text-white shadow-md shadow-brand-gold/30' : 'bg-gray-100 text-gray-400'}`}>3</div>
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm transition-colors ${step >= 3 ? 'bg-brand-gold text-white shadow-md' : 'bg-gray-100 text-gray-400'}`}>3</div>
                 <span className={`text-xs font-medium ${step >= 3 ? 'text-gray-900' : 'text-gray-400'}`}>Confirmación</span>
               </div>
             </div>
@@ -221,207 +236,149 @@ export default function IceSchedulingWidget({
 
           <AnimatePresence mode="wait">
             {step === 1 && (
-              <motion.div
-                key="step1"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                className="space-y-6"
-              >
-                <h2 className="text-2xl font-bold text-gray-900">Selecciona Fecha y Hora</h2>
-                
-                {error && (
-                  <div className="p-3 bg-red-50 text-red-700 rounded-lg text-sm border border-red-100 mb-4">
-                    {error}
-                  </div>
-                )}
+              <motion.div key="step1" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
+                <h2 className="text-2xl font-bold text-gray-900">Cuéntanos sobre ti</h2>
+                {error && <div className="p-3 bg-red-50 text-red-700 rounded-lg text-sm border border-red-100">{error}</div>}
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-3">
-                    <label className="block text-sm font-medium text-gray-700">1. Elige una fecha</label>
-                    <input
-                      type="date"
-                      min={today}
-                      {...register("date", { required: true })}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-brand-gold focus:border-transparent outline-none transition-all"
-                    />
+                <div className="space-y-4">
+                  <div className="space-y-1">
+                    <label className="text-sm font-medium text-gray-700 flex items-center gap-2"><User className="w-4 h-4" /> Nombre Completo</label>
+                    <input {...register("name", { required: true })} className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-brand-gold outline-none" placeholder="Ej. Juan Pérez" />
                   </div>
-
-                  <div className="space-y-3">
-                    <label className="block text-sm font-medium text-gray-700">2. Elige un horario</label>
-                    <div className="grid grid-cols-2 gap-2 max-h-[250px] overflow-y-auto pr-2 custom-scrollbar">
-                      {selectedDate ? (
-                        isCheckingSlots ? (
-                          <div className="col-span-2 flex justify-center py-8">
-                            <Loader2 className="w-6 h-6 animate-spin text-brand-gold" />
-                          </div>
-                        ) : getAvailableTimeSlots().length > 0 ? (
-                          getAvailableTimeSlots().map((time) => (
-                            <button
-                              key={time}
-                              type="button"
-                              onClick={() => setValue("time", time)}
-                              className={`py-3 px-4 text-base md:text-sm rounded-xl border transition-all ${
-                                selectedTime === time
-                                  ? "bg-brand-gold text-white border-brand-gold font-bold shadow-md shadow-brand-gold/20"
-                                  : "border-gray-200 text-gray-700 hover:border-brand-gold/50 hover:bg-brand-gold/5 font-medium"
-                              }`}
-                            >
-                              {time}
-                            </button>
-                          ))
-                        ) : (
-                          <p className="col-span-2 text-sm text-gray-500 py-4 text-center">No hay horarios disponibles en esta fecha.</p>
-                        )
-                      ) : (
-                        <p className="col-span-2 text-sm text-gray-500 py-4 text-center">Selecciona una fecha primero</p>
-                      )}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-1">
+                      <label className="text-sm font-medium text-gray-700 flex items-center gap-2"><Mail className="w-4 h-4" /> Correo Electrónico</label>
+                      <input type="email" {...register("email", { required: true, pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i })} className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-brand-gold outline-none" placeholder="tucorreo@ejemplo.com" />
                     </div>
+                    <div className="space-y-1">
+                      <label className="text-sm font-medium text-gray-700 flex items-center gap-2"><Phone className="w-4 h-4" /> Teléfono / WhatsApp</label>
+                      <input type="tel" {...register("phone", { required: true })} className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-brand-gold outline-none" placeholder="+57 300 000 0000" />
+                    </div>
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-sm font-medium text-gray-700">Programa de Interés</label>
+                    <select {...register("programOfInterest", { required: true })} className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-brand-gold outline-none bg-white disabled:bg-gray-100" disabled={lockProgram || !!preselectedProgramId}>
+                      <option value="">Selecciona un programa</option>
+                      {(programs?.length ? programs : FALLBACK_PROGRAMS).map(p => (
+                        <option key={p.id} value={p.id}>{p.name}</option>
+                      ))}
+                    </select>
                   </div>
                 </div>
 
-                <div className="pt-6 flex justify-end">
-                  <button
-                    onClick={() => {
-                      if (selectedDate && selectedTime && !error) setStep(2);
-                    }}
-                    disabled={!selectedDate || !selectedTime || !!error}
-                    className="flex items-center justify-center px-6 py-3 bg-gray-900 text-white rounded-xl hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
-                  >
-                    Siguiente Paso
-                    <ArrowRight className="w-4 h-4 ml-2" />
+                <div className="pt-4 flex justify-end">
+                  <button onClick={handleStep1Submit} disabled={isLoading} className="flex items-center px-6 py-3 bg-brand-gold text-white rounded-xl hover:bg-yellow-500 disabled:opacity-50 transition-all font-bold">
+                    {isLoading ? <Loader2 className="w-5 h-5 mr-2 animate-spin" /> : "Siguiente"}
+                    {!isLoading && <ArrowRight className="w-4 h-4 ml-2" />}
                   </button>
                 </div>
               </motion.div>
             )}
 
             {step === 2 && (
-              <motion.div
-                key="step2"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                className="space-y-6"
-              >
-                <div className="flex items-center gap-3 mb-6">
-                  <button onClick={() => setStep(1)} className="text-sm text-gray-500 hover:text-gray-900 transition-colors">
-                    ← Volver
-                  </button>
-                  <h2 className="text-2xl font-bold text-gray-900">Tus Datos</h2>
+              <motion.div key="step2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6 flex flex-col h-full">
+                <div className="flex items-center gap-3">
+                  <button onClick={() => setStep(1)} className="text-sm text-gray-500 hover:text-gray-900 transition-colors">← Volver</button>
+                  <h2 className="text-2xl font-bold text-gray-900">¿Cómo prefieres continuar?</h2>
+                </div>
+                {error && <div className="p-3 bg-red-50 text-red-700 rounded-lg text-sm border border-red-100">{error}</div>}
+
+                <div className="flex gap-4 p-1 bg-gray-100 rounded-xl">
+                  <button type="button" onClick={() => { setIntent('1-on-1'); setError(null); }} className={`flex-1 py-2.5 px-4 rounded-lg text-sm font-bold transition-all ${intent === '1-on-1' ? 'bg-white shadow text-gray-900' : 'text-gray-500 hover:text-gray-700'}`}>Asesoría 1-on-1</button>
+                  <button type="button" onClick={() => { setIntent('charla'); setError(null); }} className={`flex-1 py-2.5 px-4 rounded-lg text-sm font-bold transition-all ${intent === 'charla' ? 'bg-white shadow text-gray-900' : 'text-gray-500 hover:text-gray-700'}`}>Charla Grupal</button>
                 </div>
 
-                {error && (
-                  <div className="p-4 bg-red-50 text-red-700 rounded-xl text-sm border border-red-100">
-                    {error}
-                  </div>
-                )}
-
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                  <div className="space-y-1">
-                    <label className="text-sm font-medium text-gray-700 flex items-center gap-2">
-                      <User className="w-4 h-4" /> Nombre Completo
-                    </label>
-                    <input
-                      {...register("name", { required: true })}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-brand-gold outline-none"
-                      placeholder="Ej. Juan Pérez"
-                    />
-                    {errors.name && <span className="text-xs text-red-500">Este campo es requerido</span>}
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="space-y-1">
-                      <label className="text-sm font-medium text-gray-700 flex items-center gap-2">
-                        <Mail className="w-4 h-4" /> Correo Electrónico
-                      </label>
-                      <input
-                        type="email"
-                        {...register("email", { 
-                          required: true,
-                          pattern: {
-                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                            message: "Correo electrónico inválido"
-                          }
-                        })}
-                        className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-brand-gold outline-none"
-                        placeholder="tucorreo@ejemplo.com"
-                      />
-                      {errors.email && <span className="text-xs text-red-500">{errors.email.message || "Este campo es requerido"}</span>}
+                <div className="flex-1 overflow-y-auto">
+                  {intent === '1-on-1' && (
+                    <div className="space-y-4">
+                      <div className="space-y-2">
+                        <label className="block text-sm font-medium text-gray-700">Elige una fecha para tu asesoría individual:</label>
+                        <input type="date" min={today} {...register("date")} className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-brand-gold outline-none" />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="block text-sm font-medium text-gray-700">Elige un horario:</label>
+                        <div className="grid grid-cols-3 gap-2">
+                          {selectedDate ? (
+                            isCheckingSlots ? (
+                              <div className="col-span-3 py-4 flex justify-center"><Loader2 className="w-6 h-6 animate-spin text-brand-gold" /></div>
+                            ) : getAvailableTimeSlots().length > 0 ? (
+                              getAvailableTimeSlots().map(time => (
+                                <button key={time} type="button" onClick={() => setValue("time", time)} className={`py-2 px-3 text-sm rounded-lg border transition-all ${selectedTime === time ? "bg-brand-gold text-white border-brand-gold font-bold" : "border-gray-200 text-gray-700 hover:bg-gray-50"}`}>
+                                  {time}
+                                </button>
+                              ))
+                            ) : <p className="col-span-3 text-sm text-gray-500 py-2">No hay cupos disponibles.</p>
+                          ) : <p className="col-span-3 text-sm text-gray-500 py-2">Selecciona una fecha primero</p>}
+                        </div>
+                      </div>
                     </div>
-                    
-                    <div className="space-y-1">
-                      <label className="text-sm font-medium text-gray-700 flex items-center gap-2">
-                        <Phone className="w-4 h-4" /> Teléfono / WhatsApp
-                      </label>
-                      <input
-                        type="tel"
-                        {...register("phone", { required: true })}
-                        className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-brand-gold outline-none"
-                        placeholder="+57 300 000 0000"
-                      />
-                      {errors.phone && <span className="text-xs text-red-500">Este campo es requerido</span>}
-                    </div>
-                  </div>
+                  )}
 
-                  <div className="space-y-1">
-                    <label className="text-sm font-medium text-gray-700">Programa de Interés</label>
-                    <select
-                      {...register("programOfInterest", { required: true })}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-brand-gold outline-none bg-white disabled:bg-gray-100 disabled:text-gray-600"
-                      disabled={lockProgram || !!preselectedProgramId}
-                    >
-                      <option value="">Selecciona un programa</option>
-                      {(programs && programs.length > 0 ? programs : FALLBACK_PROGRAMS).map(p => (
-                        <option key={p.id} value={p.id}>{p.name}</option>
-                      ))}
-                    </select>
-                    {errors.programOfInterest && <span className="text-xs text-red-500">Selecciona un programa</span>}
-                  </div>
-
-                  <div className="pt-4">
-                    <button
-                      type="submit"
-                      disabled={isLoading}
-                      className="w-full flex items-center justify-center px-6 py-4 bg-brand-gold text-white rounded-xl hover:bg-yellow-500 disabled:opacity-70 transition-all font-bold text-lg"
-                    >
-                      {isLoading ? (
-                        <>
-                          <Loader2 className="w-5 h-5 mr-2 animate-spin" /> Procesando...
-                        </>
+                  {intent === 'charla' && (
+                    <div className="space-y-3">
+                      <p className="text-sm text-gray-600 mb-2">Selecciona una de nuestras próximas charlas o eventos especiales:</p>
+                      {charlas.length > 0 ? (
+                        <div className="space-y-3 max-h-[250px] overflow-y-auto pr-2 custom-scrollbar">
+                          {charlas.map(charla => {
+                            const isSelected = selectedCharlaId === charla.id;
+                            const d = new Date(charla.start);
+                            return (
+                              <div 
+                                key={charla.id} 
+                                onClick={() => setValue("charlaId", charla.id)}
+                                className={`p-4 rounded-xl border cursor-pointer transition-all ${isSelected ? 'border-brand-gold bg-brand-gold/5 ring-1 ring-brand-gold' : 'border-gray-200 hover:border-brand-gold/30 hover:bg-gray-50'}`}
+                              >
+                                <div className="flex justify-between items-start">
+                                  <div>
+                                    <h4 className={`font-bold ${isSelected ? 'text-brand-dark' : 'text-gray-900'}`}>{charla.summary}</h4>
+                                    <p className="text-xs text-gray-500 mt-1 flex items-center"><Calendar className="w-3 h-3 mr-1"/> {d.toLocaleDateString("es-CO", { weekday: 'long', month: 'long', day: 'numeric' })} a las {d.toLocaleTimeString("es-CO", { hour: '2-digit', minute: '2-digit' })}</p>
+                                  </div>
+                                  {isSelected && <CheckCircle2 className="w-5 h-5 text-brand-gold" />}
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
                       ) : (
-                        "Confirmar Cita"
+                         <div className="p-8 text-center bg-gray-50 rounded-xl border border-gray-100">
+                           <Users className="w-8 h-8 mx-auto text-gray-300 mb-2" />
+                           <p className="text-sm text-gray-500">Actualmente no hay charlas programadas. Por favor agenda una asesoría 1-on-1.</p>
+                         </div>
                       )}
-                    </button>
-                  </div>
-                </form>
+                    </div>
+                  )}
+                </div>
+
+                <div className="pt-4 flex justify-end mt-auto">
+                  <button onClick={handleStep2Submit} disabled={isLoading || (intent === '1-on-1' && (!selectedDate || !selectedTime)) || (intent === 'charla' && !selectedCharlaId)} className="flex items-center px-6 py-3 bg-brand-gold text-white rounded-xl hover:bg-yellow-500 disabled:opacity-50 transition-all font-bold">
+                    {isLoading ? <Loader2 className="w-5 h-5 mr-2 animate-spin" /> : "Confirmar Agendamiento"}
+                  </button>
+                </div>
               </motion.div>
             )}
 
             {step === 3 && (
-              <motion.div
-                key="step3"
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="flex flex-col items-center justify-center h-full text-center space-y-4 py-12"
-              >
-                <div className="w-20 h-20 bg-green-50 text-green-500 rounded-full flex items-center justify-center mb-4">
-                  <CheckCircle2 className="w-10 h-10" />
+              <motion.div key="step3" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="flex flex-col items-center justify-center h-full text-center space-y-4 py-8">
+                <div className="w-16 h-16 bg-green-50 text-green-500 rounded-full flex items-center justify-center mb-2">
+                  <CheckCircle2 className="w-8 h-8" />
                 </div>
-                <h2 className="text-3xl font-bold text-gray-900">¡Cita Confirmada!</h2>
-                <p className="text-gray-600 max-w-md mx-auto">
-                  Hemos enviado los detalles de tu reunión por correo electrónico. Un asesor se conectará contigo en la fecha y hora seleccionada.
+                <h2 className="text-3xl font-bold text-gray-900">¡Inscripción Confirmada!</h2>
+                <p className="text-gray-600 max-w-md mx-auto text-sm">
+                  {intent === 'charla' 
+                    ? "Te has registrado exitosamente a la charla. Hemos enviado la invitación a tu calendario." 
+                    : "Tu asesoría individual está confirmada. Revisa tu correo o calendario para los detalles."}
                 </p>
-                <div className="bg-gray-50 p-6 rounded-xl w-full mt-6 text-left space-y-2 border border-gray-100">
-                  <p><span className="text-gray-500">Fecha:</span> <span className="font-medium text-gray-900">{selectedDate}</span></p>
-                  <p><span className="text-gray-500">Hora:</span> <span className="font-medium text-gray-900">{selectedTime}</span></p>
+                <div className="bg-gray-50 p-6 rounded-xl w-full mt-4 text-left space-y-2 border border-gray-100">
+                  <p><span className="text-gray-500">Evento:</span> <span className="font-medium text-gray-900">{confirmedEventSummary}</span></p>
+                  <p><span className="text-gray-500">Cuándo:</span> <span className="font-medium text-gray-900">{confirmedDateStr}</span></p>
                   <p><span className="text-gray-500">Programa:</span> <span className="font-medium text-gray-900">
-                    {(programs && programs.length > 0 ? programs : FALLBACK_PROGRAMS).find(p => p.id === watch("programOfInterest"))?.name || watch("programOfInterest")}
+                    {(programs?.length ? programs : FALLBACK_PROGRAMS).find(p => p.id === watch("programOfInterest"))?.name || watch("programOfInterest")}
                   </span></p>
                   {meetLink && (
                     <div className="pt-4 mt-4 border-t border-gray-200">
-                      <p className="text-gray-500 mb-2">Enlace de Google Meet:</p>
-                      <a href={meetLink} target="_blank" rel="noopener noreferrer" className="text-brand-gold font-bold hover:underline break-all">
-                        {meetLink}
+                      <p className="text-gray-500 mb-2">Enlace de Conexión:</p>
+                      <a href={meetLink} target="_blank" rel="noopener noreferrer" className="text-brand-gold font-bold hover:underline break-all inline-flex items-center">
+                        <Video className="w-4 h-4 mr-2" /> Unirse a Google Meet
                       </a>
                     </div>
                   )}
@@ -435,11 +392,7 @@ export default function IceSchedulingWidget({
                   </div>
                 )}
 
-                <Link
-                  href="/"
-                  prefetch={false}
-                  className="mt-8 px-6 py-3 bg-gray-900 text-white rounded-xl hover:bg-gray-800 transition-all block text-center"
-                >
+                <Link href="/" prefetch={false} className="mt-8 px-6 py-3 bg-gray-900 text-white rounded-xl hover:bg-gray-800 transition-all block text-center">
                   Volver al Inicio
                 </Link>
               </motion.div>

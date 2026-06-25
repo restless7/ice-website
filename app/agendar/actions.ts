@@ -214,3 +214,138 @@ export async function scheduleAppointment(data: {
     return { success: false, error: "Ha ocurrido un error interno. Intente nuevamente." };
   }
 }
+
+export async function getUpcomingEvents() {
+  try {
+    const calendarId = "c_15dde54e2f16372ac3a793a2cee048bdc03ef8b0f52599d5d32fc954732b2b5b@group.calendar.google.com";
+    const privateKey = (process.env.GOOGLE_PRIVATE_KEY || "").replace(/\\n/g, "\n");
+    
+    if (!process.env.GOOGLE_CLIENT_EMAIL || !privateKey) {
+      console.warn("Google credentials not configured, cannot fetch events.");
+      return { success: false, events: [] };
+    }
+
+    const auth = new google.auth.JWT({
+      email: process.env.GOOGLE_CLIENT_EMAIL,
+      key: privateKey,
+      scopes: ["https://www.googleapis.com/auth/calendar.readonly", "https://www.googleapis.com/auth/calendar.events"]
+    });
+
+    const calendar = google.calendar({ version: "v3", auth });
+
+    const now = new Date();
+    // Get events for the next 30 days
+    const timeMax = new Date();
+    timeMax.setDate(now.getDate() + 30);
+
+    const response = await calendar.events.list({
+      calendarId,
+      timeMin: now.toISOString(),
+      timeMax: timeMax.toISOString(),
+      singleEvents: true,
+      orderBy: "startTime",
+    });
+
+    const events = (response.data.items || []).map(event => ({
+      id: event.id,
+      summary: event.summary,
+      description: event.description,
+      start: event.start?.dateTime || event.start?.date,
+      end: event.end?.dateTime || event.end?.date,
+      location: event.location,
+      meetLink: event.hangoutLink
+    }));
+    
+    return { success: true, events };
+  } catch (error) {
+    console.error("Error checking upcoming events in Google Calendar:", error);
+    return { success: false, events: [], error: "No se pudo consultar eventos" };
+  }
+}
+
+export async function createLeadOnly(data: any, sourceCTA: string = "Website Form", utmData?: any) {
+  try {
+    const portalUrl = process.env.PORTAL_API_URL || process.env.NEXT_PUBLIC_PORTAL_API_URL || "http://localhost:3000";
+    
+    const leadRes = await fetch(`${portalUrl}/api/leads`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        fullName: data.name,
+        email: data.email,
+        phone: data.phone,
+        programId: data.programOfInterest,
+        source: sourceCTA,
+        notes: `Interesado desde ${sourceCTA}.\nPrograma: ${data.programOfInterest}`,
+        utmData: utmData,
+        geoContext: data.geoCity
+      })
+    });
+
+    if (!leadRes.ok && leadRes.status !== 409) {
+      throw new Error(await leadRes.text());
+    }
+
+    const leadData = await leadRes.json();
+    return { success: true, data: leadData.data };
+  } catch (err: any) {
+    console.error("Error creating lead only:", err);
+    return { success: false, error: err.message };
+  }
+}
+
+export async function registerForCharla(eventId: string, data: any, sourceCTA: string = "Website Form", utmData?: any) {
+  try {
+    // 1. Create/Update Lead in CRM
+    await createLeadOnly(data, sourceCTA, utmData);
+
+    // 2. Add attendee to Google Calendar Event
+    const calendarId = "c_15dde54e2f16372ac3a793a2cee048bdc03ef8b0f52599d5d32fc954732b2b5b@group.calendar.google.com";
+    const privateKey = (process.env.GOOGLE_PRIVATE_KEY || "").replace(/\\n/g, "\n");
+    
+    if (!process.env.GOOGLE_CLIENT_EMAIL || !privateKey) {
+      return { success: true, message: "Lead captured, but calendar sync disabled." };
+    }
+
+    const auth = new google.auth.JWT({
+      email: process.env.GOOGLE_CLIENT_EMAIL,
+      key: privateKey,
+      scopes: ["https://www.googleapis.com/auth/calendar.readonly", "https://www.googleapis.com/auth/calendar.events"]
+    });
+
+    const calendar = google.calendar({ version: "v3", auth });
+
+    // Fetch existing event
+    const event = await calendar.events.get({
+      calendarId,
+      eventId,
+    });
+
+    const attendees = event.data.attendees || [];
+    // Check if already registered
+    if (!attendees.find(a => a.email === data.email)) {
+      attendees.push({ email: data.email });
+      
+      await calendar.events.patch({
+        calendarId,
+        eventId,
+        sendUpdates: "all",
+        requestBody: {
+          attendees
+        }
+      });
+    }
+
+    return { 
+      success: true, 
+      event: {
+        summary: event.data.summary,
+        start: event.data.start?.dateTime || event.data.start?.date,
+        meetLink: event.data.hangoutLink
+      }
+    };
+  } catch (error: any) {
+    console.error("Error registering for Charla:", error);
+    return { success: false, error: "No se pudo registrar a la charla." };
+  }
+}
