@@ -76,6 +76,7 @@ const defaultNavigation = {
       icon: 'Briefcase' as IconName,
       children: [
         { name: 'Working Holiday Alemania 2026', href: '/programas/working-holiday-alemania-2026' },
+        { name: 'Asia Internship 2026', href: '/programas/internship-asia-2026' },
         { name: 'Work and Travel USA', href: '/programas/summer-work-and-travel' },
         { name: 'Au Pair USA', href: '/programas/au-pair-usa' },
         { name: 'Camp Counselor USA', href: '/programas/camp-counselor' },
