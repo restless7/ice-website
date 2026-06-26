@@ -6,6 +6,7 @@ import IceAboutSection from "@/app/components/ice/ice-about-section";
 import IceExperiencesSection from "@/app/components/ice/ice-experiences-section";
 import IceNewsSection from "@/app/components/ice/ice-news-section";
 import IceContactSection from "@/app/components/ice/ice-contact-section";
+import { WatLaunchBanner } from "@/app/components/ice/wat-launch-banner";
 
 export const metadata: Metadata = {
   title: "ICE | Explora el Mundo con Nosotros - Instituto Cultural de Educación",
@@ -20,6 +21,9 @@ export default function HomePage() {
         <div className="relative w-full" id="inicio">
           <IceNewHeroSection />
         </div>
+
+        {/* WAT 2027 Launch Banner */}
+        <WatLaunchBanner />
 
         {/* 2.2 Programs Section - ¿A cuál programa de intercambio te gustaría aplicar? */}
         <div className="relative w-full" id="programas">

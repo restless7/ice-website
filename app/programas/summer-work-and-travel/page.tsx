@@ -14,6 +14,7 @@ import {
   EnvelopeIcon,
   UsersIcon
 } from "@heroicons/react/24/outline";
+import { WatLaunchForm } from "@/app/components/ice/wat-launch-form";
 
 export const metadata: Metadata = {
   title: "Summer Work and Travel USA | ICE - Instituto Cultural de Educación",
@@ -87,6 +88,48 @@ export default function SummerWorkAndTravel() {
                       <strong>Sponsors oficiales:</strong><br />
                       ERDT, Signature, Life Adventures, American World Adventures
                     </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Inline Form Section for WAT 2027 */}
+        <section className="py-16 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
+          <div className="absolute inset-0 bg-[url('/images/grid-pattern.svg')] opacity-5"></div>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div className="bg-brand-blue rounded-3xl p-8 md:p-12 shadow-2xl overflow-hidden border border-blue-800/50">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div className="text-left text-white">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-gold/20 border border-brand-gold/30 text-brand-gold text-xs font-semibold tracking-wider uppercase mb-6">
+                    Lanzamiento Oficial 2027
+                  </div>
+                  <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                    Asegura tu lugar en la Info Meeting
+                  </h2>
+                  <p className="text-blue-100 text-lg mb-8">
+                    Déjanos tus datos para enviarte la invitación oficial a nuestra próxima sesión informativa. Conoce cómo asegurar tu cupo para la temporada 2027.
+                  </p>
+                  <ul className="space-y-4">
+                    <li className="flex items-center text-blue-50">
+                      <CheckCircleIcon className="w-6 h-6 text-brand-gold mr-3 flex-shrink-0" />
+                      Resolución de dudas en vivo
+                    </li>
+                    <li className="flex items-center text-blue-50">
+                      <CheckCircleIcon className="w-6 h-6 text-brand-gold mr-3 flex-shrink-0" />
+                      Proceso paso a paso para la J-1
+                    </li>
+                    <li className="flex items-center text-blue-50">
+                      <CheckCircleIcon className="w-6 h-6 text-brand-gold mr-3 flex-shrink-0" />
+                      Acceso prioritario a convocatorias de empleo
+                    </li>
+                  </ul>
+                </div>
+                <div className="relative">
+                  {/* We apply a dark theme to the form wrapper to match the blue background */}
+                  <div className="relative z-10 dark bg-slate-900/40 p-2 md:p-4 rounded-3xl backdrop-blur-xl border border-white/10 shadow-2xl">
+                    <WatLaunchForm sourceCTA="Program Page - WAT 2027 Inline Form" />
                   </div>
                 </div>
               </div>
