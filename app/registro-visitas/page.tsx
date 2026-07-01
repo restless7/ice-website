@@ -8,10 +8,9 @@ import {
   PhoneIcon, 
   IdentificationIcon, 
   ChatBubbleLeftRightIcon, 
-  ArrowRightIcon,
-  CheckCircleIcon,
   ArrowLeftIcon,
-  XMarkIcon
+  XMarkIcon,
+  MegaphoneIcon
 } from "@heroicons/react/24/outline";
 import IceLayoutWrapper from "@/app/components/ice/ice-layout-wrapper";
 import { supabase } from "@/app/lib/supabaseClient";
@@ -89,6 +88,7 @@ export default function RegistroVisitasPage() {
     idNumber: '',
     phone: '',
     reason: '',
+    heardAboutUs: '',
   });
 
   const commonReasons = [
@@ -132,6 +132,26 @@ export default function RegistroVisitasPage() {
 
       if (error) throw error;
       
+      // Feed data to the central Portal (Leads/Student Activity)
+      try {
+        await fetch('https://portal.iceworldteam.com/api/public/visits', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+             email: formData.email.trim().toLowerCase(),
+             fullName: formData.fullName.trim(),
+             idType: formData.idType,
+             idNumber: formData.idNumber.trim(),
+             phone: formData.phone.trim(),
+             reason: formData.reason.trim(),
+             heardAboutUs: formData.heardAboutUs
+          })
+        });
+      } catch (e) {
+        console.error('Error feeding to portal:', e);
+        // We don't block the UI if the portal is down
+      }
+
       setShowSuccess(true);
     } catch (error) {
       console.error('Error submitting form:', error);
@@ -181,6 +201,25 @@ export default function RegistroVisitasPage() {
 
       if (error) throw error;
       
+      // Feed data to the central Portal
+      try {
+        await fetch('https://portal.iceworldteam.com/api/public/visits', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+             email: previousRecord.email,
+             fullName: previousRecord.full_name,
+             idType: previousRecord.id_type,
+             idNumber: formData.idNumber.trim(),
+             phone: previousRecord.phone,
+             reason: finalReasons,
+             heardAboutUs: 'Visitante Frecuente'
+          })
+        });
+      } catch (e) {
+        console.error('Error feeding to portal:', e);
+      }
+      
       // Update local state for success modal display
       setFormData(prev => ({ ...prev, fullName: previousRecord.full_name }));
       setShowSuccess(true);
@@ -200,6 +239,7 @@ export default function RegistroVisitasPage() {
       idNumber: '',
       phone: '',
       reason: '',
+      heardAboutUs: '',
     });
     setSelectedReasons([]);
     setFlowType('selection');
@@ -300,6 +340,33 @@ export default function RegistroVisitasPage() {
                         <div className="relative group">
                           <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 font-mono group-focus-within:text-brand-gold transition-colors">#</span>
                           <input type="text" id="idNumber" name="idNumber" value={formData.idNumber} onChange={handleInputChange} required className="w-full pl-12 pr-4 py-4 bg-gray-50/50 border border-gray-100 rounded-2xl focus:ring-4 focus:ring-brand-gold/10 focus:border-brand-gold transition-all text-gray-800 font-mono" placeholder="123456" />
+                        </div>
+                      </div>
+                      <div className="md:col-span-2">
+                        <label htmlFor="phone" className="block text-sm font-semibold text-gray-900 mb-2 uppercase tracking-wide text-xs">Teléfono / Celular *</label>
+                        <div className="relative group">
+                          <PhoneIcon className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-brand-gold transition-colors" />
+                          <input type="tel" id="phone" name="phone" value={formData.phone} onChange={handleInputChange} required className="w-full pl-12 pr-4 py-4 bg-gray-50/50 border border-gray-100 rounded-2xl focus:ring-4 focus:ring-brand-gold/10 focus:border-brand-gold transition-all text-gray-800" placeholder="Ej. 3001234567" />
+                        </div>
+                      </div>
+                      <div className="md:col-span-2">
+                        <label htmlFor="heardAboutUs" className="block text-sm font-semibold text-gray-900 mb-2 uppercase tracking-wide text-xs">¿Cómo te enteraste de ICE? *</label>
+                        <div className="relative group">
+                          <MegaphoneIcon className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 z-10 pointer-events-none group-focus-within:text-brand-gold transition-colors" />
+                          <select id="heardAboutUs" name="heardAboutUs" value={formData.heardAboutUs} onChange={handleInputChange} required className="w-full pl-12 pr-10 py-4 bg-gray-50/50 border border-gray-100 rounded-2xl focus:ring-4 focus:ring-brand-gold/10 focus:border-brand-gold transition-all text-gray-800 appearance-none relative">
+                            <option value="" disabled>Selecciona una opción</option>
+                            <option value="Instagram">Instagram</option>
+                            <option value="Facebook">Facebook</option>
+                            <option value="Tiktok">Tiktok</option>
+                            <option value="Google">Búsqueda en Google</option>
+                            <option value="Referido">Recomendación / Referido</option>
+                            <option value="Feria">Feria Universitaria</option>
+                            <option value="Paso por la oficina">Pasaba por la oficina</option>
+                            <option value="Otro">Otro</option>
+                          </select>
+                          <div className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-gray-400">
+                            <svg className="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clipRule="evenodd"/></svg>
+                          </div>
                         </div>
                       </div>
                     </div>
