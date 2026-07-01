@@ -29,7 +29,7 @@ export default function IceNavigation() {
     { name: "ICE News", href: "/news" },
     { name: "Contácto", href: "/contacto" },
     { name: "Agendar", href: "/agendar" },
-    { name: "Portal", href: "http://192.168.1.97:3000/portal" }
+    { name: "Portal", href: "/student-portal" }
   ];
 
   return (

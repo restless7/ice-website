@@ -337,7 +337,7 @@ export default function PublicNavigation({
             
             {/* Login */}
             <Link
-              href="http://192.168.1.97:3000/portal"
+              href="/student-portal"
               className="flex items-center space-x-2 text-white hover:text-brand-gold transition-colors duration-300"
             >
               <LogIn className="w-4 h-4" />
