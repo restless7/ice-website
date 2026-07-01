@@ -8,6 +8,8 @@ import {
   PhoneIcon, 
   IdentificationIcon, 
   ChatBubbleLeftRightIcon, 
+  ArrowRightIcon,
+  CheckCircleIcon,
   ArrowLeftIcon,
   XMarkIcon,
   MegaphoneIcon
