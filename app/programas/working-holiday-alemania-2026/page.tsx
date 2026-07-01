@@ -48,7 +48,7 @@ export default async function WorkingHolidayAlemania() {
   let preselectedProgramId = "Working Holiday Alemania 2026"; // Fallback string
 
   try {
-    const portalUrl = process.env.NEXT_PUBLIC_PORTAL_API_URL || 'http://localhost:3000';
+    const portalUrl = process.env.NEXT_PUBLIC_PORTAL_API_URL || 'https://api.iceworldteam.com';
     const res = await fetch(`${portalUrl}/api/public/programs`, {
       next: { revalidate: 3600 }
     });

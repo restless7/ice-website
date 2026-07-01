@@ -80,17 +80,27 @@ export default function IceContactoPage() {
         content: searchParams.get('utm_content')
       };
 
-      const portalUrl = process.env.NEXT_PUBLIC_PORTAL_API_URL || "http://localhost:3000";
-      const leadRes = await fetch(`${portalUrl}/api/leads`, {
+      const webhookUrl = "https://api.iceworldteam.com/api/webhooks/website-forms";
+      const leadRes = await fetch(webhookUrl, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+          "Content-Type": "application/json",
+          "Authorization": "Bearer ice-portal-secure-webhook-token" 
+        },
         body: JSON.stringify({
-          fullName: data.name,
+          formId: 'contacto',
+          firstName: data.name?.split(' ')[0] || data.name,
+          lastName: data.name?.split(' ').slice(1).join(' ') || '',
           email: data.email,
           phone: data.phone,
-          source: "Página de Contacto",
-          notes: `Motivo: ${data.programOfInterest}\nMensaje: ${data.message}`,
-          utmData: utmData
+          country: 'Colombia',
+          programOfInterest: data.programOfInterest,
+          utmSource: utmData?.source || null,
+          utmCampaign: utmData?.campaign || null,
+          metadata: {
+            sourceCTA: "Página de Contacto",
+            message: data.message
+          }
         })
       });
 

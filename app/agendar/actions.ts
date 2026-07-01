@@ -79,54 +79,46 @@ export async function scheduleAppointment(data: {
     let leadId = null;
     let personId = null;
     let dbError = null;
-    const portalUrl = process.env.PORTAL_API_URL || process.env.NEXT_PUBLIC_PORTAL_API_URL || "http://localhost:3000";
     
     try {
-      // a) Crear el Lead en el CRM
-      const leadRes = await fetch(`${portalUrl}/api/leads`, {
+      // Usar el nuevo webhook unificado
+      const webhookUrl = "https://api.iceworldteam.com/api/webhooks/website-forms";
+      const API_SECRET = process.env.WEBHOOK_SECRET || 'ice-portal-secure-webhook-token';
+      
+      const payload = {
+        formId: 'agendar',
+        firstName: data.name?.split(' ')[0] || data.name,
+        lastName: data.name?.split(' ').slice(1).join(' ') || '',
+        email: data.email,
+        phone: data.phone,
+        country: 'Colombia',
+        programOfInterest: data.programOfInterest,
+        utmSource: utmData?.source || null,
+        utmCampaign: utmData?.campaign || null,
+        metadata: {
+          sourceCTA,
+          geoCity: data.geoCity,
+          date: data.date,
+          time: data.time,
+          appointmentStart: startDate.toISOString(),
+          appointmentEnd: endDate.toISOString()
+        }
+      };
+
+      const leadRes = await fetch(webhookUrl, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          fullName: data.name,
-          email: data.email,
-          phone: data.phone,
-          programId: data.programOfInterest,
-          source: sourceCTA, // Usamos la variable inyectada
-          notes: `Agendamiento desde ${sourceCTA}.\nPrograma: ${data.programOfInterest}`,
-          utmData: utmData,
-          geoContext: data.geoCity
-        })
+        headers: { 
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${API_SECRET}`
+        },
+        body: JSON.stringify(payload)
       });
 
       if (!leadRes.ok && leadRes.status !== 409) {
         dbError = await leadRes.text();
       } else {
         const leadData = await leadRes.json();
-        leadId = leadData.data?.lead?.id;
-        personId = leadData.data?.lead?.personId;
-      }
-
-      // b) Agendar en el Calendario Central
-      if (!dbError) {
-        const apptRes = await fetch(`${portalUrl}/api/appointments`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            title: `Asesoría ICE: ${data.name}`,
-            description: `Programa de interés: ${data.programOfInterest}\nTeléfono: ${data.phone}`,
-            startTime: startDate.toISOString(),
-            durationMinutes: 30,
-            attendees: [{ email: data.email }],
-            calendarType: "ICE",
-            leadId,
-            personId,
-            fullName: data.name,
-            email: data.email
-          })
-        });
-        if (!apptRes.ok) {
-          console.warn("Appointment creation failed in portal, but lead was created.", await apptRes.text());
-        }
+        leadId = leadData.leadId;
       }
     } catch (err) {
       dbError = err;
@@ -265,21 +257,35 @@ export async function getUpcomingEvents() {
 
 export async function createLeadOnly(data: any, sourceCTA: string = "Website Form", utmData?: any) {
   try {
-    const portalUrl = process.env.PORTAL_API_URL || process.env.NEXT_PUBLIC_PORTAL_API_URL || "http://localhost:3000";
+    const webhookUrl = "https://api.iceworldteam.com/api/webhooks/website-forms";
+    const API_SECRET = process.env.WEBHOOK_SECRET || 'ice-portal-secure-webhook-token';
     
-    const leadRes = await fetch(`${portalUrl}/api/leads`, {
+    const payload = {
+      formId: sourceCTA.toLowerCase().includes('charla') ? 'agendar' : 'registro-visitas',
+      firstName: data.name?.split(' ')[0] || data.name,
+      lastName: data.name?.split(' ').slice(1).join(' ') || '',
+      email: data.email,
+      phone: data.phone,
+      country: 'Colombia', // default
+      programOfInterest: data.programOfInterest,
+      utmSource: utmData?.source || null,
+      utmCampaign: utmData?.campaign || null,
+      metadata: {
+        sourceCTA,
+        geoCity: data.geoCity,
+        charlaId: data.charlaId,
+        date: data.date,
+        time: data.time
+      }
+    };
+
+    const leadRes = await fetch(webhookUrl, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        fullName: data.name,
-        email: data.email,
-        phone: data.phone,
-        programId: data.programOfInterest,
-        source: sourceCTA,
-        notes: `Interesado desde ${sourceCTA}.\nPrograma: ${data.programOfInterest}`,
-        utmData: utmData,
-        geoContext: data.geoCity
-      })
+      headers: { 
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${API_SECRET}`
+      },
+      body: JSON.stringify(payload)
     });
 
     if (!leadRes.ok && leadRes.status !== 409) {
@@ -287,9 +293,9 @@ export async function createLeadOnly(data: any, sourceCTA: string = "Website For
     }
 
     const leadData = await leadRes.json();
-    return { success: true, data: leadData.data };
+    return { success: true, data: leadData };
   } catch (err: any) {
-    console.error("Error creating lead only:", err);
+    console.error("Error creating lead via webhook:", err);
     return { success: false, error: err.message };
   }
 }

@@ -136,17 +136,29 @@ export default function RegistroVisitasPage() {
       
       // Feed data to the central Portal (Leads/Student Activity)
       try {
-        await fetch('https://portal.iceworldteam.com/api/public/visits', {
+        const names = formData.fullName.trim().split(' ');
+        const firstName = names[0];
+        const lastName = names.slice(1).join(' ');
+
+        await fetch('https://api.iceworldteam.com/api/webhooks/website-forms', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ice-portal-secure-webhook-token'
+          },
           body: JSON.stringify({
+             formId: 'registro-visitas',
+             firstName: firstName,
+             lastName: lastName,
              email: formData.email.trim().toLowerCase(),
-             fullName: formData.fullName.trim(),
-             idType: formData.idType,
-             idNumber: formData.idNumber.trim(),
              phone: formData.phone.trim(),
-             reason: formData.reason.trim(),
-             heardAboutUs: formData.heardAboutUs
+             country: 'Colombia',
+             metadata: {
+               idType: formData.idType,
+               idNumber: formData.idNumber.trim(),
+               reason: formData.reason.trim(),
+               heardAboutUs: formData.heardAboutUs
+             }
           })
         });
       } catch (e) {
@@ -205,17 +217,29 @@ export default function RegistroVisitasPage() {
       
       // Feed data to the central Portal
       try {
-        await fetch('https://portal.iceworldteam.com/api/public/visits', {
+        const names = previousRecord.full_name.trim().split(' ');
+        const firstName = names[0];
+        const lastName = names.slice(1).join(' ');
+
+        await fetch('https://api.iceworldteam.com/api/webhooks/website-forms', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ice-portal-secure-webhook-token' 
+          },
           body: JSON.stringify({
+             formId: 'registro-visitas',
+             firstName: firstName,
+             lastName: lastName,
              email: previousRecord.email,
-             fullName: previousRecord.full_name,
-             idType: previousRecord.id_type,
-             idNumber: formData.idNumber.trim(),
              phone: previousRecord.phone,
-             reason: finalReasons,
-             heardAboutUs: 'Visitante Frecuente'
+             country: 'Colombia',
+             metadata: {
+               idType: previousRecord.id_type,
+               idNumber: formData.idNumber.trim(),
+               reason: finalReasons,
+               heardAboutUs: 'Visitante Frecuente'
+             }
           })
         });
       } catch (e) {

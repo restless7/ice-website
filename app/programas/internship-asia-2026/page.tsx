@@ -38,7 +38,7 @@ export default async function AsiaInternship() {
   let preselectedProgramId = "Asia Internship 2026"; 
 
   try {
-    const portalUrl = process.env.NEXT_PUBLIC_PORTAL_API_URL || 'http://localhost:3000';
+    const portalUrl = process.env.NEXT_PUBLIC_PORTAL_API_URL || 'https://api.iceworldteam.com';
     const res = await fetch(`${portalUrl}/api/public/programs`, {
       next: { revalidate: 3600 }
     });

@@ -49,18 +49,26 @@ export default function LeadCaptureForm({
         content: searchParams.get('utm_content')
       };
 
-      const portalUrl = process.env.NEXT_PUBLIC_PORTAL_API_URL || "http://localhost:3000";
-      const leadRes = await fetch(`${portalUrl}/api/leads`, {
+      const webhookUrl = "https://api.iceworldteam.com/api/webhooks/website-forms";
+      const leadRes = await fetch(webhookUrl, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+          "Content-Type": "application/json",
+          "Authorization": "Bearer ice-portal-secure-webhook-token" 
+        },
         body: JSON.stringify({
-          fullName: data.name,
+          formId: 'lead-capture',
+          firstName: data.name?.split(' ')[0] || data.name,
+          lastName: data.name?.split(' ').slice(1).join(' ') || '',
           email: data.email,
           phone: data.phone,
-          programId: data.programOfInterest,
-          source: sourceCTA,
-          notes: `Capturado desde ${sourceCTA}.\nPrograma: ${data.programOfInterest}`,
-          utmData: utmData
+          country: 'Colombia',
+          programOfInterest: data.programOfInterest,
+          utmSource: utmData?.source || null,
+          utmCampaign: utmData?.campaign || null,
+          metadata: {
+            sourceCTA
+          }
         })
       });
 
