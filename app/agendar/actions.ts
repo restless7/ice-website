@@ -138,6 +138,10 @@ export async function scheduleAppointment(data: {
     if (privateKey.startsWith("'") && privateKey.endsWith("'")) {
       privateKey = privateKey.slice(1, -1).replace(/\\n/g, "\n");
     }
+    privateKey = privateKey.trim();
+    if (privateKey && !privateKey.includes('BEGIN PRIVATE KEY')) {
+      privateKey = `-----BEGIN PRIVATE KEY-----\n${privateKey}\n-----END PRIVATE KEY-----\n`;
+    }
     let googleEventId = null;
     let meetLink = null;
     let syncStatus = "failed_google";
@@ -223,6 +227,10 @@ export async function getUpcomingEvents() {
     }
     if (privateKey.startsWith("'") && privateKey.endsWith("'")) {
       privateKey = privateKey.slice(1, -1).replace(/\\n/g, "\n");
+    }
+    privateKey = privateKey.trim();
+    if (privateKey && !privateKey.includes('BEGIN PRIVATE KEY')) {
+      privateKey = `-----BEGIN PRIVATE KEY-----\n${privateKey}\n-----END PRIVATE KEY-----\n`;
     }
     
     if (!process.env.GOOGLE_CLIENT_EMAIL || !privateKey) {
