@@ -209,7 +209,7 @@ export async function scheduleAppointment(data: {
 
 export async function getUpcomingEvents() {
   try {
-    const calendarId = "c_15dde54e2f16372ac3a793a2cee048bdc03ef8b0f52599d5d32fc954732b2b5b@group.calendar.google.com";
+    const calendarId = process.env.GOOGLE_CALENDAR_ID || "primary";
     const privateKey = (process.env.GOOGLE_PRIVATE_KEY || "").replace(/\\n/g, "\n");
     
     if (!process.env.GOOGLE_CLIENT_EMAIL || !privateKey) {
@@ -308,7 +308,7 @@ export async function registerForCharla(eventId: string, data: any, sourceCTA: s
     await createLeadOnly(data, sourceCTA, utmData);
 
     // 2. Add attendee to Google Calendar Event
-    const calendarId = "c_15dde54e2f16372ac3a793a2cee048bdc03ef8b0f52599d5d32fc954732b2b5b@group.calendar.google.com";
+    const calendarId = process.env.GOOGLE_CALENDAR_ID || "primary";
     const privateKey = (process.env.GOOGLE_PRIVATE_KEY || "").replace(/\\n/g, "\n");
     
     if (!process.env.GOOGLE_CLIENT_EMAIL || !privateKey) {
