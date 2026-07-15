@@ -1,6 +1,7 @@
 "use server";
 
 import { google } from "googleapis";
+import { unstable_noStore as noStore } from 'next/cache';
 import { format, parseISO } from "date-fns";
 import { formatInTimeZone, toDate } from "date-fns-tz";
 import { supabaseServer } from "@/app/lib/supabaseServer";
@@ -208,12 +209,13 @@ export async function scheduleAppointment(data: {
 }
 
 export async function getUpcomingEvents() {
+  noStore();
   try {
     const privateKey = (process.env.GOOGLE_PRIVATE_KEY || "").replace(/\\n/g, "\n");
     
     if (!process.env.GOOGLE_CLIENT_EMAIL || !privateKey) {
       console.warn("Google credentials not configured, cannot fetch events.");
-      return { success: false, events: [] };
+      return { success: false, events: [], error: "GOOGLE_CLIENT_EMAIL or GOOGLE_PRIVATE_KEY is missing in Vercel environment variables" };
     }
 
     const auth = new google.auth.JWT({
@@ -269,7 +271,7 @@ export async function getUpcomingEvents() {
     return { success: true, events };
   } catch (error) {
     console.error("Error checking upcoming events in Google Calendar:", error);
-    return { success: false, events: [], error: "No se pudo consultar eventos" };
+    return { success: false, events: [], error: error instanceof Error ? error.message : "No se pudo consultar eventos" };
   }
 }
 

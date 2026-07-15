@@ -69,7 +69,11 @@ export default function IceSchedulingWidget({
   // Fetch upcoming charlas on mount
   useEffect(() => {
     getUpcomingEvents().then(res => {
-      if (res.success) setCharlas(res.events);
+      if (res.success) {
+        setCharlas(res.events);
+      } else {
+        if (res.error) setError(`Error de Calendario: ${res.error}`);
+      }
     });
   }, []);
 
