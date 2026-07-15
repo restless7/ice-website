@@ -232,6 +232,9 @@ export async function getUpcomingEvents() {
     timeMax.setDate(now.getDate() + 30);
 
     let allItems: any[] = [];
+    let lastError: any = null;
+    let successCount = 0;
+
     for (const calId of calendarIds) {
       try {
         const response = await calendar.events.list({
@@ -244,9 +247,15 @@ export async function getUpcomingEvents() {
         if (response.data.items) {
           allItems = [...allItems, ...response.data.items];
         }
+        successCount++;
       } catch (err) {
         console.warn(`Failed to fetch events for calendar ${calId}`, err);
+        lastError = err;
       }
+    }
+
+    if (successCount === 0 && lastError) {
+      throw lastError;
     }
 
     // Sort combined events
