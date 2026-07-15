@@ -131,7 +131,13 @@ export async function scheduleAppointment(data: {
 
     // 4. Conectar a Google Calendar
     const calendarId = process.env.GOOGLE_CALENDAR_ID || "primary";
-    const privateKey = (process.env.GOOGLE_PRIVATE_KEY || "").replace(/\\n/g, "\n");
+    let privateKey = (process.env.GOOGLE_PRIVATE_KEY || "").replace(/\\n/g, "\n");
+    if (privateKey.startsWith('"') && privateKey.endsWith('"')) {
+      privateKey = privateKey.slice(1, -1).replace(/\\n/g, "\n");
+    }
+    if (privateKey.startsWith("'") && privateKey.endsWith("'")) {
+      privateKey = privateKey.slice(1, -1).replace(/\\n/g, "\n");
+    }
     let googleEventId = null;
     let meetLink = null;
     let syncStatus = "failed_google";
@@ -211,7 +217,13 @@ export async function scheduleAppointment(data: {
 export async function getUpcomingEvents() {
   noStore();
   try {
-    const privateKey = (process.env.GOOGLE_PRIVATE_KEY || "").replace(/\\n/g, "\n");
+    let privateKey = (process.env.GOOGLE_PRIVATE_KEY || "").replace(/\\n/g, "\n");
+    if (privateKey.startsWith('"') && privateKey.endsWith('"')) {
+      privateKey = privateKey.slice(1, -1).replace(/\\n/g, "\n");
+    }
+    if (privateKey.startsWith("'") && privateKey.endsWith("'")) {
+      privateKey = privateKey.slice(1, -1).replace(/\\n/g, "\n");
+    }
     
     if (!process.env.GOOGLE_CLIENT_EMAIL || !privateKey) {
       console.warn("Google credentials not configured, cannot fetch events.");
