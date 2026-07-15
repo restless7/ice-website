@@ -238,7 +238,9 @@ export async function getUpcomingEvents() {
       orderBy: "startTime",
     });
 
-    const events = (response.data.items || []).map(event => ({
+    const events = (response.data.items || [])
+      .filter(event => event.summary && event.summary.toLowerCase().includes('charla'))
+      .map(event => ({
       id: event.id,
       summary: event.summary,
       description: event.description,

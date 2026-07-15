@@ -109,11 +109,21 @@ export default function IceSchedulingWidget({
 
   const getAvailableTimeSlots = () => {
     if (!selectedDate) return AVAILABLE_TIMES;
+    
+    const now = new Date();
+    const todayStr = now.toLocaleDateString("en-CA", { timeZone: "America/Bogota" });
+    const isToday = selectedDate === todayStr;
+    const currentHourStr = now.toLocaleTimeString("es-CO", { timeZone: "America/Bogota", hour: "2-digit", minute: "2-digit", hour12: false });
+
     const busyTimesOnDate = busySlots.map(slot => {
       const start = new Date(slot.start);
       return start.toLocaleTimeString("es-CO", { timeZone: "America/Bogota", hour: "2-digit", minute: "2-digit", hour12: false });
     });
-    return AVAILABLE_TIMES.filter(time => !busyTimesOnDate.includes(time));
+
+    return AVAILABLE_TIMES.filter(time => {
+      if (isToday && time <= currentHourStr) return false;
+      return !busyTimesOnDate.includes(time);
+    });
   };
 
   const handleStep1Submit = async () => {
