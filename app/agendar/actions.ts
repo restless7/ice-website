@@ -356,7 +356,17 @@ export async function registerForCharla(eventId: string, data: any, sourceCTA: s
 
     // 2. Add attendee to Google Calendar Event
     const calendarId = process.env.GOOGLE_CALENDAR_ID || "primary";
-    const privateKey = (process.env.GOOGLE_PRIVATE_KEY || "").replace(/\\n/g, "\n");
+    let privateKey = (process.env.GOOGLE_PRIVATE_KEY || "").replace(/\\n/g, "\n");
+    if (privateKey.startsWith('"') && privateKey.endsWith('"')) {
+      privateKey = privateKey.slice(1, -1).replace(/\\n/g, "\n");
+    }
+    if (privateKey.startsWith("'") && privateKey.endsWith("'")) {
+      privateKey = privateKey.slice(1, -1).replace(/\\n/g, "\n");
+    }
+    privateKey = privateKey.trim();
+    if (privateKey && !privateKey.includes('BEGIN PRIVATE KEY')) {
+      privateKey = `-----BEGIN PRIVATE KEY-----\n${privateKey}\n-----END PRIVATE KEY-----\n`;
+    }
     
     if (!process.env.GOOGLE_CLIENT_EMAIL || !privateKey) {
       return { success: true, message: "Lead captured, but calendar sync disabled." };
