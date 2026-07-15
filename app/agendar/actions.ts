@@ -209,7 +209,6 @@ export async function scheduleAppointment(data: {
 
 export async function getUpcomingEvents() {
   try {
-    const calendarId = process.env.GOOGLE_CALENDAR_ID || "primary";
     const privateKey = (process.env.GOOGLE_PRIVATE_KEY || "").replace(/\\n/g, "\n");
     
     if (!process.env.GOOGLE_CLIENT_EMAIL || !privateKey) {
@@ -225,20 +224,37 @@ export async function getUpcomingEvents() {
 
     const calendar = google.calendar({ version: "v3", auth });
 
+    const calendarIds = (process.env.GOOGLE_CALENDAR_ID || "primary").split(',').map(id => id.trim());
     const now = new Date();
-    // Get events for the next 30 days
     const timeMax = new Date();
     timeMax.setDate(now.getDate() + 30);
 
-    const response = await calendar.events.list({
-      calendarId,
-      timeMin: now.toISOString(),
-      timeMax: timeMax.toISOString(),
-      singleEvents: true,
-      orderBy: "startTime",
+    let allItems: any[] = [];
+    for (const calId of calendarIds) {
+      try {
+        const response = await calendar.events.list({
+          calendarId: calId,
+          timeMin: now.toISOString(),
+          timeMax: timeMax.toISOString(),
+          singleEvents: true,
+          orderBy: "startTime",
+        });
+        if (response.data.items) {
+          allItems = [...allItems, ...response.data.items];
+        }
+      } catch (err) {
+        console.warn(`Failed to fetch events for calendar ${calId}`, err);
+      }
+    }
+
+    // Sort combined events
+    allItems.sort((a, b) => {
+      const timeA = new Date(a.start?.dateTime || a.start?.date || 0).getTime();
+      const timeB = new Date(b.start?.dateTime || b.start?.date || 0).getTime();
+      return timeA - timeB;
     });
 
-    const events = (response.data.items || [])
+    const events = allItems
       .filter(event => event.summary && event.summary.toLowerCase().includes('charla'))
       .map(event => ({
       id: event.id,
