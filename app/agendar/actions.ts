@@ -246,36 +246,23 @@ export async function getUpcomingEvents() {
 
     const calendar = google.calendar({ version: "v3", auth });
 
-    const calendarIds = (process.env.GOOGLE_CALENDAR_ID || "primary").split(',').map(id => id.trim());
+    const calendarId = process.env.GOOGLE_CALENDAR_ID || "primary";
     const now = new Date();
     const timeMax = new Date();
     timeMax.setDate(now.getDate() + 30);
 
     let allItems: any[] = [];
-    let lastError: any = null;
-    let successCount = 0;
 
-    for (const calId of calendarIds) {
-      try {
-        const response = await calendar.events.list({
-          calendarId: calId,
-          timeMin: now.toISOString(),
-          timeMax: timeMax.toISOString(),
-          singleEvents: true,
-          orderBy: "startTime",
-        });
-        if (response.data.items) {
-          allItems = [...allItems, ...response.data.items];
-        }
-        successCount++;
-      } catch (err) {
-        console.warn(`Failed to fetch events for calendar ${calId}`, err);
-        lastError = err;
-      }
-    }
-
-    if (successCount === 0 && lastError) {
-      throw lastError;
+    const response = await calendar.events.list({
+      calendarId,
+      timeMin: now.toISOString(),
+      timeMax: timeMax.toISOString(),
+      singleEvents: true,
+      orderBy: "startTime",
+    });
+    
+    if (response.data.items) {
+      allItems = response.data.items;
     }
 
     // Sort combined events
@@ -380,38 +367,25 @@ export async function registerForCharla(eventId: string, data: any, sourceCTA: s
 
     const calendar = google.calendar({ version: "v3", auth });
 
-    const calendarIds = (process.env.GOOGLE_CALENDAR_ID || "primary").split(',').map(id => id.trim());
+    const calendarId = process.env.GOOGLE_CALENDAR_ID || "primary";
     
-    let event: any = null;
-    let targetCalendarId = null;
+    // Fetch existing event
+    const event = await calendar.events.get({
+      calendarId,
+      eventId,
+    });
 
-    for (const calId of calendarIds) {
-      try {
-        const response = await calendar.events.get({
-          calendarId: calId,
-          eventId,
-        });
-        if (response.data) {
-          event = response.data;
-          targetCalendarId = calId;
-          break; // Found the event, no need to check other calendars
-        }
-      } catch (err) {
-        // Event not found in this calendar, continue to the next
-      }
+    if (!event.data) {
+      throw new Error("Evento no encontrado.");
     }
 
-    if (!event || !targetCalendarId) {
-      throw new Error("Evento no encontrado en ninguno de los calendarios configurados.");
-    }
-
-    const attendees = event.attendees || [];
+    const attendees = event.data.attendees || [];
     // Check if already registered
     if (!attendees.find((a: any) => a.email === data.email)) {
       attendees.push({ email: data.email });
       
       await calendar.events.patch({
-        calendarId: targetCalendarId,
+        calendarId,
         eventId,
         sendUpdates: "all",
         requestBody: {
@@ -423,13 +397,15 @@ export async function registerForCharla(eventId: string, data: any, sourceCTA: s
     return { 
       success: true, 
       event: {
-        summary: event.summary,
-        start: event.start?.dateTime || event.start?.date,
-        meetLink: event.hangoutLink
+        summary: event.data.summary,
+        start: event.data.start?.dateTime || event.data.start?.date,
+        meetLink: event.data.hangoutLink
       }
     };
   } catch (error: any) {
     console.error("Error registering for Charla:", error);
-    return { success: false, error: "No se pudo registrar a la charla." };
+    // Expose the real error to help debug
+    const errorMsg = error.response?.data?.error?.message || error.message || "Error desconocido";
+    return { success: false, error: `No se pudo registrar a la charla: ${errorMsg}` };
   }
 }
