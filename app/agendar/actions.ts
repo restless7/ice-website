@@ -367,7 +367,7 @@ export async function registerForCharla(eventId: string, data: any, sourceCTA: s
 
     const calendar = google.calendar({ version: "v3", auth });
 
-    const calendarId = process.env.GOOGLE_CALENDAR_ID || "primary";
+    
     
     // Fetch existing event
     const event = await calendar.events.get({
