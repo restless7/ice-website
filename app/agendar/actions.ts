@@ -380,19 +380,38 @@ export async function registerForCharla(eventId: string, data: any, sourceCTA: s
 
     const calendar = google.calendar({ version: "v3", auth });
 
-    // Fetch existing event
-    const event = await calendar.events.get({
-      calendarId,
-      eventId,
-    });
+    const calendarIds = (process.env.GOOGLE_CALENDAR_ID || "primary").split(',').map(id => id.trim());
+    
+    let event: any = null;
+    let targetCalendarId = null;
 
-    const attendees = event.data.attendees || [];
+    for (const calId of calendarIds) {
+      try {
+        const response = await calendar.events.get({
+          calendarId: calId,
+          eventId,
+        });
+        if (response.data) {
+          event = response.data;
+          targetCalendarId = calId;
+          break; // Found the event, no need to check other calendars
+        }
+      } catch (err) {
+        // Event not found in this calendar, continue to the next
+      }
+    }
+
+    if (!event || !targetCalendarId) {
+      throw new Error("Evento no encontrado en ninguno de los calendarios configurados.");
+    }
+
+    const attendees = event.attendees || [];
     // Check if already registered
-    if (!attendees.find(a => a.email === data.email)) {
+    if (!attendees.find((a: any) => a.email === data.email)) {
       attendees.push({ email: data.email });
       
       await calendar.events.patch({
-        calendarId,
+        calendarId: targetCalendarId,
         eventId,
         sendUpdates: "all",
         requestBody: {
@@ -404,9 +423,9 @@ export async function registerForCharla(eventId: string, data: any, sourceCTA: s
     return { 
       success: true, 
       event: {
-        summary: event.data.summary,
-        start: event.data.start?.dateTime || event.data.start?.date,
-        meetLink: event.data.hangoutLink
+        summary: event.summary,
+        start: event.start?.dateTime || event.start?.date,
+        meetLink: event.hangoutLink
       }
     };
   } catch (error: any) {
