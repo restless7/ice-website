@@ -384,14 +384,18 @@ export async function registerForCharla(eventId: string, data: any, sourceCTA: s
     if (!attendees.find((a: any) => a.email === data.email)) {
       attendees.push({ email: data.email });
       
-      await calendar.events.patch({
-        calendarId,
-        eventId,
-        sendUpdates: "all",
-        requestBody: {
-          attendees
-        }
-      });
+      try {
+        await calendar.events.patch({
+          calendarId,
+          eventId,
+          sendUpdates: "all",
+          requestBody: {
+            attendees
+          }
+        });
+      } catch (patchError: any) {
+        console.warn("Notice: Google Calendar attendee patch failed (likely DWD restriction). Lead is still saved in CRM.", patchError.message);
+      }
     }
 
     return { 
