@@ -121,26 +121,31 @@ export default function RegistroVisitasPage() {
     setIsSubmitting(true);
     
     try {
-      const { error } = await supabase
-        .from('ice_visit_logs')
-        .insert([{
-          email: formData.email.trim().toLowerCase(),
-          full_name: formData.fullName.trim(),
-          id_type: formData.idType,
-          id_number: formData.idNumber.trim(),
-          phone: formData.phone.trim(),
-          reason: formData.reason.trim()
-        }]);
-
-      if (error) throw error;
+      const portalUrl = process.env.NEXT_PUBLIC_PORTAL_API_URL || 'https://api.iceworldteam.com';
       
-      // Feed data to the central Portal (Leads/Student Activity)
+      // 1. Submit directly to Central Portal Visits API
+      const res = await fetch(`${portalUrl}/api/public/visits`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: formData.email.trim().toLowerCase(),
+          fullName: formData.fullName.trim(),
+          idType: formData.idType,
+          idNumber: formData.idNumber.trim(),
+          phone: formData.phone.trim(),
+          reason: formData.reason.trim(),
+          heardAboutUs: formData.heardAboutUs
+        })
+      });
+
+      if (!res.ok) {
+        console.warn('Central Portal visits endpoint status:', res.status);
+      }
+
+      // 2. Also emit to website form webhook for redundant logging
       try {
         const names = formData.fullName.trim().split(' ');
-        const firstName = names[0];
-        const lastName = names.slice(1).join(' ');
-
-        await fetch('https://api.iceworldteam.com/api/webhooks/website-forms', {
+        await fetch(`${portalUrl}/api/webhooks/website-forms`, {
           method: 'POST',
           headers: { 
             'Content-Type': 'application/json',
@@ -148,8 +153,8 @@ export default function RegistroVisitasPage() {
           },
           body: JSON.stringify({
              formId: 'registro-visitas',
-             firstName: firstName,
-             lastName: lastName,
+             firstName: names[0],
+             lastName: names.slice(1).join(' '),
              email: formData.email.trim().toLowerCase(),
              phone: formData.phone.trim(),
              country: 'Colombia',
@@ -162,8 +167,23 @@ export default function RegistroVisitasPage() {
           })
         });
       } catch (e) {
-        console.error('Error feeding to portal:', e);
-        // We don't block the UI if the portal is down
+        console.error('Portal webhook fallback note:', e);
+      }
+
+      // Try Supabase silently if configured, without blocking user if unreachable
+      try {
+        await supabase
+          .from('ice_visit_logs')
+          .insert([{
+            email: formData.email.trim().toLowerCase(),
+            full_name: formData.fullName.trim(),
+            id_type: formData.idType,
+            id_number: formData.idNumber.trim(),
+            phone: formData.phone.trim(),
+            reason: formData.reason.trim()
+          }]);
+      } catch (supErr) {
+        console.warn('Supabase mirror skipped:', supErr);
       }
 
       setShowSuccess(true);
@@ -184,70 +204,72 @@ export default function RegistroVisitasPage() {
     setIsSubmitting(true);
     
     try {
-      const { data, error: fetchError } = await supabase
-        .from('ice_visit_logs')
-        .select('email, full_name, id_type, phone')
-        .eq('id_number', formData.idNumber.trim())
-        .order('created_at', { ascending: false })
-        .limit(1);
+      const portalUrl = process.env.NEXT_PUBLIC_PORTAL_API_URL || 'https://api.iceworldteam.com';
+      const cleanId = formData.idNumber.trim();
+      const finalReasons = [...selectedReasons, formData.reason.trim()].filter(Boolean).join(', ');
 
-      if (fetchError) throw fetchError;
+      // 1. Check visitor lookup in Central Portal
+      let previousRecord: any = null;
 
-      if (!data || data.length === 0) {
+      try {
+        const lookupRes = await fetch(`${portalUrl}/api/public/visits?idNumber=${encodeURIComponent(cleanId)}`);
+        if (lookupRes.ok) {
+          const lookupData = await lookupRes.json();
+          if (lookupData.found && lookupData.person) {
+            previousRecord = lookupData.person;
+          }
+        }
+      } catch (lookupErr) {
+        console.warn('Portal visitor lookup error:', lookupErr);
+      }
+
+      // Fallback Supabase lookup if portal lookup didn't return record
+      if (!previousRecord) {
+        try {
+          const { data } = await supabase
+            .from('ice_visit_logs')
+            .select('email, full_name, id_type, phone')
+            .eq('id_number', cleanId)
+            .order('created_at', { ascending: false })
+            .limit(1);
+
+          if (data && data.length > 0) {
+            previousRecord = {
+              email: data[0].email,
+              fullName: data[0].full_name,
+              idType: data[0].id_type,
+              phone: data[0].phone
+            };
+          }
+        } catch (supFetchErr) {
+          console.warn('Supabase visitor lookup skipped:', supFetchErr);
+        }
+      }
+
+      if (!previousRecord) {
         alert('No encontramos un registro previo con este documento. Por favor, regístrate como "Primera Vez".');
         setFlowType('firstTime');
+        setIsSubmitting(false);
         return;
       }
 
-      const previousRecord = data[0];
-      const finalReasons = [...selectedReasons, formData.reason.trim()].filter(Boolean).join(', ');
-
-      const { error } = await supabase
-        .from('ice_visit_logs')
-        .insert([{
+      // 2. Submit visit to Central Portal
+      await fetch(`${portalUrl}/api/public/visits`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
           email: previousRecord.email,
-          full_name: previousRecord.full_name,
-          id_type: previousRecord.id_type,
-          id_number: formData.idNumber.trim(),
+          fullName: previousRecord.fullName,
+          idType: previousRecord.idType || 'CC',
+          idNumber: cleanId,
           phone: previousRecord.phone,
-          reason: finalReasons
-        }]);
+          reason: finalReasons,
+          heardAboutUs: 'Visitante Frecuente'
+        })
+      });
 
-      if (error) throw error;
-      
-      // Feed data to the central Portal
-      try {
-        const names = previousRecord.full_name.trim().split(' ');
-        const firstName = names[0];
-        const lastName = names.slice(1).join(' ');
-
-        await fetch('https://api.iceworldteam.com/api/webhooks/website-forms', {
-          method: 'POST',
-          headers: { 
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ice-portal-secure-webhook-token' 
-          },
-          body: JSON.stringify({
-             formId: 'registro-visitas',
-             firstName: firstName,
-             lastName: lastName,
-             email: previousRecord.email,
-             phone: previousRecord.phone,
-             country: 'Colombia',
-             metadata: {
-               idType: previousRecord.id_type,
-               idNumber: formData.idNumber.trim(),
-               reason: finalReasons,
-               heardAboutUs: 'Visitante Frecuente'
-             }
-          })
-        });
-      } catch (e) {
-        console.error('Error feeding to portal:', e);
-      }
-      
       // Update local state for success modal display
-      setFormData(prev => ({ ...prev, fullName: previousRecord.full_name }));
+      setFormData(prev => ({ ...prev, fullName: previousRecord.fullName }));
       setShowSuccess(true);
     } catch (error) {
       console.error('Error submitting frequent visitor:', error);
