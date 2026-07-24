@@ -8,7 +8,6 @@ import FormSection from "./FormSection";
 import FormInput from "./FormInput";
 import FormSelect from "./FormSelect";
 import FormSubmit from "./FormSubmit";
-import { supabase } from "@/app/lib/supabaseClient";
 
 // Types for form data
 interface FormData {
@@ -122,35 +121,35 @@ export default function FormularioPage() {
     setSubmitStatus("idle");
 
     try {
-      // Check if Supabase is properly configured
-      if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
-        throw new Error("Database configuration is missing. Please contact support.");
+      const portalUrl = process.env.NEXT_PUBLIC_PORTAL_API_URL || 'https://api.iceworldteam.com';
+      const webhookUrl = `${portalUrl}/api/webhooks/website-forms`;
+      const names = formData.nombres_apellidos.trim().split(' ');
+
+      const res = await fetch(webhookUrl, {
+        method: "POST",
+        headers: { 
+          "Content-Type": "application/json",
+          "Authorization": "Bearer ice-portal-secure-webhook-token"
+        },
+        body: JSON.stringify({
+          formId: 'formulario-contacto',
+          firstName: names[0],
+          lastName: names.slice(1).join(' '),
+          email: formData.email.trim().toLowerCase(),
+          phone: formData.celular.trim() || '',
+          country: 'Colombia',
+          programOfInterest: formData.programa_interes === 'Otro' ? formData.otro_especificar.trim() : formData.programa_interes,
+          metadata: {
+            edad: formData.edad,
+            nivelIngles: formData.nivel_ingles
+          }
+        })
+      });
+
+      if (!res.ok && res.status !== 409) {
+        throw new Error('Portal endpoint returned status: ' + res.status);
       }
 
-      // Prepare data for Supabase
-      const submissionData = {
-        nombres_apellidos: formData.nombres_apellidos.trim(),
-        email: formData.email.trim().toLowerCase(),
-        celular: formData.celular.trim() || null,
-        edad: parseInt(formData.edad),
-        nivel_ingles: parseInt(formData.nivel_ingles),
-        programa_interes: formData.programa_interes,
-        otro_especificar: formData.programa_interes === "Otro" ? formData.otro_especificar.trim() : null,
-        created_at: new Date().toISOString(),
-      };
-
-      // Insert into Supabase
-      const { data, error } = await supabase
-        .from("ice_form_submissions")
-        .insert([submissionData])
-        .select();
-
-      if (error) {
-        throw error;
-      }
-
-      // Success
-      
       setSubmitStatus("success");
       setSubmitMessage("¡Solicitud enviada con éxito! Nos pondremos en contacto contigo pronto.");
       

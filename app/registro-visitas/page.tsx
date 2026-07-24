@@ -15,7 +15,6 @@ import {
   MegaphoneIcon
 } from "@heroicons/react/24/outline";
 import IceLayoutWrapper from "@/app/components/ice/ice-layout-wrapper";
-import { supabase } from "@/app/lib/supabaseClient";
 import Image from "next/image";
 
 // Improved Success Modal Component
@@ -170,22 +169,6 @@ export default function RegistroVisitasPage() {
         console.error('Portal webhook fallback note:', e);
       }
 
-      // Try Supabase silently if configured, without blocking user if unreachable
-      try {
-        await supabase
-          .from('ice_visit_logs')
-          .insert([{
-            email: formData.email.trim().toLowerCase(),
-            full_name: formData.fullName.trim(),
-            id_type: formData.idType,
-            id_number: formData.idNumber.trim(),
-            phone: formData.phone.trim(),
-            reason: formData.reason.trim()
-          }]);
-      } catch (supErr) {
-        console.warn('Supabase mirror skipped:', supErr);
-      }
-
       setShowSuccess(true);
     } catch (error) {
       console.error('Error submitting form:', error);
@@ -221,29 +204,6 @@ export default function RegistroVisitasPage() {
         }
       } catch (lookupErr) {
         console.warn('Portal visitor lookup error:', lookupErr);
-      }
-
-      // Fallback Supabase lookup if portal lookup didn't return record
-      if (!previousRecord) {
-        try {
-          const { data } = await supabase
-            .from('ice_visit_logs')
-            .select('email, full_name, id_type, phone')
-            .eq('id_number', cleanId)
-            .order('created_at', { ascending: false })
-            .limit(1);
-
-          if (data && data.length > 0) {
-            previousRecord = {
-              email: data[0].email,
-              fullName: data[0].full_name,
-              idType: data[0].id_type,
-              phone: data[0].phone
-            };
-          }
-        } catch (supFetchErr) {
-          console.warn('Supabase visitor lookup skipped:', supFetchErr);
-        }
       }
 
       if (!previousRecord) {

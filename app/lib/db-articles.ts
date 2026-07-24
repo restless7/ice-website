@@ -1,5 +1,3 @@
-import { supabaseServer } from "./supabaseServer";
-
 export interface Article {
   id?: number | string;
   slug: string;
@@ -77,70 +75,13 @@ export const fallbackArticles: Article[] = [
 ];
 
 export async function getArticles(): Promise<Article[]> {
-  try {
-    const { data, error } = await supabaseServer
-      .from("articles")
-      .select("*")
-      .order("published_at", { ascending: false });
-      
-    if (error) {
-      console.warn("Supabase fetch failed, falling back to mock data.", error);
-      return fallbackArticles;
-    }
-    
-    if (data && data.length > 0) {
-      return data as Article[];
-    }
-  } catch (err) {
-    console.warn("Supabase fetch failed, falling back to mock data.", err);
-  }
-  
   return fallbackArticles;
 }
 
 export async function getFeaturedArticles(limit = 3): Promise<Article[]> {
-  try {
-    const { data, error } = await supabaseServer
-      .from("articles")
-      .select("*")
-      .eq("is_featured", true)
-      .order("published_at", { ascending: false })
-      .limit(limit);
-      
-    if (error) {
-      console.warn("Supabase fetch failed, falling back to mock data.", error);
-      return fallbackArticles.filter(a => a.is_featured).slice(0, limit);
-    }
-    
-    if (data && data.length > 0) {
-      return data as Article[];
-    }
-  } catch (err) {
-    console.warn("Supabase fetch failed, falling back to mock data.", err);
-  }
-  
   return fallbackArticles.filter(a => a.is_featured).slice(0, limit);
 }
 
 export async function getArticleBySlug(slug: string): Promise<Article | null> {
-  try {
-    const { data, error } = await supabaseServer
-      .from("articles")
-      .select("*")
-      .eq("slug", slug)
-      .single();
-      
-    if (error) {
-      console.warn("Supabase fetch failed, falling back to mock data.", error);
-      return fallbackArticles.find(a => a.slug === slug) || null;
-    }
-    
-    if (data) {
-      return data as Article;
-    }
-  } catch (err) {
-    console.warn("Supabase fetch failed, falling back to mock data.", err);
-  }
-  
   return fallbackArticles.find(a => a.slug === slug) || null;
 }

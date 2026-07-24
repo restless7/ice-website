@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Calendar, Clock, User, Mail, Phone, ArrowRight, CheckCircle2, Loader2, Users, Video } from "lucide-react";
+import { Calendar, Clock, User, Mail, Phone, ArrowRight, CheckCircle2, Loader2, Users, Video, MapPin } from "lucide-react";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
 import { checkAvailability, scheduleAppointment, getUpcomingEvents, registerForCharla, createLeadOnly } from "@/app/agendar/actions";
@@ -15,6 +15,7 @@ type FormData = {
   date: string;
   time: string;
   charlaId: string;
+  modality: 'VIRTUAL' | 'PRESENCIAL';
 };
 
 const AVAILABLE_TIMES = [
@@ -302,6 +303,39 @@ export default function IceSchedulingWidget({
                   <button type="button" onClick={() => { setIntent('charla'); setError(null); }} className={`flex-1 py-2.5 px-4 rounded-lg text-sm font-bold transition-all ${intent === 'charla' ? 'bg-white shadow text-gray-900' : 'text-gray-500 hover:text-gray-700'}`}>Charla Grupal</button>
                 </div>
 
+                {/* Modality Selector */}
+                <div className="space-y-2">
+                  <label className="block text-sm font-medium text-gray-700">¿Cómo prefieres asistir?</label>
+                  <div className="grid grid-cols-2 gap-3">
+                    <button
+                      type="button"
+                      onClick={() => setValue('modality', 'VIRTUAL')}
+                      className={`p-4 rounded-xl border-2 text-left transition-all ${
+                        watch('modality') === 'VIRTUAL'
+                          ? 'border-brand-gold bg-brand-gold/5 shadow-sm'
+                          : 'border-gray-200 hover:border-brand-gold/30'
+                      }`}
+                    >
+                      <Video className={`w-6 h-6 mb-2 ${watch('modality') === 'VIRTUAL' ? 'text-brand-gold' : 'text-gray-400'}`} />
+                      <p className="font-bold text-gray-900 text-sm">💻 Virtual</p>
+                      <p className="text-xs text-gray-500 mt-1">Google Meet desde cualquier lugar</p>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setValue('modality', 'PRESENCIAL')}
+                      className={`p-4 rounded-xl border-2 text-left transition-all ${
+                        watch('modality') === 'PRESENCIAL'
+                          ? 'border-brand-gold bg-brand-gold/5 shadow-sm'
+                          : 'border-gray-200 hover:border-brand-gold/30'
+                      }`}
+                    >
+                      <MapPin className={`w-6 h-6 mb-2 ${watch('modality') === 'PRESENCIAL' ? 'text-brand-gold' : 'text-gray-400'}`} />
+                      <p className="font-bold text-gray-900 text-sm">🏢 Presencial</p>
+                      <p className="text-xs text-gray-500 mt-1">Oficinas ICE - Cra. 45 #56 79, BGA</p>
+                    </button>
+                  </div>
+                </div>
+
                 <div className="flex-1 overflow-y-auto">
                   {intent === '1-on-1' && (
                     <div className="space-y-4">
@@ -331,7 +365,13 @@ export default function IceSchedulingWidget({
                   {intent === 'charla' && (
                     <div className="space-y-3">
                       <p className="text-sm text-gray-600 mb-2">Selecciona una de nuestras próximas charlas o eventos especiales:</p>
-                      {charlas.length > 0 ? (
+                      {(() => {
+                        const selectedProgram = watch('programOfInterest');
+                        const filtered = selectedProgram
+                          ? charlas.filter(c => c.summary?.toLowerCase().includes(selectedProgram.toLowerCase()) || !selectedProgram)
+                          : charlas;
+                        const displayCharlas = filtered.length > 0 ? filtered : charlas;
+                        return displayCharlas.length > 0 ? (
                         <div className="space-y-3 max-h-[250px] overflow-y-auto pr-2 custom-scrollbar">
                           {charlas.map(charla => {
                             const isSelected = selectedCharlaId === charla.id;
@@ -358,9 +398,9 @@ export default function IceSchedulingWidget({
                            <Users className="w-8 h-8 mx-auto text-gray-300 mb-2" />
                            <p className="text-sm text-gray-500">Actualmente no hay charlas programadas. Por favor agenda una asesoría 1-on-1.</p>
                          </div>
-                      )}
+                       )}
                     </div>
-                  )}
+                  )()}
                 </div>
 
                 <div className="pt-4 flex justify-end mt-auto">

@@ -4,7 +4,6 @@ import { google } from "googleapis";
 import { unstable_noStore as noStore } from 'next/cache';
 import { format, parseISO } from "date-fns";
 import { formatInTimeZone, toDate } from "date-fns-tz";
-import { supabaseServer } from "@/app/lib/supabaseServer";
 
 const TIMEZONE = "America/Bogota";
 
@@ -65,6 +64,7 @@ export async function scheduleAppointment(data: {
   programOfInterest: string;
   date: string;
   time: string;
+  modality?: 'VIRTUAL' | 'PRESENCIAL';
   geoCity?: string;
 }, sourceCTA: string = "Website Form", utmData?: any) {
   try {
@@ -99,6 +99,7 @@ export async function scheduleAppointment(data: {
         metadata: {
           sourceCTA,
           geoCity: data.geoCity,
+          modality: data.modality || 'VIRTUAL',
           date: data.date,
           time: data.time,
           appointmentStart: startDate.toISOString(),
@@ -156,9 +157,11 @@ export async function scheduleAppointment(data: {
 
         const calendar = google.calendar({ version: "v3", auth });
 
-        const event = {
+        const isPresencial = data.modality === 'PRESENCIAL';
+
+        const event: any = {
           summary: `Asesoría ICE - ${data.name} - ${data.programOfInterest}`,
-          description: `Datos del Lead:\nNombre: ${data.name}\nEmail: ${data.email}\nTeléfono: ${data.phone}\nPrograma de Interés: ${data.programOfInterest}\n\nReunión agendada automáticamente vía ICE World Team.`,
+          description: `Datos del Lead:\nNombre: ${data.name}\nEmail: ${data.email}\nTeléfono: ${data.phone}\nPrograma de Interés: ${data.programOfInterest}\nModalidad: ${isPresencial ? 'Presencial' : 'Virtual'}\n\nReunión agendada automáticamente vía ICE World Team.`,
           start: {
             dateTime: startDate.toISOString(),
             timeZone: TIMEZONE,
@@ -169,15 +172,18 @@ export async function scheduleAppointment(data: {
           },
           attendees: [
             { email: data.email },
-            // Asesor asignado puede venir de otra lógica, acá podemos poner un default
             { email: process.env.ADVISOR_EMAIL || "info@iceworldteam.com" }
           ],
-          conferenceData: {
-            createRequest: {
-              requestId: `meet-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
-              conferenceSolutionKey: { type: "hangoutsMeet" },
-            },
-          },
+          ...(isPresencial
+            ? { location: 'Cra. 45 #56 79, Bucaramanga, Santander - Oficinas ICE' }
+            : {
+                conferenceData: {
+                  createRequest: {
+                    requestId: `meet-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
+                    conferenceSolutionKey: { type: "hangoutsMeet" },
+                  },
+                },
+              }),
         };
 
         const res = await calendar.events.insert({
