@@ -368,39 +368,45 @@ export default function IceSchedulingWidget({
                       {(() => {
                         const selectedProgram = watch('programOfInterest');
                         const filtered = selectedProgram
-                          ? charlas.filter(c => c.summary?.toLowerCase().includes(selectedProgram.toLowerCase()) || !selectedProgram)
+                          ? charlas.filter(c => c.summary?.toLowerCase().includes(selectedProgram.toLowerCase()))
                           : charlas;
                         const displayCharlas = filtered.length > 0 ? filtered : charlas;
-                        return displayCharlas.length > 0 ? (
-                        <div className="space-y-3 max-h-[250px] overflow-y-auto pr-2 custom-scrollbar">
-                          {charlas.map(charla => {
-                            const isSelected = selectedCharlaId === charla.id;
-                            const d = new Date(charla.start);
-                            return (
-                              <div 
-                                key={charla.id} 
-                                onClick={() => setValue("charlaId", charla.id)}
-                                className={`p-4 rounded-xl border cursor-pointer transition-all ${isSelected ? 'border-brand-gold bg-brand-gold/5 ring-1 ring-brand-gold' : 'border-gray-200 hover:border-brand-gold/30 hover:bg-gray-50'}`}
-                              >
-                                <div className="flex justify-between items-start">
-                                  <div>
-                                    <h4 className={`font-bold ${isSelected ? 'text-brand-dark' : 'text-gray-900'}`}>{charla.summary}</h4>
-                                    <p className="text-xs text-gray-500 mt-1 flex items-center"><Calendar className="w-3 h-3 mr-1"/> {d.toLocaleDateString("es-CO", { weekday: 'long', month: 'long', day: 'numeric' })} a las {d.toLocaleTimeString("es-CO", { hour: '2-digit', minute: '2-digit' })}</p>
+
+                        if (displayCharlas.length > 0) {
+                          return (
+                            <div className="space-y-3 max-h-[250px] overflow-y-auto pr-2 custom-scrollbar">
+                              {displayCharlas.map(charla => {
+                                const isSelected = selectedCharlaId === charla.id;
+                                const d = new Date(charla.start);
+                                return (
+                                  <div 
+                                    key={charla.id} 
+                                    onClick={() => setValue("charlaId", charla.id)}
+                                    className={`p-4 rounded-xl border cursor-pointer transition-all ${isSelected ? 'border-brand-gold bg-brand-gold/5 ring-1 ring-brand-gold' : 'border-gray-200 hover:border-brand-gold/30 hover:bg-gray-50'}`}
+                                  >
+                                    <div className="flex justify-between items-start">
+                                      <div>
+                                        <h4 className={`font-bold ${isSelected ? 'text-brand-dark' : 'text-gray-900'}`}>{charla.summary}</h4>
+                                        <p className="text-xs text-gray-500 mt-1 flex items-center"><Calendar className="w-3 h-3 mr-1"/> {d.toLocaleDateString("es-CO", { weekday: 'long', month: 'long', day: 'numeric' })} a las {d.toLocaleTimeString("es-CO", { hour: '2-digit', minute: '2-digit' })}</p>
+                                      </div>
+                                      {isSelected && <CheckCircle2 className="w-5 h-5 text-brand-gold" />}
+                                    </div>
                                   </div>
-                                  {isSelected && <CheckCircle2 className="w-5 h-5 text-brand-gold" />}
-                                </div>
-                              </div>
-                            );
-                          })}
-                        </div>
-                      ) : (
-                         <div className="p-8 text-center bg-gray-50 rounded-xl border border-gray-100">
-                           <Users className="w-8 h-8 mx-auto text-gray-300 mb-2" />
-                           <p className="text-sm text-gray-500">Actualmente no hay charlas programadas. Por favor agenda una asesoría 1-on-1.</p>
-                         </div>
-                       )}
+                                );
+                              })}
+                            </div>
+                          );
+                        }
+
+                        return (
+                          <div className="p-8 text-center bg-gray-50 rounded-xl border border-gray-100">
+                            <Users className="w-8 h-8 mx-auto text-gray-300 mb-2" />
+                            <p className="text-sm text-gray-500">Actualmente no hay charlas programadas. Por favor agenda una asesoría 1-on-1.</p>
+                          </div>
+                        );
+                      })()}
                     </div>
-                  )()}
+                  )}
                 </div>
 
                 <div className="pt-4 flex justify-end mt-auto">
