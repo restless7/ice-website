@@ -26,6 +26,7 @@ const AVAILABLE_TIMES = [
 const FALLBACK_PROGRAMS = [
   { id: "Working Holiday Alemania 2026", name: "Working Holiday Alemania 2026" },
   { id: "Work and Travel USA", name: "Work and Travel USA" },
+  { id: "Internship Asia", name: "Internship Asia" },
   { id: "Asesoría Visa de Turismo USA", name: "Asesoría Visa de Turismo USA" },
   { id: "Au Pair USA", name: "Au Pair USA" },
   { id: "Camp Counselor", name: "Camp Counselor" },
