@@ -48,7 +48,7 @@ export default function IceSchedulingWidget({
   geoCity?: string;
 }) {
   const [step, setStep] = useState<1 | 2 | 3>(1);
-  const [intent, setIntent] = useState<'1-on-1' | 'charla'>('1-on-1');
+  const [intent, setIntent] = useState<'1-on-1' | 'charla'>('charla');
   const [isLoading, setIsLoading] = useState(false);
   const [isCheckingSlots, setIsCheckingSlots] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -59,10 +59,15 @@ export default function IceSchedulingWidget({
   const [confirmedEventSummary, setConfirmedEventSummary] = useState<string | null>(null);
   const [confirmedDateStr, setConfirmedDateStr] = useState<string | null>(null);
 
-  const { register, handleSubmit, watch, formState: { errors }, setValue, trigger, getValues } = useForm<FormData>();
+  const { register, handleSubmit, watch, formState: { errors }, setValue, trigger, getValues } = useForm<FormData>({
+    defaultValues: {
+      modality: 'VIRTUAL'
+    }
+  });
   const selectedDate = watch("date");
   const selectedTime = watch("time");
   const selectedCharlaId = watch("charlaId");
+  const selectedModality = watch("modality") || 'VIRTUAL';
 
   useEffect(() => {
     if (preselectedProgramId) setValue("programOfInterest", preselectedProgramId);
@@ -299,9 +304,29 @@ export default function IceSchedulingWidget({
                 </div>
                 {error && <div className="p-3 bg-red-50 text-red-700 rounded-lg text-sm border border-red-100">{error}</div>}
 
-                <div className="flex gap-4 p-1 bg-gray-100 rounded-xl">
-                  <button type="button" onClick={() => { setIntent('1-on-1'); setError(null); }} className={`flex-1 py-2.5 px-4 rounded-lg text-sm font-bold transition-all ${intent === '1-on-1' ? 'bg-white shadow text-gray-900' : 'text-gray-500 hover:text-gray-700'}`}>Asesoría 1-on-1</button>
-                  <button type="button" onClick={() => { setIntent('charla'); setError(null); }} className={`flex-1 py-2.5 px-4 rounded-lg text-sm font-bold transition-all ${intent === 'charla' ? 'bg-white shadow text-gray-900' : 'text-gray-500 hover:text-gray-700'}`}>Charla Grupal</button>
+                <div className="flex gap-3 p-1 bg-gray-100/80 rounded-xl border border-gray-200/60">
+                  <button 
+                    type="button" 
+                    onClick={() => { setIntent('charla'); setError(null); }} 
+                    className={`flex-1 py-2.5 px-4 rounded-lg text-sm font-bold transition-all shadow-sm flex items-center justify-center gap-1.5 ${
+                      intent === 'charla' 
+                        ? 'bg-brand-gold text-white shadow-md ring-2 ring-brand-gold/30' 
+                        : 'bg-transparent text-gray-600 hover:text-gray-900 hover:bg-white/50'
+                    }`}
+                  >
+                    <Users className="w-4 h-4" /> Charla Grupal (Principal)
+                  </button>
+                  <button 
+                    type="button" 
+                    onClick={() => { setIntent('1-on-1'); setError(null); }} 
+                    className={`flex-1 py-2.5 px-4 rounded-lg text-xs font-semibold transition-all flex items-center justify-center gap-1.5 ${
+                      intent === '1-on-1' 
+                        ? 'bg-white text-gray-900 shadow border border-gray-200' 
+                        : 'bg-transparent text-gray-400 hover:text-gray-600'
+                    }`}
+                  >
+                    <Video className="w-3.5 h-3.5" /> Asesoría 1-on-1 (Secundaria)
+                  </button>
                 </div>
 
                 {/* Modality Selector */}
@@ -318,7 +343,7 @@ export default function IceSchedulingWidget({
                       }`}
                     >
                       <Video className={`w-6 h-6 mb-2 ${watch('modality') === 'VIRTUAL' ? 'text-brand-gold' : 'text-gray-400'}`} />
-                      <p className="font-bold text-gray-900 text-sm">💻 Virtual</p>
+                      <p className="font-bold text-gray-900 text-sm">💻 Virtual (v)</p>
                       <p className="text-xs text-gray-500 mt-1">Google Meet desde cualquier lugar</p>
                     </button>
                     <button
@@ -331,7 +356,7 @@ export default function IceSchedulingWidget({
                       }`}
                     >
                       <MapPin className={`w-6 h-6 mb-2 ${watch('modality') === 'PRESENCIAL' ? 'text-brand-gold' : 'text-gray-400'}`} />
-                      <p className="font-bold text-gray-900 text-sm">🏢 Presencial</p>
+                      <p className="font-bold text-gray-900 text-sm">🏢 Presencial (p)</p>
                       <p className="text-xs text-gray-500 mt-1">Oficinas ICE - Cra. 45 #56 79, BGA</p>
                     </button>
                   </div>
@@ -368,10 +393,26 @@ export default function IceSchedulingWidget({
                       <p className="text-sm text-gray-600 mb-2">Selecciona una de nuestras próximas charlas o eventos especiales:</p>
                       {(() => {
                         const selectedProgram = watch('programOfInterest');
-                        const filtered = selectedProgram
-                          ? charlas.filter(c => c.summary?.toLowerCase().includes(selectedProgram.toLowerCase()))
-                          : charlas;
-                        const displayCharlas = filtered.length > 0 ? filtered : charlas;
+                        
+                        // Strict filtering by modality:
+                        // (p) / (P) => PRESENCIAL
+                        // (v) / (V) or default => VIRTUAL
+                        const modalityFiltered = charlas.filter(c => {
+                          const sum = (c.summary || '').trim().toLowerCase();
+                          const isP = /^\(p\)/i.test(sum) || sum.includes('(p)') || c.modality === 'PRESENCIAL';
+                          if (selectedModality === 'PRESENCIAL') {
+                            return isP;
+                          } else {
+                            // VIRTUAL: show events with (v) or without (p)
+                            return !isP || /^\(v\)/i.test(sum) || sum.includes('(v)');
+                          }
+                        });
+
+                        const programFiltered = selectedProgram
+                          ? modalityFiltered.filter(c => c.summary?.toLowerCase().includes(selectedProgram.toLowerCase()))
+                          : modalityFiltered;
+
+                        const displayCharlas = programFiltered.length > 0 ? programFiltered : modalityFiltered;
 
                         if (displayCharlas.length > 0) {
                           return (
@@ -399,10 +440,20 @@ export default function IceSchedulingWidget({
                           );
                         }
 
+                        if (selectedModality === 'PRESENCIAL') {
+                          return (
+                            <div className="p-6 text-center bg-amber-50/60 rounded-xl border border-amber-200/80 space-y-2">
+                              <MapPin className="w-7 h-7 mx-auto text-amber-600" />
+                              <p className="text-sm font-bold text-amber-900">No hay charlas presenciales (p) programadas actualmente.</p>
+                              <p className="text-xs text-amber-700">Te invitamos a seleccionar la modalidad <strong>Virtual (v)</strong> para conectarte vía Google Meet.</p>
+                            </div>
+                          );
+                        }
+
                         return (
                           <div className="p-8 text-center bg-gray-50 rounded-xl border border-gray-100">
                             <Users className="w-8 h-8 mx-auto text-gray-300 mb-2" />
-                            <p className="text-sm text-gray-500">Actualmente no hay charlas programadas. Por favor agenda una asesoría 1-on-1.</p>
+                            <p className="text-sm text-gray-500">Actualmente no hay charlas programadas. Por favor selecciona la opción Asesoría 1-on-1.</p>
                           </div>
                         );
                       })()}

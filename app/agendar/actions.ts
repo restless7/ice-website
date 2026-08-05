@@ -279,16 +279,23 @@ export async function getUpcomingEvents() {
     });
 
     const events = allItems
-      .filter(event => event.summary && event.summary.toLowerCase().includes('charla'))
-      .map(event => ({
-      id: event.id,
-      summary: event.summary,
-      description: event.description,
-      start: event.start?.dateTime || event.start?.date,
-      end: event.end?.dateTime || event.end?.date,
-      location: event.location,
-      meetLink: event.hangoutLink
-    }));
+      .filter(event => event.summary && (event.summary.toLowerCase().includes('charla') || /^\([vp]\)/i.test(event.summary.trim())))
+      .map(event => {
+        const sum = event.summary || '';
+        const cleanSum = sum.trim();
+        const isPresencial = /^\(p\)/i.test(cleanSum) || cleanSum.toLowerCase().includes('(p)');
+        const isVirtual = /^\(v\)/i.test(cleanSum) || cleanSum.toLowerCase().includes('(v)') || !isPresencial;
+        return {
+          id: event.id,
+          summary: sum,
+          description: event.description,
+          start: event.start?.dateTime || event.start?.date,
+          end: event.end?.dateTime || event.end?.date,
+          location: event.location,
+          meetLink: event.hangoutLink,
+          modality: isPresencial ? 'PRESENCIAL' : 'VIRTUAL'
+        };
+      });
     
     return { success: true, events };
   } catch (error) {
@@ -303,7 +310,7 @@ export async function createLeadOnly(data: any, sourceCTA: string = "Website For
     const API_SECRET = process.env.WEBHOOK_SECRET || 'ice-portal-secure-webhook-token';
     
     const payload = {
-      formId: sourceCTA.toLowerCase().includes('charla') ? 'agendar' : 'registro-visitas',
+      formId: 'agendar',
       firstName: data.name?.split(' ')[0] || data.name,
       lastName: data.name?.split(' ').slice(1).join(' ') || '',
       email: data.email,
@@ -317,7 +324,8 @@ export async function createLeadOnly(data: any, sourceCTA: string = "Website For
         geoCity: data.geoCity,
         charlaId: data.charlaId,
         date: data.date,
-        time: data.time
+        time: data.time,
+        modality: data.modality || 'VIRTUAL'
       }
     };
 
