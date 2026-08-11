@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { 
   Map, 
@@ -414,12 +415,18 @@ export default function EnglishClassHours9and10() {
                   &quot;The infrastructure is complete. You have transitioned from speaking by instinct to speaking by architecture.&quot;
                </p>
                <div className="mt-12 flex flex-col md:flex-row gap-4 justify-center">
-                  <button className="bg-white text-slate-950 font-black py-5 px-12 rounded-2xl hover:bg-blue-50 transition-all uppercase tracking-widest text-sm shadow-xl">
+                  <Link 
+                    href="/english-class/hours-11-12"
+                    className="bg-white text-slate-950 font-black py-5 px-12 rounded-2xl hover:bg-blue-50 transition-all uppercase tracking-widest text-sm shadow-xl inline-flex items-center justify-center"
+                  >
                      Begin Unit 2
-                  </button>
-                  <button className="bg-slate-800 text-white font-bold py-5 px-12 rounded-2xl hover:bg-slate-700 transition-all uppercase tracking-widest text-sm border border-white/5">
+                  </Link>
+                  <Link 
+                    href="/english-class/unit-1-exam"
+                    className="bg-blue-600 hover:bg-blue-500 text-white font-bold py-5 px-12 rounded-2xl transition-all uppercase tracking-widest text-sm border border-blue-400/30 shadow-[0_0_20px_rgba(59,130,246,0.3)] inline-flex items-center justify-center"
+                  >
                      Practice Exam
-                  </button>
+                  </Link>
                </div>
             </motion.div>
          </div>
