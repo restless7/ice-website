@@ -90,6 +90,28 @@ export default function EnglishClassPage() {
                 </Link>
             </div>
 
+            {/* NEW: AU PAIR Sponsor Interview Masterclass Banner */}
+            <div className="container mx-auto px-6 max-w-7xl pb-4">
+                <Link href="/english-class/au-pair-sponsor-interview" className="block group">
+                    <div className="bg-gradient-to-r from-cyan-900/40 via-teal-900/20 to-cyan-900/40 border border-cyan-500/30 rounded-2xl p-6 md:p-8 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6 shadow-[0_0_30px_rgba(6,182,212,0.15)] group-hover:border-cyan-400/50 group-hover:shadow-[0_0_40px_rgba(6,182,212,0.3)] transition-all duration-300">
+                        <div className="absolute inset-0 bg-cyan-500/5 group-hover:bg-cyan-500/10 transition-colors" />
+                        <div className="relative z-10">
+                            <h3 className="text-cyan-400 font-bold text-2xl mb-2 flex items-center gap-3">
+                                <Award className="w-6 h-6" /> AU PAIR Sponsor Interview Masterclass (2 Hours)
+                            </h3>
+                            <p className="text-slate-300 max-w-2xl leading-relaxed">
+                                Specialized intensive masterclass based on official Sponsor Report AP-PA05-0725. Master L1-Spanish phonetics, STAR answer formulas, 15 official report questions, and turn-by-turn interactive dialogues.
+                            </p>
+                        </div>
+                        <div className="relative z-10 shrink-0">
+                            <span className="inline-flex items-center gap-2 bg-cyan-500/20 text-cyan-300 font-bold py-3 px-6 rounded-full border border-cyan-500/30 group-hover:bg-cyan-500 group-hover:text-slate-950 transition-colors">
+                                Start Sponsor Interview Module <ArrowRight className="w-4 h-4" />
+                            </span>
+                        </div>
+                    </div>
+                </Link>
+            </div>
+
             {/* Curriculum Units Quick Navigation */}
             <div className="container mx-auto px-6 max-w-7xl pb-12">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
