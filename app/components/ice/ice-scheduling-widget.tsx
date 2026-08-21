@@ -423,7 +423,16 @@ export default function IceSchedulingWidget({
                                 return (
                                   <div 
                                     key={charla.id} 
-                                    onClick={() => setValue("charlaId", charla.id)}
+                                    onClick={() => {
+                                      setValue("charlaId", charla.id);
+                                      if (charla.start) {
+                                        const d = new Date(charla.start);
+                                        const dateStr = d.toLocaleDateString("en-CA", { timeZone: "America/Bogota" });
+                                        const timeStr = d.toLocaleTimeString("es-CO", { timeZone: "America/Bogota", hour: "2-digit", minute: "2-digit", hour12: false });
+                                        setValue("date", dateStr);
+                                        setValue("time", timeStr);
+                                      }
+                                    }}
                                     className={`p-4 rounded-xl border cursor-pointer transition-all ${isSelected ? 'border-brand-gold bg-brand-gold/5 ring-1 ring-brand-gold' : 'border-gray-200 hover:border-brand-gold/30 hover:bg-gray-50'}`}
                                   >
                                     <div className="flex justify-between items-start">

@@ -352,10 +352,6 @@ export async function createLeadOnly(data: any, sourceCTA: string = "Website For
 
 export async function registerForCharla(eventId: string, data: any, sourceCTA: string = "Website Form", utmData?: any) {
   try {
-    // 1. Create/Update Lead in CRM
-    await createLeadOnly(data, sourceCTA, utmData);
-
-    // 2. Add attendee to Google Calendar Event
     const calendarId = process.env.GOOGLE_CALENDAR_ID || "primary";
     let privateKey = (process.env.GOOGLE_PRIVATE_KEY || "").replace(/\\n/g, "\n");
     if (privateKey.startsWith('"') && privateKey.endsWith('"')) {
@@ -369,60 +365,77 @@ export async function registerForCharla(eventId: string, data: any, sourceCTA: s
       privateKey = `-----BEGIN PRIVATE KEY-----\n${privateKey}\n-----END PRIVATE KEY-----\n`;
     }
     
-    if (!process.env.GOOGLE_CLIENT_EMAIL || !privateKey) {
-      return { success: true, message: "Lead captured, but calendar sync disabled." };
-    }
+    let eventSummary = data.programOfInterest || 'Charla Informativa ICE';
+    let talkDate = data.date;
+    let talkTime = data.time;
+    let eventObj: any = null;
 
-    const auth = new google.auth.JWT({
-      email: process.env.GOOGLE_CLIENT_EMAIL,
-      key: privateKey,
-      scopes: ["https://www.googleapis.com/auth/calendar.readonly", "https://www.googleapis.com/auth/calendar.events"]
-    });
-
-    const calendar = google.calendar({ version: "v3", auth });
-
-    
-    
-    // Fetch existing event
-    const event = await calendar.events.get({
-      calendarId,
-      eventId,
-    });
-
-    if (!event.data) {
-      throw new Error("Evento no encontrado.");
-    }
-
-    const attendees = event.data.attendees || [];
-    // Check if already registered
-    if (!attendees.find((a: any) => a.email === data.email)) {
-      attendees.push({ email: data.email });
-      
+    if (process.env.GOOGLE_CLIENT_EMAIL && privateKey) {
       try {
-        await calendar.events.patch({
+        const auth = new google.auth.JWT({
+          email: process.env.GOOGLE_CLIENT_EMAIL,
+          key: privateKey,
+          scopes: ["https://www.googleapis.com/auth/calendar.readonly", "https://www.googleapis.com/auth/calendar.events"]
+        });
+
+        const calendar = google.calendar({ version: "v3", auth });
+
+        // Fetch existing event
+        const event = await calendar.events.get({
           calendarId,
           eventId,
-          sendUpdates: "all",
-          requestBody: {
-            attendees
-          }
         });
-      } catch (patchError: any) {
-        console.warn("Notice: Google Calendar attendee patch failed (likely DWD restriction). Lead is still saved in CRM.", patchError.message);
+
+        if (event.data) {
+          eventObj = event.data;
+          eventSummary = event.data.summary || eventSummary;
+          const startDt = event.data.start?.dateTime || event.data.start?.date;
+          if (startDt) {
+            talkDate = formatInTimeZone(new Date(startDt), TIMEZONE, 'yyyy-MM-dd');
+            talkTime = formatInTimeZone(new Date(startDt), TIMEZONE, 'HH:mm');
+          }
+
+          const attendees = event.data.attendees || [];
+          if (!attendees.find((a: any) => a.email === data.email)) {
+            attendees.push({ email: data.email });
+            try {
+              await calendar.events.patch({
+                calendarId,
+                eventId,
+                sendUpdates: "all",
+                requestBody: { attendees }
+              });
+            } catch (patchError: any) {
+              console.warn("Notice: Google Calendar attendee patch failed. Lead is still saved in CRM.", patchError.message);
+            }
+          }
+        }
+      } catch (calErr: any) {
+        console.warn("Calendar lookup error in registerForCharla:", calErr?.message || calErr);
       }
     }
+
+    // Create/Update Lead in CRM with resolved talk date, time, and summary
+    await createLeadOnly({
+      ...data,
+      charlaId: eventId,
+      date: talkDate || data.date,
+      time: talkTime || data.time,
+      talkDate: talkDate || data.date,
+      talkTime: talkTime || data.time,
+      talkName: eventSummary
+    }, sourceCTA, utmData);
 
     return { 
       success: true, 
       event: {
-        summary: event.data.summary,
-        start: event.data.start?.dateTime || event.data.start?.date,
-        meetLink: event.data.hangoutLink
+        summary: eventSummary,
+        start: eventObj?.start?.dateTime || eventObj?.start?.date,
+        meetLink: eventObj?.hangoutLink
       }
     };
   } catch (error: any) {
     console.error("Error registering for Charla:", error);
-    // Expose the real error to help debug
     const errorMsg = error.response?.data?.error?.message || error.message || "Error desconocido";
     return { success: false, error: `No se pudo registrar a la charla: ${errorMsg}` };
   }
