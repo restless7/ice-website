@@ -305,6 +305,52 @@ export async function getStudentDocuments(): Promise<{
   return portalFetch('/api/portal/student/documents');
 }
 
+export const PORTAL_DOCUMENT_TYPES = [
+  { value: 'PASSPORT', label: 'Pasaporte Vigente' },
+  { value: 'VISA', label: 'Visa EE.UU. / Schengen' },
+  { value: 'VISA_APPLICATION', label: 'Formulario DS-160 / Solicitud' },
+  { value: 'TRANSCRIPT', label: 'Certificado de Notas / Matrícula' },
+  { value: 'DIPLOMA', label: 'Diploma / Acta de Grado' },
+  { value: 'PHOTO', label: 'Foto Tipo Visa (5x5 cm)' },
+  { value: 'FINANCIAL', label: 'Soporte Financiero / Extractos' },
+  { value: 'MEDICAL', label: 'Certificado Médico / Vacunación' },
+  { value: 'INSURANCE', label: 'Seguro Médico Internacional' },
+  { value: 'TRAVEL', label: 'Itinerario de Vuelo / Tiquetes' },
+  { value: 'EMPLOYMENT', label: 'Job Offer / Oferta Laboral' },
+  { value: 'OTHER', label: 'Otro Documento' },
+] as const;
+
+export async function uploadStudentDocument(formData: FormData): Promise<{
+  success: boolean;
+  message?: string;
+  document?: StudentDocument;
+  error?: string;
+}> {
+  const token = getStoredToken();
+  const headers: Record<string, string> = {
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+  };
+
+  const response = await fetch(`${API_BASE_URL}/api/portal/student/documents?t=${Date.now()}`, {
+    method: 'POST',
+    headers,
+    body: formData,
+  });
+
+  const data = await response.json();
+  if (!response.ok) {
+    if (response.status === 401) {
+      clearAuth();
+      if (typeof window !== 'undefined') {
+        window.location.href = '/student-portal';
+      }
+    }
+    throw new Error(data.error || `Error al subir documento (${response.status})`);
+  }
+
+  return data;
+}
+
 export async function getStudentProgress(): Promise<{
   success: boolean;
   requirements: StudentRequirement[];

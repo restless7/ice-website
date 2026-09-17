@@ -1,16 +1,18 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   FileText, FileCheck, FileClock, FileX, Clock, CheckCircle,
   AlertCircle, ArrowLeft, Upload, Search, Filter,
-  GraduationCap, User, LogOut, RefreshCw, Loader2, Download, Calendar
+  GraduationCap, User, LogOut, RefreshCw, Loader2, Download, Calendar,
+  Plus, X, FileUp, ShieldCheck
 } from "lucide-react";
 import {
-  getStudentDocuments, getStoredUser, isAuthenticated, logout,
+  getStudentDocuments, uploadStudentDocument, PORTAL_DOCUMENT_TYPES,
+  getStoredUser, isAuthenticated, logout,
   type StudentDocument
 } from "@/app/lib/portal-api";
 
@@ -53,6 +55,17 @@ export default function PortalDocumentsPage() {
   const [search, setSearch] = useState("");
   const [filterStatus, setFilterStatus] = useState("ALL");
 
+  // Upload modal state
+  const [showUploadModal, setShowUploadModal] = useState(false);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [documentType, setDocumentType] = useState<string>("PASSPORT");
+  const [description, setDescription] = useState("");
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadError, setUploadError] = useState("");
+  const [uploadSuccess, setUploadSuccess] = useState("");
+  const [dragActive, setDragActive] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   const user = getStoredUser();
 
   useEffect(() => {
@@ -75,6 +88,58 @@ export default function PortalDocumentsPage() {
       setLoading(false);
     }
   }
+
+  const handleDrag = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.type === "dragenter" || e.type === "dragover") setDragActive(true);
+    else if (e.type === "dragleave") setDragActive(false);
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      setSelectedFile(e.dataTransfer.files[0]);
+    }
+  };
+
+  const handleUploadSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!selectedFile) {
+      setUploadError("Por favor selecciona un archivo");
+      return;
+    }
+    setIsUploading(true);
+    setUploadError("");
+    setUploadSuccess("");
+
+    try {
+      const formData = new FormData();
+      formData.append("file", selectedFile);
+      formData.append("documentType", documentType);
+      if (description) formData.append("description", description);
+
+      const res = await uploadStudentDocument(formData);
+      if (res.success) {
+        setUploadSuccess("¡Documento cargado exitosamente! Ha quedado en estado PENDIENTE para revisión de tu asesor.");
+        setSelectedFile(null);
+        setDescription("");
+        await loadDocuments();
+        setTimeout(() => {
+          setShowUploadModal(false);
+          setUploadSuccess("");
+        }, 2200);
+      } else {
+        setUploadError(res.error || "No se pudo cargar el archivo");
+      }
+    } catch (err: unknown) {
+      setUploadError(err instanceof Error ? err.message : "Error al cargar documento");
+    } finally {
+      setIsUploading(false);
+    }
+  };
 
   const filtered = documents.filter(doc => {
     const matchesSearch = search === "" ||
@@ -123,6 +188,13 @@ export default function PortalDocumentsPage() {
             </div>
             
             <div className="flex items-center gap-3">
+              <button
+                onClick={() => setShowUploadModal(true)}
+                className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-brand-gold to-brand-orange text-black font-black text-xs uppercase tracking-widest rounded-xl hover:opacity-95 transition-all shadow-lg shadow-brand-gold/20 active:scale-95"
+              >
+                <Plus className="w-4 h-4 stroke-[3]" />
+                <span className="hidden sm:inline">Subir Documento</span>
+              </button>
               <button onClick={loadDocuments} className="p-2.5 hover:bg-white/5 rounded-xl transition-all border border-transparent hover:border-white/10 group" title="Actualizar">
                 <RefreshCw className="w-5 h-5 text-white/50 group-hover:text-brand-gold" />
               </button>
@@ -283,7 +355,7 @@ export default function PortalDocumentsPage() {
           )}
         </motion.div>
 
-        {/* CTA Section */}
+        {/* CTA / Upload Section */}
         <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} viewport={{ once: true }} className="mt-12">
           <div className="bg-gradient-to-r from-brand-gold to-brand-orange rounded-[2.5rem] p-10 md:p-12 relative overflow-hidden shadow-2xl flex flex-col md:flex-row items-center gap-8 group">
             <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
@@ -291,19 +363,195 @@ export default function PortalDocumentsPage() {
               <Upload className="w-10 h-10 text-white" />
             </div>
             <div className="relative text-center md:text-left">
-              <h3 className="text-white font-black text-3xl mb-3 tracking-tighter">¿Necesitas actualizar un archivo?</h3>
+              <h3 className="text-white font-black text-3xl mb-3 tracking-tighter">¿Tienes documentos por cargar?</h3>
               <p className="text-white/80 text-lg font-medium max-w-xl leading-snug">
-                Si detectas un error o necesitas cargar documentación adicional, contacta a tu asesor ICE para habilitar la carga en tu expediente.
+                Sube tu pasaporte, certificados universitarios, fotos o formularios oficiales directamente a tu expediente digital para validación inmediata de tu asesor.
               </p>
             </div>
             <div className="relative shrink-0 w-full md:w-auto mt-4 md:mt-0">
-              <Link href="/contacto" className="block text-center px-10 py-5 bg-black text-white font-black text-xs uppercase tracking-[0.3em] rounded-2xl hover:bg-white hover:text-black transition-all shadow-2xl transform active:scale-95">
-                Contactar Asesor
-              </Link>
+              <button
+                onClick={() => setShowUploadModal(true)}
+                className="w-full md:w-auto text-center px-10 py-5 bg-black text-white font-black text-xs uppercase tracking-[0.3em] rounded-2xl hover:bg-white hover:text-black transition-all shadow-2xl transform active:scale-95 flex items-center justify-center gap-3"
+              >
+                <Plus className="w-4 h-4 stroke-[3]" />
+                Cargar Documento Ahora
+              </button>
             </div>
           </div>
         </motion.div>
       </main>
+
+      {/* Upload Document Modal */}
+      <AnimatePresence>
+        {showUploadModal && (
+          <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => !isUploading && setShowUploadModal(false)}
+              className="fixed inset-0 bg-black/80 backdrop-blur-md"
+            />
+            
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="relative w-full max-w-xl bg-gray-900 border border-white/10 rounded-3xl p-6 sm:p-8 shadow-2xl z-10 overflow-hidden"
+            >
+              <div className="flex items-center justify-between pb-6 border-b border-white/10">
+                <div className="flex items-center gap-3">
+                  <div className="p-3 bg-gradient-to-br from-brand-gold to-brand-orange rounded-xl text-black">
+                    <FileUp className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h2 className="text-white text-lg font-bold">Subir Documento</h2>
+                    <p className="text-white/40 text-xs font-medium">Expediente oficial del estudiante</p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => !isUploading && setShowUploadModal(false)}
+                  disabled={isUploading}
+                  className="p-2 text-white/50 hover:text-white rounded-xl hover:bg-white/5 transition-all"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              {uploadError && (
+                <div className="mt-4 p-3.5 bg-red-500/10 border border-red-500/20 rounded-xl flex items-center gap-3 text-red-300 text-xs">
+                  <AlertCircle className="w-4 h-4 shrink-0 text-red-400" />
+                  <span>{uploadError}</span>
+                </div>
+              )}
+
+              {uploadSuccess && (
+                <div className="mt-4 p-3.5 bg-emerald-500/10 border border-emerald-500/20 rounded-xl flex items-center gap-3 text-emerald-300 text-xs font-medium">
+                  <CheckCircle className="w-4 h-4 shrink-0 text-emerald-400" />
+                  <span>{uploadSuccess}</span>
+                </div>
+              )}
+
+              <form onSubmit={handleUploadSubmit} className="mt-6 space-y-5">
+                {/* Document Type Selector */}
+                <div>
+                  <label className="block text-white/70 text-xs font-bold uppercase tracking-wider mb-2">
+                    Tipo de Documento *
+                  </label>
+                  <select
+                    value={documentType}
+                    onChange={(e) => setDocumentType(e.target.value)}
+                    disabled={isUploading}
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:ring-2 focus:ring-brand-gold/30 focus:border-brand-gold/50"
+                  >
+                    {PORTAL_DOCUMENT_TYPES.map((t) => (
+                      <option key={t.value} value={t.value} className="bg-gray-900 text-white">
+                        {t.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Dropzone File Input */}
+                <div>
+                  <label className="block text-white/70 text-xs font-bold uppercase tracking-wider mb-2">
+                    Archivo * (PDF, JPG, PNG, DOCX hasta 50MB)
+                  </label>
+                  <div
+                    onDragEnter={handleDrag}
+                    onDragLeave={handleDrag}
+                    onDragOver={handleDrag}
+                    onDrop={handleDrop}
+                    onClick={() => fileInputRef.current?.click()}
+                    className={`border-2 border-dashed rounded-2xl p-6 text-center cursor-pointer transition-all ${
+                      dragActive
+                        ? "border-brand-gold bg-brand-gold/5"
+                        : selectedFile
+                        ? "border-emerald-500/50 bg-emerald-500/5"
+                        : "border-white/15 hover:border-white/30 bg-white/[0.02]"
+                    }`}
+                  >
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      onChange={(e) => e.target.files?.[0] && setSelectedFile(e.target.files[0])}
+                      className="hidden"
+                      accept=".pdf,.jpg,.jpeg,.png,.webp,.doc,.docx,.xls,.xlsx"
+                    />
+                    {selectedFile ? (
+                      <div className="flex flex-col items-center">
+                        <FileCheck className="w-10 h-10 text-emerald-400 mb-2" />
+                        <p className="text-white text-sm font-bold truncate max-w-xs">{selectedFile.name}</p>
+                        <p className="text-white/40 text-xs mt-1">{formatFileSize(selectedFile.size)}</p>
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setSelectedFile(null);
+                          }}
+                          className="mt-2 text-xs text-red-400 hover:text-red-300 underline"
+                        >
+                          Cambiar archivo
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="flex flex-col items-center">
+                        <Upload className="w-8 h-8 text-white/40 mb-2" />
+                        <p className="text-white/80 text-sm font-medium">Arrastra tu archivo aquí o <span className="text-brand-gold font-bold underline">explora</span></p>
+                        <p className="text-white/30 text-xs mt-1">Formatos admitidos: PDF, JPG, PNG, DOCX, XLSX (máx. 50MB)</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Optional Note/Description */}
+                <div>
+                  <label className="block text-white/70 text-xs font-bold uppercase tracking-wider mb-2">
+                    Comentario o Nota Opcional
+                  </label>
+                  <input
+                    type="text"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    disabled={isUploading}
+                    placeholder="Ej. Pasaporte renovado vigente hasta 2030"
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/30 text-sm focus:outline-none focus:ring-2 focus:ring-brand-gold/30 focus:border-brand-gold/50"
+                  />
+                </div>
+
+                {/* Submit Buttons */}
+                <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/10">
+                  <button
+                    type="button"
+                    onClick={() => setShowUploadModal(false)}
+                    disabled={isUploading}
+                    className="px-5 py-3 rounded-xl text-white/60 hover:text-white hover:bg-white/5 text-xs font-bold uppercase tracking-wider transition-all"
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={isUploading || !selectedFile}
+                    className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-brand-gold to-brand-orange text-black font-black text-xs uppercase tracking-widest rounded-xl hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-lg shadow-brand-gold/20"
+                  >
+                    {isUploading ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        <span>Subiendo...</span>
+                      </>
+                    ) : (
+                      <>
+                        <ShieldCheck className="w-4 h-4 stroke-[2.5]" />
+                        <span>Confirmar y Cargar</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+              </form>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
 
       <footer className="border-t border-white/5 mt-20 bg-black/40 backdrop-blur-lg relative z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
