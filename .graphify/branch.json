@@ -3,14 +3,14 @@
   "branchName": "main",
   "worktreePath": "/home/sebastiangarcia/planmaestro-ecosystem/packages/ice-website",
   "upstream": "origin/main",
-  "mergeBase": "a6b8ee8536656f2e755d1fda2faf4409eaa6dcc9",
+  "mergeBase": "63c2b5d5d462a878e23051e547502d7fc7a60af3",
   "firstSeenHead": "a6b8ee8536656f2e755d1fda2faf4409eaa6dcc9",
-  "lastSeenHead": "a6b8ee8536656f2e755d1fda2faf4409eaa6dcc9",
-  "lastAnalyzedHead": "a6b8ee8536656f2e755d1fda2faf4409eaa6dcc9",
+  "lastSeenHead": "63c2b5d5d462a878e23051e547502d7fc7a60af3",
+  "lastAnalyzedHead": "63c2b5d5d462a878e23051e547502d7fc7a60af3",
   "stale": false,
   "staleReason": null,
   "staleSince": null,
   "lifecycleEvent": null,
   "createdAt": "2026-05-04T00:26:32.741Z",
-  "updatedAt": "2026-05-04T00:26:32.741Z"
+  "updatedAt": "2026-09-27T12:57:07.374Z"
 }

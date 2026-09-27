@@ -17,7 +17,8 @@ import {
     Handshake,
     Mic2,
     Briefcase,
-    Coffee
+    Coffee,
+    Sparkles
 } from "lucide-react";
 import Link from "next/link";
 import { CurriculumHeader } from "@/components/english-class/CurriculumHeader";
@@ -106,6 +107,31 @@ export default function EnglishClassPage() {
                         <div className="relative z-10 shrink-0">
                             <span className="inline-flex items-center gap-2 bg-cyan-500/20 text-cyan-300 font-bold py-3 px-6 rounded-full border border-cyan-500/30 group-hover:bg-cyan-500 group-hover:text-slate-950 transition-colors">
                                 Start Sponsor Interview Module <ArrowRight className="w-4 h-4" />
+                            </span>
+                        </div>
+                    </div>
+                </Link>
+            </div>
+
+            {/* NEW: J-1 HOSPITALITY INTERNSHIP Masterclass Banner */}
+            <div className="container mx-auto px-6 max-w-7xl pb-4">
+                <Link href="/english-class/hospitality-internship" className="block group">
+                    <div className="bg-gradient-to-r from-amber-900/40 via-yellow-900/20 to-amber-900/40 border border-amber-500/30 rounded-2xl p-6 md:p-8 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6 shadow-[0_0_30px_rgba(245,158,11,0.15)] group-hover:border-amber-400/50 group-hover:shadow-[0_0_40px_rgba(245,158,11,0.3)] transition-all duration-300">
+                        <div className="absolute inset-0 bg-amber-500/5 group-hover:bg-amber-500/10 transition-colors" />
+                        <div className="relative z-10">
+                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/20 border border-amber-500/30 text-amber-300 text-xs font-bold uppercase tracking-wider mb-2">
+                                <Sparkles className="w-3.5 h-3.5" /> High-Intermediate &amp; Advanced (B2 - C1)
+                            </div>
+                            <h3 className="text-amber-400 font-bold text-2xl mb-2 flex items-center gap-3">
+                                <Award className="w-6 h-6" /> J-1 Hospitality Internship Masterclass (2 Hours)
+                            </h3>
+                            <p className="text-slate-300 max-w-2xl leading-relaxed">
+                                Specialized preparation for Luxury Hotels, Resorts, and F&amp;B Interns. Master Forbes 5-Star guest recovery (L.A.S.T.), the official DS-7002 Training Plan, gastronomy phonetics, and J-1 consular non-immigrant intent.
+                            </p>
+                        </div>
+                        <div className="relative z-10 shrink-0">
+                            <span className="inline-flex items-center gap-2 bg-amber-500/20 text-amber-300 font-bold py-3 px-6 rounded-full border border-amber-500/30 group-hover:bg-amber-500 group-hover:text-slate-950 transition-colors">
+                                Start Hospitality Module <ArrowRight className="w-4 h-4" />
                             </span>
                         </div>
                     </div>

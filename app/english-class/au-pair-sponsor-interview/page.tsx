@@ -1148,8 +1148,8 @@ export default function AuPairSponsorInterviewPage() {
       <CurriculumNavigation
         prevHref="/english-class/au-pair-5-hours"
         prevLabel="Au Pair 5-Hour Course"
-        nextHref="/english-class/hours-1-2"
-        nextLabel="Hours 1 & 2: General Essentials"
+        nextHref="/english-class/hospitality-internship"
+        nextLabel="Hospitality Internship Masterclass"
         accentColor="teal"
         moduleTitle="Au Pair Sponsor Interview Masterclass"
       />
