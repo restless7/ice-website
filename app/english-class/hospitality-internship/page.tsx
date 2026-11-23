@@ -1910,8 +1910,8 @@ T - THANK the guest for bringing the matter to your attention.
       <CurriculumNavigation
         prevHref="/english-class/au-pair-sponsor-interview"
         prevLabel="Au Pair Sponsor Interview"
-        nextHref="/english-class"
-        nextLabel="English Academy Home"
+        nextHref="/english-class/work-and-travel-sponsor-interview"
+        nextLabel="Work & Travel Sponsor Interview"
         accentColor="amber"
         moduleTitle="J-1 Hospitality Internship Masterclass"
       />

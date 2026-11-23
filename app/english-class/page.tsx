@@ -138,6 +138,31 @@ export default function EnglishClassPage() {
                 </Link>
             </div>
 
+            {/* NEW: WORK & TRAVEL Sponsor Interview Masterclass Banner */}
+            <div className="container mx-auto px-6 max-w-7xl pb-4">
+                <Link href="/english-class/work-and-travel-sponsor-interview" className="block group">
+                    <div className="bg-gradient-to-r from-emerald-900/40 via-teal-900/20 to-emerald-900/40 border border-emerald-500/30 rounded-2xl p-6 md:p-8 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6 shadow-[0_0_30px_rgba(16,185,129,0.15)] group-hover:border-emerald-400/50 group-hover:shadow-[0_0_40px_rgba(16,185,129,0.3)] transition-all duration-300">
+                        <div className="absolute inset-0 bg-emerald-500/5 group-hover:bg-emerald-500/10 transition-colors" />
+                        <div className="relative z-10">
+                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 text-xs font-bold uppercase tracking-wider mb-2">
+                                <Sparkles className="w-3.5 h-3.5" /> High-Intermediate &amp; Customer-Facing (B1 - B2)
+                            </div>
+                            <h3 className="text-emerald-400 font-bold text-2xl mb-2 flex items-center gap-3">
+                                <Award className="w-6 h-6" /> WORK &amp; TRAVEL Sponsor Interview Masterclass (2 Hours)
+                            </h3>
+                            <p className="text-slate-300 max-w-2xl leading-relaxed">
+                                Specialized intensive masterclass for J-1 Summer Work Travel (CIEE, InterExchange, Intrax). Master L1-Spanish phonetics, seasonal stamina, STAR customer service formulas, 15 official report questions, and turn-by-turn interactive dialogues.
+                            </p>
+                        </div>
+                        <div className="relative z-10 shrink-0">
+                            <span className="inline-flex items-center gap-2 bg-emerald-500/20 text-emerald-300 font-bold py-3 px-6 rounded-full border border-emerald-500/30 group-hover:bg-emerald-500 group-hover:text-slate-950 transition-colors">
+                                Start Work &amp; Travel Module <ArrowRight className="w-4 h-4" />
+                            </span>
+                        </div>
+                    </div>
+                </Link>
+            </div>
+
             {/* Curriculum Units Quick Navigation */}
             <div className="container mx-auto px-6 max-w-7xl pb-12">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
