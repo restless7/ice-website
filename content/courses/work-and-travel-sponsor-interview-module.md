@@ -199,3 +199,4 @@ Threshold: 20/25 for Customer-Facing Roles (Cashier, Server, Lifeguard)
 
 ---
 *Created by Senior Cultural Exchange & J-1 Visa Specialist, ICE Colombia English Academy.*
+

@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Volume2,
   Play,
@@ -22,6 +23,16 @@ import {
   FileText,
   Briefcase,
   Compass,
+  Copy,
+  Check,
+  Search,
+  Printer,
+  ArrowRight,
+  ExternalLink,
+  Coffee,
+  Utensils,
+  Flame,
+  SlidersHorizontal,
 } from "lucide-react";
 import { CurriculumHeader } from "@/components/english-class/CurriculumHeader";
 import { CurriculumBlock } from "@/components/english-class/CurriculumBlock";
@@ -34,6 +45,15 @@ interface PhoneticItem {
   rule: string;
   bad: string;
   good: string;
+  ipa: string;
+  audioText: string;
+}
+
+interface SlangItem {
+  term: string;
+  category: "Kitchen & F&B" | "Operations & Shifts" | "Resort & Hotel";
+  meaning: string;
+  example: string;
   ipa: string;
   audioText: string;
 }
@@ -77,10 +97,21 @@ export default function WorkAndTravelSponsorInterviewPage() {
     "Responsible & Independent",
   ]);
   const [isPlayingAudio, setIsPlayingAudio] = useState<string | null>(null);
+  const [speechRate, setSpeechRate] = useState<number>(0.9);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   // Question State
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
+  const [searchQuery, setSearchQuery] = useState<string>("");
   const [activeQuestionId, setActiveQuestionId] = useState<number>(1);
+  const [practicedQuestions, setPracticedQuestions] = useState<number[]>([1]);
+  const [activeAnswerTier, setActiveAnswerTier] = useState<"B2" | "C1">("B2");
+
+  // Custom STAR Builder State
+  const [starS, setStarS] = useState("");
+  const [starT, setStarT] = useState("");
+  const [starA, setStarA] = useState("");
+  const [starR, setStarR] = useState("");
 
   // Dialogue State
   const [activeDialogueId, setActiveDialogueId] = useState<number>(1);
@@ -92,8 +123,20 @@ export default function WorkAndTravelSponsorInterviewPage() {
   const [simQuestionId, setSimQuestionId] = useState<number>(1);
   const [scores, setScores] = useState({ clarity: 4, structure: 4, fluency: 4, trait: 5, compliance: 5 });
 
+  const showToast = (msg: string) => {
+    setToastMessage(msg);
+    setTimeout(() => {
+      setToastMessage(null);
+    }, 2500);
+  };
+
+  const copyToClipboard = (text: string, label = "Content") => {
+    navigator.clipboard.writeText(text);
+    showToast(`${label} copied to clipboard!`);
+  };
+
   // Web Speech API synthesis handler
-  const speakText = (text: string, id: string, pitch = 1, rate = 0.9) => {
+  const speakText = (text: string, id: string, pitch = 1, rate = speechRate) => {
     if (typeof window === "undefined" || !("speechSynthesis" in window)) {
       alert("Text-to-speech is not supported in your browser.");
       return;
@@ -135,16 +178,27 @@ export default function WorkAndTravelSponsorInterviewPage() {
     } else {
       if (selectedTraits.length < 5) {
         setSelectedTraits([...selectedTraits, trait]);
+      } else {
+        showToast("Maximum 5 core traits allowed. Unselect one first.");
       }
+    }
+  };
+
+  const togglePracticedQuestion = (id: number) => {
+    if (practicedQuestions.includes(id)) {
+      setPracticedQuestions(practicedQuestions.filter((qId) => qId !== id));
+    } else {
+      setPracticedQuestions([...practicedQuestions, id]);
+      showToast(`Question #${id} marked as rehearsed!`);
     }
   };
 
   // Phonetics Data
   const phoneticsData: PhoneticItem[] = [
     {
-      title: "1. The /ʃ/ vs /tʃ/ Distinction (Shift vs Cheat / Cashier)",
-      issue: "L1 Spanish speakers often pronounce the soft /ʃ/ (shoe, shift, wash) as hard /tʃ/ (chew, cheat, watch).",
-      rule: "For /ʃ/, produce a continuous rushing sound ('shhh'). Do not stop the airflow with your tongue as in /tʃ/.",
+      title: "1. The /ʃ/ vs /tʃ/ Sound Distinction (Shift vs Cheat / Cashier)",
+      issue: "L1 Spanish speakers often pronounce the continuous soft /ʃ/ (shoe, shift, wash) as an explosive hard /tʃ/ (chew, cheat, watch).",
+      rule: "For /ʃ/, produce a continuous rushing sound ('shhh'). Do not stop the airflow with your tongue against the upper teeth as in /tʃ/.",
       bad: "I can take any cheat and clean the kitchen chair.",
       good: "I can take any shift /ʃɪft/ and wash /wɒʃ/ the cashier station with care.",
       ipa: "/ʃɪft/ vs /tʃiːt/ • /kæˈʃɪər/",
@@ -153,7 +207,7 @@ export default function WorkAndTravelSponsorInterviewPage() {
     {
       title: "2. Consonant Clusters /st/, /sp/, /sk/ (Eliminating Initial 'Es-')",
       issue: "Adding an extra intrusive /e/ vowel before 's' clusters (e.g. es-schedule, es-sponsor, es-supervisor).",
-      rule: "Start directly with a prolonged 'sss' hiss before releasing into the consonant without opening into an /e/.",
+      rule: "Start directly with a prolonged 'sss' hiss before releasing into the consonant without opening your mouth into an /e/.",
       bad: "I checked the es-schedule with my es-sponsor.",
       good: "I checked the schedule /ˈskɛdʒuːl/ with my sponsor /ˈspɒnsər/ and staff /stæf/.",
       ipa: "/ˈskɛdʒuːl/ • /ˈspɒnsər/ • /stæf/",
@@ -185,6 +239,58 @@ export default function WorkAndTravelSponsorInterviewPage() {
       good: "I worked a ten-hour shift /ʃɪft/ and placed clean sheets /ʃiːts/ on the beds.",
       ipa: "/ʃɪft/ vs /ʃiːts/ • /lɪv/ vs /liːv/",
       audioText: "During my morning shift, I put fresh clean sheets on the beds.",
+    },
+  ];
+
+  // Seasonal Slang & Resort Workplace Idioms
+  const slangData: SlangItem[] = [
+    {
+      term: "In the weeds",
+      category: "Kitchen & F&B",
+      meaning: "Industry slang for being swamped, overwhelmed, or falling behind during an intense peak rush of orders or customers.",
+      example: "When the front patio section got into the weeds, I stepped in to run drinks and bus tables immediately.",
+      ipa: "/ɪn ðə wiːdz/",
+      audioText: "When the front patio got in the weeds, I stepped in to run drinks and bus tables immediately.",
+    },
+    {
+      term: "86 / 86'd",
+      category: "Kitchen & F&B",
+      meaning: "When a restaurant item is sold out, discontinued, or cancelled by the kitchen lead.",
+      example: "The kitchen lead announced that fresh clam chowder is 86'd, so I guided guests to our seafood special instead.",
+      ipa: "/ˌeɪti ˈsɪkst/",
+      audioText: "The kitchen lead announced clam chowder is 86'd, so I guided guests to our seafood special instead.",
+    },
+    {
+      term: "On the fly",
+      category: "Operations & Shifts",
+      meaning: "Needing something prepared or delivered immediately right away to fix a customer situation.",
+      example: "Table four dropped their silverware; I need a clean cutlery roll on the fly!",
+      ipa: "/ɒn ðə flaɪ/",
+      audioText: "Table four dropped their silverware; I need a clean cutlery roll on the fly!",
+    },
+    {
+      term: "Opener / Closer",
+      category: "Operations & Shifts",
+      meaning: "Working the first shift of the day to set up the facility or the final shift of the night to clean and reconcile cash drawers.",
+      example: "I am scheduled as opener on Friday morning and closer on Saturday night, and I always arrive fifteen minutes early.",
+      ipa: "/ˈəʊpnər/ • /ˈkləʊzər/",
+      audioText: "I am scheduled as opener on Friday morning and closer on Saturday night.",
+    },
+    {
+      term: "Side work",
+      category: "Operations & Shifts",
+      meaning: "Routine maintenance and preparatory duties performed around shifts (restocking napkins, polishing cutlery, refilling ice).",
+      example: "Before clocking out, I always ensure all my side work is 100% completed so the next crew is set up for success.",
+      ipa: "/saɪd wɜːk/",
+      audioText: "Before clocking out, I always ensure all my side work is completed for the next crew.",
+    },
+    {
+      term: "Walk-in",
+      category: "Resort & Hotel",
+      meaning: "Customers or resort guests who arrive seeking a table, ticket, or room without an advance reservation.",
+      example: "We had a rush of twenty walk-ins right after the fireworks show, and I coordinated seating calmly.",
+      ipa: "/ˈwɔːk ɪn/",
+      audioText: "We had a rush of twenty walk-ins right after the fireworks, and I coordinated seating calmly.",
     },
   ];
 
@@ -521,21 +627,83 @@ export default function WorkAndTravelSponsorInterviewPage() {
     },
   ];
 
+  // Filtering questions
+  const filteredQuestions = useMemo(() => {
+    return questionsData.filter((q) => {
+      const matchesCategory = selectedCategory === "All" || q.category === selectedCategory;
+      const matchesSearch =
+        searchQuery === "" ||
+        q.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        q.formula.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        q.intent.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        q.category.toLowerCase().includes(searchQuery.toLowerCase());
+      return matchesCategory && matchesSearch;
+    });
+  }, [selectedCategory, searchQuery]);
+
   const activeQuestion = questionsData.find((q) => q.id === activeQuestionId) || questionsData[0];
   const simQuestion = questionsData.find((q) => q.id === simQuestionId) || questionsData[0];
   const activeDialogue = dialogueScenariosData.find((d) => d.id === activeDialogueId) || dialogueScenariosData[0];
-
-  const filteredQuestions =
-    selectedCategory === "All"
-      ? questionsData
-      : questionsData.filter((q) => q.category === selectedCategory);
 
   const calculateTotalScore = () => {
     return scores.clarity + scores.structure + scores.fluency + scores.trait + scores.compliance;
   };
 
+  const synthesizedStarAnswer = useMemo(() => {
+    const parts = [];
+    if (starS.trim()) parts.push(`Situation: ${starS.trim()}`);
+    if (starT.trim()) parts.push(`Task: ${starT.trim()}`);
+    if (starA.trim()) parts.push(`Action: ${starA.trim()}`);
+    if (starR.trim()) parts.push(`Result: ${starR.trim()}`);
+    return parts.join(" • ");
+  }, [starS, starT, starA, starR]);
+
+  const handleCopyScorecard = () => {
+    const total = calculateTotalScore();
+    const statusText =
+      total >= 20
+        ? "APPROVED (High-Intermediate / Customer-Facing Tier)"
+        : "CONDITIONAL / NEEDS PHONETICS RE-DRILL";
+    const report = `ICE ACADEMY — J-1 WORK & TRAVEL SPONSOR INTERVIEW SCORECARD
+Candidate Practice Report
+Total Score: ${total} / 25 [${statusText}]
+
+1. Phonetic Clarity & Pronunciation: ${scores.clarity}/5
+2. Response Structure (STAR Method): ${scores.structure}/5
+3. Spontaneity & Conversational Fluency: ${scores.fluency}/5
+4. Work Ethic & Trait Impression: ${scores.trait}/5
+5. J-1 Visa & Regulatory Compliance: ${scores.compliance}/5
+
+Evaluation: ${total >= 20 ? "Candidate exhibits strong front-of-house customer communication and robust non-immigrant intent." : "Candidate should repeat Block 2 Phonetics and review question formulas."}
+Verified by ICE Colombia English Academy.`;
+
+    copyToClipboard(report, "Evaluation scorecard");
+  };
+
+  const handlePrintHandout = () => {
+    if (typeof window !== "undefined") {
+      window.print();
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 font-sans selection:bg-emerald-500/30">
+    <div className="min-h-screen bg-slate-950 text-slate-100 font-sans selection:bg-emerald-500/30 relative">
+      {/* Toast Notification */}
+      <AnimatePresence>
+        {toastMessage && (
+          <motion.div
+            initial={{ opacity: 0, y: -20, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -20, scale: 0.95 }}
+            className="fixed top-6 right-6 z-50 bg-slate-900 border border-emerald-500/40 text-emerald-300 px-4 py-2.5 rounded-xl shadow-2xl flex items-center gap-2.5 text-xs font-semibold backdrop-blur-md"
+          >
+            <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+            <span>{toastMessage}</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Hero Header */}
       <CurriculumHeader
         hourNumber="Module 3 (2 Hours)"
         title="Work & Travel Sponsor Interview Masterclass."
@@ -545,17 +713,66 @@ export default function WorkAndTravelSponsorInterviewPage() {
         moduleInfo="WORK & TRAVEL Sponsor Screening Track"
       />
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
+      {/* Quick Stats Pill Strip */}
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 -mt-12 mb-8 relative z-10">
+        <div className="bg-slate-900/90 border border-emerald-500/20 rounded-2xl p-4 shadow-xl backdrop-blur-md flex flex-wrap items-center justify-between gap-4 text-xs">
+          <div className="flex flex-wrap items-center gap-3 sm:gap-6 text-slate-300 font-medium">
+            <span className="flex items-center gap-1.5 text-emerald-400 font-semibold">
+              <ShieldCheck className="w-4 h-4" /> 22 CFR § 62.32 Standard
+            </span>
+            <span className="text-slate-700 hidden sm:inline">•</span>
+            <span className="flex items-center gap-1.5">
+              <BookOpen className="w-4 h-4 text-cyan-400" /> 15 Official Questions
+            </span>
+            <span className="text-slate-700 hidden sm:inline">•</span>
+            <span className="flex items-center gap-1.5">
+              <Mic className="w-4 h-4 text-emerald-400" /> 5 Phonetic Repairs
+            </span>
+            <span className="text-slate-700 hidden sm:inline">•</span>
+            <span className="flex items-center gap-1.5">
+              <Coffee className="w-4 h-4 text-amber-400" /> 6 Seasonal Slang Terms
+            </span>
+            <span className="text-slate-700 hidden sm:inline">•</span>
+            <span className="flex items-center gap-1.5">
+              <Clock className="w-4 h-4 text-rose-400" /> 10-Min Mock Simulator
+            </span>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <span className="text-[11px] text-slate-400 font-mono">Audio Speed:</span>
+            <div className="flex items-center bg-slate-950 p-1 rounded-lg border border-white/5 font-mono text-[10px]">
+              {[0.8, 0.9, 1.0].map((rate) => (
+                <button
+                  key={rate}
+                  onClick={() => {
+                    setSpeechRate(rate);
+                    showToast(`Audio speed set to ${rate}x`);
+                  }}
+                  className={`px-2 py-0.5 rounded cursor-pointer transition-all ${
+                    speechRate === rate
+                      ? "bg-emerald-500 text-slate-950 font-bold"
+                      : "text-slate-400 hover:text-white"
+                  }`}
+                >
+                  {rate}x
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 space-y-10">
         
-        {/* Navigation Tabs */}
-        <div className="flex flex-wrap gap-2 border-b border-slate-800 pb-4">
+        {/* Sticky Glassmorphic Navigation Tabs */}
+        <div className="sticky top-4 z-40 bg-slate-950/85 backdrop-blur-xl border border-white/10 p-1.5 rounded-2xl shadow-2xl flex flex-wrap gap-1.5">
           {[
-            { id: "rubric", label: "Block 1: Sponsor Rubric & Traits", icon: Award },
-            { id: "phonetics", label: "Block 2: Phonetics & IPA Audio", icon: Mic },
-            { id: "questions", label: "Block 3: 15 Questions & STAR Builder", icon: BookOpen },
-            { id: "dialogues", label: "Block 4: Extensive Dialogues & Audio Scenarios", icon: MessageSquare },
-            { id: "simulator", label: "Block 5: Mock Interview Simulator", icon: Clock },
-            { id: "handout", label: "Golden Rules Cheat Sheet", icon: ShieldCheck },
+            { id: "rubric", label: "Block 1: Sponsor Rubric & Traits", icon: Award, badge: "Rubric" },
+            { id: "phonetics", label: "Block 2: Phonetics & Slang Audio", icon: Mic, badge: "5 Drills + Slang" },
+            { id: "questions", label: "Block 3: 15 Questions & STAR Lab", icon: BookOpen, badge: `${practicedQuestions.length}/15 Rehearsed` },
+            { id: "dialogues", label: "Block 4: Turn-by-Turn Audio Scenarios", icon: MessageSquare, badge: "5 Scenarios" },
+            { id: "simulator", label: "Block 5: Mock Interview Studio", icon: Clock, badge: "Timed 10m" },
+            { id: "handout", label: "Top 10 Golden Rules", icon: ShieldCheck, badge: "Printable" },
           ].map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
@@ -563,20 +780,27 @@ export default function WorkAndTravelSponsorInterviewPage() {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as any)}
-                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-sm transition-all duration-200 cursor-pointer ${
+                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl font-bold text-xs transition-all duration-200 cursor-pointer ${
                   isActive
-                    ? "bg-emerald-500 text-slate-950 shadow-lg shadow-emerald-500/25 scale-[1.02]"
-                    : "bg-slate-900/80 hover:bg-slate-800 text-slate-300 border border-white/5"
+                    ? "bg-emerald-500 text-slate-950 shadow-lg shadow-emerald-500/25 scale-[1.01]"
+                    : "bg-slate-900/60 hover:bg-slate-800 text-slate-300 border border-white/5"
                 }`}
               >
-                <Icon className={`w-4 h-4 ${isActive ? "text-slate-950" : "text-emerald-400"}`} />
-                {tab.label}
+                <Icon className={`w-3.5 h-3.5 ${isActive ? "text-slate-950" : "text-emerald-400"}`} />
+                <span>{tab.label}</span>
+                <span
+                  className={`text-[9px] px-1.5 py-0.2 rounded-full font-mono ${
+                    isActive ? "bg-slate-950/20 text-slate-950" : "bg-slate-800 text-slate-400 border border-white/5"
+                  }`}
+                >
+                  {tab.badge}
+                </span>
               </button>
             );
           })}
         </div>
 
-        {/* BLOCK 1 */}
+        {/* BLOCK 1: RUBRIC & PERSONALITY MATRIX */}
         {activeTab === "rubric" && (
           <div className="space-y-6">
             <CurriculumBlock
@@ -586,287 +810,584 @@ export default function WorkAndTravelSponsorInterviewPage() {
               methodology="CEFR & SWT Placement Rubric"
               accentColor="emerald"
             >
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-                {[
-                  {
-                    level: "Intermediate (B1)",
-                    badge: "Back-of-House Threshold",
-                    badgeColor: "bg-amber-500/10 text-amber-400 border-amber-500/20",
-                    desc: "Understands core workplace commands; responds beyond one-word answers; suitable for kitchen prep, dishwashing, and housekeeping.",
-                  },
-                  {
-                    level: "High Intermediate (B2)",
-                    badge: "Recommended Target ⭐",
-                    badgeColor: "bg-emerald-500/20 text-emerald-300 border-emerald-500/30",
-                    desc: "Interacts fluently and spontaneously with guests; handles cash register transactions, complaints, and rapid front-of-house dialogue.",
-                  },
-                  {
-                    level: "Advanced (C1)",
-                    badge: "Top Placement Tier",
-                    badgeColor: "bg-cyan-500/20 text-cyan-300 border-cyan-500/30",
-                    desc: "Quick, natural, nuanced responses; rich vocabulary; capable of lead positions, shift coordination, and complex guest problem solving.",
-                  },
-                ].map((item, idx) => (
-                  <div key={idx} className="bg-slate-900/60 p-5 rounded-2xl border border-slate-800 space-y-3">
-                    <div className="flex items-center justify-between">
-                      <h3 className="font-bold text-white text-lg">{item.level}</h3>
-                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${item.badgeColor}`}>
-                        {item.badge}
-                      </span>
-                    </div>
-                    <p className="text-slate-300 text-sm leading-relaxed">{item.desc}</p>
-                  </div>
-                ))}
-              </div>
+              <div className="space-y-8 mt-4">
+                {/* Placement Tiers */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                  {[
+                    {
+                      level: "Intermediate (B1)",
+                      badge: "Back-of-House Threshold",
+                      badgeColor: "bg-amber-500/10 text-amber-400 border-amber-500/20",
+                      roles: "Dishwasher, Line Cook Prep, Housekeeping Attendant, Laundry",
+                      desc: "Understands core workplace commands; responds beyond one-word answers; occasional hesitation when searching for vocabulary.",
+                      tip: "Good for operational non-customer roles. Strive for B2 for higher tips and social interaction.",
+                    },
+                    {
+                      level: "High Intermediate (B2)",
+                      badge: "Recommended Target ⭐",
+                      badgeColor: "bg-emerald-500/20 text-emerald-300 border-emerald-500/30",
+                      roles: "Cashier, Food Runner, Server Assistant, Lifeguard, Ride Operator",
+                      desc: "Interacts fluently and spontaneously with guests; explains options; handles complaints and rapid front-of-house dialogue without panic.",
+                      tip: "The golden threshold for Summer Work Travel. Maximizes earning potential and cross-cultural friendship.",
+                    },
+                    {
+                      level: "Advanced (C1)",
+                      badge: "Top Placement Tier",
+                      badgeColor: "bg-cyan-500/20 text-cyan-300 border-cyan-500/30",
+                      roles: "Lead Shift Cashier, Host/Hostess, Concierge, Event Operations",
+                      desc: "Quick, natural, nuanced responses; rich vocabulary; capable of lead positions, shift coordination, and complex guest problem solving.",
+                      tip: "Candidate is designated as an outstanding cultural ambassador and prioritized for premium resort placements.",
+                    },
+                  ].map((item, idx) => (
+                    <div
+                      key={idx}
+                      className="bg-slate-900/70 p-6 rounded-2xl border border-slate-800 hover:border-emerald-500/30 transition-all space-y-4 relative overflow-hidden group shadow-lg"
+                    >
+                      <div className="flex items-center justify-between">
+                        <h3 className="font-bold text-white text-lg group-hover:text-emerald-400 transition-colors">
+                          {item.level}
+                        </h3>
+                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${item.badgeColor}`}>
+                          {item.badge}
+                        </span>
+                      </div>
 
-              {/* Trait Selector */}
-              <div className="mt-8 space-y-4">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-lg font-bold text-white flex items-center gap-2">
-                    <Users className="w-5 h-5 text-emerald-400" /> J-1 Work & Travel Personality Matrix (Select 5 traits)
-                  </h3>
-                  <span className="text-sm font-bold text-emerald-400">Selected: {selectedTraits.length}/5</span>
+                      <div className="space-y-2 text-xs">
+                        <div className="bg-slate-950/80 p-2.5 rounded-xl border border-white/5">
+                          <span className="text-[10px] text-slate-400 uppercase font-semibold block mb-0.5">Eligible Positions:</span>
+                          <span className="text-slate-200 font-medium">{item.roles}</span>
+                        </div>
+                        <p className="text-slate-300 leading-relaxed">{item.desc}</p>
+                      </div>
+
+                      <div className="pt-2 border-t border-white/5 text-[11px] text-emerald-400/90 italic">
+                        💡 {item.tip}
+                      </div>
+                    </div>
+                  ))}
                 </div>
 
-                <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-3">
-                  {[
-                    "Hardworking & Resilient",
-                    "Adaptable / Flexible",
-                    "Team Player",
-                    "Enthusiastic & Outgoing",
-                    "Responsible & Independent",
-                    "Punctual & Reliable",
-                    "Calm Under Pressure",
-                    "Customer-Focused",
-                    "Proactive Problem Solver",
-                    "Energetic & Active",
-                    "Quick Learner",
-                    "Detail-Oriented",
-                    "Friendly & Polite",
-                    "Culturally Open-Minded",
-                    "Honest & Trustworthy",
-                    "Positive Attitude",
-                  ].map((trait) => {
-                    const isSelected = selectedTraits.includes(trait);
-                    const isRecommended = [
+                {/* Trait Selector with Dynamic Feedback */}
+                <div className="bg-slate-900/60 p-6 rounded-2xl border border-slate-800 space-y-5 shadow-lg">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/5 pb-4">
+                    <div>
+                      <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                        <Users className="w-5 h-5 text-emerald-400" /> J-1 Work & Travel Personality Matrix
+                      </h3>
+                      <p className="text-xs text-slate-400">
+                        Select your top 5 qualities. Sponsors evaluate how these traits reflect in your verbal responses.
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">
+                        Selected: {selectedTraits.length} / 5
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-4 gap-3">
+                    {[
                       "Hardworking & Resilient",
                       "Adaptable / Flexible",
                       "Team Player",
                       "Enthusiastic & Outgoing",
                       "Responsible & Independent",
-                    ].includes(trait);
-                    return (
-                      <button
-                        key={trait}
-                        onClick={() => handleTraitToggle(trait)}
-                        className={`p-3 rounded-xl text-xs font-bold border transition-all text-center flex flex-col items-center justify-between gap-1 cursor-pointer ${
-                          isSelected
-                            ? "bg-emerald-500 text-slate-950 border-emerald-400 shadow-md shadow-emerald-500/20"
-                            : "bg-slate-900/60 text-slate-300 border-white/10 hover:border-white/20"
-                        }`}
-                      >
-                        <span>{trait}</span>
-                        {isRecommended && (
-                          <span className={`text-[9px] px-1.5 py-0.5 rounded ${isSelected ? "bg-slate-950 text-emerald-400" : "bg-emerald-500/20 text-emerald-400"}`}>
-                            Top Match
-                          </span>
-                        )}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            </CurriculumBlock>
-          </div>
-        )}
+                      "Punctual & Reliable",
+                      "Calm Under Pressure",
+                      "Customer-Focused",
+                      "Proactive Problem Solver",
+                      "Energetic & Active",
+                      "Quick Learner",
+                      "Detail-Oriented",
+                      "Friendly & Polite",
+                      "Culturally Open-Minded",
+                      "Honest & Trustworthy",
+                      "Positive Attitude",
+                    ].map((trait) => {
+                      const isSelected = selectedTraits.includes(trait);
+                      const isRecommended = [
+                        "Hardworking & Resilient",
+                        "Adaptable / Flexible",
+                        "Team Player",
+                        "Enthusiastic & Outgoing",
+                        "Responsible & Independent",
+                      ].includes(trait);
 
-        {/* BLOCK 2 */}
-        {activeTab === "phonetics" && (
-          <div className="space-y-6">
-            <CurriculumBlock
-              icon={<Mic className="w-6 h-6 text-emerald-400" />}
-              title="Block 2: L1-Spanish Phonetic Repair & Workplace Audio"
-              subtitle="20 Minutes • Contrastive Phonetics for Spanish Speakers in Hospitality & Retail"
-              methodology="Phonetic Drills & IPA Audio"
-              accentColor="emerald"
-            >
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
-                {phoneticsData.map((item, index) => {
-                  const audioId = `phonetic-${index}`;
-                  const isPlaying = isPlayingAudio === audioId;
-                  return (
-                    <div key={index} className="bg-slate-900/80 p-6 rounded-2xl border border-slate-800 space-y-4">
-                      <div className="flex items-center justify-between">
-                        <h3 className="font-bold text-white text-base">{item.title}</h3>
-                        <span className="text-xs font-mono px-2 py-1 bg-emerald-500/10 text-emerald-300 rounded border border-emerald-500/20">
-                          {item.ipa}
-                        </span>
-                      </div>
-
-                      <div className="space-y-1 text-xs">
-                        <p className="text-amber-400 font-medium">⚠️ Issue: {item.issue}</p>
-                        <p className="text-slate-300">💡 Rule: {item.rule}</p>
-                      </div>
-
-                      <div className="bg-slate-950 p-3 rounded-xl space-y-2 border border-white/5 font-mono text-xs">
-                        <div className="text-red-400/90 flex items-center gap-2">
-                          <span>❌ Error:</span> <span className="line-through">{item.bad}</span>
-                        </div>
-                        <div className="text-emerald-400 flex items-center gap-2 font-bold">
-                          <span>✅ Repair:</span> <span>{item.good}</span>
-                        </div>
-                      </div>
-
-                      <button
-                        onClick={() => speakText(item.audioText, audioId)}
-                        className={`w-full py-2.5 px-4 rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition-all cursor-pointer ${
-                          isPlaying
-                            ? "bg-emerald-500 text-slate-950 animate-pulse"
-                            : "bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500/30 border border-emerald-500/30"
-                        }`}
-                      >
-                        <Volume2 className="w-4 h-4" />
-                        {isPlaying ? "Playing Audio..." : "🔊 Listen Native Audio Pronunciation"}
-                      </button>
-                    </div>
-                  );
-                })}
-              </div>
-            </CurriculumBlock>
-          </div>
-        )}
-
-        {/* BLOCK 3 */}
-        {activeTab === "questions" && (
-          <div className="space-y-6">
-            <CurriculumBlock
-              icon={<BookOpen className="w-6 h-6 text-emerald-400" />}
-              title="Block 3: The 15 Official Sponsor Questions & STAR Generator"
-              subtitle="35 Minutes • Master Answers & STAR Formulas for Work & Travel"
-              methodology="STAR Response Method"
-              accentColor="emerald"
-            >
-              <div className="space-y-6 mt-4">
-                <div className="flex flex-wrap gap-2">
-                  {[
-                    "All",
-                    "University & Background",
-                    "Motivation & Culture",
-                    "Workload & Flexibility",
-                    "Customer Service",
-                    "Housing & Roommates",
-                    "Visa & Compliance",
-                  ].map((cat) => (
-                    <button
-                      key={cat}
-                      onClick={() => setSelectedCategory(cat)}
-                      className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-                        selectedCategory === cat
-                          ? "bg-emerald-500 text-slate-950 shadow-md shadow-emerald-500/20"
-                          : "bg-slate-900 text-slate-400 hover:text-white border border-white/5"
-                      }`}
-                    >
-                      {cat}
-                    </button>
-                  ))}
-                </div>
-
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                  {/* Sidebar */}
-                  <div className="lg:col-span-5 space-y-2 max-h-[600px] overflow-y-auto pr-2 custom-scrollbar">
-                    {filteredQuestions.map((q) => {
-                      const isActive = q.id === activeQuestionId;
                       return (
                         <button
-                          key={q.id}
-                          onClick={() => setActiveQuestionId(q.id)}
-                          className={`w-full text-left p-4 rounded-2xl border transition-all cursor-pointer flex items-start justify-between gap-3 ${
-                            isActive
-                              ? "bg-emerald-500/15 border-emerald-400/50 shadow-lg shadow-emerald-500/10"
-                              : "bg-slate-950/60 border-white/5 hover:border-white/10 text-slate-300"
+                          key={trait}
+                          onClick={() => handleTraitToggle(trait)}
+                          className={`p-3 rounded-xl text-xs font-bold border transition-all text-left flex flex-col justify-between gap-2 cursor-pointer ${
+                            isSelected
+                              ? "bg-emerald-500 text-slate-950 border-emerald-400 shadow-md shadow-emerald-500/20"
+                              : "bg-slate-950/70 text-slate-300 border-white/5 hover:border-white/20"
                           }`}
                         >
-                          <div>
-                            <div className="flex items-center gap-2 mb-1">
-                              <span className="text-[10px] font-extrabold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
-                                Q{q.id}
-                              </span>
-                              <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">
-                                {q.category}
-                              </span>
-                            </div>
-                            <h4 className="text-xs font-bold text-white line-clamp-2">{q.question}</h4>
+                          <div className="flex items-center justify-between gap-1 w-full">
+                            <span>{trait}</span>
+                            {isSelected && <Check className="w-3.5 h-3.5 stroke-[3] text-slate-950" />}
                           </div>
-                          <ChevronRight className={`w-4 h-4 shrink-0 mt-2 ${isActive ? "text-emerald-400" : "text-slate-600"}`} />
+                          {isRecommended && (
+                            <span
+                              className={`text-[9px] px-1.5 py-0.5 rounded w-fit ${
+                                isSelected ? "bg-slate-950 text-emerald-400" : "bg-emerald-500/15 text-emerald-400 border border-emerald-500/20"
+                              }`}
+                            >
+                              Top Match
+                            </span>
+                          )}
                         </button>
                       );
                     })}
                   </div>
 
-                  {/* Detail Panel */}
-                  <div className="lg:col-span-7 bg-slate-900/90 p-6 rounded-2xl border border-slate-800 space-y-6">
+                  {/* Dynamic Persona Insight */}
+                  <div className="bg-slate-950 p-4 rounded-xl border border-emerald-500/30 flex items-start gap-3 text-xs">
+                    <Sparkles className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
+                    <div>
+                      <strong className="text-white block mb-0.5">Your Projected Sponsor Profile:</strong>
+                      <p className="text-slate-300">
+                        {selectedTraits.length === 5 ? (
+                          <>
+                            You present as a <strong className="text-emerald-400">{selectedTraits.join(", ")}</strong> candidate.
+                            This combination signals high adaptability in fast-paced resort environments, strong peer living compatibility, and reliable non-immigrant program compliance.
+                          </>
+                        ) : (
+                          `Select ${5 - selectedTraits.length} more trait(s) to finalize your target interview persona.`
+                        )}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CurriculumBlock>
+          </div>
+        )}
+
+        {/* BLOCK 2: PHONETICS & WORKPLACE SLANG */}
+        {activeTab === "phonetics" && (
+          <div className="space-y-6">
+            <CurriculumBlock
+              icon={<Mic className="w-6 h-6 text-emerald-400" />}
+              title="Block 2: L1-Spanish Phonetic Repair & Workplace Audio"
+              subtitle="20 Minutes • Contrastive Phonetics & American Seasonal Slang"
+              methodology="Phonetic Drills & IPA Audio"
+              accentColor="emerald"
+            >
+              <div className="space-y-8 mt-4">
+                {/* 5 Phonetic Repairs */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {phoneticsData.map((item, index) => {
+                    const audioId = `phonetic-${index}`;
+                    const isPlaying = isPlayingAudio === audioId;
+                    return (
+                      <div
+                        key={index}
+                        className="bg-slate-900/80 p-6 rounded-2xl border border-slate-800 hover:border-emerald-500/30 transition-all space-y-4 shadow-lg"
+                      >
+                        <div className="flex items-center justify-between">
+                          <h3 className="font-bold text-white text-base">{item.title}</h3>
+                          <span className="text-xs font-mono px-2 py-0.5 bg-emerald-500/10 text-emerald-300 rounded border border-emerald-500/20">
+                            {item.ipa}
+                          </span>
+                        </div>
+
+                        <div className="space-y-1 text-xs">
+                          <p className="text-amber-400 font-medium">⚠️ Issue: {item.issue}</p>
+                          <p className="text-slate-300">💡 Rule: {item.rule}</p>
+                        </div>
+
+                        <div className="bg-slate-950 p-3 rounded-xl space-y-2 border border-white/5 font-mono text-xs">
+                          <div className="text-red-400/90 flex items-start gap-2">
+                            <span className="font-bold shrink-0">❌ Spanish Habit:</span>
+                            <span className="line-through">{item.bad}</span>
+                          </div>
+                          <div className="text-emerald-400 flex items-start gap-2 font-bold">
+                            <span className="shrink-0">✅ Clean Repair:</span>
+                            <span>{item.good}</span>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center gap-2 pt-1">
+                          <button
+                            onClick={() => speakText(item.audioText, audioId)}
+                            className={`flex-1 py-2.5 px-4 rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition-all cursor-pointer ${
+                              isPlaying
+                                ? "bg-emerald-500 text-slate-950 animate-pulse shadow-lg shadow-emerald-500/30"
+                                : "bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500/30 border border-emerald-500/30"
+                            }`}
+                          >
+                            <Volume2 className="w-4 h-4" />
+                            {isPlaying ? "Pronouncing Native Audio..." : "🔊 Practice Pronunciation"}
+                          </button>
+                          <button
+                            onClick={() => copyToClipboard(item.good, "Pronunciation drill")}
+                            className="p-2.5 rounded-xl bg-slate-950 hover:bg-slate-800 border border-white/5 text-slate-400 hover:text-white cursor-pointer"
+                            title="Copy drill text"
+                          >
+                            <Copy className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* Seasonal Workplace Slang Section */}
+                <div className="bg-slate-900/60 p-6 rounded-2xl border border-slate-800 space-y-5">
+                  <div className="flex items-center justify-between border-b border-white/5 pb-3">
+                    <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                      <Flame className="w-5 h-5 text-amber-400" /> American Seasonal Workplace Slang & Resort Idioms
+                    </h3>
+                    <span className="text-xs text-amber-300 bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20 font-bold">
+                      Essential On-The-Job Lingo
+                    </span>
+                  </div>
+
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    Sponsors love hearing candidates who understand common American hospitality terms. Recognizing these expressions prevents miscommunication during busy shifts.
+                  </p>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {slangData.map((item, idx) => {
+                      const slangAudioId = `slang-${idx}`;
+                      const isPlaying = isPlayingAudio === slangAudioId;
+                      return (
+                        <div key={idx} className="bg-slate-950/80 p-4 rounded-xl border border-white/5 space-y-3 flex flex-col justify-between">
+                          <div>
+                            <div className="flex items-center justify-between gap-2 mb-1">
+                              <h4 className="font-bold text-white text-sm text-emerald-400">"{item.term}"</h4>
+                              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-900 text-slate-400 border border-white/5">
+                                {item.category}
+                              </span>
+                            </div>
+                            <p className="text-xs text-slate-300 mb-2">{item.meaning}</p>
+                            <p className="text-[11px] text-slate-400 italic bg-slate-900/50 p-2 rounded-lg border border-white/5">
+                              "{item.example}"
+                            </p>
+                          </div>
+
+                          <button
+                            onClick={() => speakText(item.audioText, slangAudioId)}
+                            className={`w-full py-1.5 px-3 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
+                              isPlaying
+                                ? "bg-amber-400 text-slate-950 animate-pulse"
+                                : "bg-slate-900 hover:bg-slate-800 text-amber-300 border border-amber-500/20"
+                            }`}
+                          >
+                            <Volume2 className="w-3.5 h-3.5" />
+                            {isPlaying ? "Playing..." : "Listen In Context"}
+                          </button>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+            </CurriculumBlock>
+          </div>
+        )}
+
+        {/* BLOCK 3: 15 QUESTIONS & STAR BUILDER */}
+        {activeTab === "questions" && (
+          <div className="space-y-6">
+            <CurriculumBlock
+              icon={<BookOpen className="w-6 h-6 text-emerald-400" />}
+              title="Block 3: The 15 Official Sponsor Questions & STAR Lab"
+              subtitle="35 Minutes • Master Answers, Search & Interactive STAR Generator"
+              methodology="STAR Response Method"
+              accentColor="emerald"
+            >
+              <div className="space-y-6 mt-4">
+                {/* Search & Category Filter Toolbar */}
+                <div className="bg-slate-900/80 p-4 rounded-2xl border border-slate-800 space-y-3">
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <div className="relative flex-1">
+                      <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+                      <input
+                        type="text"
+                        placeholder="Search questions by keyword (e.g. visa, roommate, schedule, customer)..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="w-full bg-slate-950 border border-white/10 rounded-xl pl-10 pr-4 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition-colors"
+                      />
+                    </div>
+                    {searchQuery && (
+                      <button
+                        onClick={() => setSearchQuery("")}
+                        className="px-3 py-2 text-xs font-bold bg-slate-800 text-slate-300 hover:text-white rounded-xl cursor-pointer"
+                      >
+                        Clear Search
+                      </button>
+                    )}
+                  </div>
+
+                  <div className="flex flex-wrap gap-2">
+                    {[
+                      "All",
+                      "University & Background",
+                      "Motivation & Culture",
+                      "Workload & Flexibility",
+                      "Customer Service",
+                      "Housing & Roommates",
+                      "Visa & Compliance",
+                    ].map((cat) => (
+                      <button
+                        key={cat}
+                        onClick={() => setSelectedCategory(cat)}
+                        className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                          selectedCategory === cat
+                            ? "bg-emerald-500 text-slate-950 shadow-md shadow-emerald-500/20"
+                            : "bg-slate-950/70 text-slate-400 hover:text-white border border-white/5"
+                        }`}
+                      >
+                        {cat}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Master-Detail Layout */}
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                  {/* Left Sidebar Question List */}
+                  <div className="lg:col-span-5 space-y-2.5 max-h-[640px] overflow-y-auto pr-2 custom-scrollbar">
+                    {filteredQuestions.length === 0 ? (
+                      <div className="p-8 text-center text-slate-400 bg-slate-900/50 rounded-2xl border border-dashed border-slate-800 text-xs">
+                        No questions matched your search query. Try another term.
+                      </div>
+                    ) : (
+                      filteredQuestions.map((q) => {
+                        const isActive = q.id === activeQuestionId;
+                        const isPracticed = practicedQuestions.includes(q.id);
+                        return (
+                          <div
+                            key={q.id}
+                            className={`w-full p-4 rounded-2xl border transition-all flex items-start justify-between gap-3 ${
+                              isActive
+                                ? "bg-emerald-500/15 border-emerald-400/50 shadow-lg shadow-emerald-500/10"
+                                : "bg-slate-900/70 border-white/5 hover:border-white/10 text-slate-300"
+                            }`}
+                          >
+                            <button
+                              onClick={() => setActiveQuestionId(q.id)}
+                              className="text-left flex-1 cursor-pointer"
+                            >
+                              <div className="flex items-center gap-2 mb-1.5">
+                                <span className="text-[10px] font-extrabold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                                  Q{q.id}
+                                </span>
+                                <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">
+                                  {q.category}
+                                </span>
+                              </div>
+                              <h4 className="text-xs font-bold text-white line-clamp-2 leading-relaxed">{q.question}</h4>
+                            </button>
+
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                togglePracticedQuestion(q.id);
+                              }}
+                              className={`p-1.5 rounded-lg border transition-all cursor-pointer ${
+                                isPracticed
+                                  ? "bg-emerald-500 text-slate-950 border-emerald-400"
+                                  : "bg-slate-950 text-slate-600 border-white/5 hover:text-slate-400"
+                              }`}
+                              title={isPracticed ? "Marked as rehearsed" : "Mark as rehearsed"}
+                            >
+                              <CheckCircle2 className="w-4 h-4" />
+                            </button>
+                          </div>
+                        );
+                      })
+                    )}
+                  </div>
+
+                  {/* Right Detail Panel */}
+                  <div className="lg:col-span-7 bg-slate-900/90 p-6 rounded-2xl border border-slate-800 space-y-6 shadow-xl">
                     <div>
                       <div className="flex items-center justify-between mb-2">
                         <span className="text-xs font-extrabold px-2.5 py-1 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
                           QUESTION {activeQuestion.id} OF 15
                         </span>
-                        <span className="text-xs font-bold text-emerald-400 flex items-center gap-1">
-                          <ShieldCheck className="w-4 h-4" /> Category: {activeQuestion.category}
-                        </span>
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={() => copyToClipboard(activeQuestion.question, "Question text")}
+                            className="text-xs text-slate-400 hover:text-white flex items-center gap-1 cursor-pointer"
+                            title="Copy Question"
+                          >
+                            <Copy className="w-3.5 h-3.5" /> Copy
+                          </button>
+                          <span className="text-xs font-bold text-emerald-400 flex items-center gap-1">
+                            <ShieldCheck className="w-4 h-4" /> {activeQuestion.category}
+                          </span>
+                        </div>
                       </div>
-                      <h3 className="text-lg font-bold text-white leading-snug">{activeQuestion.question}</h3>
+                      <h3 className="text-lg font-bold text-white leading-snug">"{activeQuestion.question}"</h3>
                     </div>
 
-                    <div className="grid grid-cols-1 gap-3 text-xs">
-                      <div className="bg-slate-950 p-3 rounded-xl border border-white/5">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                      <div className="bg-slate-950 p-3.5 rounded-xl border border-white/5">
                         <span className="text-cyan-400 font-bold block mb-1">🎯 Sponsor Intent:</span>
-                        <p className="text-slate-300">{activeQuestion.intent}</p>
+                        <p className="text-slate-300 leading-relaxed">{activeQuestion.intent}</p>
                       </div>
-                      <div className="bg-slate-950 p-3 rounded-xl border border-white/5">
+                      <div className="bg-slate-950 p-3.5 rounded-xl border border-white/5">
                         <span className="text-emerald-400 font-bold block mb-1">💡 Response Formula:</span>
-                        <p className="text-slate-300">{activeQuestion.formula}</p>
+                        <p className="text-slate-300 leading-relaxed">{activeQuestion.formula}</p>
                       </div>
                     </div>
 
+                    {/* Tier Tab Selector (B2 vs C1) */}
                     <div className="space-y-3">
-                      <div className="bg-slate-950 p-4 rounded-xl border border-white/10 space-y-2">
-                        <div className="flex items-center justify-between">
-                          <span className="text-xs font-bold text-emerald-300">Model Answer (High Intermediate B2):</span>
+                      <div className="flex items-center justify-between border-b border-white/5 pb-2">
+                        <div className="flex gap-2">
                           <button
-                            onClick={() => speakText(activeQuestion.modelAnswerB2, `q-b2-${activeQuestion.id}`)}
-                            className="text-[11px] text-emerald-400 hover:text-emerald-300 font-bold flex items-center gap-1 cursor-pointer"
+                            onClick={() => setActiveAnswerTier("B2")}
+                            className={`px-3 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                              activeAnswerTier === "B2"
+                                ? "bg-emerald-500 text-slate-950 shadow"
+                                : "bg-slate-950 text-slate-400 hover:text-white border border-white/5"
+                            }`}
                           >
-                            <Volume2 className="w-3.5 h-3.5" /> Listen B2
+                            High Intermediate (B2)
+                          </button>
+                          <button
+                            onClick={() => setActiveAnswerTier("C1")}
+                            className={`px-3 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                              activeAnswerTier === "C1"
+                                ? "bg-cyan-500 text-slate-950 shadow"
+                                : "bg-slate-950 text-slate-400 hover:text-white border border-white/5"
+                            }`}
+                          >
+                            Advanced (C1)
                           </button>
                         </div>
-                        <p className="text-xs text-slate-200 leading-relaxed italic">"{activeQuestion.modelAnswerB2}"</p>
+
+                        <button
+                          onClick={() => {
+                            const answer = activeAnswerTier === "B2" ? activeQuestion.modelAnswerB2 : activeQuestion.modelAnswerC1;
+                            speakText(answer, `model-${activeAnswerTier}-${activeQuestion.id}`);
+                          }}
+                          className={`px-3 py-1 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
+                            isPlayingAudio === `model-${activeAnswerTier}-${activeQuestion.id}`
+                              ? "bg-emerald-500 text-slate-950 animate-pulse"
+                              : "bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500/30 border border-emerald-500/30"
+                          }`}
+                        >
+                          <Volume2 className="w-3.5 h-3.5" />
+                          {isPlayingAudio === `model-${activeAnswerTier}-${activeQuestion.id}` ? "Playing Answer..." : `Listen ${activeAnswerTier}`}
+                        </button>
                       </div>
 
                       <div className="bg-slate-950 p-4 rounded-xl border border-white/10 space-y-2">
                         <div className="flex items-center justify-between">
-                          <span className="text-xs font-bold text-cyan-300">Model Answer (Advanced C1):</span>
+                          <span className="text-[11px] font-mono text-slate-400 uppercase">
+                            Model Script ({activeAnswerTier})
+                          </span>
                           <button
-                            onClick={() => speakText(activeQuestion.modelAnswerC1, `q-c1-${activeQuestion.id}`)}
-                            className="text-[11px] text-cyan-400 hover:text-cyan-300 font-bold flex items-center gap-1 cursor-pointer"
+                            onClick={() => {
+                              const answer = activeAnswerTier === "B2" ? activeQuestion.modelAnswerB2 : activeQuestion.modelAnswerC1;
+                              copyToClipboard(answer, `${activeAnswerTier} Model Answer`);
+                            }}
+                            className="text-[11px] text-slate-400 hover:text-white flex items-center gap-1 cursor-pointer"
                           >
-                            <Volume2 className="w-3.5 h-3.5" /> Listen C1
+                            <Copy className="w-3 h-3" /> Copy Script
                           </button>
                         </div>
-                        <p className="text-xs text-slate-200 leading-relaxed italic">"{activeQuestion.modelAnswerC1}"</p>
+                        <p className="text-xs text-slate-200 leading-relaxed italic">
+                          "{activeAnswerTier === "B2" ? activeQuestion.modelAnswerB2 : activeQuestion.modelAnswerC1}"
+                        </p>
                       </div>
                     </div>
 
-                    <div className="space-y-2">
-                      <div className="text-[11px] font-mono text-emerald-300 bg-emerald-500/10 p-2.5 rounded-lg border border-emerald-500/20">
-                        🔑 Key Vocabulary IPA: {activeQuestion.ipaKey}
+                    {/* Vocabulary & Red Flag */}
+                    <div className="space-y-2.5">
+                      <div className="text-[11px] font-mono text-emerald-300 bg-emerald-500/10 p-3 rounded-xl border border-emerald-500/20 flex items-center gap-2">
+                        <Sparkles className="w-4 h-4 text-emerald-400 shrink-0" />
+                        <span>🔑 Key Vocabulary IPA: {activeQuestion.ipaKey}</span>
                       </div>
 
-                      <div className="text-[11px] text-red-400 bg-red-500/10 p-2.5 rounded-lg border border-red-500/20 flex items-start gap-2">
+                      <div className="text-[11px] text-red-400 bg-red-500/10 p-3 rounded-xl border border-red-500/20 flex items-start gap-2.5">
                         <AlertTriangle className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
                         <div>
-                          <strong className="block text-red-300">⚠️ Red Flag Warning:</strong> {activeQuestion.redFlag}
+                          <strong className="block text-red-300">⚠️ Red Flag Warning (Automatic Rejection Risk):</strong>
+                          <span className="text-red-200/90">{activeQuestion.redFlag}</span>
                         </div>
                       </div>
+                    </div>
+
+                    {/* Interactive Custom STAR Builder Lab */}
+                    <div className="bg-slate-950/90 p-4 rounded-xl border border-emerald-500/20 space-y-3">
+                      <div className="flex items-center justify-between">
+                        <h4 className="font-bold text-white text-xs flex items-center gap-1.5">
+                          <SlidersHorizontal className="w-4 h-4 text-emerald-400" /> Personal STAR Builder Lab
+                        </h4>
+                        <span className="text-[10px] text-slate-400">Draft your personalized example</span>
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                        <div>
+                          <label className="text-[10px] text-slate-400 font-mono block mb-1">S - Situation</label>
+                          <input
+                            type="text"
+                            placeholder="e.g. During peak summer at my university food stand..."
+                            value={starS}
+                            onChange={(e) => setStarS(e.target.value)}
+                            className="w-full bg-slate-900 border border-white/5 rounded-lg px-2.5 py-1.5 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500"
+                          />
+                        </div>
+                        <div>
+                          <label className="text-[10px] text-slate-400 font-mono block mb-1">T - Task</label>
+                          <input
+                            type="text"
+                            placeholder="e.g. I had to manage long lines and register receipts..."
+                            value={starT}
+                            onChange={(e) => setStarT(e.target.value)}
+                            className="w-full bg-slate-900 border border-white/5 rounded-lg px-2.5 py-1.5 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500"
+                          />
+                        </div>
+                        <div>
+                          <label className="text-[10px] text-slate-400 font-mono block mb-1">A - Action</label>
+                          <input
+                            type="text"
+                            placeholder="e.g. I organized the queue and stayed polite under pressure..."
+                            value={starA}
+                            onChange={(e) => setStarA(e.target.value)}
+                            className="w-full bg-slate-900 border border-white/5 rounded-lg px-2.5 py-1.5 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500"
+                          />
+                        </div>
+                        <div>
+                          <label className="text-[10px] text-slate-400 font-mono block mb-1">R - Result</label>
+                          <input
+                            type="text"
+                            placeholder="e.g. We cleared 150 customers with zero errors and great tips..."
+                            value={starR}
+                            onChange={(e) => setStarR(e.target.value)}
+                            className="w-full bg-slate-900 border border-white/5 rounded-lg px-2.5 py-1.5 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500"
+                          />
+                        </div>
+                      </div>
+
+                      {synthesizedStarAnswer && (
+                        <div className="bg-slate-900 p-3 rounded-lg border border-emerald-500/30 space-y-2 pt-2">
+                          <span className="text-[10px] font-bold text-emerald-400 block">Synthesized Response Preview:</span>
+                          <p className="text-xs text-slate-200 italic">{synthesizedStarAnswer}</p>
+                          <div className="flex gap-2">
+                            <button
+                              onClick={() => speakText(synthesizedStarAnswer, "custom-star")}
+                              className="px-3 py-1 bg-emerald-500 text-slate-950 rounded-lg text-xs font-bold flex items-center gap-1 cursor-pointer"
+                            >
+                              <Volume2 className="w-3 h-3" /> Listen To My Answer
+                            </button>
+                            <button
+                              onClick={() => copyToClipboard(synthesizedStarAnswer, "My STAR Answer")}
+                              className="px-3 py-1 bg-slate-800 text-slate-300 hover:text-white rounded-lg text-xs font-bold flex items-center gap-1 cursor-pointer"
+                            >
+                              <Copy className="w-3 h-3" /> Copy
+                            </button>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -904,7 +1425,10 @@ export default function WorkAndTravelSponsorInterviewPage() {
                   </div>
 
                   <button
-                    onClick={() => setPracticeMode(!practiceMode)}
+                    onClick={() => {
+                      setPracticeMode(!practiceMode);
+                      showToast(practiceMode ? "Full Audio Mode activated." : "Practice Mode activated (Candidate muted).");
+                    }}
                     className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer ${
                       practiceMode
                         ? "bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20"
@@ -960,23 +1484,32 @@ export default function WorkAndTravelSponsorInterviewPage() {
                             </span>
                           </div>
 
-                          <button
-                            onClick={() => {
-                              if (practiceMode && !isInterviewer) {
-                                alert("Practice Mode active! Read the participant response aloud yourself.");
-                                return;
-                              }
-                              speakText(line.text, audioId, isInterviewer ? 1.05 : 0.95, 0.9);
-                            }}
-                            className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
-                              isPlaying
-                                ? "bg-emerald-500 text-slate-950 animate-pulse"
-                                : "bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500/30 border border-emerald-500/30"
-                            }`}
-                          >
-                            <Volume2 className="w-3.5 h-3.5" />
-                            {isPlaying ? "Playing Line..." : "🔊 Listen Line"}
-                          </button>
+                          <div className="flex items-center gap-2">
+                            <button
+                              onClick={() => {
+                                if (practiceMode && !isInterviewer) {
+                                  alert("Practice Mode active! Read the participant response aloud yourself.");
+                                  return;
+                                }
+                                speakText(line.text, audioId, isInterviewer ? 1.05 : 0.95, speechRate);
+                              }}
+                              className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
+                                isPlaying
+                                  ? "bg-emerald-500 text-slate-950 animate-pulse shadow-md shadow-emerald-500/30"
+                                  : "bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500/30 border border-emerald-500/30"
+                              }`}
+                            >
+                              <Volume2 className="w-3.5 h-3.5" />
+                              {isPlaying ? "Playing Line..." : "🔊 Listen Line"}
+                            </button>
+                            <button
+                              onClick={() => copyToClipboard(line.text, "Dialogue line")}
+                              className="p-1.5 rounded-lg bg-slate-950 hover:bg-slate-800 border border-white/5 text-slate-400 hover:text-white cursor-pointer"
+                              title="Copy dialogue line"
+                            >
+                              <Copy className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
                         </div>
 
                         <p className="text-sm font-medium text-white leading-relaxed">
@@ -1004,7 +1537,7 @@ export default function WorkAndTravelSponsorInterviewPage() {
           </div>
         )}
 
-        {/* BLOCK 5: SIMULATOR */}
+        {/* BLOCK 5: SIMULATOR & SCORECARD */}
         {activeTab === "simulator" && (
           <div className="space-y-6">
             <CurriculumBlock
@@ -1015,22 +1548,32 @@ export default function WorkAndTravelSponsorInterviewPage() {
               accentColor="emerald"
             >
               <div className="grid grid-cols-1 md:grid-cols-12 gap-6 mt-4">
+                {/* Left: Stopwatch & Random Question */}
                 <div className="md:col-span-6 space-y-6">
-                  <div className="bg-slate-900/90 p-6 rounded-2xl border border-slate-800 text-center space-y-4">
-                    <div className="text-xs font-bold text-slate-400 uppercase tracking-widest">Mock Interview Clock</div>
+                  <div className="bg-slate-900/90 p-6 rounded-2xl border border-slate-800 text-center space-y-4 shadow-xl">
+                    <div className="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center justify-center gap-2">
+                      <Clock className="w-4 h-4 text-emerald-400" /> Mock Interview Official Clock
+                    </div>
                     <div className="text-5xl font-mono font-extrabold text-emerald-400 tracking-wider">
                       {formatTime(simTime)}
+                    </div>
+
+                    <div className="w-full bg-slate-950 h-2 rounded-full overflow-hidden border border-white/5">
+                      <div
+                        className="bg-emerald-500 h-full transition-all duration-1000"
+                        style={{ width: `${(simTime / 600) * 100}%` }}
+                      />
                     </div>
 
                     <div className="flex items-center justify-center gap-3">
                       <button
                         onClick={() => setSimRunning(!simRunning)}
                         className={`px-5 py-2.5 rounded-xl font-bold text-xs flex items-center gap-2 transition-all cursor-pointer ${
-                          simRunning ? "bg-amber-500 text-slate-950" : "bg-emerald-500 text-slate-950"
+                          simRunning ? "bg-amber-500 text-slate-950 shadow-lg shadow-amber-500/25" : "bg-emerald-500 text-slate-950 shadow-lg shadow-emerald-500/25"
                         }`}
                       >
                         {simRunning ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
-                        {simRunning ? "Pause Timer" : "Start Mock Interview"}
+                        {simRunning ? "Pause Interview" : "Start Mock Interview"}
                       </button>
                       <button
                         onClick={() => {
@@ -1044,7 +1587,8 @@ export default function WorkAndTravelSponsorInterviewPage() {
                     </div>
                   </div>
 
-                  <div className="bg-slate-900/90 p-6 rounded-2xl border border-slate-800 space-y-4">
+                  {/* Random Question Spinner */}
+                  <div className="bg-slate-900/90 p-6 rounded-2xl border border-slate-800 space-y-4 shadow-xl">
                     <div className="flex items-center justify-between">
                       <h3 className="font-bold text-white text-sm flex items-center gap-2">
                         <Shuffle className="w-4 h-4 text-emerald-400" /> Random Question Spinner
@@ -1053,77 +1597,108 @@ export default function WorkAndTravelSponsorInterviewPage() {
                         onClick={() => {
                           const randomId = Math.floor(Math.random() * 15) + 1;
                           setSimQuestionId(randomId);
+                          showToast(`Spun Question #${randomId}!`);
                         }}
-                        className="px-3 py-1 bg-emerald-500/20 text-emerald-300 text-xs font-bold rounded-lg border border-emerald-500/30 hover:bg-emerald-500/30 cursor-pointer"
+                        className="px-3 py-1.5 bg-emerald-500/20 text-emerald-300 text-xs font-bold rounded-lg border border-emerald-500/30 hover:bg-emerald-500/30 flex items-center gap-1.5 cursor-pointer"
                       >
                         🎲 Spin Next Question
                       </button>
                     </div>
 
                     <div className="bg-slate-950 p-4 rounded-xl border border-white/5 space-y-2">
-                      <span className="text-[10px] font-bold text-emerald-400 uppercase">Question #{simQuestion.id} ({simQuestion.category})</span>
-                      <p className="text-sm font-bold text-white">{simQuestion.question}</p>
+                      <div className="flex items-center justify-between">
+                        <span className="text-[10px] font-bold text-emerald-400 uppercase">
+                          Question #{simQuestion.id} • {simQuestion.category}
+                        </span>
+                        <button
+                          onClick={() => speakText(simQuestion.question, `sim-q-${simQuestion.id}`)}
+                          className="text-[10px] text-cyan-400 hover:text-cyan-300 flex items-center gap-1 cursor-pointer font-bold"
+                        >
+                          <Volume2 className="w-3 h-3" /> Read Question
+                        </button>
+                      </div>
+                      <p className="text-sm font-bold text-white leading-relaxed">"{simQuestion.question}"</p>
                       <div className="text-xs text-slate-400 pt-2 border-t border-white/5">
-                        💡 Quick Hint: {simQuestion.formula}
+                        💡 Quick Formula: {simQuestion.formula}
                       </div>
                     </div>
                   </div>
                 </div>
 
-                <div className="md:col-span-6 bg-slate-900/90 p-6 rounded-2xl border border-slate-800 space-y-5">
+                {/* Right: Scorecard */}
+                <div className="md:col-span-6 bg-slate-900/90 p-6 rounded-2xl border border-slate-800 space-y-5 shadow-xl">
                   <div className="flex items-center justify-between border-b border-white/10 pb-3">
-                    <h3 className="font-bold text-white text-base flex items-center gap-2">
-                      <Award className="w-5 h-5 text-emerald-400" /> Teacher Evaluation Scorecard
-                    </h3>
-                    <span className="text-lg font-mono font-extrabold text-emerald-400">
+                    <div>
+                      <h3 className="font-bold text-white text-base flex items-center gap-2">
+                        <Award className="w-5 h-5 text-emerald-400" /> Teacher & Peer Evaluation Scorecard
+                      </h3>
+                      <p className="text-[11px] text-slate-400">Score 1 to 5 per criterion (Target: 20+ / 25)</p>
+                    </div>
+                    <span className="text-xl font-mono font-extrabold text-emerald-400">
                       {calculateTotalScore()} / 25
                     </span>
                   </div>
 
                   <div className="space-y-3 text-xs">
                     {[
-                      { key: "clarity", label: "1. Phonetic Clarity & Pronunciation", desc: "Clean /ʃ/ (shift) vs /tʃ/ and no initial 'es-' clusters" },
+                      { key: "clarity", label: "1. Phonetic Clarity & Pronunciation", desc: "Clean /ʃ/ (shift) vs /tʃ/, /v/ distinction, and no initial 'es-' clusters" },
                       { key: "structure", label: "2. Response Structure (STAR)", desc: "Concrete past work, university, and stamina examples provided" },
-                      { key: "fluency", label: "3. Spontaneity & Fluency", desc: "Natural conversational flow without Spanish filler words" },
+                      { key: "fluency", label: "3. Spontaneity & Fluency", desc: "Natural conversational flow without Spanish filler words (eeee, este)" },
                       { key: "trait", label: "4. Work Ethic & Trait Impression", desc: "Exhibits Resilience, Flexibility & Team-player mindset" },
                       { key: "compliance", label: "5. J-1 Visa & Sponsor Compliance", desc: "Mandatory return intent, student ties & no unauthorized jobs" },
                     ].map((item) => (
-                      <div key={item.key} className="space-y-1 bg-slate-950 p-3 rounded-xl border border-white/5">
+                      <div key={item.key} className="space-y-1.5 bg-slate-950 p-3 rounded-xl border border-white/5">
                         <div className="flex items-center justify-between font-bold text-slate-200">
                           <span>{item.label}</span>
-                          <select
-                            value={(scores as any)[item.key]}
-                            onChange={(e) => setScores({ ...scores, [item.key]: parseInt(e.target.value) })}
-                            className="bg-slate-900 text-emerald-400 border border-white/10 rounded px-2 py-0.5 font-mono cursor-pointer"
-                          >
-                            {[1, 2, 3, 4, 5].map((val) => (
-                              <option key={val} value={val}>
-                                {val} / 5
-                              </option>
-                            ))}
-                          </select>
+                          <div className="flex gap-1">
+                            {[1, 2, 3, 4, 5].map((val) => {
+                              const isVal = (scores as any)[item.key] === val;
+                              return (
+                                <button
+                                  key={val}
+                                  onClick={() => setScores({ ...scores, [item.key]: val })}
+                                  className={`w-6 h-6 rounded flex items-center justify-center font-mono text-[11px] font-bold cursor-pointer transition-all ${
+                                    isVal
+                                      ? "bg-emerald-500 text-slate-950 shadow"
+                                      : "bg-slate-900 text-slate-400 hover:bg-slate-800"
+                                  }`}
+                                >
+                                  {val}
+                                </button>
+                              );
+                            })}
+                          </div>
                         </div>
                         <p className="text-[10px] text-slate-400">{item.desc}</p>
                       </div>
                     ))}
                   </div>
 
-                  <div className={`p-4 rounded-xl border text-xs text-center font-bold ${
-                    calculateTotalScore() >= 20
-                      ? "bg-emerald-500/10 text-emerald-300 border-emerald-500/30"
-                      : "bg-amber-500/10 text-amber-300 border-amber-500/30"
-                  }`}>
+                  <div
+                    className={`p-4 rounded-xl border text-xs text-center font-bold ${
+                      calculateTotalScore() >= 20
+                        ? "bg-emerald-500/10 text-emerald-300 border-emerald-500/30"
+                        : "bg-amber-500/10 text-amber-300 border-amber-500/30"
+                    }`}
+                  >
                     {calculateTotalScore() >= 20
                       ? "🎉 APPROVED: Eligible for Top Customer-Facing Positions (Cashier, Server, Lifeguard)! High-Intermediate / Advanced standard."
                       : "⚠️ NEEDS DRILL: Score is under 20. Revisit Block 2 Phonetics & Block 4 Dialogues before taking sponsor screening."}
                   </div>
+
+                  <button
+                    onClick={handleCopyScorecard}
+                    className="w-full py-2.5 px-4 rounded-xl text-xs font-bold bg-slate-950 hover:bg-slate-800 text-slate-200 border border-white/10 flex items-center justify-center gap-2 cursor-pointer transition-colors"
+                  >
+                    <Copy className="w-4 h-4 text-emerald-400" /> Copy Evaluation Scorecard Report
+                  </button>
                 </div>
               </div>
             </CurriculumBlock>
           </div>
         )}
 
-        {/* CHEAT SHEET */}
+        {/* CHEAT SHEET & PRINTABLE HANDOUT */}
         {activeTab === "handout" && (
           <div className="space-y-6">
             <CurriculumBlock
@@ -1133,24 +1708,63 @@ export default function WorkAndTravelSponsorInterviewPage() {
               methodology="Self-Study Reference"
               accentColor="emerald"
             >
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                {[
-                  "1. PROVE FULL-TIME ENROLLMENT: State your university, major, and current semester immediately without hesitation.",
-                  "2. REJECT UNAUTHORIZED JOBS: Never accept unregistered cash work. State that any second job requires written sponsor vetting.",
-                  "3. CONFIRM RETURN INTENT: Emphasize that your next semester begins in Colombia right after your travel grace period concludes.",
-                  "4. EXPRESS TOTAL SCHEDULE FLEXIBILITY: State you are willing and ready to work early mornings, closing shifts, and peak weekends.",
-                  "5. HIGHLIGHT PHYSICAL STAMINA: Reassure the sponsor that you can easily handle 8-hour standing shifts using sports/work examples.",
-                  "6. MASTER L1 PHONETICS: Practice /ʃ/ in 'shift', eliminate initial 'es-' in 'schedule', and pronounce past tense -ed cleanly.",
-                  "7. PRACTICE SERVICE RECOVERY: When asked about angry customers, always apologize with empathy and solve the problem swiftly.",
-                  "8. RESPECT MULTICULTURAL HOUSING: Emphasize shared cleaning rosters, quiet hours, and respectful communication with roommates.",
-                  "9. EMBRACE CULTURAL EXCHANGE: Name authentic American traditions (4th of July, baseball, national parks) and your desire to share Colombian culture.",
-                  "10. SMILE & PROJECT ENERGY: Maintain confident eye contact, warm body language, and enthusiastic, spontaneous English interaction!",
-                ].map((rule, idx) => (
-                  <div key={idx} className="bg-slate-900/80 p-4 rounded-xl border border-slate-800 flex items-start gap-3">
-                    <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
-                    <p className="text-xs text-slate-200 font-medium leading-relaxed">{rule}</p>
+              <div className="space-y-6 mt-4">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/5 pb-4">
+                  <p className="text-xs text-slate-300">
+                    Review these 10 non-negotiable principles right before connecting to your CIEE, InterExchange, or Intrax video interview.
+                  </p>
+                  <div className="flex items-center gap-2 shrink-0">
+                    <button
+                      onClick={handlePrintHandout}
+                      className="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-900 hover:bg-slate-800 text-emerald-300 border border-emerald-500/30 flex items-center gap-1.5 cursor-pointer"
+                    >
+                      <Printer className="w-3.5 h-3.5" /> Print Sheet
+                    </button>
+                    <button
+                      onClick={() => {
+                        const allRules = [
+                          "1. PROVE FULL-TIME ENROLLMENT: State your university, major, and current semester immediately without hesitation.",
+                          "2. REJECT UNAUTHORIZED JOBS: Never accept unregistered cash work. State that any second job requires written sponsor vetting.",
+                          "3. CONFIRM RETURN INTENT: Emphasize that your next semester begins in Colombia right after your travel grace period concludes.",
+                          "4. EXPRESS TOTAL SCHEDULE FLEXIBILITY: State you are willing and ready to work early mornings, closing shifts, and peak weekends.",
+                          "5. HIGHLIGHT PHYSICAL STAMINA: Reassure the sponsor that you can easily handle 8-hour standing shifts using sports/work examples.",
+                          "6. MASTER L1 PHONETICS: Practice /ʃ/ in 'shift', eliminate initial 'es-' in 'schedule', and pronounce past tense -ed cleanly.",
+                          "7. PRACTICE SERVICE RECOVERY: When asked about angry customers, always apologize with empathy and solve the problem swiftly.",
+                          "8. RESPECT MULTICULTURAL HOUSING: Emphasize shared cleaning rosters, quiet hours, and respectful communication with roommates.",
+                          "9. EMBRACE CULTURAL EXCHANGE: Name authentic American traditions (4th of July, baseball, national parks) and your desire to share Colombian culture.",
+                          "10. SMILE & PROJECT ENERGY: Maintain confident eye contact, warm body language, and enthusiastic, spontaneous English interaction!",
+                        ].join("\n");
+                        copyToClipboard(allRules, "Top 10 Golden Rules");
+                      }}
+                      className="px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-500 text-slate-950 flex items-center gap-1.5 cursor-pointer shadow-md shadow-emerald-500/20"
+                    >
+                      <Copy className="w-3.5 h-3.5" /> Copy All 10 Rules
+                    </button>
                   </div>
-                ))}
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {[
+                    "1. PROVE FULL-TIME ENROLLMENT: State your university, major, and current semester immediately without hesitation.",
+                    "2. REJECT UNAUTHORIZED JOBS: Never accept unregistered cash work. State that any second job requires written sponsor vetting.",
+                    "3. CONFIRM RETURN INTENT: Emphasize that your next semester begins in Colombia right after your travel grace period concludes.",
+                    "4. EXPRESS TOTAL SCHEDULE FLEXIBILITY: State you are willing and ready to work early mornings, closing shifts, and peak weekends.",
+                    "5. HIGHLIGHT PHYSICAL STAMINA: Reassure the sponsor that you can easily handle 8-hour standing shifts using sports/work examples.",
+                    "6. MASTER L1 PHONETICS: Practice /ʃ/ in 'shift', eliminate initial 'es-' in 'schedule', and pronounce past tense -ed cleanly.",
+                    "7. PRACTICE SERVICE RECOVERY: When asked about angry customers, always apologize with empathy and solve the problem swiftly.",
+                    "8. RESPECT MULTICULTURAL HOUSING: Emphasize shared cleaning rosters, quiet hours, and respectful communication with roommates.",
+                    "9. EMBRACE CULTURAL EXCHANGE: Name authentic American traditions (4th of July, baseball, national parks) and your desire to share Colombian culture.",
+                    "10. SMILE & PROJECT ENERGY: Maintain confident eye contact, warm body language, and enthusiastic, spontaneous English interaction!",
+                  ].map((rule, idx) => (
+                    <div
+                      key={idx}
+                      className="bg-slate-900/80 p-4 rounded-xl border border-slate-800 flex items-start gap-3 hover:border-emerald-500/30 transition-all shadow"
+                    >
+                      <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
+                      <p className="text-xs text-slate-200 font-medium leading-relaxed">{rule}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
             </CurriculumBlock>
           </div>
